@@ -28,4 +28,5 @@ LinuxBoot book which contains the documentation in markdown format
     9. SecureBoot and BootGuard
     10. u-root
     11. Coreboot + LinuxBoot (David?)
-    12. Conclusion
+    12. Arm + u-boot
+    13. Conclusion
