@@ -2,7 +2,7 @@
 
 LinuxBoot book which contains the documentation in markdown format
 
-## Chapters
+## Table of Contents
 
 1. Introduction
 2. Getting Started in 20mins
@@ -16,13 +16,13 @@ LinuxBoot book which contains the documentation in markdown format
 5. The Initramfs:
   * HEADS
   * NERF
-6.UEFI
+6. UEFI
   * EDKII
   * OVMF
 7. Tools:
   * UEFITool and UEFIReplace
-  * UTK (Gan Shun)
-  * LinuxBoot Scripts (Tram.)
+  * UEFI Tool Kit (Ryan O'Leary and Gan Shun)
+  * LinuxBoot Scripts (Trammell Hudson)
   * FMAP tool
 8. TPMs
 9. SecureBoot and BootGuard
