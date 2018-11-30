@@ -43,7 +43,39 @@ For example, you may want to include static builds of `kexec` or `flashrom`, tha
 
 ## Building a suitable Linux kernel
 
-TODO
+TODO add sample `.config`.
+
+You need a relatively recent kernel. Ideally a kernel 4.16, to have support for VPD variables, but a 4.11 can do the job too, if you don't care about boot entries and want "brute-force" booting only.
+
+We will build a kernel with the following properties:
+
+* small enough to fit most flash chips
+* that can run Go programs (mainly futex and epoll support)
+* with the relevant storage and network drivers
+* with kexec support, so it can boot a new kernel
+* with kexec signature verification disabled (optional)
+* with devtmpfs enabled, since we don't use udev
+* XZ support to decompress the embedded initramfs
+* VPD (Vital Product Data) (optional)
+* TPM support (optional)
+* embed the u-root initramfs
+* and last but not least, "linuxboot" as default host name :)
+
+
+Steps:
+* create a minimal configuration, see https://tiny.wiki.kernel.org
+* enable `CONFIG_FUTEX` and `CONFIG_EPOLL`, required by Go, see https://github.com/golang/go/wiki/MinimumRequirements
+* enable `CONFIG_DEVTMPFS` and `CONFIG_DEVTMPFS_MOUNT`, to populate /dev
+* enable relevant storage and network drivers. This depends on your platforms
+* enable XZ (`CONFIG_HAVE_KERNEL_XZ`, `CONFIG_KERNEL_XZ`, `CONFIG_DECOMPRESS_XZ`) required to handle the compressed initramfs
+* enable VPD (Vital Product Data) used for boot variables by Systemboot
+* enable TPM support, if you use it, `CONFIG_TCG_TPM`
+* point `CONFIG_INITRAMFS_SOURCE` to the path where your compressed initramfs lives (e.g. `/path/to/initramfs.xz`)
+* change default hostname, `CONFIG_DEFAULT_HOSTNAME="linuxboot"`
+
+Then simply build as usual (see https://kernelnewbies.org/KernelBuild if you need more details).
+
+The image will be located under `arch/${ARCH}/boot/bzImage` if your architecture supports bzImage (e.g. x86).
 
 ## Building coreboot
 
@@ -53,10 +85,14 @@ TODO
 
 TODO
 
-## Run on a virtual machine
+## Defining boot entries
 
 TODO
 
-## Run on real OCP hardware
+## Running on a virtual machine
+
+TODO
+
+## Running on real OCP hardware
 
 TODO
