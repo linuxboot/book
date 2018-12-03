@@ -76,12 +76,20 @@ cd linux-4.19.6
 make tinyconfig
 ```
 
+You can also check out the `linux-stable` branch, that will point to the latest stable commit. You need to download it via `git` as follows:
+```
+git clone --depth 1 -b linux-stable
+git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
+cd linux-stable
+```
+
 Some more information about tiny configs can be found at https://tiny.wiki.kernel.org (last checked 2018-12-01).
 
 ### Requirements for Go 1.11
 
 `Go` requires a few kernel features to work properly. At the time of writing,
 you need to enable `CONFIG_FUTEX` in your kernel config.
+Older versions of Go may require `CONFIG_EPOLL`.
 
 Additional information about Go's minimum requirements can be found at
 https://github.com/golang/go/wiki/MinimumRequirements (last checked 2018-12-01).
@@ -129,7 +137,7 @@ kernel configuration should point to the appropriate file using the
 `CONFIG_INITRAMFS_SOURCE` directive. E.g.
 
 ```
-CONFIG_INITRAMFS_SOURCE=/patp/to/initramfs_linux.x86_64.cpio.xz`
+CONFIG_INITRAMFS_SOURCE=/path/to/initramfs_linux.x86_64.cpio.xz`
 ```
 
 ### Default hostname
