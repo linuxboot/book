@@ -36,10 +36,25 @@ u-root -build=bb core \
     github.com/systemboot/systemboot/{uinit,localboot,netboot}
 ```
 
-This command will generate a ramfs named `/tmp/initramfs_${os}_${arch}.cpio`, e.g. `/tmp/initramfs_linux_amd64.cpio`. You can specify an alternative output path with `-o`. Run `u-root -h` for additional command line parameters.
+This command will generate a ramfs named `/tmp/initramfs_${os}_${arch}.cpio`, e.g. `/tmp/initramfs.linux_amd64.cpio`. You can specify an alternative output path with `-o`. Run `u-root -h` for additional command line parameters.
 
 Note: the above command will include only pure-Go commands from `u-root` and `systemboot`. If you need to include other files or non-Go binaries, use the `-file` option in `u-root`.
 For example, you may want to include static builds of `kexec` or `flashrom`, that we build on https://github.com/systemboot/binaries .
+
+Then, the initramfs has to be compressed. This step is necessary to embed the
+initramfs in the kernel as explained below, in order to maintain the image size
+smaller. Linux has a limited XZ compressor, so the compression requires specific
+options:
+
+```
+xz --check=crc32 --lzma2=dict=512KiB /tmp/initramfs.linux_amd64.cpio
+```
+
+which will produce the file `/tmp/initramfs.linux_amd64.cpio.xz`.
+
+The kernel compression requirements are documented under
+[Documentation/xz.txt](https://www.kernel.org/doc/Documentation/xz.txt) (last checked 2018-12-03)
+in the kernel docs.
 
 ## Building a suitable Linux kernel
 
@@ -81,6 +96,7 @@ You can also check out the `linux-stable` branch, that will point to the latest 
 git clone --depth 1 -b linux-stable
 git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 cd linux-stable
+make tinyconfig
 ```
 
 Some more information about tiny configs can be found at https://tiny.wiki.kernel.org (last checked 2018-12-01).
@@ -90,6 +106,11 @@ Some more information about tiny configs can be found at https://tiny.wiki.kerne
 `Go` requires a few kernel features to work properly. At the time of writing,
 you need to enable `CONFIG_FUTEX` in your kernel config.
 Older versions of Go may require `CONFIG_EPOLL`.
+
+In menuconfig:
+
+* `General setup` &rarr; `Configure standard kernel features (expert users)` &rarr; `Enable futex support`
+* `General setup` &rarr; `Configure standard kernel features (expert users)` &rarr; `Enable eventpoll support`
 
 Additional information about Go's minimum requirements can be found at
 https://github.com/golang/go/wiki/MinimumRequirements (last checked 2018-12-01).
@@ -101,6 +122,11 @@ Our system firmware uses u-root, which does not have (intentionally) an `udev` e
 
 Simply enable `CONFIG_DEVTMPFS` and `CONFIG_DEVTMPFS_MOUNT` in your kernel config
 
+In menuconfig:
+
+* `Device drivers` &rarr; `Generic Driver Options` &rarr; `Maintain a devtmpfs filesystem to mount at /dev`
+* `Device drivers` &rarr; `Generic Driver Options` &rarr; `Automount devtmpfs at /dev, after the kernel mounted the rootfs`
+
 
 ### Additional drivers
 
@@ -109,11 +135,26 @@ drivers for the platforms you plan to run LinuxBoot on. For example you may need
 to include NIC drivers, file system drivers, and any other device that you need
 at boot time.
 
-### Enable XZ compression support
+For example, enable SCSI disk, SATA drivers, EXT4, and e1000 NIC driver. In menuconfig:
+
+* `Bus options` &rarr; `PCI support`
+* `Device drivers` &rarr; `Block devices` (required for SCSI and SATA)
+* `Device drivers` &rarr; `SCSI device support` &rarr; `SCSI disk support`
+* `Device drivers` &rarr; `Serial ATA and Parallel ATA drivers`
+* `File systems` &rarr; `The Extended 4 (ext4) filesystem`
+* `Networking support` (required for e1000)
+* `Device drivers` &rarr; `Network device support` &rarr; `Ethernet driver support` &rarr; `Intel(R) PRO/1000 Gigabit Ethernet support`
+
+### Enable XZ kernel and initramfs compression support
 
 The `u-root`-based RAMFS will be compressed with XZ and embedded in the kernel.
 Hence you need to enable XZ compression support. Make sure to have at least
 `CONFIG_HAVE_KERNEL_XZ`, `CONFIG_KERNEL_XZ`, `CONFIG_DECOMPRESS_XZ`.
+
+In menuconfig:
+
+* `General setup` &rarr; `Kernel compression mode` &rarr; `XZ`
+* `General setup` &rarr; `Initial RAM filesystem and RAM disk (initramfs/initrd) support` &rarr; `Support initial ramdisk/ramfs compressed using XZ`
 
 ### Enable VPD
 
@@ -123,11 +164,19 @@ Linux supports VPD out of the box, but you need at least a kernel 4.16.
 
 Make sure to have `CONFIG_GOOGLE_VPD` enabled in your kernel config.
 
+In menuconfig:
+
+* `Firmware drivers` &rarr; `Google Firmware Drivers` &rarr; `Coreboot Table Access - ACPI` &rarr; `Vital Product Data`
+
 
 ### TPM support
 
 This also depends on your needs. If you plan to use TPM, and this is supported
 by your platform, make sure to enable `CONFIG_TCG_TPM`.
+
+In menuconfig:
+
+* `Device drivers` &rarr; `Character devices` &rarr; `TPM Hardware Support` &rarr; (enable the relevant drivers)
 
 
 ### Include the initramfs
@@ -137,8 +186,12 @@ kernel configuration should point to the appropriate file using the
 `CONFIG_INITRAMFS_SOURCE` directive. E.g.
 
 ```
-CONFIG_INITRAMFS_SOURCE=/path/to/initramfs_linux.x86_64.cpio.xz`
+CONFIG_INITRAMFS_SOURCE="/path/to/initramfs_linux.x86_64.cpio.xz"`
 ```
+
+In menuconfig:
+
+* `General setup` &rarr; `Initial RAM filesystem and RAM disk (initramfs/initrd) support` &rarr; `Initramfs source file(s)`
 
 ### Default hostname
 
@@ -148,6 +201,10 @@ value, You need to set `CONFIG_DEFAULT_HOSTNAME` for the purpose, e.g.
 ```
 CONFIG_DEFAULT_HOSTNAME="linuxboot"
 ```
+
+In menuconfig:
+
+* `General setup` &rarr; `Default hostname`
 
 
 ### Build the kernel
