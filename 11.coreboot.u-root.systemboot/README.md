@@ -221,7 +221,99 @@ For more details on how to build a kernel, see https://kernelnewbies.org/KernelB
 
 ## Building coreboot
 
-TODO
+In this step we will build `coreboot` using the Linux kernel image that we built
+at the previous step as payload. This build is for a Qemu x86 target, the process
+may be somehow different for other platforms.
+
+Steps overview:
+
+* download coreboot from the git repo
+* build the compiler toolchain
+* configure coreboot for Qemu, and to use our `bzImage` as payload
+* build `coreboot.rom`
+
+
+### Download coreboot
+
+Our preferred method is to download coreboot from the git repository:
+
+```
+git clone https://review.coreboot.org/coreboot.git
+cd coreboot
+```
+
+### Build the compiler toolchain
+
+This step is required to have, among other things, reproducible builds, and a
+compiler toolchain that is known to work with coreboot.
+
+```
+make crossgcc-i386 CPUS=$(nproc) BUILD_LANGUAGES=c
+```
+
+The step above may ask you to install a few additional libraries or headers, do
+so as requested, with the exception of gcc-gnat, that we won't need.
+
+
+### Configure coreboot for Qemu and our payload
+
+Run `make menuconfig` to enter the coreboot configuration menus. Then:
+
+Specify the platform we will run on:
+
+* `Mainboard` &rarr; `Mainboard vendor` &rarr; `Emulation`
+* `Mainboard` &rarr; `Mainboard Model` &rarr; `QEMU x86 q35/ich9 (aka qemu -M q35, since v1.4)`
+
+Specify a large enough flash chip and CBFS size:
+
+* `Mainboard` &rarr; `ROM chip size` &rarr; `16 MB`
+* `Mainboard` &rarr; `Size of CBFS filesystem in ROM` &rarr; `0x1000000`
+
+Specify our payload:
+
+* `Payload` &rarr; `Add a payload` &rarr; `A Linux payload`
+* `Payload` &rarr; `Linux path and filename` &rarr; path to your bzImage
+
+
+Then save your configuration and exit menuconfig.
+
+### Build coreboot
+
+This is done with a simple
+
+```
+make -j$(nproc)
+```
+
+The coreboot build system will clone the relevant submodules, if it was not done
+already, and will build a coreboot ROM file that will contain the initialization
+code, and our bzImage payload. The output file is at `build/coreboot.rom`.
+
+If everything works correctly you will get an output similar to the following:
+```
+This image contains the following sections that can be manipulated with this tool:
+
+'COREBOOT' (CBFS, size 16776704, offset 512)
+
+It is possible to perform either the write action or the CBFS add/remove actions on every section listed above.
+To see the image's read-only sections as well, rerun with the -w option.
+    CBFSPRINT  coreboot.rom
+
+FMAP REGION: COREBOOT
+Name                           Offset     Type           Size   Comp
+cbfs master header             0x0        cbfs header        32 none
+fallback/romstage              0x80       stage           15300 none
+fallback/ramstage              0x3cc0     stage           51805 none
+config                         0x10780    raw               155 none
+revision                       0x10880    raw               576 none
+cmos_layout.bin                0x10b00    cmos_layout       548 none
+fallback/dsdt.aml              0x10d80    raw              6952 none
+fallback/payload               0x12900    simple elf    5883908 none
+(empty)                        0x5af140   null         10800216 none
+bootblock                      0xffbdc0   bootblock       16384 none
+
+Built emulation/qemu-q35 (QEMU x86 q35/ich9)
+```
 
 ## Putting everything together
 
