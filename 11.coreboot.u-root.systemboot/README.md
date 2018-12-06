@@ -58,7 +58,7 @@ in the kernel docs.
 
 ## Building a suitable Linux kernel
 
-TODO add sample `.config`.
+A sample config to use with Qemu can be downloaded here: [linux-4.19.6-linuxboot.config](linux-4.19.6-linuxboot.config).
 
 You need a relatively recent kernel. Ideally a kernel 4.16, to have support for VPD variables, but a 4.11 can do the job too, if you don't care about boot entries and want "brute-force" booting only.
 
@@ -153,6 +153,7 @@ at boot time.
 For example, enable SCSI disk, SATA drivers, EXT4, and e1000 NIC driver. In menuconfig:
 
 * `Bus options` &rarr; `PCI support`
+* `Enable the block layer`
 * `Device drivers` &rarr; `Block devices` (required for SCSI and SATA)
 * `Device drivers` &rarr; `SCSI device support` &rarr; `SCSI disk support`
 * `Device drivers` &rarr; `Serial ATA and Parallel ATA drivers`
