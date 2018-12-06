@@ -3,7 +3,7 @@
 Points of contact: [Andrea Barberio](https://github.com/insomniacslk), [David Hendricks](https://github.com/dhendrix)
 
 This chapter describes how to build a LinuxBoot firmware based on coreboot, u-root and systemboot.
-The examples will focus on x86_64, and the coreboot builds will cover virtual and physical OCP hardware.
+The examples will focus on `x86_64`, and the coreboot builds will cover virtual and physical OCP hardware.
 
 ## Components
 
@@ -64,7 +64,7 @@ You need a relatively recent kernel. Ideally a kernel 4.16, to have support for 
 
 We will build a kernel with the following properties:
 
-* small enough to fit most flash chips
+* small enough to fit most flash chips, and with some fundamental kernel features
 * that can run Go programs (mainly futex and epoll support)
 * with the relevant storage and network drivers
 * with kexec support, so it can boot a new kernel
@@ -100,6 +100,21 @@ make tinyconfig
 ```
 
 Some more information about tiny configs can be found at https://tiny.wiki.kernel.org (last checked 2018-12-01).
+
+### A few fundamental features
+
+Assuming we are running on `x86_64`, some basic features to enable are:
+
+* `64-bit kernel`
+* `General setup` &rarr; `Configure standard kernel features` &rarr; `Enable support for printk`
+* `General setup` &rarr; `Configure standard kernel features` &rarr; `Multiple users, groups and capabilities support` (this is not strictly required on LinuxBoot)
+* `Executable file formats / Emulations` &rarr; `Kernel support for ELF binaries` (you may want to enable more formats)
+* `Device Drivers` &rarr; `Character devices` &rarr; `Enable TTY`
+* `Device Drivers` &rarr; `Character devices` &rarr; `Serial drivers` &rarr; `8250/16550 and compatible serial support`
+* `Device Drivers` &rarr; `Character devices` &rarr; `Serial drivers` &rarr; `Console on 8250/16550 and compatible serial port`
+* `File systems` &rarr; `Pseudo filesystems` &rarr; `/proc file system support`
+* `File systems` &rarr; `Pseudo filesystems` &rarr; `sysfs file system support`
+
 
 ### Requirements for Go 1.11
 
