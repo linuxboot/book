@@ -21,7 +21,7 @@ LinuxBoot book which contains the documentation in markdown format
   * OVMF
 7. Tools:
   * UEFITool and UEFIReplace
-  * UEFI Tool Kit (Ryan O'Leary and Gan Shun)
+  * [UEFI Tool Kit (Ryan O'Leary and Gan Shun)](7b.UEFI_Tool_Kit/README.md)
   * LinuxBoot Scripts (Trammell Hudson)
   * FMAP tool
 8. TPMs
