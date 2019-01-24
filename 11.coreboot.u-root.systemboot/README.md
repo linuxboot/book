@@ -108,6 +108,7 @@ Assuming we are running on `x86_64`, some basic features to enable are:
 * `64-bit kernel`
 * `General setup` &rarr; `Configure standard kernel features` &rarr; `Enable support for printk`
 * `General setup` &rarr; `Configure standard kernel features` &rarr; `Multiple users, groups and capabilities support` (this is not strictly required on LinuxBoot)
+* `Processor type and features` &rarr; `Built-in kernel command line` (customize your command line here if needed, e.g. `earlyprintk=serial,ttyS0,57600 console=ttyS0,57600`)
 * `Executable file formats / Emulations` &rarr; `Kernel support for ELF binaries` (you may want to enable more formats)
 * `Device Drivers` &rarr; `Character devices` &rarr; `Enable TTY`
 * `Device Drivers` &rarr; `Character devices` &rarr; `Serial drivers` &rarr; `8250/16550 and compatible serial support`
