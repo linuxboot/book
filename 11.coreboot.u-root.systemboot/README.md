@@ -342,7 +342,24 @@ TODO
 
 ## Running on a virtual machine
 
-TODO
+The image built with the above steps can run on a QEMU virtual machine, using
+the machine type `q35`, as specified in the coreboot mainboard section. Assuming
+that your coreboot image is located at `build/coreboot.rom`, you can
+run the following command:
+
+```
+sudo qemu-system-x86_64\        # sudo is required to enable KVM below
+    -M q35 \                    # the machine type specified in the coreboot mainboard configuration
+    -enable-kvm \               # use KVM to avail of hardware virtualization extensions
+    -bios build/coreboot.rom \  # the coreboot ROM to run as system firmware
+    -m 1024 \                   # the amount of RAM in MB
+    -nographic                  # redirect all the output to the console
+```
+
+If everything has been done correctly you should see, in order, the output from
+`coreboot`, `linux`, `u-root`, and `systemboot`. You can press `ctrl-c` when
+Systemboot instructs you to do so, to enter the `u-root` shell.
+
 
 ## Running on real OCP hardware
 
