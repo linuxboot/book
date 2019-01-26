@@ -66,7 +66,7 @@ We will build a kernel with the following properties:
 
 * small enough to fit most flash chips, and with some fundamental kernel features
 * that can run Go programs (mainly futex and epoll support)
-* with the relevant storage and network drivers
+* with the relevant storage and network stack and drivers
 * with kexec support, so it can boot a new kernel
 * with kexec signature verification disabled (optional)
 * with devtmpfs enabled, since we don't use udev
@@ -110,6 +110,8 @@ Assuming we are running on `x86_64`, some basic features to enable are:
 * `General setup` &rarr; `Configure standard kernel features` &rarr; `Multiple users, groups and capabilities support` (this is not strictly required on LinuxBoot)
 * `Processor type and features` &rarr; `Built-in kernel command line` (customize your command line here if needed, e.g. `earlyprintk=serial,ttyS0,57600 console=ttyS0,57600`)
 * `Executable file formats / Emulations` &rarr; `Kernel support for ELF binaries` (you may want to enable more formats)
+* `Networking support` &rarr; `Networking options` &rarr; `TCP/IP networking`
+* `Networking support` &rarr; `Networking options` &rarr; `The IPv6 protocol`
 * `Device Drivers` &rarr; `Character devices` &rarr; `Enable TTY`
 * `Device Drivers` &rarr; `Character devices` &rarr; `Serial drivers` &rarr; `8250/16550 and compatible serial support`
 * `Device Drivers` &rarr; `Character devices` &rarr; `Serial drivers` &rarr; `Console on 8250/16550 and compatible serial port`
