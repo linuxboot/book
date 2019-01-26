@@ -450,42 +450,44 @@ command accepts multiple pairs of command name and Go code
 
 Figure 1: The code for time builtin, Part I: setup
 
-// The timecmd function is passed
-// the name of a command to run,
-// optional arguments ,
-// and returns an error. It:
-// o gets
-// from
-// o runs
-// u−root shell runit function
-// o computes a duration using
-the start time using Now the time package
-the command using the
- // Since from the time package
-// o if there is an error,
-// prints the error to os.Stderr
-// o uses fmt.Printf to print
-// the duration to os . Stderr
-// Note that since runtime always
-// handles the error , by printing
-// it , it always returns nil .
-// Most builtins return the error .
-// Here you can see the usage
-// of the imported packages
-// from the imports statement above . func timecmd(name string , args []
-string) error {
-start := time .Now()
-err := runit(name, args)
-if err != nil { fmt.Fprintf(os.Stderr , ”%v\n”,
-err)
-}
-cost := time.Since(start) fmt.Printf(os.Stderr , ”%v”, cost) // This function is special
-in that
-// it handles the error , and
-hence
-// does not return an error. // Most other builtins return
-the // error.
-return nil }
+| Code      | Description |
+| ----------- | ----------- |
+| | // The timecmd function is passed |
+| | // the name of a command to run, |
+| | // optional arguments , |
+| | // and returns an error. It: |
+| | // o gets |
+| | // from |
+| | // o runs |
+| | // u−root shell runit function |
+| | // o computes a duration using |
+| | // the start time using Now the time package
+| | // the command using the
+| | // Since from the time package |
+| | // o if there is an error, |
+| | // prints the error to os.Stderr |
+| | // o uses fmt.Printf to print |
+| | // the duration to os . Stderr |
+| | // Note that since runtime always |
+| | // handles the error , by printing |
+| | // it , it always returns nil . |
+| | // Most builtins return the error . |
+| | // Here you can see the usage |
+| | // of the imported packages |
+| | // from the imports statement above .  |
+| func timecmd(name string , args []string) error { | |
+| start := time .Now() | |
+| err := runit(name, args) | |
+| if err != nil {  | |
+| fmt.Fprintf(os.Stderr , ”%v\n”, err) | |
+| } | |
+| cost := time.Since(start) | | 
+| fmt.Printf(os.Stderr , ”%v”, cost) | // This function is special  in that|
+| | // it handles the error , and  hence |
+| | // does not return an error. 
+| | // Most other builtins return the |
+| | // error. |
+| return nil } | |
 
 Figure 3: Go fragment for a printenv script. Code structure is inserted and packages are determined automatically.
 ```
@@ -734,36 +736,65 @@ this model now.
 ### Acknowledgements
 
 Thanks to Maya Gokhale for her many helpful suggestions on this paper.
-References
+
+###References
+
 [1] AGNEW, A., SULMICKI, A., MINNICH, R., AND ARBAUGH, W. A. Flexibility in rom: A stackable open source bios. In USENIX Annual Technical Conference, FREENIX Track (2003), pp. 115–124.
+
 [2] (AUTHOR OF SLOF), S. B. Personal conversation.
+
 [3] BENAVIDES, T., TREON, J., HULBERT, J., AND CHANG, W. The enabling of an execute-in-place architecture to reduce the embedded system memory footprint and boot time. Journal of computers 3, 1 (2008), 79–89.
+
 [4] BOGOWITZ, B., AND SWINFORD, T. Intel⃝R active management technology reduces it costs with improved pc manageability. Technology@ Intel Magazine (2004).
+
 [5] CELEDA, P., KREJCI, R., VYKOPAL, J., AND DRASAR, M. Embedded malware-an analysis of the chuck norris botnet. In Computer Network Defense (EC2ND), 2010 European Conference on (2010), IEEE, pp. 3–10.
+
 [6] CUI, A., COSTELLO, M., AND STOLFO, S. J. When firmware modifications attack: A case study of embedded exploitation. In NDSS (2013).
+
 [7] DALY, D., CHOI, J. H., MOREIRA, J. E., AND WATERLAND, A. Base operating system provisioning and bringup for a commercial supercomputer. In Parallel and Distributed Processing Symposium, 2007. IPDPS 2007. IEEE International (2007), IEEE, pp. 1–7.
+
 [8] DURUMERIC, Z., KASTEN, J., ADRIAN, D., HALDERMAN, J. A., BAILEY, M., LI, F., WEAVER, N., AMANN, J., BEEKMAN, J., PAYER, M., ET AL. The matter of heartbleed. In Proceedings of the 2014 Conference on Internet Measurement Conference (2014), ACM, pp. 475–488.
+
 [9] KALLENBERG, C., AND BULYGIN, Y. All your boot are belong to us intel, mitre. cansecwest 2014.
+
 [10] KALLENBERG, C., KOVAH, X., BUTTERWORTH, J., AND CORNWELL, S. Extreme privilege escalation on windows 8/uefi systems.
+
 [11] KOZIOL, J., LITCHFIELD, D., AITEL, D., ANLEY, C., EREN, S., MEHTA, N., AND HASSELL, R. The Shellcoder’s Handbook. Wiley Indianapolis, 2004.
+
 [12] LEWIS, T. Uefi overview, 2007.
+
 [13] MAY,D.Occam.ACMSigplanNotices18,4(1983),69–79.
+
 [14] MINNICH, R. G. Linuxbios at four. Linux J. 2004, 118 (Feb. 2004), 8–.
+
 [15] MOON, S.-P., KIM, J.-W., BAE, K.-H., LEE, J.-C., AND SEO, D.-W. Embedded linux implementation on a commercial digital tv system. Consumer Electronics, IEEE Transactions on 49, 4 (Nov 2003), 1402–1407.
+
 [16] PIKE, R. Another go at language design. Stanford University Computer Systems Laboratory Colloquium.
+
 [17] RITCHIE, D. M. The limbo programming language. Inferno Programmer’s Manual 2 (1997).
+
 [18] SACCO, A. L., AND ORTEGA, A. A. Persistent bios infection. In CanSecWest Applied Security Conference (2009).
+
 [19] SAMPATHKUMAR, R. Vulnerability Management for Cloud Computing-2014: A Cloud Computing Security Essential. Rajakumar Sampathkumar, 2014.
+
 [20] SUGANUMA, T., OGASAWARA, T., TAKEUCHI, M., YASUE, T., KAWAHITO, M., ISHIZAKI, K., KOMATSU, H., AND NAKATANI, T. Overview of the ibm java just-in-time compiler. IBM systems Journal 39, 1 (2000), 175–193.
+
 [21] TEAM, G. The go programming language specification. Tech. rep., Technical Report http://golang. org/doc/doc/go spec. html, Google Inc, 2009.
+
 [22] VAN HENSBERGEN, E., AND MINNICH, R. Grave robbers from outer space: Using 9p2000 under linux. In USENIX Annual Technical Conference, FREENIX Track (2005), pp. 83–94.
+
 [23] VARIOUS. No papers have been published on onie; see onie.org.
+
 [24] VARIOUS. No papers were published; see perllinux.sourceforge.net.
+
 [25] WATSON, G. R., SOTTILE, M. J., MINNICH, R. G., CHOI, S.-E., AND HERTDRIKS, E. Pink: A 1024-node single-system image linux cluster. In High Performance Computing and Grid in Asia Pacific Region, 2004. Proceedings. Seventh International Conference on (2004), IEEE, pp. 454–461.
+
 [26] WELLS, N. Busybox: A swiss army knife for linux. Linux J. 2000, 78es (Oct. 2000).
+
 [27] WINTERBOTTOM, P. Alef language reference manual. Plan 9 Programmer’s Man (1995).
 
-Notes
-1In fact, at one point, due to a configuration error, we were using this mode all the time without realizing it. Go compiles are that fast.
+###Notes
+
+1 In fact, at one point, due to a configuration error, we were using this mode all the time without realizing it. Go compiles are that fast.
 
 
