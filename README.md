@@ -27,6 +27,8 @@ LinuxBoot book which contains the documentation in markdown format
 8. TPMs
 9. SecureBoot and BootGuard
 10. u-root
+  * [U-root: A Go-based, Firmware Embeddable Root File System](10.u-root/README.md)
 11. [coreboot, u-root and systemboot](11.coreboot.u-root.systemboot/README.md)
 12. Arm + u-boot
-13. Conclusion
+13. DUT, a simple Device Under Test framework [DUT, Device Under Test framework] (13.dut/README.md)
+14. Conclusion
