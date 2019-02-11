@@ -24,6 +24,22 @@ In this chapter, we'll go over how to:
 4. Common pitfalls
 5. Extend UTK with additional commands
 
+### Quick start
+
+We assume you have a way to read and write the FLASH into a file.
+
+Let's assume you have read FLASH into an image called ROM.bin and you have a kernel, called bzImage, which you want to insert into ROM.bin. The easiest option is to replace the UEFI shell. This is a quick and easy way to get started. In the long term, you want to remove as much of UEFI as possible, but replacing the shell is always our first step on a new board.
+
+Get the tool:
+
+    $ go get -u github.com/linuxboot/fiano/cmds/utk
+    
+ Replace the shell:
+ 
+ 	$ utk ROM.bin replace_pe32 Shell bzImage save NEWROM.bin
+
+After that, you can flash NEWROM.bin and test. If anything goes wrong, such as not enough space, you will need to refer to the more detailed instructions below.
+
 ### Installation
 
 At the time of writing, you must clone and build UTK from source -- binary

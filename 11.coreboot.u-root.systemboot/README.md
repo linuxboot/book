@@ -5,6 +5,20 @@ Points of contact: [Andrea Barberio](https://github.com/insomniacslk), [David He
 This chapter describes how to build a LinuxBoot firmware based on coreboot, u-root and systemboot.
 The examples will focus on `x86_64`, and the coreboot builds will cover virtual and physical OCP hardware.
 
+## Quick Start with coreboot
+
+Run these commands in a directory you create or in /tmp; do so because it creates some files and directories:
+
+	$ go get github.com/linuxboot/corebootnerf
+	$ go run github.com/linuxboot/corebootnerf --fetch 
+	... lots and lots of output!
+
+This produces a coreboot image in coreboot-4.9/build/coreboot.rom
+You can now run this rom image:
+	$  qemu-system-x86_64 -serial stdio -bios coreboot-4.9/build/coreboot.rom
+
+And see how it looks when you put this in a coreboot ROM image.
+
 ## Components
 
 The final image is built on top of multiple open-source components:

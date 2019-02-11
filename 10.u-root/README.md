@@ -4,6 +4,50 @@ Points of contact: [Ronald Minnich](https://github.com/rminnich)
 
 This chapter describes u-root, what it is, and why it is the way it is.
 
+## Quick Start
+
+Get u-root
+
+	$ go get -u github.com/u-root/u-root
+
+Build a u-root initramfs in busybox mode.
+
+	$ go run github.com/u-root/u-root -build=bb
+	2019/02/11 18:29:00 Build environment: GOARCH=amd64 GOOS=linux GOROOT=/home/rminnich/go GOPATH=/home/rminnich/gopath CGO_ENABLED=0
+	2019/02/11 18:29:00 Filename is /tmp/initramfs.linux_amd64.cpio
+	2019/02/11 18:29:12 Successfully wrote initramfs.
+
+This command scans all the u-root source code with the GO AST package, converting commands into packages, and compiling them into one binary. It takes around fifteen seconds.  It creates a file called /tmp/initramfs.linux_amd64.cpio. To test it, you need to install the testramfs command. 
+
+	$ go install github.com/u-root/u-root/scripts/testramfs
+	
+You can then run it. 
+
+	$ sudo $GOPATH/bin/testramfs -i /tmp/initramfs.linux_amd64.cpio
+	... lots of messages
+	 Created mount -t "cgroup" -o perf_event "cgroup" "/sys/fs/cgroup/perf_event" flags 0x0
+	 2019/02/11 18:30:31 Done Rootfs
+	 open /home/rminnich/.elvish/rc.elv: no such file or directory
+	 (unreachable)/home/rminnich/projects/linuxboot/book/10.u-root#
+
+This will drop you into an interactive session. You can try again with dynamic compilation (we show **-build=source** but that is the default; you do not need to type it):
+
+	$ go run github.com/u-root/u-root -build=source
+	2019/02/11 18:33:50 Build environment: GOARCH=amd64 GOOS=linux GOROOT=/home/rminnich/go GOPATH=/home/rminnich/gopath CGO_ENABLED=0
+	2019/02/11 18:33:50 Filename is /tmp/initramfs.linux_amd64.cpio
+	2019/02/11 18:33:50 Collecting package files and dependencies...
+	2019/02/11 18:34:12 Building go toolchain...
+	2019/02/11 18:34:41 Successfully wrote initramfs.
+
+Note that on this second run of the u-root command, since the commands are compiled dynamically, the command also builds and includes a full Go toolchain. Even in this case, the full process takes less than a minute.
+	
+	$ sudo $GOPATH/bin/testramfs -i /tmp/initramfs.linux_amd64.cpio
+	(same as before)
+
+You can see the effects of dynamic compilation. The bootup is longer since packages are compiled on boot; also, the first time you run a command, it takes about 1/4 second to compile, and the second time, it is running a binary in a tmpfs, so is very fast.  The nice part is that you can see all the source, and change it. You can also create new programs and run them. 
+
+This extra power comes at a cost: dynamic images with all the commands are about 13M xz-compressed; static images are 6M. This size difference only matters for firmware images, however.
+
 ## Components
 
 U-root runs on several operating systems but the main target is Linux and, given that this is the
