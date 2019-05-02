@@ -24,11 +24,24 @@ In this chapter, we'll go over how to:
 4. Common pitfalls
 5. Extend UTK with additional commands
 
+### Synopsis
+
+    $ make bzImage
+    $ sudo flashrom -r /tmp/ROM.bin
+    $ utk /tmp/ROM.bin replace_pe32 Shell arch/86/boot/bzImage save /tmp/NEWROM.bin
+    $ sudo flashrom -w /tmp/NEWROM.bin
+
 ### Quick start
 
 We assume you have a way to read and write the FLASH into a file.
 
-Let's assume you have read FLASH into an image called ROM.bin and you have a kernel, called bzImage, which you want to insert into ROM.bin. The easiest option is to replace the UEFI shell. This is a quick and easy way to get started. In the long term, you want to remove as much of UEFI as possible, but replacing the shell is always our first step on a new board.
+Let's assume you have read FLASH into an image called ROM.bin and you
+have a kernel, called bzImage, which you want to insert into
+ROM.bin. Be sure the kernel is buildable as an EFI driver (DXE); see
+the pitfalls section. The easiest option is to replace the UEFI shell. This
+is a quick and easy way to get started. In the long term, you want to
+remove as much of UEFI as possible, but replacing the shell is always
+our first step on a new board.
 
 Get the tool:
 
@@ -303,6 +316,14 @@ insert.
 
 
 ### Common Pitfalls
+
+#### Kernel is not built as a DXE or has not enabled UEFI stub mode
+
+In order to be properly bootable as a DXE, kernels must have the following
+enabled:
+
+	CONFIG_EFI=y
+	CONFIG_EFI_STUB=y
 
 #### Files are missing from the Firmware Volume
 
