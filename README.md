@@ -32,4 +32,5 @@ LinuxBoot book which contains the documentation in markdown format
 12. Arm + u-boot
 13. DUT, a simple Device Under Test framework [DUT, Device Under Test framework] (13.dut/README.md)
 14. CPU, an ssh style command which lets you see your files from anywhere. [CPU, wherever you go, there your files are] (14.cpu/README.md)
+15. [Case Studies](case_studies/README.md)
 15. Conclusion
