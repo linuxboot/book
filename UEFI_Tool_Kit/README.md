@@ -1,4 +1,4 @@
-## 7b: UEFI Tool Kit
+## UEFI Tool Kit
 
 Authors: Ryan O'Leary, Gan Shun Lim and Andrea Barberio
 
