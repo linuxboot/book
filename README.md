@@ -40,9 +40,13 @@ background on the different aspects of LinuxBoot.
 
 ## Acknowledgments
 
-* Andrea Barberio
-* Johnny Lin
-* Jonathan Zhang
-* Philipp Deppenwiese
-* Ronald Minnich
-* Ryan O'Leary
+In alphabetical order:
+
+* [Andrea Barberio](https://github.com/insomniacslk)
+* [Gan Shun Lim](https://github.com/ganshun)
+* [Johnny Lin](https://github.com/johnnylinwiwynn)
+* [Jonathan Zhang](https://github.com/jonzhang-fb)
+* [Philipp Deppenwiese](https://github.com/zaolin)
+* [Prachi Laud](https://github.com/pallaud)
+* [Ronald Minnich](https://github.com/rminnich)
+* [Ryan O'Leary](https://github.com/rjoleary)
