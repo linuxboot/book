@@ -26,33 +26,32 @@ The final image is built on top of multiple open-source components:
 * [coreboot](https://coreboot.org), used for the platform initialization. Silicon and DRAM initialization are done here.
 * [Linux](https://kernel.org), used to initialize peripherals and various device drivers like file systems, storage and network devices; network stack; a multiuser and multitasking environment.
 * [u-root](https://u-root.tk), an user-space environment that provides basic libraries and utilities to work in a Linux environment.
-* [systemboot](https://systemboot.org), an additional set of libraries and tools on top of u-root, that provide a bootloader behaviour for various booting scenarios.
+* ~~[systemboot](https://systemboot.org), an additional set of libraries and tools on top of u-root, that provide a bootloader behaviour for various booting scenarios.~~ systemboot was merged into u-root.
 
 These components are built in reverse order. `u-root` and `systemboot` are built together in a single step.
 
-## Building u-root and systemboot
+## Building u-root
 
 The first step is building the initramfs. This is done using the `u-root` ramfs builder, with additional tools and libraries from `systemboot`.
 
-Both `u-root` and `systemboot` are written in Go. We recommend using a relatively recent version of Go. At the time of writing the latest is 1.11, and we recommend using at least version 1.10. Previous versions may not be fully supported.
+u-root is written in Go. We recommend using a relatively recent version of the Go toolchain. At the time of writing the latest is 1.11, and we recommend using at least version 1.10. Previous versions may not be fully supported.
 
 Adjust your `PATH` to include `${GOPATH}/bin`, in order to find the `u-root` command that we will use in the next steps.
 
-Then, fetch `u-root`, `systemboot` and their dependencies:
+Then, fetch `u-root` and its dependencies:
 ```
 go get -u github.com/u-root/u-root
-go get -u github.com/systemboot/systemboot/{uinit,localboot,netboot}
 ```
 
-Then build the ramfs in busybox mode:
+Then build the ramfs in busybox mode, and add fbnetboot, localboot, and a custom
+uinit to wrap everything together:
 ```
-u-root -build=bb core \
-    github.com/systemboot/systemboot/{uinit,localboot,netboot}
+u-root -build=bb core github.com/u-root/u-root/cmds/boot/{uinit,localboot,fbnetboot}
 ```
 
 This command will generate a ramfs named `/tmp/initramfs_${os}_${arch}.cpio`, e.g. `/tmp/initramfs.linux_amd64.cpio`. You can specify an alternative output path with `-o`. Run `u-root -h` for additional command line parameters.
 
-Note: the above command will include only pure-Go commands from `u-root` and `systemboot`. If you need to include other files or non-Go binaries, use the `-file` option in `u-root`.
+Note: the above command will include only pure-Go commands from `u-root`. If you need to include other files or non-Go binaries, use the `-file` option in `u-root`.
 For example, you may want to include static builds of `kexec` or `flashrom`, that we build on https://github.com/systemboot/binaries .
 
 Then, the initramfs has to be compressed. This step is necessary to embed the
@@ -192,7 +191,7 @@ In menuconfig:
 ### Enable VPD
 
 VPD stands for [Vital Product Data](https://chromium.googlesource.com/chromiumos/platform/vpd/+/1c1806d8df4bb5976eed71a2e2bf156c36ccdce2/README.md).
-We use VPD to store boot configuration for `systemboot`, similarly to UEFI's boot variables.
+We use VPD to store boot configuration for `localboot` and `fbnetboot`, similarly to UEFI's boot variables.
 Linux supports VPD out of the box, but you need at least a kernel 4.16.
 
 Make sure to have `CONFIG_GOOGLE_VPD` enabled in your kernel config.
@@ -369,6 +368,8 @@ sudo qemu-system-x86_64\        # sudo is required to enable KVM below
     -enable-kvm \               # use KVM to avail of hardware virtualization extensions
     -bios build/coreboot.rom \  # the coreboot ROM to run as system firmware
     -m 1024 \                   # the amount of RAM in MB
+    -object rng-random,filename=/dev/urandom,id=rng0 \
+                                # RNG to avoid DHCP lockups when waiting for entropy
     -nographic                  # redirect all the output to the console
 ```
 
