@@ -19,11 +19,11 @@ Build a u-root initramfs in busybox mode.
 
 This command scans all the u-root source code with the GO AST package, converting commands into packages, and compiling them into one binary. It takes around fifteen seconds.  It creates a file called /tmp/initramfs.linux_amd64.cpio. To test it, you need to install the testramfs command. 
 
-	$ go install github.com/u-root/u-root/scripts/testramfs
+	$ go install github.com/u-root/u-root/tools/testramfs
 	
 You can then run it. 
 
-	$ sudo $GOPATH/bin/testramfs -i /tmp/initramfs.linux_amd64.cpio
+	$ sudo $(go env GOPATH)/bin/testramfs -i /tmp/initramfs.linux_amd64.cpio
 	... lots of messages
 	 Created mount -t "cgroup" -o perf_event "cgroup" "/sys/fs/cgroup/perf_event" flags 0x0
 	 2019/02/11 18:30:31 Done Rootfs
@@ -41,7 +41,7 @@ This will drop you into an interactive session. You can try again with dynamic c
 
 Note that on this second run of the u-root command, since the commands are compiled dynamically, the command also builds and includes a full Go toolchain. Even in this case, the full process takes less than a minute.
 	
-	$ sudo $GOPATH/bin/testramfs -i /tmp/initramfs.linux_amd64.cpio
+	$ sudo $(go env GOPATH)/bin/testramfs -i /tmp/initramfs.linux_amd64.cpio
 	(same as before)
 
 You can see the effects of dynamic compilation. The bootup is longer since packages are compiled on boot; also, the first time you run a command, it takes about 1/4 second to compile, and the second time, it is running a binary in a tmpfs, so is very fast.  The nice part is that you can see all the source, and change it. You can also create new programs and run them. 
