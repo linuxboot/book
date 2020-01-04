@@ -23,6 +23,4 @@
 |u-boot                  |A very popular open source firmware and bootloader. Not to be confused with u-root.|
 |u-root                  |A modern, embedded userspace environment for Linux, with bootloader tools. See the section on u-root.|
 |UEFI                    |Unified Extensible Firmware Interface. It is Intel’s specification of a standard for system firmware. UEFI defines everything from the layout on the flash chip, to how to interface to peripherals, enables boot from disk or from a network, defines how UEFI applications work, etc). It is not an implementation, it's a standard. EDK II and OpenEDK II are UEFI implementations. UEFI is not closed source per-se, but in practice most implementations are.|
-|userland/userspace .    |A set of programs and libraries that are used to interact with the kernel.|
-
-
+|userland/userspace    |A set of programs and libraries that are used to interact with the kernel.|
