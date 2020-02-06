@@ -31,8 +31,7 @@ kernel and add some patches that are needed.
 
 When Linux boots it needs a root file system that provides boot and startup
 utilities. LinuxBoot uses u-root to create an
-[initramfs](https://docs.google.com/document/d/1redHfZrKem5ZEQHt40rS7_F1bzUjTF9BCBOBBOMcyOM/edit)
-for this purpose.
+initramfs for this purpose.
 
 
 #### What is an initramfs?
@@ -70,4 +69,3 @@ u-root is an open source project hosted on GitHub. Within the u-root
 repository, we have executable commands in `cmds` and the packages containing
 libraries and implementations in `pkg`.
 
-To learn more about u-root, read [chapter 10](https://github.com/linuxboot/book/blob/master/coreboot.u-root.systemboot/README.md).
