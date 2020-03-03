@@ -11,4 +11,5 @@
 * [README](dut/README.md)
 * [Getting Started](getting_started/README.md)
 * [DUT, ssh anywhere, and your files are there with you. No more scp!](cpu/README.md)
+* [F.A.Q.](faq/README.md)
 
