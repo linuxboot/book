@@ -9,6 +9,7 @@ UEFI has three sections:
 +   DXE ("DRAM code")
 
 DXE process is very complex; some systems have 750 DXEs.
+
 LinuxBoot replaces most of the UEFI software with Linux. LinuxBoot has an initramfs provided by [u-root](../u-root/README.md).
 
 ## How do you get LinuxBoot on your hardware?
@@ -36,13 +37,12 @@ The `utk` tool can:
 +   Insert new DXEs
 +   Replace the binary code of a DXE with a kernel
 
-If you are lucky, you can always flash with _internal_ flash hardware.
-
 The Management Engine (ME) is an x86 CPU embedded in the Intel Platform Controller Hub (PCH). It runs the Minix operating system which boots first and enables hardware such as clocks and GPIOs. ME checks the contents of flash memory and is used to implement "BootGuard". If you reflash and the ME is in "BootGuard" mode, your machine will be unusable. You need to run a tool called `me_cleaner` on the image to disable BootGuard.
 
  `/usr/bin/python2 me_cleaner.py -s` _imagefile.bin_
 
-`me_cleaner` sets the high assurance platform (HAP) bit. HAP is an IT security framework that provides a way to disable a feature on Intel chips that presents does not allow us to modify the UEFI image and install LinuxBoot. Setting the bit with `me_cleaner` disables the "feature".  Note that this does not always work; check with the LinuxBoot community.  
+`me_cleaner` sets the high assurance platform (HAP) bit. HAP provides a way to disable a feature on Intel chips that does not allow us to modify the UEFI image and install LinuxBoot. Setting the bit with `me_cleaner` disables the "feature".  Note that this does not always work; check with the LinuxBoot community.  
+
 `
 When you run `me_cleaner`
 
@@ -82,7 +82,8 @@ you should see output similar to the following:
 
 #### Working with a system that only has a net interface
 
-If the system only has a net interface, you use Dynamic Host Configuration Protocol (DHCP), using broadcast DISCOVER, and Trivial File Transfer Protocol (TFTP) to get the boot information you need. 
+If the system only has a net interface, you use Dynamic Host Configuration Protocol (DHCP),
+using broadcast DISCOVER, and Trivial File Transfer Protocol (TFTP) to get the boot information you need. 
 
 Configuration information is provided by REPLY to a DHCP request. The REPLY returns an IP, server, and a configuration file name that provides:
 
@@ -90,7 +91,7 @@ Configuration information is provided by REPLY to a DHCP request. The REPLY retu
    +   What to boot
    +   Where to get it
 
-Data is provided by TFTP. On proper systems, HTTP downloading takes a fraction of a second even for 16M kernels. With TFTP it's very slow and TFTP won't work with initramfs much large than 32MiB. Most LinuxBoot shops use or are transitioning to HTTP.
+Data is provided by TFTP. HTTP downloading takes a fraction of a second even for 16M kernels. With TFTP it's very slow and TFTP won't work with initramfs much large than 32MiB. Most LinuxBoot shops use or are transitioning to HTTP.
 
 Note: Boot images require a kernel(bzImage) + an initramfs + a command line. They can be loaded as three pieces or compiled and loaded as one piece, as described in this section.
 
@@ -106,8 +107,7 @@ Note: Boot images require a kernel(bzImage) + an initramfs + a command line. The
 
   `utk firmware.bin replace_pe32 Shell bzImage save` _new.bin_
 
-   Note: It's always a PE32, even for 64-bit kernels. _new.bin_ is a filename of
-   your choosing.
+   Note: It's always a PE32, even for 64-bit kernels. _new.bin_ is a filename of your  choosing.
 
 +   After running `utk`, you can reflash
 
