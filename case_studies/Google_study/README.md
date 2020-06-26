@@ -86,7 +86,7 @@ The steps to reach this goal are described below.
    The dark <span style="color:blue">blue</span> items on the left
    cannot be changed.
 
-![image](../images/Case-study-step1.svg)
+![image](../../images/Case-study-step1.svg)
 
 In the real FLASH part, the SEC and PEI are actually only 10% of total,
 so we reduce the size of those boxes in this and following diagrams.
