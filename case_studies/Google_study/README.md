@@ -72,7 +72,7 @@ to run LinuxBoot. The project has taken the standard UEFI boot process
 and converted it to LinuxBoot for production environments.
 The steps to reach this goal are described below.
 
-1. Reduce or replace UEFI components
+Step 1. Reduce or replace UEFI components
 
    UEFI contains proprietary, closed-source, vendor-supplied firmware
    drivers and firmware. LinuxBoot replaces many Driver Execution
@@ -98,12 +98,12 @@ process to boot a LinuxBoot image as shown below.
 
 <img src="../../images/Case-study-step1b.svg" width=600px>
 
-1. Delete or replace as many proprietary DXEs as required to make
+Step 2. Delete or replace as many proprietary DXEs as required to make
    step 3 work. In most cases, none need to be removed.
 
 <img src="../../images/Case-study-step2.svg" width=600px>
 
-1. Replace the UEFI shell with a Linux kernel + u-root
+Step 3. Replace the UEFI shell with a Linux kernel + u-root
 
 <img src="../../images/Case-study-step3.svg" width=600px>
 
@@ -111,7 +111,7 @@ When Linux boots it needs a root file system with utilities.
 LinuxBoot provides a file system based on u-root standard
 utilities written in Go.
 
-1. Through trial and error, continue to remove DXEs until you
+Step 4. Through trial and error, continue to remove DXEs until you
    can't remove anymore.
 
    The DXEs are delivered as binary blobs. There are three ways
@@ -132,11 +132,9 @@ utilities written in Go.
       other controls, and there is no chance of ever bringing
       them to open source.
 
-
 <img src="../../images/Case-study-step4.svg" width=600px>
 
-
-1. Replace closed source DXEs with open source
+Step 5. Replace closed source DXEs with open source
 
    If we can build a DXE from source, we can use `utk` to:
      *  Remove the proprietary one
@@ -144,8 +142,7 @@ utilities written in Go.
 
 <img src="../../images/Case-study-step5.svg" width=600px>
 
-
-1. Next steps: complete LinuxBoot
+Step 6. Next steps: complete LinuxBoot
 
    LinuxBoot is currently in production, but the LinuxBoot project        development continues to provide an open-source solution that
      does the following:
