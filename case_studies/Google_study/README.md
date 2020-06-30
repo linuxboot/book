@@ -86,12 +86,12 @@ The steps to reach this goal are described below.
    The dark <span style="color:blue">blue</span> items on the left
    cannot be changed.
 
-<img src="../../images/Case-study-step1.svg" width=500px>
+<img src="../../images/Case-study-step1.svg" width=600px>
 
 In the real FLASH part, the SEC and PEI are actually only 10% of total,
 so we reduce the size of those boxes in this and following diagrams.
 
-<img src="../../images/Case-study-step1a.svg" width=500px>
+<img src="../../images/Case-study-step1a.svg" width=600px>
 
 Another part of the conversion process was to modify the UEFI boot
 process to boot a LinuxBoot image as shown below.
