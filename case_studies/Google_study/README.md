@@ -35,7 +35,7 @@ In UEFI systems, LinuxBoot consists of a "full stack" solution
 of stripped-down UEFI firmware, a Linux kernel, and an initramfs with
 tools written in Go. Although these components all make up one bundle
 stored in ROM, there are three parts: the closed-source EFI firmware,
-a Linux kernel, and [u-root](http://u-root.tk/). The Linux kernel is
+a Linux kernel, and [u-root](../../u-root/README.md). The Linux kernel is
 an unmodified kernel.  The user-space initramfs image with Go tools
 for system booting is available as u-root. Due to this modularity,
 LinuxBoot can be used with a variety of systems. In many cases,
@@ -136,20 +136,22 @@ Step 4. Through trial and error, continue to remove DXEs until you
 
 Step 5. Replace closed source DXEs with open source
 
-   If we can build a DXE from source, we can use `utk` to:
-     *  Remove the proprietary one
-     *  Replace it with one built from source
+If we can build a DXE from source, we can use `utk` to:
+
+*  Remove the proprietary one
+*  Replace it with one built from source
 
 <img src="../../images/Case-study-step5.svg" width=600px>
 
 Step 6. Next steps: complete LinuxBoot
 
-   LinuxBoot is currently in production, but the LinuxBoot project        development continues to provide an open-source solution that
-     does the following:
+LinuxBoot is currently in production, but the LinuxBoot project
+development continues to provide an open-source solution that
+does the following:
 
-     1. Brings up the Linux kernel as a DXE in flash ROM instead of the UEFI shell.
-     1. Provides a Go based userland that can then bring up the kernel that you want to run on the machine.
-     1. Enables writing traditional firmware applications such as bootloader, debugging, diagnosis, and error detection applications as cross-architecture and cross-platform portable Linux applications.
+1. Brings up the Linux kernel as a DXE in flash ROM instead of the UEFI shell.
+1. Provides a Go based userland that can then bring up the kernel that you want to run on the machine.
+1. Enables writing traditional firmware applications such as bootloader, debugging, diagnosis, and error detection applications as cross-architecture and cross-platform portable Linux applications.
 
 The complete LinuxBoot solution is shown in the following diagram.
 
