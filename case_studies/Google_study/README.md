@@ -96,16 +96,16 @@ so we reduce the size of those boxes in this and following diagrams.
 Another part of the conversion process was to modify the UEFI boot
 process to boot a LinuxBoot image as shown below.
 
-![image](insert_image_url_here)
+<img src="../../images/Case-study-step1b.svg" width=600px>
 
 1. Delete or replace as many proprietary DXEs as required to make
    step 3 work. In most cases, none need to be removed.
 
-![image](insert_image_url_here)
+<img src="../../images/Case-study-step2.svg" width=600px>
 
 1. Replace the UEFI shell with a Linux kernel + u-root
 
-![image](insert_image_url_here)
+<img src="../../images/Case-study-step3.svg" width=600px>
 
 When Linux boots it needs a root file system with utilities.
 LinuxBoot provides a file system based on u-root standard
@@ -133,7 +133,7 @@ utilities written in Go.
       them to open source.
 
 
-![image](insert_image_url_here)
+<img src="../../images/Case-study-step4.svg" width=600px>
 
 
 1. Replace closed source DXEs with open source
@@ -142,7 +142,7 @@ utilities written in Go.
      *  Remove the proprietary one
      *  Replace it with one built from source
 
-![image](insert_image_url_here)
+<img src="../../images/Case-study-step5.svg" width=600px>
 
 
 1. Next steps: complete LinuxBoot
@@ -156,5 +156,5 @@ utilities written in Go.
 
 The complete LinuxBoot solution is shown in the following diagram.
 
-![image](insert_image_url_here)
+<img src="../../images/Case-study-step6.svg" width=600px>
 
