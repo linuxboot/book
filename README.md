@@ -17,9 +17,10 @@ background on the different aspects of LinuxBoot.
 | [2](intro/README.md)|&emsp; &emsp;LinuxBoot Introduction|
 | [3](components/README.md)|&emsp; &emsp;LinuxBoot Components|
 | [4](u-root/README.md)|&emsp; &emsp;All about u-root|
-| [5](implementation/README.md)|&emsp; &emsp;Implementing LinuxBoot|
-| [6](glossary/README.md)|&emsp; &emsp;Glossary|
-| [7](case_studies/README.md)|&emsp; &emsp;Case Studies|
+| [5](cpu/README.md)|&emsp; &emsp;u-root cpu command|
+| [6](implementation/README.md)|&emsp; &emsp;Implementing LinuxBoot|
+| [7](glossary/README.md)|&emsp; &emsp;Glossary|
+| [8](case_studies/README.md)|&emsp; &emsp;Case Studies|
 
 ## Acknowledgments
 
