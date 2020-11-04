@@ -13,12 +13,14 @@ background on the different aspects of LinuxBoot.
 
 |Chapter|&emsp; &emsp;Title|
 |:-----:|:--------------|
-| [1](TOC/README.md)|&emsp; &emsp;Overview and Table of Contents|
-| [2](ntroduction/README.md)|&emsp; &emsp;LinuxBoot Introduction|
+| [1](README.md)|&emsp; &emsp;Overview and Table of Contents|
+| [2](intro/README.md)|&emsp; &emsp;LinuxBoot Introduction|
 | [3](components/README.md)|&emsp; &emsp;LinuxBoot Components|
 | [4](u-root/README.md)|&emsp; &emsp;All about u-root|
-| 5|&emsp; &emsp;Implementing LinuxBoot|
-| [6](Glossary/README.md)|&emsp; &emsp;Glossary|
+| [5](cpu/README.md)|&emsp; &emsp;u-root cpu command|
+| [6](implementation/README.md)|&emsp; &emsp;Implementing LinuxBoot|
+| [7](glossary/README.md)|&emsp; &emsp;Glossary|
+| [8](case_studies/README.md)|&emsp; &emsp;Case Studies|
 
 ## Acknowledgments
 
