@@ -43,7 +43,7 @@ binary on Linux systems. While it has the downside of creating larger binaries,
 in an age of efficient compilers that remove dead code, 100 gigabit networks,
 and giant disks and memory, that penalty is not the problem it once was. The
 growth in size of static binaries is nothing like the growth in efficiency and
-scale of our resources. Nevertheless, static linking is frowned up nowadays and
+scale of our resources. Nevertheless, static linking is frowned upon nowadays and
 many libraries are only made available for dynamic linking.
 
 Our user might use one of the many tools that package a binary and all its
@@ -74,7 +74,7 @@ library will core dump.
 
 Not only must our user remember to bring along `/etc/nsswitch.conf`, they must
 also remember to bring along all the libraries it might use. This is also true
-of other services such as Programmable Authentication Modules (PAM). And,
+of other services such as Pluggable Authentication Modules (PAM). And,
 further, the program they bring along might run other programs, with their own
 dependencies. At some point, as the set of files grows, frustrated users might
 decide to gather up all of `/etc/`, `/bin`, and other directories, in the hope
