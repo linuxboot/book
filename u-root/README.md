@@ -265,8 +265,6 @@ script{ fmt.Printf("%v\n", os.Environ()) }
 
 **Figure 3**: Go fragment for a printenv script. Code structure is inserted and packages are determined automatically.
 
-Builtin creates a new shell at `/bin/sh` with the source at `/src/cmds/sh/`. Invocations of `/bin/sh` by this shell and its children will use the new shell. Processes spawned by this new shell can access the new shell source and can run the builtin command again and create a shell that further extends the new shell. Processes outside the new shell’s process hierarchy can not use this new shell or the builtin source. When the new shell exits, the builtins are no longer visible in any part of the file system. We use Linux mount name spaces to create this effect[22]. Once the builtin command has verified that the Go fragment is valid, it builds a new, private namespace with the shell source, including the new builtin source. From that point on, the new shell and its children only use the new shell. The parent process and other processes outside the private namespace continue to use the old shell.
-
 ## Environment variables
 
 The u-root shell supports environment variables, but manages them differently than most Unix environments. The variables are maintained in a directory called `/env`; the file name corresponds to the environment variable name, and the files contents are the value. When it is starting a new process, the shell populates child process environment variables from the `/env` directory. The syntax is the same; $ followed by a name directs the shell to substitute the value of the variable in the argument by prepending `/env` to the path and reading the file.
