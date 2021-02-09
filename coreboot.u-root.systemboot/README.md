@@ -25,7 +25,7 @@ The final image is built on top of multiple open-source components:
 
 * [coreboot](https://coreboot.org), used for the platform initialization. Silicon and DRAM initialization are done here.
 * [Linux](https://kernel.org), used to initialize peripherals and various device drivers like file systems, storage and network devices; network stack; a multiuser and multitasking environment.
-* [u-root](https://u-root.tk), an user-space environment that provides basic libraries and utilities to work in a Linux environment.
+* [u-root](https://github.com/u-root/u-root), an user-space environment that provides basic libraries and utilities to work in a Linux environment.
 * ~~[systemboot](https://systemboot.org), an additional set of libraries and tools on top of u-root, that provide a bootloader behaviour for various booting scenarios.~~ systemboot was merged into u-root.
 
 These components are built in reverse order. `u-root` and `systemboot` are built together in a single step.
