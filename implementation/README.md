@@ -43,7 +43,6 @@ The Management Engine (ME) is an x86 CPU embedded in the Intel Platform Controll
 
 `me_cleaner` sets the high assurance platform (HAP) bit. HAP provides a way to disable a feature on Intel chips that does not allow us to modify the UEFI image and install LinuxBoot. Setting the bit with `me_cleaner` disables the "feature".  Note that this does not always work; check with the LinuxBoot community.  
 
-`
 When you run `me_cleaner`
 
 `~/projects/linuxboot/me_cleaner/me_cleaner.py -s /tmp/rom.bin`
