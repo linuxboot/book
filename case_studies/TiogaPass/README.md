@@ -44,8 +44,16 @@ In near feature, the boot flow will be: power on --> Coreboot --> Linuxboot --> 
 ```
   git clone https://github.com/linuxboot/linuxboot.git
 ```
-* Build the kernel bzImage (has embeded initramfs) for linuxboot, please follow the 
-  **TBD guide** for how to build the bzImage.
+* You need to apply Wiwiynn's linuxboot patch for now
+```
+cd linuxboot
+wget -O TiogaPass.patch https://github.com/johnnylinwiwynn/linuxboot/commit/28ae8450b3b05c6e6b8c74e29d0974ccf711d5e6.patch
+git am TiogaPass.patch
+```
+* Build the kernel bzImage (has embeded initramfs) for linuxboot, please reference
+  [Building u-root](https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-u-root) and 
+  [Building a suitable Linux kernel](https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-a-suitable-linux-kernel)
+  for how to build the bzImage. You can always customize your Linux kernel configuration to suit your needs, please reference Wiwynn's kernel configuration file as a sample [linux_config](linux_config).
 * Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn after ordering, and also put your bzImage 
 to the root folder of linuxboot, and then make
 ```

@@ -11,39 +11,27 @@ background on the different aspects of LinuxBoot.
 
 ## Table of Contents
 
-| #   | Chapter |
-| --- | ------- |
-| 01  | **Introduction** |
-| [02](naming/README.md) | **Naming: coreboot, LinuxBoot, NERF... What?** |
-| [03](getting_started/README.md) | **Getting Started in 20 mins** |
-| 03a | &emsp; &emsp; Getting started on QEMU |
-| 03a | &emsp; &emsp; Getting started on hardware |
-| 04  | **LinuxBoot** |
-| 05  | **Minimal Linux Kernel** |
-| 06  | **The Initramfs** |
-| 06a | &emsp; &emsp; HEADS |
-| [06b](u-root/README.md) | **U-root: A Go-based, Firmware Embeddable Root File System** |
-| 07  | **UEFI** |
-| 07a | &emsp; &emsp; EDKII |
-| 07b | &emsp; &emsp; OVMF |
-| 08  | **Tools** |
-| 08a | &emsp; &emsp; UEFITool and UEFIReplace |
-| [08b](UEFI_Tool_Kit/README.md) | &emsp; &emsp; UEFI Tool Kit |
-| 08c | &emsp; &emsp; LinuxBoot Scripts (Trammell Hudson) |
-| 08d | &emsp; &emsp; FMAP tool |
-| 09  | **TPMs** |
-| 010  | **SecureBoot and BootGuard** |
-| [11](coreboot.u-root.systemboot/README.md)  | **coreboot, u-root and systemboot** |
-| 12  | **Arm + u-boot** |
-| [13](dut/README.md) | **DUT, Device Under Test framework** |
-| [14](cpu/README.md) | **CPU, wherever you go, there your files are** |
-| [15](case_studies/README.md) | **Case Studies** |
+|Chapter|&emsp; &emsp;Title|
+|:-----:|:--------------|
+| [1](README.md)|&emsp; &emsp;Overview and Table of Contents|
+| [2](intro/README.md)|&emsp; &emsp;LinuxBoot Introduction|
+| [3](components/README.md)|&emsp; &emsp;LinuxBoot Components|
+| [4](u-root/README.md)|&emsp; &emsp;All about u-root|
+| [5](cpu/README.md)|&emsp; &emsp;The magical cpu command|
+| [6](implementation/README.md)|&emsp; &emsp;Implementing LinuxBoot|
+| [7](glossary/README.md)|&emsp; &emsp;Glossary|
+| [8](naming/README.md) |&emsp; &emsp;Naming|
+| [9](case_studies/README.md)|&emsp; &emsp;Case Studies|
 
 ## Acknowledgments
 
-* Andrea Barberio
-* Johnny Lin
-* Jonathan Zhang
-* Philipp Deppenwiese
-* Ronald Minnich
-* Ryan O'Leary
+In alphabetical order:
+
+* [Andrea Barberio](https://github.com/insomniacslk)
+* [Gan Shun Lim](https://github.com/ganshun)
+* [Johnny Lin](https://github.com/johnnylinwiwynn)
+* [Jonathan Zhang](https://github.com/jonzhang-fb)
+* [Philipp Deppenwiese](https://github.com/zaolin)
+* [Prachi Laud](https://github.com/pallaud)
+* [Ronald Minnich](https://github.com/rminnich)
+* [Ryan O'Leary](https://github.com/rjoleary)
