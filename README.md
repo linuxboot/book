@@ -20,7 +20,8 @@ background on the different aspects of LinuxBoot.
 | [5](cpu/README.md)|&emsp; &emsp;The magical cpu command|
 | [6](implementation/README.md)|&emsp; &emsp;Implementing LinuxBoot|
 | [7](glossary/README.md)|&emsp; &emsp;Glossary|
-| [8](case_studies/README.md)|&emsp; &emsp;Case Studies|
+| [8](naming/README.md) |&emsp; &emsp;Naming|
+| [9](case_studies/README.md)|&emsp; &emsp;Case Studies|
 
 ## Acknowledgments
 
