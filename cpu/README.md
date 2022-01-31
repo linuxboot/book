@@ -473,24 +473,82 @@ repo and hence open to the world.
 
 Sometimes, you don’t want all the `/usr` and `/bin` directories to be replaced
 with those from your machine. You might, for example, `cpu` into an ARM system,
-and hence only need a `/home`, but nothing else. If you run `cpu -h`, you will
-see an interesting option:
+and hence only need a `/home`, but nothing else.
+
+The CPU_NAMESPACE is an optional environment variable that lets you control
+the namespace. It is structured somewhat like a path variable, with :-seperated
+components.
+
+This following example will cpu to an ARM64 host, sharing /home, but nothing else.
 
 ```
- -bindover string
-    	: separated list of directories in /tmp/cpu to bind over / (default "/lib:/lib64:/lib32:/usr:/bin:/etc:/home")
+CPU_NAMESPACE=/home cpu arm /bin/date
 ```
 
-What is `bindover`? It is passed from the `cpu` client to the `cpu` server and
-tells it how to construct the namespace. You might, for example, wish to not
-bind over `/etc`:
+For an different architecture system, we might want to specify that the /bin, /lib,
+and other directories have a different path on the remote than they have locally.
+The CPU_NAMESPACE allows this specifcation via an = sign:
 
 ```
-./cpu -bindover /lib:/lib64:/lib32:/usr:/bin:/home -key cpu_rsa localhost …
+CPU_NAMESPACE="/bin=/arm/bin:/usr=/arm/usr:/lib=/arm/lib:/home" cpu arm /bin/date
 ```
 
-In which case, the `/etc` on the `cpu` server will be used, not the `/etc` from
-the client.
+In this case, /bin, /usr, and /lib on the remote system are supplied by /arm/bin,
+/arm/lib, and /arm/usr locally.
+
+If we need to test cpu without doing mounts, we can specify a PWD that requires
+no mounts and an empty namespace:
+```
+CPU_NAMESPACE="" PWD=/ /bbin/ls
+CPU_NAMESPACE="" PWD=/ cpu h /bin/ls
+bbin
+bin
+buildbin
+dev
+env
+etc
+go
+home
+init
+...
+```
+
+### cpu and Docker
+
+Maintaining file system images is inconvenient.
+We can use Docker containers on remote hosts instead.
+We can take a standard Docker container and, with suitable options, use docker
+to start the container with cpu as the first program it runs.
+
+That means we can use any Docker image, on any architecture, at any time; and
+we can even run more than one at a time, since the namespaces are private.
+
+In this example, we are starting a standard Ubuntu image:
+```
+docker run -v /home/rminnich:/home/rminnich -v /home/rminnich/.ssh:/root/.ssh -v /etc/hosts:/etc/hosts --entrypoint /home/rminnich/go/bin/cpu -it ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486 h
+Unable to find image 'ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486' locally
+docker.io/library/ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486: Pulling from library/ubuntu
+a9ca93140713: Pull complete
+Digest: sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486
+Status: Downloaded newer image for ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486
+WARNING: The requested image's platform (linux/arm64/v8) does not match the detected host platform (linux/amd64) and no specific platform was requested
+1970/01/01 21:37:32 CPUD:Warning: mounting /tmp/cpu/lib64 on /lib64 failed: no such file or directory
+# ls
+bbin  buildbin	env  go    init     lib    proc  tcz  ubin  var
+bin   dev	etc  home  key.pub  lib64  sys	 tmp  usr
+#
+```
+
+Note that the image was update and then started. The /lib64 mount fails, because there is no /lib64 directory in the image, but
+that is harmless.
+
+On the local host, on which we ran docker, this image will show up in docker ps:
+```rminnich@a300:~$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
+b92a3576229b   ubuntu    "/home/rminnich/go/b…"   9 seconds ago   Up 9 seconds             inspiring_mcnulty
+````
+
+Even though the binaries themselves are running on the remote ARM system.
 
 <!-- Footnotes themselves at the bottom. -->
 ## Notes
