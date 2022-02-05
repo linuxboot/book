@@ -161,12 +161,12 @@ appliance.”
 The `bash` is not on the `cpu` node; it will come from our desktop via the 9p
 mount.
 
-```
-    rminnich@xcpu:~/gopath/src/github.com/u-root/u-root$ cpu apu2
-    root@(none):/# 
-    root@(none):/# ls ~ 
-    IDAPROPASSWORD  go      ida-7.2  projects
-    bin             gopath  papers   salishan2019random  snap
+```sh
+rminnich@xcpu:~/gopath/src/github.com/u-root/u-root$ cpu apu2
+root@(none):/# 
+root@(none):/# ls ~ 
+IDAPROPASSWORD  go      ida-7.2  projects
+bin             gopath  papers   salishan2019random  snap
     root@(none):/# exit
 ```
 
@@ -184,18 +184,18 @@ will come from the machine they are on, not their desktop.
 
 # An easy overview of how `cpu` works
 
-`Cpu`, as mentioned, consists of a client and a server. The client is on your
+`cpu`, as mentioned, consists of a client and a server. The client is on your
 desktop (or laptop), and the server is on the remote system. Both client and
 server use an `ssh` transport, meaning that the “wire” protocol is `ssh`. In
 this way, `cpu` is just like `ssh`.
 
 As mentioned above, the situation for `cpu` is a bit more complicated than for
-`ssh`. `Cpu` provides resource sharing, but not from the server to the client,
+`ssh`. `cpu` provides resource sharing, but not from the server to the client,
 but rather from the client to the server. The `cpu` client is a file server; the
 `cpu` server connects the kernel on the server machine to the file server in the
 client, as shown below. Things to note:
 
-1.  `Cpud`, on the remote or server machine, sets up a “private name space
+1.  `cpud`, on the remote or server machine, sets up a “private name space
     mount” of `/tmp` for the program. “Private name space mount” just means that
     only that program, and its children, can see what is in its private `/tmp`.
     Other, external programs continue to use `/tmp`, but they are _different_
@@ -221,7 +221,7 @@ client, as shown below. Things to note:
 
 <img src="../images/cpu_overview.svg" width=600px>
 
-### `Cpu` startup
+### `cpu` startup
 
 The startup proceeds in several steps. Every session begins with an initial
 contact from the `cpu` client to the `cpu` server.
@@ -324,7 +324,7 @@ We can set the local `cpu` up to talk to a remote `cpu` that needs different
 binaries. We might have an entire ARM file system tree in `~/arm`, for example.
 We would then invoke `cpu` as follows:
 
-```
+```sh
 cpu -root ~/arm date
 ```
 
@@ -332,23 +332,24 @@ And the remote `cpud`, running on an ARM, would be provided with ARM binaries.
 
 ## Learning how to use `cpu`
 
-`Cpu` can be a hard thing to learn, not because it is difficult, but because it
+`cpu` can be a hard thing to learn, not because it is difficult, but because it
 is different. To paraphrase Yoda, you have to unlearn what you have learned.
 Forget about copying files from here to there; when you `cpu` there, it looks
 like your files are waiting for you.
 
-You can start experimenting and learning about `cpu` by just running it locally.
+You can start experimenting and learning about `cpu` by just running it
+locally.
 
 ### A set of binaries for you to try
 
 In order for you to try it out, start by working with the set of `cpu` binaries
 at
 [https://github.com/u-root/cpubinaries](https://github.com/u-root/cpubinaries).
-With them, you can create a bootable, mountable USB image that you can download.
-The image contains a `cpu` client that runs on Linux, a private key, and, when
-booted, it starts a `cpu` daemon and waits to serve `cpu` clients. The `cpu`
-client is statically linked and hence should run on any Linux from the last 10
-years or so.
+With them, you can create a bootable, mountable USB image that you can
+download. The image contains a `cpu` client that runs on Linux, a private key,
+and, when booted, it starts a `cpu` daemon and waits to serve `cpu` clients.
+The `cpu` client is statically linked and hence should run on any Linux from
+the last 10 years or so.
 
 The binaries include:
 
@@ -357,16 +358,16 @@ The binaries include:
     config file (`cpu.config`).
 *   A binary client program, `cpu`, as well as the private key to use. You can
     place this key in `~/.ssh` or specify it via the `-key` option to `cpu`.
-*   A script to run the USB stick via `qemu` (`TESTQEMU`); and a script to run a
-    `cpu` command (`EXAMPLE`).
+*   A script to run the USB stick via `qemu` (`TESTQEMU`); and a script to run
+    a `cpu` command (`EXAMPLE`).
 *   The `extlinux.conf` used for the USB stick.
 
 `usbstick.xz` is a compressed USB stick image that is bootable. It will
-uncompress to about 7GB. You can use the `TESTQEMU` script to try it out, or use
-`dd` to write it to a USB stick and boot that stick on an x86 system.
+uncompress to about 7 GiB. You can use the `TESTQEMU` script to try it out, or
+use `dd` to write it to a USB stick and boot that stick on an x86 system.
 
-Be careful how you use the keys; they're public. You should really only use them
-as part of the demo.
+Be careful how you use the keys; they're public. You should really only use
+them as part of the demo.
 
 The `cpukernel` was built using the `github.com:linuxboot/mainboards` repo. If
 you clone this repo, the following commands will rebuild the kernel:
@@ -381,15 +382,15 @@ You’ll first need to start the server, and we show the entire sequence below,
 including unpacking the image:
 
 ```
-xz -d usbstick.xz
+$ xz -d usbstick.xz
 ```
 
 How you run `qemu` depends on whether you want graphics or not: if you are not
-in a windowing environment, add `-nographic` to the command below. In any event,
-at the `boot:` prompt, you can hit return or wait:
+in a windowing environment, add `-nographic` to the command below.
+In any event, at the `boot:` prompt, you can hit return or wait:
 
-```
-bash QEMU -hda usbstick
+```sh
+$ bash QEMU -hda usbstick
 
 SeaBIOS (version 1.13.0-1)
 iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+3FF90750+3FED0750 CA00
@@ -404,30 +405,29 @@ rodata_test: all tests were successful
 Run /init as init process
 ```
 
-
 At this point, the `cpu` daemon is running, and you can try the `cpu` command:
-
 
 ```
 rminnich@minnich:/home/cpubinaries$ ./cpu -key cpu_rsa localhost date
 Fri 16 Oct 2020 04:21:04 PM PDT
 ```
 
-
 You can log in and notice that things are the same:
 
-**rminnich@minnich**:**/home/cpubinaries**$ ./cpu -key cpu_rsa localhost
+```
+rminnich@minnich:/home/cpubinaries$ ./cpu -key cpu_rsa localhost
 
 root@192:/home/cpubinaries# ls
 
-**cpu** cpukernel cpu_rsa.pub **extlinux.conf** **QEMU** usbstick
+cpu cpukernel cpu_rsa.pub extlinux.conf QEMU usbstick
 
 cpu.config  cpu_rsa    EXAMPLE      LICENSE        README.md
 
 root@192:/home/cpubinaries#
+```
 
-Note that you end up in the same directory on the remote node that you are in on
-the host; all the files are there. We can run any program on the remote node
+Note that you end up in the same directory on the remote node that you are in
+on the host; all the files are there. We can run any program on the remote node
 that we have on the host:
 
 ```
@@ -460,44 +460,47 @@ node). Further, you can see mounts on `/usr`, `/bin`, `/etc`, and so on. For
 this reason, we can run `date` and it will find its needed libraries in `/usr`,
 as the `ldd` command demonstrates.
 
-### Making cpu easier to use
+### Making `cpu` easier to use
 
 If you get tired of typing `-keys`, do the following: put your own `cpu_rsa` in
 `~/.ssh`; and copy the `cpu` binary to `bin` (or build a new one).
 
 Warning! The `cpu` keys we provide in the repo are only to be used for this
-demo. You should not use them for any other purpose, as they are in a github
+demo. You should not use them for any other purpose, as they are in a GitHub
 repo and hence open to the world.
 
-### What if you don’t want all the name space?
+### What if you don’t want all the namespace?
 
 Sometimes, you don’t want all the `/usr` and `/bin` directories to be replaced
 with those from your machine. You might, for example, `cpu` into an ARM system,
 and hence only need a `/home`, but nothing else.
 
-The CPU_NAMESPACE is an optional environment variable that lets you control
-the namespace. It is structured somewhat like a path variable, with :-seperated
-components.
+The `CPU_NAMESPACE` is an optional environment variable that lets you control
+the namespace. It is structured somewhat like a path variable, with
+`:`-seperated components.
 
-This following example will cpu to an ARM64 host, sharing /home, but nothing else.
+This following example will `cpu` to an ARM64 host, sharing `/home`, but
+nothing else.
 
-```
+```sh
 CPU_NAMESPACE=/home cpu arm /bin/date
 ```
 
-For an different architecture system, we might want to specify that the /bin, /lib,
-and other directories have a different path on the remote than they have locally.
-The CPU_NAMESPACE allows this specifcation via an = sign:
+For a different architecture system, we might want to specify that the `/bin`,
+`/lib`, and other directories have a different path on the remote than they
+have locally.
+The `CPU_NAMESPACE` variable allows this specifcation via an `=` sign:
 
-```
+```sh
 CPU_NAMESPACE="/bin=/arm/bin:/usr=/arm/usr:/lib=/arm/lib:/home" cpu arm /bin/date
 ```
 
-In this case, /bin, /usr, and /lib on the remote system are supplied by /arm/bin,
-/arm/lib, and /arm/usr locally.
+In this case, `/bin`, `/usr`, and `/lib` on the remote system are supplied by
+`/arm/bin`, `/arm/lib`, and `/arm/usr` locally.
 
-If we need to test cpu without doing mounts, we can specify a PWD that requires
-no mounts and an empty namespace:
+If we need to test cpu without doing mounts, we can specify a `PWD` that
+requires no mounts and an empty namespace:
+
 ```
 CPU_NAMESPACE="" PWD=/ /bbin/ls
 CPU_NAMESPACE="" PWD=/ cpu h /bin/ls
@@ -513,19 +516,20 @@ init
 ...
 ```
 
-### cpu and Docker
+### `cpu` and Docker
 
-Maintaining file system images is inconvenient.
-We can use Docker containers on remote hosts instead.
-We can take a standard Docker container and, with suitable options, use docker
-to start the container with cpu as the first program it runs.
+Maintaining file system images is inconvenient. We can use Docker containers on
+remote hosts instead. We can take a standard Docker container and, with
+suitable options, use `docker` to start the container with `cpu` as the first
+program it runs.
 
 That means we can use any Docker image, on any architecture, at any time; and
 we can even run more than one at a time, since the namespaces are private.
 
 In this example, we are starting a standard Ubuntu image:
+
 ```
-docker run -v /home/rminnich:/home/rminnich -v /home/rminnich/.ssh:/root/.ssh -v /etc/hosts:/etc/hosts --entrypoint /home/rminnich/go/bin/cpu -it ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486 h
+$ docker run -v /home/rminnich:/home/rminnich -v /home/rminnich/.ssh:/root/.ssh -v /etc/hosts:/etc/hosts --entrypoint /home/rminnich/go/bin/cpu -it ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486 h
 Unable to find image 'ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486' locally
 docker.io/library/ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486: Pulling from library/ubuntu
 a9ca93140713: Pull complete
@@ -539,11 +543,14 @@ bin   dev	etc  home  key.pub  lib64  sys	 tmp  usr
 #
 ```
 
-Note that the image was update and then started. The /lib64 mount fails, because there is no /lib64 directory in the image, but
-that is harmless.
+Note that the image was update and then started. The `/lib64` mount fails,
+because there is no `/lib64` directory in the image, but that is harmless.
 
-On the local host, on which we ran docker, this image will show up in docker ps:
-```rminnich@a300:~$ docker ps
+On the local host, on which we ran Docker, this image will show up in
+`docker ps`:
+
+```
+rminnich@a300:~$ docker ps
 CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
 b92a3576229b   ubuntu    "/home/rminnich/go/b…"   9 seconds ago   Up 9 seconds             inspiring_mcnulty
 ````
