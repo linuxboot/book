@@ -478,6 +478,9 @@ and hence only need a `/home`, but nothing else.
 The CPU_NAMESPACE is an optional environment variable that lets you control
 the namespace. It is structured somewhat like a path variable, with :-seperated
 components.
+If it is empty, cpud will only mount the 9p server on /tmp/cpu. If CPU_NAMESPACE
+is not set in the environment, cpud will not expect a 9p server from the client
+and will not do a 9p mount on /tmp/cpu.
 
 This following example will cpu to an ARM64 host, sharing /home, but nothing else.
 
@@ -496,7 +499,7 @@ CPU_NAMESPACE="/bin=/arm/bin:/usr=/arm/usr:/lib=/arm/lib:/home" cpu arm /bin/dat
 In this case, /bin, /usr, and /lib on the remote system are supplied by /arm/bin,
 /arm/lib, and /arm/usr locally.
 
-If we need to test cpu without doing mounts, we can specify a PWD that requires
+If we need to test cpu without doing bind mounts, we can specify a PWD that requires
 no mounts and an empty namespace:
 ```
 CPU_NAMESPACE="" PWD=/ /bbin/ls
@@ -549,6 +552,57 @@ b92a3576229b   ubuntu    "/home/rminnich/go/b…"   9 seconds ago   Up 9 seconds
 ````
 
 Even though the binaries themselves are running on the remote ARM system.
+
+### cpu and virtiofs
+
+While 9p is very general, because it is *transport-independent*, there are cases where we can get much better performance by using a less general
+file system.
+One such case is with virtofs.
+
+Because virtiofs is purely from guest kernel vfs to host kernel vfs, via virtio transport, it has been measured to run at up to 100 times faster.
+
+We can use virtiofs by specifying virtiofs mounts. The cpud will look for an environemnt variable, CPU_FSTAB, which is in fstab(5) format. The client
+can specify an fstab in one of two ways:
+o via the -fstab switch, in which case the client will populate the CPU_FSTAB variable with the contents of the file
+o by passing the CPU_FSTAB environment variable, which happens by default
+
+On the client side, the file specified via the -fstab takes precedence over any value of the CPU_FSTAB environment variable. On the server side,
+cpud does not use the -fstab switch, only using the environment variable.
+
+Here is an example of using the CPU_FSTAB variable with one entry:
+```
+CPU_FSTAB="myfs /mnt virtiofs rw 0 0" cpu v
+```
+In this case, the virtiofs server had the name myfs, and on the remote side, virtiofs was mounted on /mnt.
+
+For the fstab case, the command looks like this:
+```
+cpu -fstab fstab v
+```
+The fstab in this case would be
+```
+myfs /mnt virtiofs rw 0 0
+```
+
+Note that both the environment variable and the fstab can have more than one entry, but they entries must be separate by newlines. Hence, this will
+not work:
+```
+CPU_FSTAB=`cat fstab` cpu v
+```
+as shells insist on converting newlines to spaces.
+
+The fstab can specify any file system. If there is a mount path to, e.g., Google drive, and it can be specified
+in fstab format, then cpu clients can use Google Drive files. Note, again, that these alternative mounts do not use the 9p server built in to
+the cpu client; they use the file systems provided on the cpu server machine.
+
+There are thus several choices for setting up the mounts
+* 9p support by the cpu client
+* 9p supported by the cpu client, with additional mounts via -fstab or CPU_NAMESPACE
+* 9p *without* any bind mounts, i.e. CPU_NAMESPACE="", in which case, on the remote machine, files from the client are visible in /tmp/cpu, but no bind mounts are done;
+  with additional mounts provided by fstab
+  mounts are provided
+* no 9p mounts at all, when CPU_NAMESPACE is not set in the environment; with optional additional mounts via fstab
+* if there are no 9p mounts, and no fstab mounts, cpu is equivalent to ssh.
 
 <!-- Footnotes themselves at the bottom. -->
 ## Notes
