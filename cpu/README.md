@@ -199,7 +199,7 @@ client, as shown below. Things to note:
     mount” of `/tmp` for the program. “Private name space mount” just means that
     only that program, and its children, can see what is in its private `/tmp`.
     Other, external programs continue to use `/tmp`, but they are _different_
-    instantions of `/tmp`.
+    instantiations of `/tmp`.
 2.  The private name space mount of `/tmp` is on a filesystem in RAM. The data
     stored in `/tmp` is not visible to other processes, and not persistent.
 3.  `cpud` creates a directory, `cpu`, in the private `/tmp`; and mounts the
@@ -546,7 +546,8 @@ Note that the image was update and then started. The /lib64 mount fails, because
 that is harmless.
 
 On the local host, on which we ran docker, this image will show up in docker ps:
-```rminnich@a300:~$ docker ps
+```
+rminnich@a300:~$ docker ps
 CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
 b92a3576229b   ubuntu    "/home/rminnich/go/b…"   9 seconds ago   Up 9 seconds             inspiring_mcnulty
 ````
