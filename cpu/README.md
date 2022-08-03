@@ -475,25 +475,24 @@ Sometimes, you don’t want all the `/usr` and `/bin` directories to be replaced
 with those from your machine. You might, for example, `cpu` into an ARM system,
 and hence only need a `/home`, but nothing else.
 
-The CPU_NAMESPACE is an optional environment variable that lets you control
+The -namespace switch lets you control
 the namespace. It is structured somewhat like a path variable, with :-seperated
-components.
-If it is empty, cpud will only mount the 9p server on /tmp/cpu. If CPU_NAMESPACE
-is not set in the environment, cpud will not expect a 9p server from the client
-and will not do a 9p mount on /tmp/cpu.
+components. The default value is ```/lib:/lib64:/usr:/bin:/etc:/home```. You can
+modify it or even force it to be empty: ```-namespace=""```, for example.
+If it is empty, cpud will only mount the 9p server on /tmp/cpu.
 
 This following example will cpu to an ARM64 host, sharing /home, but nothing else.
 
 ```
-CPU_NAMESPACE=/home cpu arm /bin/date
+cpu arm -namespace=/home /bin/date
 ```
 
 For an different architecture system, we might want to specify that the /bin, /lib,
 and other directories have a different path on the remote than they have locally.
-The CPU_NAMESPACE allows this specifcation via an = sign:
+The -namespace switch allows this via an = sign:
 
 ```
-CPU_NAMESPACE="/bin=/arm/bin:/usr=/arm/usr:/lib=/arm/lib:/home" cpu arm /bin/date
+cpu -namespace /lib:/lib64:/usr:/bin:/etc:/home arm /bin/date
 ```
 
 In this case, /bin, /usr, and /lib on the remote system are supplied by /arm/bin,
@@ -502,8 +501,7 @@ In this case, /bin, /usr, and /lib on the remote system are supplied by /arm/bin
 If we need to test cpu without doing bind mounts, we can specify a PWD that requires
 no mounts and an empty namespace:
 ```
-CPU_NAMESPACE="" PWD=/ /bbin/ls
-CPU_NAMESPACE="" PWD=/ cpu h /bin/ls
+PWD=/ cpu -namespace="" -9p=false h /bin/ls
 bbin
 bin
 buildbin
@@ -515,6 +513,27 @@ home
 init
 ...
 ```
+
+There is a bit of a subtlety about the interaction of the namespace and 9p switches,
+which we are still discussing: the -namespace value can override the -9p switch.
+
+If you set -9p=false but have a non-empty namespace variable, then 9p will be set to
+true. So in this example, the -9p switch has no effect:
+```
+cpu -9p=false h ls
+```
+Why is this? Because the default value of -namespace is non-empty.
+The open question: should -9p=false force the namespace to be empty;
+or should a none-empty namespace for -9p to be true? For now, we have chosen
+the latter approach.
+
+Another possible approach is to log conflicting settings of these two switches
+and exit:
+```
+cpu -9p=false h ls
+error: 9p is false but the namespace is non-empty; to force an empty namespace use -namespace=""
+```
+We welcome comments on this issue.
 
 ### cpu and Docker
 
@@ -598,11 +617,11 @@ the cpu client; they use the file systems provided on the cpu server machine.
 
 There are thus several choices for setting up the mounts
 * 9p support by the cpu client
-* 9p supported by the cpu client, with additional mounts via -fstab or CPU_NAMESPACE
-* 9p *without* any bind mounts, i.e. CPU_NAMESPACE="", in which case, on the remote machine, files from the client are visible in /tmp/cpu, but no bind mounts are done;
+* 9p supported by the cpu client, with additional mounts via -fstab or -namespace
+* 9p *without* any bind mounts, i.e. -9p=false -namespace "", in which case, on the remote machine, files from the client are visible in /tmp/cpu, but no bind mounts are done;
   with additional mounts provided by fstab
   mounts are provided
-* no 9p mounts at all, when CPU_NAMESPACE is not set in the environment; with optional additional mounts via fstab
+* no 9p mounts at all, when -namespace="" -9p=false; with optional additional mounts via fstab
 * if there are no 9p mounts, and no fstab mounts, cpu is equivalent to ssh.
 
 <!-- Footnotes themselves at the bottom. -->
