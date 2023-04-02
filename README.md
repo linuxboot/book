@@ -19,9 +19,11 @@ background on the different aspects of LinuxBoot.
 | [4](u-root/README.md)|&emsp; &emsp;All about u-root|
 | [5](cpu/README.md)|&emsp; &emsp;The magical cpu command|
 | [6](implementation/README.md)|&emsp; &emsp;Implementing LinuxBoot|
+| [6a](coreboot.u-root.systemboot/README.md)|&emsp; &emsp;LinuxBoot using coreboot, u-root and systemboot|
 | [7](glossary/README.md)|&emsp; &emsp;Glossary|
 | [8](naming/README.md) |&emsp; &emsp;Naming|
 | [9](case_studies/README.md)|&emsp; &emsp;Case Studies|
+| [10](faq/README.md)|&emsp; &emsp;Frequently Asked Questions|
 
 ## Acknowledgments
 
