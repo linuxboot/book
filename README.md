@@ -17,7 +17,10 @@ background on the different aspects of LinuxBoot.
 | [2](intro/README.md)|&emsp; &emsp;LinuxBoot Introduction|
 | [3](components/README.md)|&emsp; &emsp;LinuxBoot Components|
 | [4](u-root/README.md)|&emsp; &emsp;All about u-root|
-| [5](cpu/README.md)|&emsp; &emsp;The magical cpu command|
+| [5](utilities/README.md)|&emsp; &emsp;LinuxBoot utilities|
+| [5a](UEFI_Tool_Kit/README.md)|&emsp; &emsp;UEFI Tool Kit|
+| [5b](cpu/README.md)|&emsp; &emsp;The magical cpu command|
+| [5c](dut/README.md)|&emsp; &emsp;Device Under Test|
 | [6](implementation/README.md)|&emsp; &emsp;Implementing LinuxBoot|
 | [6a](coreboot.u-root.systemboot/README.md)|&emsp; &emsp;LinuxBoot using coreboot, u-root and systemboot|
 | [7](glossary/README.md)|&emsp; &emsp;Glossary|
