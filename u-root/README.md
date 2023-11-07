@@ -1,6 +1,6 @@
 # All about u-root
 
-U-root is an embeddable root file system intended to be placed in a FLASH device as part of the firmware image, along with a Linux kernel. The program source code is installed in the root file system contained in the firmware FLASH part and compiled on demand. All the u-root utilities, roughly corresponding to standard Unix utilities, are written in Go, a modern, type-safe language with garbage collection and language-level support for concurrency and inter-process communication.
+U-root is an embeddable root file system intended to be placed in a flash device as part of the firmware image, along with a Linux kernel. The program source code is installed in the root file system contained in the firmware flash part and compiled on demand. All the u-root utilities, roughly corresponding to standard Unix utilities, are written in Go, a modern, type-safe language with garbage collection and language-level support for concurrency and inter-process communication.
 
 Unlike most embedded root file systems, which consist largely of binaries, u-root has only 5: an init program and 4 Go compiler binaries. When a program is first run, it, and any not-yet-built packages it uses are compiled to a RAM-based file system. The first invocation of a program takes a fraction of a second, as it is compiled. Packages are only compiled once, so the slowest build is always the first one, on boot, which takes about 3 seconds. Subsequent invocations are very fast, usually a millisecond or so.
 
@@ -9,15 +9,15 @@ U-root blurs the line between script-based distros such as Perl Linux[24] and bi
 
 ## U-root and embedded systems
 
-Embedding kernels and root file systems in BIOS FLASH is a common technique for gaining boot time performance and platform customization[25][14][23]. Almost all new firmware includes a multiprocess operating system with a full complement of file systems, network drivers, and protocol stacks, all contained in an embedded file system. In some cases, the kernel is only booted long enough to boot another kernel. In others, the kernel that is booted and the file system it contains constitute the operational environment of the device[15]. These so-called “embedded root file systems” also contain a set of standard Unix-style programs used for both normal operation and maintenance. Space on the device is at a premium, so these programs are usually written in C using the BusyBox toolkit[26], or in an interpretive language such as Perl[24] or Forth. BusyBox in particular has found wide usage in embedded appliance environments, as the entire root file system can be contained in under one MiB.
+Embedding kernels and root file systems in BIOS flash is a common technique for gaining boot time performance and platform customization[25][14][23]. Almost all new firmware includes a multiprocess operating system with a full complement of file systems, network drivers, and protocol stacks, all contained in an embedded file system. In some cases, the kernel is only booted long enough to boot another kernel. In others, the kernel that is booted and the file system it contains constitute the operational environment of the device[15]. These so-called “embedded root file systems” also contain a set of standard Unix-style programs used for both normal operation and maintenance. Space on the device is at a premium, so these programs are usually written in C using the BusyBox toolkit[26], or in an interpretive language such as Perl[24] or Forth. BusyBox in particular has found wide usage in embedded appliance environments, as the entire root file system can be contained in under one MiB.
 
 Embedded systems, which were once standalone, are now almost always network connected. Network connected systems face a far more challenging security environment than even a few years ago. In response to the many successful attacks against shell interpreters[11] and C programs[8], we have started to look at using a more secure, modern language in embedded root file systems, namely, Go[21][16].
 
 Go is a new systems programming language created by Google. Go has strong typing; language level support for concurrency; inter-process communication via channels, a la Occam[13], Limbo[17], and Alef[27]; runtime type safety and other protective measures; dynamic allocation and garbage collection; closures; and a package syntax, similar to Java, that makes it easy to determine what packages a given program needs. The modern language constructs make Go a much safer language than C. This safety is critical for network-attached embedded systems, which usually have network utilities written in C, including web servers, network servers including sshd, and programs that provide access to a command interpreter, itself written in C. All are proving to be vulnerable to the attack-rich environment that the Internet has become. Buffer overflow attacks affecting C-based firmware code (among other things) in 2015 include GHOST and the so-called FSVariable.c bug in Intel’s UEFI firmware. Buffer overflows in Intel’s UEFI and Active Management Technology (AMT) have also been discovered in several versions in recent years.
 
-Both UEFI[12] and AMT[4] are embedded operating systems, loaded from FLASH that run network-facing software. Attacks against UEFI have been extensively studied[9]. Most printers are network-attached and are a very popular exploitation target[6]. Firmware is not visible to most users and is updated much less frequently (if at all) than programs. It is the first software to run, at power on reset. Exploits in firmware are extremely difficult to detect, because firmware is designed to be as invisible as possible. Firmware is extremely complex; UEFI is roughly equivalent in size and capability to a Unix kernel. Firmware is usually closed and proprietary, with nowhere near the level of testing of kernels. These properties make firmware an ideal place for so-called advanced persistent threats[10][18][5]. Once an exploit is installed, it is almost impossible to remove, since the exploit can inhibit its removal by corrupting the firmware update process. The only sure way to mitigate a firmware exploit is to destroy the hardware.
+Both UEFI[12] and AMT[4] are embedded operating systems, loaded from flash that run network-facing software. Attacks against UEFI have been extensively studied[9]. Most printers are network-attached and are a very popular exploitation target[6]. Firmware is not visible to most users and is updated much less frequently (if at all) than programs. It is the first software to run, at power on reset. Exploits in firmware are extremely difficult to detect, because firmware is designed to be as invisible as possible. Firmware is extremely complex; UEFI is roughly equivalent in size and capability to a Unix kernel. Firmware is usually closed and proprietary, with nowhere near the level of testing of kernels. These properties make firmware an ideal place for so-called advanced persistent threats[10][18][5]. Once an exploit is installed, it is almost impossible to remove, since the exploit can inhibit its removal by corrupting the firmware update process. The only sure way to mitigate a firmware exploit is to destroy the hardware.
 
-U-root is an excellent option for embedded systems. U-root contains only 5 binaries, 4 of them from the Go toolchain, and the 5th is an init binary. The rest of the programs are contained in BIOS FLASH in source form, including packages. The search path is arranged so that when a command is invoked, if it is not in `/bin`, an installer is invoked instead which compiles the program into `/bin`. If the build succeeds, the command is executed. This first invocation takes a fraction of a second, depending on program complexity. After that, the RAM-based, statically linked binaries run in about a millisecond. Scripts are written in Go, not a shell scripting language, with two benefits: the shell can be simple, with fewer corner cases, and the scripting environment is substantially improved since Go is more powerful than most shell scripting languages, but also less fragile and less prone to parsing bugs.
+U-root is an excellent option for embedded systems. U-root contains only 5 binaries, 4 of them from the Go toolchain, and the 5th is an init binary. The rest of the programs are contained in BIOS flash in source form, including packages. The search path is arranged so that when a command is invoked, if it is not in `/bin`, an installer is invoked instead which compiles the program into `/bin`. If the build succeeds, the command is executed. This first invocation takes a fraction of a second, depending on program complexity. After that, the RAM-based, statically linked binaries run in about a millisecond. Scripts are written in Go, not a shell scripting language, with two benefits: the shell can be simple, with fewer corner cases, and the scripting environment is substantially improved since Go is more powerful than most shell scripting languages, but also less fragile and less prone to parsing bugs.
 
 ## U-root design
 
@@ -25,7 +25,7 @@ The u-root boot image is a build toolchain and a set of programs in source form.
 
 Since the init program itself is only 132 lines of code and is easy to change, the structure is very flexible and allows for many use cases, for example:
 
-*   Additional binaries: if the 3 seconds it takes to get to a shell is too long (some applications such as automotive computing require 800 ms startup time), and there is room in FLASH, some programs can be precompiled into /bin.
+*   Additional binaries: if the 3 seconds it takes to get to a shell is too long (some applications such as automotive computing require 800 ms startup time), and there is room in flash, some programs can be precompiled into /bin.
 *   Build it all on boot: if on-demand compilation is not desired, a background thread in the init process can build all the programs on boot.
 *   Selectively remove binaries after use: if RAM space is at a premium, once booted, a script can remove everything in `/bin`. Utilities or commands that are used will be rebuilt on demand.
 *   Always build on demand: run in a mode in which programs are never written to `/bin` and always rebuilt on demand. This is a very practical option given that program compilation is so fast.
@@ -284,7 +284,7 @@ computer science.
 Slimline Open Firmware (SLOF)[7] is a FORTHbased implementation of Open Firmware developed by
 IBM for some of its Power and Cell processors. SLOF is
 capable of storing all of Open Firmware as source in the
-FLASH memory and compiling components to indirect
+flash memory and compiling components to indirect
 threading on demand[2].
 
 In the last few decades, as our compiler infrastructure
@@ -299,12 +299,12 @@ Java takes the process one step further with the Just In
 Time compilation of byte code to machine code[20] to
 boost performance.
 
-## Embedding kernel and root file systems in FLASH
+## Embedding kernel and root file systems in flash
 
 The LinuxBIOS project[14][1], together with
 clustermatic[25], used an embedded kernel and simple
 root file system to manage supercomputing clusters. Due
-to space constraints of 1 MiB or less of FLASH, clusters
+to space constraints of 1 MiB or less of flash, clusters
 embedded only a single-processor Linux kernel with a
 daemon. The daemon was a network bootloader that
 downloaded a more complex SMP kernel and root file
@@ -317,7 +317,7 @@ Early versions of One Laptop Per Child used LinuxBIOS, with Linux in flash as a 
 the eventual target. This system was very handy, as they
 were able to embed a full WIFI stack in flash with Linux,
 and could boot test OLPC images over WIFI. The continuing growth of the Linux kernel, coupled with the small
-FLASH size on OLPC, eventually led OLPC to move to
+flash size on OLPC, eventually led OLPC to move to
 Open Firmware.
 
 AlphaPower shipped their Alpha nodes with a so-called Direct Boot Linux, or DBLX. This work was
@@ -326,15 +326,15 @@ sourceforge.net just as AlphaPower went out of business.
 Compaq also worked with a Linux-As-Bootloader for the
 iPaq.
 
-Car computers and other embedded ARM systems frequently contain a kernel and an ext2 formatted file system in NOR FLASH, that is, FLASH that can be treated as
+Car computers and other embedded ARM systems frequently contain a kernel and an ext2 formatted file system in NOR flash, that is, flash that can be treated as
 memory instead of a block device. Many of these kernels use the so-called eXecute In Place[3] (XIP) patch,
 which allows the kernel to page binaries directly from
-the memory-addressable FLASH rather than copying it
+the memory-addressable flash rather than copying it
 to RAM, providing a significant savings in system startup
 time. A downside of this approach is that the executables can not be compressed, which puts further pressure
-on the need to optimize binary size. NOR FLASH is
+on the need to optimize binary size. NOR flash is
 very slow, and paging from it comes at a significant performance cost. Finally, an uncompressed binary image
-stored in NOR FLASH has a much higher monetary cost
+stored in NOR flash has a much higher monetary cost
 than the same image stored in RAM since the cost per bit
 is so much higher.
 
@@ -344,14 +344,14 @@ network protocol stacks, and command binaries in the
 firmware image. It is a full operating system environment realized as firmware.
 
 The ONIE project[23] is a more recent realization of
-the Kernel-in-FLASH idea, based on Linux. ONIE packs
+the Kernel-in-flash idea, based on Linux. ONIE packs
 a Linux kernel and Busybox binaries into a very small
 package. Since the Linux build process allows an initial RAM file system (initramfs) to be built directly into
 the kernel binary, some companies are now embedding
-ONIE images into FLASH with coreboot. Sage Engineering has shown a bzImage with a small Busybox
+ONIE images into flash with coreboot. Sage Engineering has shown a bzImage with a small Busybox
 packed into a 4M image. ONIE has brought new life to
 an old idea: packaging a kernel and small set of binaries
-in FLASH to create a fast, capable boot system.
+in flash to create a fast, capable boot system.
 
 ## References
 
