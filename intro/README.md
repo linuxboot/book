@@ -11,7 +11,7 @@ This is the official “LinuxBoot Book” for the LinuxBoot project. The book:
 
 ## What is LinuxBoot?
 
-LinuxBoot is a project that aims to replace specific [firmware](glossary/README.md) functionality with a Linux kernel and runtime. Over the years this project has grown to include various initiatives with the overarching goal of moving from obscure, complex firmware to simpler, open source firmware.
+LinuxBoot is a project that aims to replace specific [firmware](../glossary/README.md) functionality with a Linux kernel and runtime. Over the years this project has grown to include various initiatives with the overarching goal of moving from obscure, complex firmware to simpler, open source firmware.
 
 The goal of LinuxBoot is to reduce the role of firmware to a small, fixed-function core whose only purpose is to get a flash-based Linux kernel started. This “bare essentials” firmware prepares the hardware and starts a Linux kernel and a userland environment will run on the machine. Go is the recommended userland environment, but is not required.
 
