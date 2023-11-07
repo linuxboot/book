@@ -167,7 +167,7 @@ Builtins in the shell are defined by a name and a function. One or more builtins
 
 Figure 1 and Figure 2 below show the shell builtin for time.
 
-```
+```go
 // Package main is the 'root' of the package hierarchy for a program.
 // This code is part of the main program, not another package,
 // and is declared as package main.
@@ -202,8 +202,7 @@ func init () {
 
 **Figure 1**: The code for the time builtin, Part I: setup
 
-```
-
+```go
 // The timecmd function is passed the name of a command to run,
 // optional arguments, and returns an error. It:
 // - gets the starttime using Now from the time package
