@@ -15,6 +15,7 @@ background on the different aspects of LinuxBoot.
 |:-----:|:--------------|
 | [1](README.md)|&emsp; &emsp;Overview and Table of Contents|
 | [2](intro/README.md)|&emsp; &emsp;LinuxBoot Introduction|
+| [2a](getting_started/README.md)|&emsp; &emsp;Getting Started|
 | [3](components/README.md)|&emsp; &emsp;LinuxBoot Components|
 | [4](u-root/README.md)|&emsp; &emsp;All about u-root|
 | [5](utilities/README.md)|&emsp; &emsp;LinuxBoot utilities|
