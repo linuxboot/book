@@ -37,7 +37,7 @@ qemu-system-x86_64 -machine q35 -nographic -append "console=ttyS0" \
 
 You will see the following:
 ```
-Probing EDD (edd=off to disable)... ok
+[... varying message or two depending on qemu version and OS]
 2023/12/12 22:37:52 Welcome to u-root!
                               _
    _   _      _ __ ___   ___ | |_
