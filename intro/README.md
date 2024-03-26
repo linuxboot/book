@@ -67,14 +67,7 @@ Flexibility
 
 *   Can be used with coreboot, u-boot, OpenPOWER Abstraction Layer (OPAL), SlimBootLoader, ARM Trusted Firmware (ATF)
 *   Can boot multiple operating systems (Linux, Berkeley UNIX (BSD), XEN, Windows)
-*   Supports the following server mainboards:
-    *   QEMU emulated Q35 systems
-    *   [Intel S2600WF](https://trmm.net/S2600wf)
-    *   [Dell R630](https://trmm.net/NERF)
-    *   Winterfell Open Compute node
-    *   Leopard Open Compute node
-    *   Tioga Pass Open Compute node
-    *   Monolake Open Compute node (not tested)
+*   Supports the following server [mainboards.](https://github.com/linuxboot/mainboards)
 
 Boot speed
 
