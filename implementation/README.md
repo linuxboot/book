@@ -6,8 +6,8 @@ that functionality into kernel and userspace.
 This chapter describes the procedures from a [LinuxBoot
 workshop](https://docs.google.com/presentation/d/1s9ka4v7leKeJa3116AQoNb9cv3OqmnW6pgn0ov9WiHo/edit?ts=5e2b227b#slide=id.g7ceec54197_4_163)
 where an Atomic Pi board with UEFI firmware was converted to run LinuxBoot. The
-build materials associated with this are found at
-[digitalloggers/atomicpi](https://github.com/linuxboot/mainboards/tree/master/digitalloggers/atomicpi).
+build materials associated with this are found at [Digital Loggers Atomic Pi
+`mainboard` directory](https://github.com/linuxboot/mainboards/tree/master/digitalloggers/atomicpi).
 
 Read the below and consult the Makefile for the details of how it was
 implemented.
@@ -20,7 +20,7 @@ UEFI has three sections:
 + PEI ("Very early chip setup and DRAM programming")
 + DXE ("DRAM code")
 
-DXE process is very complex; some systems have 750 DXEs.
+The DXE phase is very complex; some systems have 750 DXEs.
 
 LinuxBoot replaces most of the UEFI software with Linux. LinuxBoot has an
 initramfs provided by [u-root](../u-root/README.md).
@@ -41,10 +41,10 @@ memory and is used to implement "BootGuard". If you reflash and the ME is in
 Start with a board running standard UEFI and proceed from "zero changes to
 FLASH" to "max changes" in 4 steps:
 
-+ Boot from USB stick via UEFI shell command _or_ netboot (zero changes)
++ Boot from USB stick via UEFI shell command _or_ NetBoot (zero changes)
 + Find a way to read flash and write flash
 + Understand the flash layout
-+ Prepare linux kernel and initrd/initramfs payload.
++ Prepare Linux kernel and initrd/initramfs payload.
 + Replace UEFI Shell code section with Linux kernel and associated initrd
   (change part of one thing)
 + Remove as many DXEs as possible (change by removal). This change:
@@ -65,7 +65,9 @@ There are two tools you use when you modify the UEFI flash image: `utk` and
 
 The ME Cleaner tool:
 
- `/usr/bin/python2 me_cleaner.py -s` _imagefile.bin_
+```
+/usr/bin/python2 me_cleaner.py -s <imagefile.bin>
+```
 
 `me_cleaner` sets the high assurance platform (HAP) bit. HAP provides a way to
 disable a feature on Intel chips that does not allow us to modify the UEFI
@@ -107,10 +109,10 @@ The `utk` tool can:
 
 ## LinuxBoot Implementation steps
 
-### Step 1: boot Linux via netboot / UEFI shell
+### Step 1: boot Linux via NetBoot / UEFI shell
 
-+ netboot: standard BIOS-based PXE boot
-  + Netboot is probably the most common working boot method on UEFI
++ NetBoot: standard BIOS-based PXE boot
+  + NetBoot is probably the most common working boot method on UEFI
   + We have never seen a system that did not have a net boot
 + UEFI Shell (mentioned only for completeness)
   + Install Linux on FAT-32 media with a name of your choice (e.g. "kernel")
@@ -135,9 +137,9 @@ Data is provided by TFTP. HTTP downloading takes a fraction of a second even
 for 16M kernels. With TFTP it's very slow and TFTP won't work with initramfs
 much large than 32MiB. Most LinuxBoot shops use or are transitioning to HTTP.
 
-Note: Boot images require a kernel(bzImage) + an initramfs + a command line.
-They can be loaded as three pieces or compiled and loaded as one piece, as
-described in this section.
+Note: Boot images require a kernel (e.g. `bzImage`) + an initramfs + a command
+line.  They can be loaded as three pieces or compiled and loaded as one piece,
+as described in this section.
 
 ### Step 2: read & write the flash
 
@@ -158,17 +160,17 @@ to.
 
 ### Step 3: Familiarise yourself with the flash layout and identify free space
 
-Open your flash image with UEFITool, and locate the filesystem containing the
-DXE's (it will have the Shell or `Shell_Full` in it ). Check how much volume free
-space is in that filesystem - this will be an initial limit when you come to
-place your kernel and initramfs in it in step 5.
+Open your flash image with `UEFITool`, and locate the filesystem containing the
+DXE's (it will have the Shell or `Shell_Full` in it ). Check how much volume
+free space is in that filesystem - this will be an initial limit when you come
+to place your kernel and initramfs in it in step 5.
 
-### Step 4: Prepare linux/u-root payload
+### Step 4: Prepare Linux/u-root payload
 
 Start small and work your way up.
 
-+ Use the tiny.config to configure your first kernel, and embed a small
-  initramfs in-kernel (the u-root cpu payload is an excellent starting point).
++ Use the `tiny.config` to configure your first kernel, and embed a small
+  initramfs in-kernel (the u-root CPU payload is an excellent starting point).
 + One can have a full kernel/initramfs in around 2M of flash.
 + A more full featured kernel might consume 2M and a u-root bb distribution 4M,
   which may well exceed the volume free space.
@@ -194,17 +196,17 @@ Start small and work your way up.
 
 + You can do an initial mass removal based on your current knowledge
 + `utk` automates removing DXEs: this is the DXE cleaner
-  + `utk` removes a DXE, reflashes, checks if it boots, repeat
+  + `utk` removes a DXE, flashes a new DXE, checks if it boots, repeat
     This part should be easy: DXE can have a dependency section. In practice,
     it's hard: because dependency sections are full of errors and omissions. A lot
     of UEFI code does not check for failed DXE loads.
 
 ### Step 6b: place your initramfs in me_cleaned region
 
-+ Run `me_cleaner` and then utk tighten on the source image, then inspect the
-  image using UEFITool. If successful, there will now be padding at the
++ Run `me_cleaner` and then `utk` tighten on the source image, then inspect the
+  image using `UEFITool`. If successful, there will now be padding at the
   beginning of the BIOS region of a substantial size.
-+ This padding space can be used, without the filesystem's knowledge, to stash
++ This padding space, which is unknown to the filesystem, can be used to stash
   an initramfs. The kernel is informed of the location this initramfs as an
   initrd kernel parameter.
   + Use the base address of this padding region to calculate the offset in
@@ -216,9 +218,9 @@ Start small and work your way up.
 
 + If you can build a DXE from source, you can use `utk` to remove the
   proprietary one and replace it with one built from source. You can get DXE
-  source from the tianocore/EDK2 source repo at github.com. The GitHub repo has a
-  **_limited_** number of DXEs in source form; i.e., you can't build a full
-  working image using it.
+  source from the tianocore/EDK2 source repository on GitHub. The GitHub
+  repository has a **_limited_** number of DXEs in source form; i.e., you can't
+  build a full working image using it.
 + There are scripts that let you compile individual DXEs, including the UEFI
   Shell and Boot Device Selection (BDS). These two DXEs have been compiled and
   are used in the Atomic Pi. Source-based BDS was needed to ensure the UEFI
@@ -227,7 +229,7 @@ Start small and work your way up.
 
 ### Final step: reflash the image
 
-+ "Native" reflash: Boot the system whatever way is easiest: netboot, usb,
++ "Native" reflash: Boot the system whatever way is easiest: NetBoot, USB,
   local disk, and run `flashrom -p internal -w _filename.bin_` where
   _filename.bin_ is a filename of your choosing.
 + Run `flashrom` with an external device such as an sf100. There may be a
