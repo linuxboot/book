@@ -15,6 +15,7 @@ Run these commands in a directory you create or in /tmp; do so because it create
 
 This produces a coreboot image in coreboot-4.9/build/coreboot.rom
 You can now run this rom image:
+
 	$  qemu-system-x86_64 -serial stdio -bios coreboot-4.9/build/coreboot.rom
 
 And see how it looks when you put this in a coreboot ROM image.
