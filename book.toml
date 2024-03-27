@@ -1,0 +1,6 @@
+[book]
+authors = ["LinuxBoot authors"]
+language = "en"
+multilingual = false
+src = "src"
+title = "LinuxBoot"

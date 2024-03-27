@@ -4,7 +4,7 @@ Google runs workloads across a number of clusters each with up to tens of
 thousands of machines. Firmware runs on these machines when they first start
 up. Google is pushing the state-of-the-art in many places including firmware.
 The discussion here about Google's implementation of LinuxBoot is limited to
-replacing specific UEFI [firmware](https://github.com/linuxboot/book/blob/master/intro/glossary/README.md)
+replacing specific UEFI [firmware](../glossary.md)
 functionality with a Linux kernel and runtime. Over the years this project
 has grown to include various initiatives with the overarching goal of moving
 from obscure, complex firmware to simpler, open source firmware.
@@ -35,7 +35,7 @@ In UEFI systems, LinuxBoot consists of a "full stack" solution
 of stripped-down UEFI firmware, a Linux kernel, and an initramfs with
 tools written in Go. Although these components all make up one bundle
 stored in ROM, there are three parts: the closed-source EFI firmware,
-a Linux kernel, and [u-root](../../u-root/README.md). The Linux kernel is
+a Linux kernel, and [u-root](../u-root.md). The Linux kernel is
 an unmodified kernel.  The user-space initramfs image with Go tools
 for system booting is available as u-root. Due to this modularity,
 LinuxBoot can be used with a variety of systems. In many cases,
@@ -86,26 +86,26 @@ Step 1. Reduce or replace UEFI components
    The dark <span style="color:blue">blue</span> items on the left
    cannot be changed.
 
-<img src="../../images/Case-study-step1.svg" width=600px>
+<img src="../images/Case-study-step1.svg" width=600px>
 
 In the real FLASH part, the SEC and PEI are actually only 10% of total,
 so we reduce the size of those boxes in this and following diagrams.
 
-<img src="../../images/Case-study-step1a.svg" width=600px>
+<img src="../images/Case-study-step1a.svg" width=600px>
 
 Another part of the conversion process was to modify the UEFI boot
 process to boot a LinuxBoot image as shown below.
 
-<img src="../../images/Case-study-step1b.svg" width=600px>
+<img src="../images/Case-study-step1b.svg" width=600px>
 
 Step 2. Delete or replace as many proprietary DXEs as required to make
    step 3 work. In most cases, none need to be removed.
 
-<img src="../../images/Case-study-step2.svg" width=600px>
+<img src="../images/Case-study-step2.svg" width=600px>
 
 Step 3. Replace the UEFI shell with a Linux kernel + u-root
 
-<img src="../../images/Case-study-step3.svg" width=600px>
+<img src="../images/Case-study-step3.svg" width=600px>
 
 When Linux boots it needs a root file system with utilities.
 LinuxBoot provides a file system based on u-root standard
@@ -132,7 +132,7 @@ Step 4. Through trial and error, continue to remove DXEs until you
       other controls, and there is no chance of ever bringing
       them to open source.
 
-<img src="../../images/Case-study-step4.svg" width=600px>
+<img src="../images/Case-study-step4.svg" width=600px>
 
 Step 5. Replace closed source DXEs with open source
 
@@ -141,7 +141,7 @@ If we can build a DXE from source, we can use `utk` to:
 *  Remove the proprietary one
 *  Replace it with one built from source
 
-<img src="../../images/Case-study-step5.svg" width=600px>
+<img src="../images/Case-study-step5.svg" width=600px>
 
 Step 6. Next steps: complete LinuxBoot
 
@@ -155,5 +155,5 @@ does the following:
 
 The complete LinuxBoot solution is shown in the following diagram.
 
-<img src="../../images/Case-study-step6.svg" width=600px>
+<img src="../images/Case-study-step6.svg" width=600px>
 
