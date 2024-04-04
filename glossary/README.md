@@ -23,8 +23,8 @@
 - ___DHCP___: A networking protocol that runs on a DHCP server and that
   automatically assigns an IP address from a pre-configured pool to any machine
   that queries it on boot up.
-- ___EDK II___: An open source reference implementation of an UEFI-compliant
-  firmware, originally developed by Intel (see https://github.com/tianocore/edk2)
+- [___EDK II___](https://github.com/tianocore/edk2): An open source reference
+  implementation of an UEFI-compliant firmware, originally developed by Intel
 - ___firmware___: A specific class of computer software that provides low-level
   control for a device's specific hardware. It is installed at the time of
   manufacturing and is the first program that runs when a computer is turned
@@ -32,9 +32,10 @@
   the components up, and hands them over to the operating system that is to be
   installed on the machine. The current x86 firmware is based on Intel’s
   Universal Extensible Firmware Interface (UEFI).
-- ___Heads____: An open source firmware for laptops and servers, aimed at
-  strong platform security. Developed by Trammell Hudson, based on stripped
-  UEFI plus Linux, and BusyBox instead of u-root. More info at https://trmm.net/Heads.
+- [___Heads____](https://github.com/linuxboot/heads): An open source firmware
+  for laptops and servers, aimed at strong platform security. Developed by
+  Trammell Hudson, based on stripped UEFI plus Linux, and BusyBox instead of
+  u-root.
 - ___iSCSI____: A protocol that provides a way to make network-attached storage
   appear to be a local device to the hosts using it, allowing it to be (among
   other things) mounted as a regular local file system.
