@@ -3,7 +3,7 @@
 Points of contact: [Ron Minnich](https://github.com/rminnich)
 
 DUT is a simple Device Under Test program that gives you control of a node. It is intended to make
-very fast startup and control easy. 
+very fast startup and control easy.
 
 DUT is one program implementing three operations. The first, tester, is run on a test control system, such as your desktop;
 the second, called device, is run on the device; the third, called ssh and also run on the device, starts an
@@ -12,7 +12,7 @@ ssh server assuming one is present.
 DUT is intended to be very limited, with more sophisticated operations, should they be
 needed, being done over SSH.
 
-DUT is found at github.com:linuxboot/dut. 
+DUT is found at github.com:linuxboot/dut.
 
 This chapter describes how we build and use DUT.
 
@@ -65,7 +65,7 @@ Each of these RPCs takes arguments and returns a result, with Welcome being the 
 ______________
 < welcome to DUT >
   --------------
-         \   ^__^ 
+         \   ^__^
           \  (oo)\_______
              (__)\       )\/\
                  ||----w |
@@ -73,7 +73,7 @@ ______________
 ```
 
 The current tester mode performs an RPC sequence I use for DXE cleaning, namely, a Welcome, followed by a Reboot, followed
-by a Welcome. This sequence verifies that I can get network going from power on, do a reboot, and reconnect after 
+by a Welcome. This sequence verifies that I can get network going from power on, do a reboot, and reconnect after
 a reboot. It's been good for finding out if a particular DXE can be removed.
 
 Once the second Welcome has happened, if an sshd is installed, it will have been started, and you can do additional commands.

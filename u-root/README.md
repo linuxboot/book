@@ -39,11 +39,11 @@ All Unix systems start an init process on boot and u-root is no exception. The i
 
 The src directory is where programs and u-root packages reside. The go/bin directory is for any Go tools built after boot; the go/pkg/tool directory contains binaries for various architecture/kernel combinations. The directory in which a compiler toolchain is placed provides information about the target OS and architecture, for example, the Go build places binaries for Linux on x86 64 in `/go/pkg/tool/linux` `amd64/`. Note that there is no `/bin` or many of the other directories expected in a root file system. The init binary builds them. It creates an empty `/bin` which is filled with binaries on demand as shown in Table 2.The u-root root file system has very little state.
 
-For most programs to work, the file system must be more complete. Image space is saved by having init create additional file system structure at boot time: it fills in the missing parts of the root filesystem. It creates `/dev` and `/proc` and mounts them. It creates an empty `/bin` which is filled with binaries on demand. 
+For most programs to work, the file system must be more complete. Image space is saved by having init create additional file system structure at boot time: it fills in the missing parts of the root filesystem. It creates `/dev` and `/proc` and mounts them. It creates an empty `/bin` which is filled with binaries on demand.
 
 In addition to `/bin`, there is a directory called `/buildbin`. `Buildbin` and the correct setup of $PATH are the keys to making on-demand compilation work. The init process sets $PATH to `/go/bin:/bin:/buildbin:/usr/local/bin`. Init also builds `installcommand` using the Go bootstrap builder and creates a complete set of symlinks. As a final step, init execs `sh`.
 
-There is no `/bin/sh` at this point; the first `sh` found in $PATH is `/buildbin/sh`. This is a symlink to `installcommand`. `Installcommand`, once started, examines argv[0], which is `sh`, and takes this as instruction to build `/src/cmds/sh/.go` into `/bin` and then exec `/bin/sh`. There is no difference between starting the first shell and any other program. Hence, part of the boot process involves the construction of an installation tool to build a binary for a shell which is then run. 
+There is no `/bin/sh` at this point; the first `sh` found in $PATH is `/buildbin/sh`. This is a symlink to `installcommand`. `Installcommand`, once started, examines argv[0], which is `sh`, and takes this as instruction to build `/src/cmds/sh/.go` into `/bin` and then exec `/bin/sh`. There is no difference between starting the first shell and any other program. Hence, part of the boot process involves the construction of an installation tool to build a binary for a shell which is then run.
 
 If a user wants to examine the source to the shell, they can `cat` `/src/cmds/sh/.go`. The `cat` command will be built and then show those files. U-root is intended for network-based devices and hence good network initialization code is essential. U-root includes a Go version of the IP and DHCP programs, along with the docker netlink package and a DHCP package.
 
@@ -161,7 +161,7 @@ U-root provides a shell that is stripped down to the fundamentals: it can read c
 
 The shell has several builtin commands, and you can extend it with builtin commands of your own. First, you need to understand the basic source structure of u-root shell builtins. Then, you will learn about user-defined builtins.
 
-All shell builtins, including the ones that come with the shell by default, are written with a standard Go init pattern which installs one or more builtins. 
+All shell builtins, including the ones that come with the shell by default, are written with a standard Go init pattern which installs one or more builtins.
 
 Builtins in the shell are defined by a name and a function. One or more builtins can be described in a source file. The name is kept in a map and the map is searched for a command name before looking in the file system. The function must accept a string as a name and a (possibly zero-length) array of string arguments, and return an error. In order to connect the builtin to the map, a programmer must provide an `init` function which adds the name and function to the map. The `init` function is special in that it is run by Go when the program starts up. In this case, the `init` function just installs a builtin for the time command.
 

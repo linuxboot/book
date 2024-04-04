@@ -51,16 +51,16 @@ wget -O TiogaPass.patch https://github.com/johnnylinwiwynn/linuxboot/commit/28ae
 git am TiogaPass.patch
 ```
 * Build the kernel bzImage (has embeded initramfs) for linuxboot, please reference
-  [Building u-root](https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-u-root) and 
+  [Building u-root](https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-u-root) and
   [Building a suitable Linux kernel](https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-a-suitable-linux-kernel)
   for how to build the bzImage. You can always customize your Linux kernel configuration to suit your needs, please reference Wiwynn's kernel configuration file as a sample [linux_config](linux_config).
-* Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn after ordering, and also put your bzImage 
+* Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn after ordering, and also put your bzImage
 to the root folder of linuxboot, and then make
 ```
   cp path/to/tioga.rom linuxboot/boards/tioga
   cp path/to/bzImage linuxboot
   cd linuxboot
-  BOARD=tioga make 
+  BOARD=tioga make
 ```
 * You should see the built image at build/tioga/linuxboot.rom.
 

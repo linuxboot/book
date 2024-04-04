@@ -10,7 +10,7 @@ The examples will focus on `x86_64`, and the coreboot builds will cover virtual 
 Run these commands in a directory you create or in /tmp; do so because it creates some files and directories:
 
 	$ go get github.com/linuxboot/corebootnerf
-	$ go run github.com/linuxboot/corebootnerf --fetch 
+	$ go run github.com/linuxboot/corebootnerf --fetch
 	... lots and lots of output!
 
 This produces a coreboot image in coreboot-4.9/build/coreboot.rom

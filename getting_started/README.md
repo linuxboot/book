@@ -48,7 +48,7 @@ You will see the following:
 /#
 ```
 
-You can type uname: 
+You can type uname:
 
 ```
 /# uname
