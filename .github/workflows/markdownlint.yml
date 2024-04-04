@@ -1,0 +1,17 @@
+name: Markdown Lint Action
+on: push
+
+jobs:
+  build:
+    name: Markdown Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install markdown lint
+        run: sudo gem install mdl
+
+      - name: Lint markdown
+        continue-on-error: true
+        run: mdl $(find . -name *.md)
