@@ -4,7 +4,7 @@ Google runs workloads across a number of clusters each with up to tens of
 thousands of machines. Firmware runs on these machines when they first start
 up. Google is pushing the state-of-the-art in many places including firmware.
 The discussion here about Google's implementation of LinuxBoot is limited to
-replacing specific UEFI [firmware](https://github.com/linuxboot/book/blob/master/intro/glossary/README.md) 
+replacing specific UEFI [firmware](https://github.com/linuxboot/book/blob/master/intro/glossary/README.md)
 functionality with a Linux kernel and runtime. Over the years this project
 has grown to include various initiatives with the overarching goal of moving
 from obscure, complex firmware to simpler, open source firmware.
@@ -23,7 +23,7 @@ including:
 -  Andrew Sun
 
 Ryan O'Leary is one of the Open Compute Platform Foundation
-[Open System Firmware project](https://www.opencompute.org/projects/open-system-firmware) 
+[Open System Firmware project](https://www.opencompute.org/projects/open-system-firmware)
 volunteer leads and Ron Minnich is the Open Compute Platform Foundation
 Incubation Committee Representative.
 

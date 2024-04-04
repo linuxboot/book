@@ -163,8 +163,8 @@ mount.
 
 ```
     rminnich@xcpu:~/gopath/src/github.com/u-root/u-root$ cpu apu2
-    root@(none):/# 
-    root@(none):/# ls ~ 
+    root@(none):/#
+    root@(none):/# ls ~
     IDAPROPASSWORD  go      ida-7.2  projects
     bin             gopath  papers   salishan2019random  snap
     root@(none):/# exit
@@ -451,7 +451,7 @@ rootfs on /tmp/local type rootfs (rw,size=506712k,nr_inodes=126678)
 127.0.0.1 on /bin type 9p (rw,nosuid,nodev,relatime,sync,dirsync,uname=rminnich,access=client,msize=65536,trans=fd,rfd=9,wfd=9)
 127.0.0.1 on /etc type 9p (rw,nosuid,nodev,relatime,sync,dirsync,uname=rminnich,access=client,msize=65536,trans=fd,rfd=9,wfd=9)
 127.0.0.1 on /home type 9p (rw,nosuid,nodev,relatime,sync,dirsync,uname=rminnich,access=client,msize=65536,trans=fd,rfd=9,wfd=9)
-root@192:/home/cpubinaries# 
+root@192:/home/cpubinaries#
 ```
 
 As you can see, `/tmp/cpu` is mounted via 9p back to the `cpu` client (recall

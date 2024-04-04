@@ -46,9 +46,9 @@ our first step on a new board.
 Get the tool:
 
     $ go get -u github.com/linuxboot/fiano/cmds/utk
-    
+
  Replace the shell:
- 
+
  	$ utk ROM.bin replace_pe32 Shell bzImage save NEWROM.bin
 
 After that, you can flash NEWROM.bin and test. If anything goes wrong, such as not enough space, you will need to refer to the more detailed instructions below.
