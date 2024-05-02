@@ -95,7 +95,6 @@ Engineering Productivity
     *   **30s** for initramfs
     *   **15s** for kernel (incremental)
     *   **~15s** to repack the bios image (using fiano/utk)
-    *   **~15s** to repack the bios image (using fiano/utk)
     *   **Total: ~1m** for a new full bios image, ready to be tested
 
 *   Testing and debugging
