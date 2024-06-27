@@ -1,0 +1,325 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>LinuxBoot Introduction - LinuxBoot</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html" class="active"><strong aria-hidden="true">1.</strong> LinuxBoot Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li></ol></li><li class="chapter-item expanded "><a href="components.html"><strong aria-hidden="true">2.</strong> LinuxBoot Components</a></li><li class="chapter-item expanded "><a href="u-root.html"><strong aria-hidden="true">3.</strong> All about u-root</a></li><li class="chapter-item expanded "><a href="utilities/index.html"><strong aria-hidden="true">4.</strong> LinuxBoot utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="utilities/UEFI_Tool_Kit.html"><strong aria-hidden="true">4.1.</strong> UEFI Tool Kit</a></li><li class="chapter-item expanded "><a href="utilities/cpu.html"><strong aria-hidden="true">4.2.</strong> The magical cpu command</a></li><li class="chapter-item expanded "><a href="utilities/dut.html"><strong aria-hidden="true">4.3.</strong> Device Under Test</a></li></ol></li><li class="chapter-item expanded "><a href="implementation.html"><strong aria-hidden="true">5.</strong> Implementing LinuxBoot</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="coreboot.u-root.systemboot/index.html"><strong aria-hidden="true">5.1.</strong> LinuxBoot using coreboot, u-root and systemboot</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="naming.html"><strong aria-hidden="true">7.</strong> Naming</a></li><li class="chapter-item expanded "><a href="case_studies/index.html"><strong aria-hidden="true">8.</strong> Case Studies</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="case_studies/Google_study.html"><strong aria-hidden="true">8.1.</strong> Google study</a></li><li class="chapter-item expanded "><a href="case_studies/TiogaPass.html"><strong aria-hidden="true">8.2.</strong> OCP TiogaPass</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">9.</strong> Frequently Asked Questions</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">LinuxBoot</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="linuxboot-introduction"><a class="header" href="#linuxboot-introduction">LinuxBoot Introduction</a></h1>
+<p>This is the official “LinuxBoot Book” for the LinuxBoot project. The book:</p>
+<ul>
+<li>Describes the LinuxBoot project</li>
+<li>Explains why you would want to use LinuxBoot</li>
+<li>Describes the components that comprise LinuxBoot</li>
+<li>Highlights the differences between other boot processes and LinuxBoot</li>
+<li>Guides you through the steps needed to implement LinuxBoot</li>
+</ul>
+<h2 id="what-is-linuxboot"><a class="header" href="#what-is-linuxboot">What is LinuxBoot?</a></h2>
+<p>LinuxBoot is a project that aims to replace specific <a href="./glossary.html">firmware</a> functionality with a Linux kernel and runtime. Over the years this project has grown to include various initiatives with the overarching goal of moving from obscure, complex firmware to simpler, open source firmware.</p>
+<p>The goal of LinuxBoot is to reduce the role of firmware to a small, fixed-function core whose only purpose is to get a flash-based Linux kernel started. This “bare essentials” firmware prepares the hardware and starts a Linux kernel and a userland environment will run on the machine. Go is the recommended userland environment, but is not required.</p>
+<h2 id="why-linuxboot-is-needed"><a class="header" href="#why-linuxboot-is-needed">Why LinuxBoot is needed</a></h2>
+<p>Sometimes firmware contains drivers and utilities. They can have bugs, or be unmaintained, which can be a source of problems and security issues. LinuxBoot replaces proprietary, closed-source, vendor-supplied firmware drivers with Linux drivers. This enables engineers writing Linux drivers and engineers writing firmware drivers to focus on one set of drivers. Those drivers will, as a result, have a larger set of contributors and reviewers, and because the drivers are part of Linux, standard industry coding infrastructure can be used to improve them. Finally, because these Linux drivers are currently being run 24x7 at scale, they will have fewer bugs.</p>
+<h2 id="what-linuxboot-does"><a class="header" href="#what-linuxboot-does">What LinuxBoot does</a></h2>
+<p>LinuxBoot replaces many Driver Execution Environment (DXE) modules used by Unified Extensible Firmware Interface (UEFI) and other firmware, particularly the network stack and file system modules, with Linux applications.</p>
+<p>LinuxBoot brings up the Linux kernel as a DXE in flash ROM instead of the UEFI shell. The Linux kernel, with a provided Go based userland, can then bring up the kernel that you want to run on the machine. The LinuxBoot firmware paradigm enables writing traditional firmware applications such as bootloader, debugging, diagnosis, and error detection applications as cross-architecture and cross-platform portable Linux applications.</p>
+<p>When Linux boots it needs a root file system with utilities. One such root filesystem used for Linuxboot is based on u-root standard utilities written in Go. The following diagram shows the current state of the UEFI boot process and what is planned for the transition to LinuxBoot.</p>
+<h2 id=""><a class="header" href="#"></a></h2>
+<p><img src="../images/UEFI-versus-LinuxBoot.svg" alt="image" /></p>
+<h2 id="benefits-of-using-the-go-userland-environment-and-compiler"><a class="header" href="#benefits-of-using-the-go-userland-environment-and-compiler">Benefits of using the Go userland environment and compiler</a></h2>
+<p>Go is a systems programming language created by Google. Go has strong typing, language level support for concurrency, inter-process communication via channels, runtime type safety and other protective measures, dynamic allocation and garbage collection, and closures. Go has a package syntax similar to Java that makes it easy to determine what packages a given program needs.</p>
+<p>The modern language constructs make Go a much safer language than C. This safety is critical for network-attached embedded systems, which usually have network utilities written in C, including web servers, network servers including sshd, and programs that provide access to a command interpreter, itself written in C. All are proving to be vulnerable to the attack-rich environment that the Internet has become.</p>
+<p>Even the most skilled programmers make simple mistakes that in C can be fatal, especially on network connected systems. Currently, even the lowest-level firmware in our PCs, printers, and thermostats is network-connected. These programming mistakes are either impossible to make in Go or, if made, are detected at runtime and result in the program exiting.</p>
+<p>The case for using a high-level, safe language like Go in very low level embedded firmware might be stronger than for user programs, because exploits at the firmware level are nearly impossible to detect and mitigate.</p>
+<p>The challenge to using Go in a storage-constrained environment such as firmware is that advanced language features lead to big binaries. Even a date program is about 2 MiB. One Go binary, implementing one function, is twice as large as a BusyBox binary implementing many functions. Currently, a typical BIOS FLASH part is 16 MiB. Fitting many Go binaries into a single BIOS flash part is not practical. The Go compiler is very fast and its sheer speed suggests a solution of having programs compiled only when they are used. With this approach, you can build a root file system that has almost no binaries except the Go compiler itself. The compiled programs and packages can be saved to a RAM-based file system. Another solution is to compile everything together into one BusyBox-style program. There are also other solutions that involve fetching things over the network, but compiling dynamically with Go or creating a BusyBox program are the recommended solutions.</p>
+<h2 id="benefits-of-linuxboot-with-uefi-servers"><a class="header" href="#benefits-of-linuxboot-with-uefi-servers">Benefits of LinuxBoot with UEFI servers</a></h2>
+<p>Most server firmware is based on Intel’s Universal Extensible Firmware Interface (UEFI). LinuxBoot provides the following benefits over UEFI:</p>
+<p>Reliability</p>
+<ul>
+<li>Improves boot reliability by replacing lightly-tested firmware drivers with hardened Linux drivers</li>
+<li>Proven approach for almost 20 years in military, consumer electronics, and supercomputing systems – wherever reliability and performance are paramount</li>
+<li>Fault Tolerance - Linux isolates processes** **(for example, when Pxeboot fails catastrophically, diskboot still works afterwards)</li>
+</ul>
+<p>Security</p>
+<ul>
+<li>Move “Ring 0” bootloaders to “Ring 3”</li>
+<li>Pxeboot and diskboot do parsing and other logic in userspace</li>
+<li>Go provides memory safety and type safety
+<ul>
+<li>A buggy parser cannot easily affect other programs</li>
+</ul>
+</li>
+<li>Kernel security patches can apply to firmware</li>
+</ul>
+<p>Flexibility</p>
+<ul>
+<li>Can be used with coreboot, u-boot, OpenPOWER Abstraction Layer (OPAL), SlimBootLoader, ARM Trusted Firmware (ATF)</li>
+<li>Can boot multiple operating systems (Linux, Berkeley UNIX (BSD), XEN, Windows)</li>
+<li>Supports the following server mainboards:
+<ul>
+<li>QEMU emulated Q35 systems</li>
+<li><a href="https://trmm.net/S2600wf">Intel S2600WF</a></li>
+<li><a href="https://trmm.net/NERF">Dell R630</a></li>
+<li>Winterfell Open Compute node</li>
+<li>Leopard Open Compute node</li>
+<li>Tioga Pass Open Compute node</li>
+<li>Monolake Open Compute node (not tested)</li>
+</ul>
+</li>
+</ul>
+<p>Boot speed</p>
+<ul>
+<li>Improves boot time by removing unnecessary code; typically makes boot 20 times faster</li>
+</ul>
+<p>Customization</p>
+<ul>
+<li>Allows customization of the initrd runtime to support site-specific needs (both device drivers as well as custom executables)</li>
+</ul>
+<p>Engineering Productivity</p>
+<ul>
+<li>
+<p>Write a driver once, not twice</p>
+<ul>
+<li>Linux is <strong>open, measurable, reproducible, updatable</strong></li>
+<li>Linux already has drivers for almost everything</li>
+</ul>
+</li>
+<li>
+<p>Kernel Engineers = Firmware Engineers</p>
+<ul>
+<li>Many more Engineers know Linux than know UEFI</li>
+</ul>
+</li>
+<li>
+<p>Reduced build time</p>
+<ul>
+<li><strong>30s</strong> for initramfs</li>
+<li><strong>15s</strong> for kernel (incremental)</li>
+<li><strong>~15s</strong> to repack the bios image (using fiano/utk)</li>
+<li><strong>Total: ~1m</strong> for a new full bios image, ready to be tested</li>
+</ul>
+</li>
+<li>
+<p>Testing and debugging</p>
+<ul>
+<li>Diskboot, Pxeboot already have unit tests</li>
+<li>Easier to write tests using resources (like network) with Linux</li>
+<li>Open-source projects such as u-root follow excellent software practices such as running automated test on each submitted change</li>
+<li>Much easier to debug Go userspace applications</li>
+<li>Test with a kernel in QEMU</li>
+</ul>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next prefetch" href="getting_started.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next prefetch" href="getting_started.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
