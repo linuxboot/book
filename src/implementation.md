@@ -7,7 +7,7 @@ This chapter describes the procedures from a [LinuxBoot
 workshop](https://docs.google.com/presentation/d/1s9ka4v7leKeJa3116AQoNb9cv3OqmnW6pgn0ov9WiHo/edit?ts=5e2b227b#slide=id.g7ceec54197_4_163)
 where an Atomic Pi board with UEFI firmware was converted to run LinuxBoot. The
 build materials associated with this are found at
-[digitalloggers/atomicpi](https://github.com/linuxboot/mainboards/tree/master/digitalloggers/atomicpi).
+[digitalloggers/atomicpi](https://github.com/linuxboot/linuxboot/tree/main/mainboards/digitalloggers/atomicpi).
 
 Read the below and consult the Makefile for the details of how it was
 implemented.
