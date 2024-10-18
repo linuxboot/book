@@ -99,7 +99,7 @@ Confusing? I couldn't agree more.
 
 ## BIOS
 
-BIOS is the good old, imperscrutable, unstructured, non-standard way of
+BIOS is the good old, inscrutable, unstructured, non-standard way of
 initializing a hardware platform in the pre-UEFI days. In other words it's a
 binary blob with no standardized structure, that is responsible for
 initializing CPU and memory, and jumping to a hard-coded position on the MBR of
