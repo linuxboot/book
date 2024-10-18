@@ -32,11 +32,11 @@
   the components up, and hands them over to the operating system that is to be
   installed on the machine. The current x86 firmware is based on Intel’s
   Universal Extensible Firmware Interface (UEFI).
-- [___Heads____](https://github.com/linuxboot/heads): An open source firmware
+- [___Heads___](https://github.com/linuxboot/heads): An open source firmware
   for laptops and servers, aimed at strong platform security. Developed by
   Trammell Hudson, based on stripped UEFI plus Linux, and BusyBox instead of
   u-root.
-- ___iSCSI____: A protocol that provides a way to make network-attached storage
+- ___iSCSI___: A protocol that provides a way to make network-attached storage
   appear to be a local device to the hosts using it, allowing it to be (among
   other things) mounted as a regular local file system.
 - ___kexec___: A system call that enables you to load and boot into another
