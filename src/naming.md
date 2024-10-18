@@ -3,7 +3,7 @@
 Naming is hard. You may have heard of `coreboot`, `NERF`, `u-root`,
 `systemboot`, etc. If you are confused, well, you're not alone.
 
-# LinuxBIOS
+## LinuxBIOS
 
 `LinuxBIOS` is a project originated in 1999 from Ron Minnich, Stefan Reinauer
 and others. It is not much younger than UEFI, but they were already
@@ -12,7 +12,7 @@ was way ahead of its time. At that time Linux was not mature enough for
 hardware initialization project, and while LinuxBIOS was successful in several
 performance-and-reliability critical environments, it didn't see mass adoption.
 
-# coreboot
+## coreboot
 
 LinuxBIOS became `coreboot` in 2008. It is effectively the same project that
 evolved over time. `coreboot` (spelled lowercase) is a complete open source
@@ -33,7 +33,7 @@ coreboot payloads. Among the various options, there are:
 * *LinuxBoot*, of course! More details below
 * *UEFI*, via the open-source EDK II.
 
-# LinuxBoot
+## LinuxBoot
 
 LinuxBoot is not a product, but rather a **concept**. It's the idea of
 **booting Linux (OS) with Linux (system firmware)**. In a way, the same concept
@@ -50,7 +50,7 @@ reference to "stripped UEFI, plus Linux". This is because LinuxBoot, when
 originally created, was meant to run a Linux kernel on top of a stripped UEFI
 firmware, not on coreboot. See also "NERF" below.
 
-# NERF
+## NERF
 
 This is the original name for the stripped UEFI, plus Linux, plus u-root. The
 name stands for Non-Extensible Reduced Firmware, as opposed to UEFI's Unified
@@ -65,14 +65,14 @@ now developed by a few other folks that are now part of Google's "NERF team".
 This name, in my understanding, is mostly used within Google, while "LinuxBoot"
 is becoming a more common name for this effort.
 
-# Heads
+## Heads
 
-Heads is an open source firmware for laptops and servers, aimed at strong
-platform security. Developed by [Trammell Hudson](https://twitter.com/qrs),
-this is based on stripped UEFI plus Linux, and BusyBox instead of u-root. More
-info at https://trmm.net/Heads .
+[Heads](https://trmm.net/Heads) is an open source firmware for laptops and
+servers, aimed at strong platform security. Developed by [Trammell
+Hudson](https://twitter.com/qrs), this is based on stripped UEFI plus Linux,
+and BusyBox instead of u-root.
 
-# Open System Firmware
+## Open System Firmware
 
 [Open System Firmware](https://www.opencompute.org/projects/open-system-firmware),
 or in short OSF, is an official subproject of the [Open Compute
@@ -91,13 +91,13 @@ Currently, Open System Firmware has two work streams:
 * LinuxBoot, led by Google, Facebook, 9elements, ITRenew, TwoSigma, and others
 * OpenEDK II, led by Microsoft and Intel.
 
-# Open Source Firmware
+## Open Source Firmware
 
 While this may sound obvious, it's worth noting that OSF can be used to refer
 to "Open Source Firmware" or "Open System Firmware" depending on the context.
 Confusing? I couldn't agree more.
 
-# BIOS
+## BIOS
 
 BIOS is the good old, imperscrutable, unstructured, non-standard way of
 initializing a hardware platform in the pre-UEFI days. In other words it's a
@@ -114,7 +114,7 @@ BIOS is also a misused term for system firmware nowadays. You may still hear
 However, "BIOS" refers to a specific type of firmware, and UEFI is definitely
 not BIOS, just like LinuxBoot is not BIOS.
 
-# UEFI
+## UEFI
 
 It's a complex specification of a standard for system firmware. It defines
 everything from the layout on the flash chip, to how to interface to
@@ -127,16 +127,17 @@ Typically IBVs and ODMs would take a snapshot of the reference implementation
 EDK II, and base their work on that, with their patches and additional
 components.
 
-# EDK II
+## EDK II
 
 It is the open source reference implementation of an UEFI-compliant firmware,
-originally developed by Intel. See https://github.com/tianocore/edk2 .
+originally developed by Intel (see [edk2 Github
+project](https://github.com/tianocore/edk2)).
 
-# u-boot
+## u-boot
 
 u-boot is another very popular open source firmware and bootloader.
 
-# u-root
+## u-root
 
 u-root is not u-boot! They are two completely different projects.
 
