@@ -16,8 +16,8 @@ second, as it is compiled. Packages are only compiled once, so the slowest
 build is always the first one, on boot, which takes about 3 seconds. Subsequent
 invocations are very fast, usually a millisecond or so.
 
-U-root blurs the line between script-based distros such as Perl Linux[24] and
-binary-based distros such as BusyBox[26]. It has the flexibility of Perl Linux
+U-root blurs the line between script-based distros such as Perl Linux[^24] and
+binary-based distros such as BusyBox[^26]. It has the flexibility of Perl Linux
 and the performance of BusyBox. Scripts and builtins are written in Go, not a
 shell scripting language. U-root is a new way to package and distribute file
 systems for embedded systems, and the use of Go promises a dramatic improvement
@@ -26,29 +26,29 @@ in their security.
 ## U-root and embedded systems
 
 Embedding kernels and root file systems in BIOS flash is a common technique for
-gaining boot time performance and platform customization[25][14][23]. Almost
+gaining boot time performance and platform customization[^25][^14][^23]. Almost
 all new firmware includes a multiprocess operating system with a full
 complement of file systems, network drivers, and protocol stacks, all contained
 in an embedded file system. In some cases, the kernel is only booted long
 enough to boot another kernel. In others, the kernel that is booted and the
 file system it contains constitute the operational environment of the
-device[15]. These so-called “embedded root file systems” also contain a set of
+device[^15]. These so-called “embedded root file systems” also contain a set of
 standard Unix-style programs used for both normal operation and maintenance.
 Space on the device is at a premium, so these programs are usually written in C
-using the BusyBox toolkit[26], or in an interpretive language such as Perl[24]
+using the BusyBox toolkit[^26], or in an interpretive language such as Perl[^24]
 or Forth. BusyBox in particular has found wide usage in embedded appliance
 environments, as the entire root file system can be contained in under one MiB.
 
 Embedded systems, which were once standalone, are now almost always network
 connected. Network connected systems face a far more challenging security
 environment than even a few years ago. In response to the many successful
-attacks against shell interpreters[11] and C programs[8], we have started to
+attacks against shell interpreters[^11] and C programs[^8], we have started to
 look at using a more secure, modern language in embedded root file systems,
-namely, Go[21][16].
+namely, Go[^21][^16].
 
 Go is a new systems programming language created by Google. Go has strong
 typing; language level support for concurrency; inter-process communication via
-channels, a la Occam[13], Limbo[17], and Alef[27]; runtime type safety and
+channels, a la Occam[^13], Limbo[^17], and Alef[^27]; runtime type safety and
 other protective measures; dynamic allocation and garbage collection; closures;
 and a package syntax, similar to Java, that makes it easy to determine what
 packages a given program needs. The modern language constructs make Go a much
@@ -62,17 +62,17 @@ GHOST and the so-called FSVariable.c bug in Intel’s UEFI firmware. Buffer
 overflows in Intel’s UEFI and Active Management Technology (AMT) have also been
 discovered in several versions in recent years.
 
-Both UEFI[12] and AMT[4] are embedded operating systems, loaded from flash that
+Both UEFI[^12] and AMT[^4] are embedded operating systems, loaded from flash that
 run network-facing software. Attacks against UEFI have been extensively
-studied[9]. Most printers are network-attached and are a very popular
-exploitation target[6]. Firmware is not visible to most users and is updated
+studied[^9]. Most printers are network-attached and are a very popular
+exploitation target[^6]. Firmware is not visible to most users and is updated
 much less frequently (if at all) than programs. It is the first software to
 run, at power on reset. Exploits in firmware are extremely difficult to detect,
 because firmware is designed to be as invisible as possible. Firmware is
 extremely complex; UEFI is roughly equivalent in size and capability to a Unix
 kernel. Firmware is usually closed and proprietary, with nowhere near the level
 of testing of kernels. These properties make firmware an ideal place for
-so-called advanced persistent threats[10][18][5]. Once an exploit is installed,
+so-called advanced persistent threats[^10][^18][^5]. Once an exploit is installed,
 it is almost impossible to remove, since the exploit can inhibit its removal by
 corrupting the firmware update process. The only sure way to mitigate a
 firmware exploit is to destroy the hardware.
@@ -289,8 +289,8 @@ redirection. At the same time, the shell defines no language of its own for
 scripting and builtins. Instead, the u-root shell uses the Go compiler. In that
 sense, the u-root shell reflects a break in important ways with the last few
 decades of shell development, which has seen shells and their language grow
-ever more complex and, partially as a result, ever more insecure[19] and
-fragile[11].
+ever more complex and, partially as a result, ever more insecure[^19] and
+fragile[^11].
 
 The shell has several builtin commands, and you can extend it with builtin
 commands of your own. First, you need to understand the basic source structure
@@ -412,7 +412,7 @@ the builtin command again and create a shell that further extends the new
 shell. Processes outside the new shell’s process hierarchy can not use this new
 shell or the builtin source. When the new shell exits, the builtins are no
 longer visible in any part of the file system. We use Linux mount name spaces
-to create this effect[22]. Once the builtin command has verified that the Go
+to create this effect[^22]. Once the builtin command has verified that the Go
 fragment is valid, it builds a new, private namespace with the shell source,
 including the new builtin source. From that point on, the new shell and its
 children will only use the new shell. The parent process and other processes
@@ -486,10 +486,10 @@ testing. The entire server is 18 lines of Go.
 ## On-Demand Compilation
 
 On-Demand compilation is one of the oldest ideas in computer science.
-Slimline Open Firmware (SLOF)[7] is a FORTHbased implementation of Open
+Slimline Open Firmware (SLOF)[^7] is a FORTHbased implementation of Open
 Firmware developed by IBM for some of its Power and Cell processors. SLOF is
 capable of storing all of Open Firmware as source in the flash memory and
-compiling components to indirect threading on demand[2].
+compiling components to indirect threading on demand[^2].
 
 In the last few decades, as our compiler infrastructure has gotten slower and
 more complex, true on-demand compilation has split into two different forms.
@@ -497,12 +497,12 @@ First is the on-demand compilation of source into executable byte codes, as in
 Python. The byte codes are not native but are more efficient than source. If
 the python interpreter finds the byte code it will interpret that instead of
 source to provide improved performance. Java takes the process one step further
-with the Just In Time compilation of byte code to machine code[20] to boost
+with the Just In Time compilation of byte code to machine code[^20] to boost
 performance.
 
 ## Embedding kernel and root file systems in flash
 
-The LinuxBIOS project[14][1], together with clustermatic[25], used an embedded
+The LinuxBIOS project[^14][^1], together with clustermatic[^25], used an embedded
 kernel and simple root file system to manage supercomputing clusters. Due to
 space constraints of 1 MiB or less of flash, clusters embedded only a
 single-processor Linux kernel with a daemon. The daemon was a network
@@ -525,7 +525,7 @@ with a Linux-As-Bootloader for the iPaq.
 Car computers and other embedded ARM systems frequently contain a kernel and an
 ext2 formatted file system in NOR flash, that is, flash that can be treated as
 memory instead of a block device. Many of these kernels use the so-called
-eXecute In Place[3] (XIP) patch, which allows the kernel to page binaries
+eXecute In Place[^3] (XIP) patch, which allows the kernel to page binaries
 directly from the memory-addressable flash rather than copying it to RAM,
 providing a significant savings in system startup time. A downside of this
 approach is that the executables can not be compressed, which puts further
@@ -534,11 +534,11 @@ paging from it comes at a significant performance cost. Finally, an
 uncompressed binary image stored in NOR flash has a much higher monetary cost
 than the same image stored in RAM since the cost per bit is so much higher.
 
-UEFI[12] contains a non-Linux kernel (the UEFI firmware binary) and a full set
+UEFI[^12] contains a non-Linux kernel (the UEFI firmware binary) and a full set
 of drivers, file systems, network protocol stacks, and command binaries in the
 firmware image. It is a full operating system environment realized as firmware.
 
-The ONIE project[23] is a more recent realization of the Kernel-in-flash idea,
+The ONIE project[^23] is a more recent realization of the Kernel-in-flash idea,
 based on Linux. ONIE packs a Linux kernel and Busybox binaries into a very
 small package. Since the Linux build process allows an initial RAM file system
 (initramfs) to be built directly into the kernel binary, some companies are now
@@ -549,57 +549,65 @@ a fast, capable boot system.
 
 ## References
 
-[1] AGNEW, A., SULMICKI, A., MINNICH, R., AND ARBAUGH, W. A. Flexibility in rom: A stackable open source bios. In USENIX Annual Technical Conference, FREENIX Track (2003), pp. 115–124.
-
-[2] (AUTHOR OF SLOF), S. B. Personal conversation.
-
-[3] BENAVIDES, T., TREON, J., HULBERT, J., AND CHANG, W. The enabling of an execute-in-place architecture to reduce the embedded system memory footprint and boot time. Journal of computers 3, 1 (2008), 79–89.
-
-[4] BOGOWITZ, B., AND SWINFORD, T. Intel⃝R active management technology reduces it costs with improved pc manageability. Technology@ Intel Magazine (2004).
-
-[5] CELEDA, P., KREJCI, R., VYKOPAL, J., AND DRASAR, M. Embedded malware-an analysis of the chuck norris botnet. In Computer Network Defense (EC2ND), 2010 European Conference on (2010), IEEE, pp. 3–10.
-
-[6] CUI, A., COSTELLO, M., AND STOLFO, S. J. When firmware modifications attack: A case study of embedded exploitation. In NDSS (2013).
-
-[7] DALY, D., CHOI, J. H., MOREIRA, J. E., AND WATERLAND, A. Base operating system provisioning and bringup for a commercial supercomputer. In Parallel and Distributed Processing Symposium, 2007. IPDPS 2007. IEEE International (2007), IEEE, pp. 1–7.
-
-[8] DURUMERIC, Z., KASTEN, J., ADRIAN, D., HALDERMAN, J. A., BAILEY, M., LI, F., WEAVER, N., AMANN, J., BEEKMAN, J., PAYER, M., ET AL. The matter of heartbleed. In Proceedings of the 2014 Conference on Internet Measurement Conference (2014), ACM, pp. 475–488.
-
-[9] KALLENBERG, C., AND BULYGIN, Y. All your boot are belong to us intel, mitre. cansecwest 2014.
-
-[10] KALLENBERG, C., KOVAH, X., BUTTERWORTH, J., AND CORNWELL, S. Extreme privilege escalation on windows 8/uefi systems.
-
-[11] KOZIOL, J., LITCHFIELD, D., AITEL, D., ANLEY, C., EREN, S., MEHTA, N., AND HASSELL, R. The Shellcoder’s Handbook. Wiley Indianapolis, 2004.
-
-[12] LEWIS, T. Uefi overview, 2007.
-
-[13] MAY,D.Occam.ACMSigplanNotices18,4(1983),69–79.
-
-[14] MINNICH, R. G. Linuxbios at four. Linux J. 2004, 118 (Feb. 2004), 8–.
-
-[15] MOON, S.-P., KIM, J.-W., BAE, K.-H., LEE, J.-C., AND SEO, D.-W. Embedded linux implementation on a commercial digital tv system. Consumer Electronics, IEEE Transactions on 49, 4 (Nov 2003), 1402–1407.
-
-[16] PIKE, R. Another go at language design. Stanford University Computer Systems Laboratory Colloquium.
-
-[17] RITCHIE, D. M. The limbo programming language. Inferno Programmer’s Manual 2 (1997).
-
-[18] SACCO, A. L., AND ORTEGA, A. A. Persistent bios infection. In CanSecWest Applied Security Conference (2009).
-
-[19] SAMPATHKUMAR, R. Vulnerability Management for Cloud Computing-2014: A Cloud Computing Security Essential. Rajakumar Sampathkumar, 2014.
-
-[20] SUGANUMA, T., OGASAWARA, T., TAKEUCHI, M., YASUE, T., KAWAHITO, M., ISHIZAKI, K., KOMATSU, H., AND NAKATANI, T. Overview of the ibm java just-in-time compiler. IBM systems Journal 39, 1 (2000), 175–193.
-
-[21] TEAM, G. The go programming language specification. Tech. rep., Technical Report [http://golang](http://golang/). org/doc/doc/go spec. html, Google Inc, 2009.
-
-[22] VAN HENSBERGEN, E., AND MINNICH, R. Grave robbers from outer space: Using 9p2000 under linux. In USENIX Annual Technical Conference, FREENIX Track (2005), pp. 83–94.
-
-[23] VARIOUS. No papers have been published on onie; see onie.org.
-
-[24] VARIOUS. No papers were published; see perllinux.sourceforge.net.
-
-[25] WATSON, G. R., SOTTILE, M. J., MINNICH, R. G., CHOI, S.-E., AND HERTDRIKS, E. Pink: A 1024-node single-system image linux cluster. In High Performance Computing and Grid in Asia Pacific Region, 2004. Proceedings. Seventh International Conference on (2004), IEEE, pp. 454–461.
-
-[26] WELLS, N. Busybox: A swiss army knife for linux. Linux J. 2000, 78es (Oct. 2000).
-
-[27] WINTERBOTTOM, P. Alef language reference manual. Plan 9 Programmer’s Man (1995).
-
+[^1]: AGNEW, A., SULMICKI, A., MINNICH, R., AND ARBAUGH, W. A. Flexibility in
+    rom: A stackable open source bios. In USENIX Annual Technical Conference,
+    FREENIX Track (2003), pp. 115–124.
+[^2]: (AUTHOR OF SLOF), S. B. Personal conversation.
+[^3]: BENAVIDES, T., TREON, J., HULBERT, J., AND CHANG, W. The enabling of an
+    execute-in-place architecture to reduce the embedded system memory
+    footprint and boot time. Journal of computers 3, 1 (2008), 79–89.
+[^4]: BOGOWITZ, B., AND SWINFORD, T. Intel⃝R active management technology
+    reduces it costs with improved pc manageability. Technology@ Intel Magazine
+    (2004).
+[^5]: CELEDA, P., KREJCI, R., VYKOPAL, J., AND DRASAR, M. Embedded malware-an
+    analysis of the chuck norris botnet. In Computer Network Defense (EC2ND),
+    2010 European Conference on (2010), IEEE, pp. 3–10.
+[^6]: CUI, A., COSTELLO, M., AND STOLFO, S. J. When firmware modifications
+    attack: A case study of embedded exploitation. In NDSS (2013).
+[^7]: DALY, D., CHOI, J. H., MOREIRA, J. E., AND WATERLAND, A. Base operating
+    system provisioning and bringup for a commercial supercomputer. In Parallel
+    and Distributed Processing Symposium, 2007. IPDPS 2007. IEEE International
+    (2007), IEEE, pp. 1–7.
+[^8]: DURUMERIC, Z., KASTEN, J., ADRIAN, D., HALDERMAN, J. A., BAILEY, M., LI,
+    F., WEAVER, N., AMANN, J., BEEKMAN, J., PAYER, M., ET AL. The matter of
+    heartbleed. In Proceedings of the 2014 Conference on Internet Measurement
+    Conference (2014), ACM, pp. 475–488.
+[^9]: KALLENBERG, C., AND BULYGIN, Y. All your boot are belong to us intel,
+    mitre. cansecwest 2014.
+[^10]: KALLENBERG, C., KOVAH, X., BUTTERWORTH, J., AND CORNWELL, S. Extreme
+    privilege escalation on windows 8/uefi systems.
+[^11]: KOZIOL, J., LITCHFIELD, D., AITEL, D., ANLEY, C., EREN, S., MEHTA, N.,
+    AND HASSELL, R. The Shellcoder’s Handbook. Wiley Indianapolis, 2004.
+[^12]: LEWIS, T. Uefi overview, 2007.
+[^13]: MAY,D.Occam.ACMSigplanNotices18,4(1983),69–79.
+[^14]: MINNICH, R. G. Linuxbios at four. Linux J. 2004, 118 (Feb. 2004), 8–.
+[^15]: MOON, S.-P., KIM, J.-W., BAE, K.-H., LEE, J.-C., AND SEO, D.-W. Embedded
+    linux implementation on a commercial digital tv system. Consumer
+Electronics, IEEE Transactions on 49, 4 (Nov 2003), 1402–1407.
+[^16]: PIKE, R. Another go at language design. Stanford University Computer
+    Systems Laboratory Colloquium.
+[^17]: RITCHIE, D. M. The limbo programming language. Inferno Programmer’s
+    Manual 2 (1997).
+[^18]: SACCO, A. L., AND ORTEGA, A. A. Persistent bios infection. In CanSecWest
+    Applied Security Conference (2009).
+[^19]: SAMPATHKUMAR, R. Vulnerability Management for Cloud Computing-2014: A
+    Cloud Computing Security Essential. Rajakumar Sampathkumar, 2014.
+[^20]: SUGANUMA, T., OGASAWARA, T., TAKEUCHI, M., YASUE, T., KAWAHITO, M.,
+    ISHIZAKI, K., KOMATSU, H., AND NAKATANI, T. Overview of the ibm java
+    just-in-time compiler. IBM systems Journal 39, 1 (2000), 175–193.
+[^21]: TEAM, G. The go programming language specification. Tech. rep.,
+    Technical Report [http://golang](http://golang/). org/doc/doc/go spec.
+    html, Google Inc, 2009.
+[^22]: VAN HENSBERGEN, E., AND MINNICH, R. Grave robbers from outer space:
+    Using 9p2000 under linux. In USENIX Annual Technical Conference, FREENIX
+    Track (2005), pp. 83–94.
+[^23]: VARIOUS. No papers have been published on onie; see onie.org.
+[^24]: VARIOUS. No papers were published; see perllinux.sourceforge.net.
+[^25]: WATSON, G. R., SOTTILE, M. J., MINNICH, R. G., CHOI, S.-E., AND
+    HERTDRIKS, E. Pink: A 1024-node single-system image linux cluster. In High
+    Performance Computing and Grid in Asia Pacific Region, 2004. Proceedings.
+    Seventh International Conference on (2004), IEEE, pp. 454–461.
+[^26]: WELLS, N. Busybox: A swiss army knife for linux. Linux J. 2000, 78es
+    (Oct. 2000).
+[^27]: WINTERBOTTOM, P. Alef language reference manual. Plan 9 Programmer’s Man
+    (1995).
