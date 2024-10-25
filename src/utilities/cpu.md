@@ -1,4 +1,4 @@
-## The u-root `cpu` command
+# The u-root `cpu` command
 
 Do you want to have all the tools on your linuxboot system that you have on your
 desktop, but you can't get them to fit in your tiny flash part? Do you want all
@@ -10,7 +10,7 @@ on your linuxboot machine and have the output appear on your home file system?
 You say you'd like to make this all work without having to fill out web forms in
 triplicate to get your organization to Do Magic to your desktop?
 
-#### Your search is over: `cpu` is here to answer all your usability needs.
+**Your search is over: `cpu` is here to answer all your usability needs.**
 
 ## The problem: running your program on some other system
 
@@ -181,7 +181,7 @@ they need is there. It actually looks like they are still logged in to their
 desktop, except, of course, truly local file systems such as `/proc` and `/sys`
 will come from the machine they are on, not their desktop.
 
-# An easy overview of how `cpu` works
+## An easy overview of how `cpu` works
 
 `Cpu`, as mentioned, consists of a client and a server. The client is on your
 desktop (or laptop), and the server is on the remote system. Both client and
@@ -220,7 +220,7 @@ client, as shown below. Things to note:
 
 <img src="../images/cpu_overview.svg" width=600px>
 
-### `Cpu` startup
+## `cpu` startup
 
 The startup proceeds in several steps. Every session begins with an initial
 contact from the `cpu` client to the `cpu` server.
@@ -261,7 +261,7 @@ But what happens when `cpud` runs that first program? Here is where it gets
 interesting, and, depending on your point of view, either magical, confounding,
 or counter-intuitive. We’ll go with magical.
 
-## Starting that first program
+### Starting that first program
 
 As mentioned above, `cpud` sets up mounts for a name space, and calls the Linux
 `exec()` call to start the program.
@@ -327,7 +327,7 @@ cpu -root ~/arm date
 
 And the remote `cpud`, running on an ARM, would be provided with ARM binaries.
 
-## Learning how to use `cpu`
+### Learning how to use `cpu`
 
 `Cpu` can be a hard thing to learn, not because it is difficult, but because it
 is different. To paraphrase Yoda, you have to unlearn what you have learned.
@@ -336,7 +336,7 @@ like your files are waiting for you.
 
 You can start experimenting and learning about `cpu` by just running it locally.
 
-### A set of binaries for you to try
+#### A set of binaries for you to try
 
 In order for you to try it out, start by working with the set of `cpu` binaries
 at
@@ -372,7 +372,7 @@ you clone this repo, the following commands will rebuild the kernel:
 *   `make fetch`
 *   `make cpukernel`
 
-### How to use the cpu binaries
+#### How to use the cpu binaries
 
 You’ll first need to start the server, and we show the entire sequence below,
 including unpacking the image:
@@ -454,7 +454,7 @@ node). Further, you can see mounts on `/usr`, `/bin`, `/etc`, and so on. For
 this reason, we can run `date` and it will find its needed libraries in `/usr`,
 as the `ldd` command demonstrates.
 
-### Making cpu easier to use
+#### Making cpu easier to use
 
 If you get tired of typing `-keys`, do the following: put your own `cpu_rsa` in
 `~/.ssh`; and copy the `cpu` binary to `bin` (or build a new one).
@@ -463,7 +463,7 @@ Warning! The `cpu` keys we provide in the repo are only to be used for this
 demo. You should not use them for any other purpose, as they are in a github
 repo and hence open to the world.
 
-### What if you don’t want all the name space?
+#### What if you don’t want all the name space?
 
 Sometimes, you don’t want all the `/usr` and `/bin` directories to be replaced
 with those from your machine. You might, for example, `cpu` into an ARM system,
@@ -534,7 +534,7 @@ error: 9p is false but the namespace is non-empty; to force an empty namespace u
 
 We welcome comments on this issue.
 
-### cpu and Docker
+#### cpu and Docker
 
 Maintaining file system images is inconvenient.
 We can use Docker containers on remote hosts instead.
@@ -574,7 +574,7 @@ b92a3576229b   ubuntu    "/home/rminnich/go/b…"   9 seconds ago   Up 9 seconds
 
 Even though the binaries themselves are running on the remote ARM system.
 
-### cpu and virtiofs
+#### cpu and virtiofs
 
 While 9p is very general, because it is *transport-independent*, there are
 cases where we can get much better performance by using a less general file
@@ -632,6 +632,7 @@ Google Drive files. Note, again, that these alternative mounts do not use the
 cpu server machine.
 
 There are thus several choices for setting up the mounts
+
 * 9p support by the cpu client
 * 9p supported by the cpu client, with additional mounts via -fstab or -namespace
 * 9p *without* any bind mounts, i.e. -9p=false -namespace "", in which case, on
