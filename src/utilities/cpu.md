@@ -194,29 +194,29 @@ but rather from the client to the server. The `cpu` client is a file server; the
 `cpu` server connects the kernel on the server machine to the file server in the
 client, as shown below. Things to note:
 
-1.  `Cpud`, on the remote or server machine, sets up a “private name space
-    mount” of `/tmp` for the program. “Private name space mount” just means that
-    only that program, and its children, can see what is in its private `/tmp`.
-    Other, external programs continue to use `/tmp`, but they are _different_
-    instantiations of `/tmp`.
-2.  The private name space mount of `/tmp` is on a filesystem in RAM. The data
-    stored in `/tmp` is not visible to other processes, and not persistent.
-3.  `cpud` creates a directory, `cpu`, in the private `/tmp`; and mounts the
-    server on it. This mount point is also invisible outside the process and its
-    children.
-4.  To make sure that names like `/bin/bash`, and `/usr/lib/libc.so` work,
-    `cpud` sets up _bind mounts_ from, e.g., `/tmp/cpu/bin` to `/bin`. These are
-    also private mounts, and do not affect any program outside the one `cpud`
-    starts. Anytime the program and its children access files in `/bin`, `/lib`,
-    `/usr`, `/home/$USER`, and so on, they are accessing files from the client
-    machine via the built-in client file server.
-5.  The client `cpu` program passes the full environment from the client machine
-    to `cpud`. When the client program requests that, e.g., `bash` be run, the
-    `cpud` uses the PATH environment variable to locate `bash`. Because of the
-    private name space mounts and binds, `bash` will be found in `/bin/bash`,
-    and its libraries will be found in their usual place. This is an essential
-    property of `cpu`, that the names used on the user’s machine work the same
-    way on the remote machine. An overview of the process is shown below.
+1. `Cpud`, on the remote or server machine, sets up a “private name space
+   mount” of `/tmp` for the program. “Private name space mount” just means that
+   only that program, and its children, can see what is in its private `/tmp`.
+   Other, external programs continue to use `/tmp`, but they are _different_
+   instantiations of `/tmp`.
+2. The private name space mount of `/tmp` is on a filesystem in RAM. The data
+   stored in `/tmp` is not visible to other processes, and not persistent.
+3. `cpud` creates a directory, `cpu`, in the private `/tmp`; and mounts the
+   server on it. This mount point is also invisible outside the process and its
+   children.
+4. To make sure that names like `/bin/bash`, and `/usr/lib/libc.so` work,
+   `cpud` sets up _bind mounts_ from, e.g., `/tmp/cpu/bin` to `/bin`. These are
+   also private mounts, and do not affect any program outside the one `cpud`
+   starts. Anytime the program and its children access files in `/bin`, `/lib`,
+   `/usr`, `/home/$USER`, and so on, they are accessing files from the client
+   machine via the built-in client file server.
+5. The client `cpu` program passes the full environment from the client machine
+   to `cpud`. When the client program requests that, e.g., `bash` be run, the
+   `cpud` uses the PATH environment variable to locate `bash`. Because of the
+   private name space mounts and binds, `bash` will be found in `/bin/bash`,
+   and its libraries will be found in their usual place. This is an essential
+   property of `cpu`, that the names used on the user’s machine work the same
+   way on the remote machine. An overview of the process is shown below.
 
 <img src="../images/cpu_overview.svg" width=600px>
 
@@ -349,14 +349,14 @@ years or so.
 
 The binaries include:
 
-*   A kernel (`cpukernel`) with a built-in initramfs containing `cpud`, as well
-    as a public key. Also included, should you want to build your own, is the
-    config file (`cpu.config`).
-*   A binary client program, `cpu`, as well as the private key to use. You can
-    place this key in `~/.ssh` or specify it via the `-key` option to `cpu`.
-*   A script to run the USB stick via `qemu` (`TESTQEMU`); and a script to run a
-    `cpu` command (`EXAMPLE`).
-*   The `extlinux.conf` used for the USB stick.
+* A kernel (`cpukernel`) with a built-in initramfs containing `cpud`, as well
+  as a public key. Also included, should you want to build your own, is the
+  config file (`cpu.config`).
+* A binary client program, `cpu`, as well as the private key to use. You can
+  place this key in `~/.ssh` or specify it via the `-key` option to `cpu`.
+* A script to run the USB stick via `qemu` (`TESTQEMU`); and a script to run a
+  `cpu` command (`EXAMPLE`).
+* The `extlinux.conf` used for the USB stick.
 
 `usbstick.xz` is a compressed USB stick image that is bootable. It will
 uncompress to about 7GB. You can use the `TESTQEMU` script to try it out, or use
@@ -368,9 +368,9 @@ as part of the demo.
 The `cpukernel` was built using the `github.com:linuxboot/mainboards` repo. If
 you clone this repo, the following commands will rebuild the kernel:
 
-*   `cd mainboards/intel/generic`
-*   `make fetch`
-*   `make cpukernel`
+* `cd mainboards/intel/generic`
+* `make fetch`
+* `make cpukernel`
 
 #### How to use the cpu binaries
 
