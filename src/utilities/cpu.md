@@ -12,7 +12,6 @@ triplicate to get your organization to Do Magic to your desktop?
 
 #### Your search is over: `cpu` is here to answer all your usability needs.
 
-
 ## The problem: running your program on some other system
 
 People often need to run a command on a remote system. That is easy when the
@@ -290,7 +289,6 @@ it needed, and opened them as well.
 
 We can compare this with a local execution:
 
-
 ```
 execve "/bin/date"
 access "/etc/ld.so.nohwcap"
@@ -308,7 +306,6 @@ similar. You might wonder why the local version opens `/etc/localtime`, and the
 remote version opens `/usr/share/zoneinfo/America/Los_Angeles`.
 
 The reason is that `etc/localtime` is a symlink:
-
 
 ```
 lrwxrwxrwx 1 root root 39 May 29 12:47 /etc/localtime -> /usr/share/zoneinfo/America/Los_Angeles
@@ -404,15 +401,12 @@ rodata_test: all tests were successful
 Run /init as init process
 ```
 
-
 At this point, the `cpu` daemon is running, and you can try the `cpu` command:
-
 
 ```
 rminnich@minnich:/home/cpubinaries$ ./cpu -key cpu_rsa localhost date
 Fri 16 Oct 2020 04:21:04 PM PDT
 ```
-
 
 You can log in and notice that things are the same:
 
