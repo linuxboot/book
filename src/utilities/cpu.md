@@ -500,6 +500,7 @@ In this case, /bin, /usr, and /lib on the remote system are supplied by /arm/bin
 
 If we need to test cpu without doing bind mounts, we can specify a PWD that requires
 no mounts and an empty namespace:
+
 ```
 PWD=/ cpu -namespace="" -9p=false h /bin/ls
 bbin
@@ -519,9 +520,11 @@ which we are still discussing: the -namespace value can override the -9p switch.
 
 If you set -9p=false but have a non-empty namespace variable, then 9p will be
 set to true. So in this example, the -9p switch has no effect:
+
 ```
 cpu -9p=false h ls
 ```
+
 Why is this? Because the default value of -namespace is non-empty.
 The open question: should -9p=false force the namespace to be empty;
 or should a none-empty namespace for -9p to be true? For now, we have chosen
@@ -529,10 +532,12 @@ the latter approach.
 
 Another possible approach is to log conflicting settings of these two switches
 and exit:
+
 ```
 cpu -9p=false h ls
 error: 9p is false but the namespace is non-empty; to force an empty namespace use -namespace=""
 ```
+
 We welcome comments on this issue.
 
 ### cpu and Docker
@@ -546,6 +551,7 @@ That means we can use any Docker image, on any architecture, at any time; and
 we can even run more than one at a time, since the namespaces are private.
 
 In this example, we are starting a standard Ubuntu image:
+
 ```
 docker run -v /home/rminnich:/home/rminnich -v /home/rminnich/.ssh:/root/.ssh -v /etc/hosts:/etc/hosts --entrypoint /home/rminnich/go/bin/cpu -it ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486 h
 Unable to find image 'ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486' locally
@@ -565,6 +571,7 @@ Note that the image was update and then started. The /lib64 mount fails,
 because there is no /lib64 directory in the image, but that is harmless.
 
 On the local host, on which we ran docker, this image will show up in docker ps:
+
 ```
 rminnich@a300:~$ docker ps
 CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
@@ -594,17 +601,22 @@ value of the CPU_FSTAB environment variable. On the server side, cpud does not
 use the -fstab switch, only using the environment variable.
 
 Here is an example of using the CPU_FSTAB variable with one entry:
+
 ```
 CPU_FSTAB="myfs /mnt virtiofs rw 0 0" cpu v
 ```
+
 In this case, the virtiofs server had the name myfs, and on the remote side,
 virtiofs was mounted on /mnt.
 
 For the fstab case, the command looks like this:
+
 ```
 cpu -fstab fstab v
 ```
+
 The fstab in this case would be
+
 ```
 myfs /mnt virtiofs rw 0 0
 ```
@@ -612,9 +624,11 @@ myfs /mnt virtiofs rw 0 0
 Note that both the environment variable and the fstab can have more than one
 entry, but they entries must be separate by newlines. Hence, this will not
 work:
+
 ```
 CPU_FSTAB=`cat fstab` cpu v
 ```
+
 as shells insist on converting newlines to spaces.
 
 The fstab can specify any file system. If there is a mount path to, e.g.,
