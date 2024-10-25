@@ -230,7 +230,7 @@ By loading during the DXE, LinuxBoot runs after the first two stages
 of the UEFI, but takes over after that point, replacing the
 UEFI drivers. It therefore completely replaces a large portion
 of the boot process.</p>
-<h1 id="phases-of-the-project"><a class="header" href="#phases-of-the-project">Phases of the project</a></h1>
+<h2 id="phases-of-the-project"><a class="header" href="#phases-of-the-project">Phases of the project</a></h2>
 <p>Google's LinuxBoot project is focused on moving UEFI boot functionality
 into the kernel and userspace. That is, converting UEFI firmware
 to run LinuxBoot. The project has taken the standard UEFI boot process
@@ -245,7 +245,7 @@ Linux applications.</p>
 <p>The following diagram shows the phases of the UEFI boot process.
 The items in <span style="color:red">red</span> are components
 that are either reduced or eliminated with LinuxBoot.
-The dark <span style="color:blue">blue</span> items on the left
+The <span style="color:blue">dark blue</span> items on the left
 cannot be changed.</p>
 <img src="../images/Case-study-step1.svg" width=600px>
 <p>In the real FLASH part, the SEC and PEI are actually only 10% of total,
@@ -301,8 +301,11 @@ development continues to provide an open-source solution that
 does the following:</p>
 <ol>
 <li>Brings up the Linux kernel as a DXE in flash ROM instead of the UEFI shell.</li>
-<li>Provides a Go based userland that can then bring up the kernel that you want to run on the machine.</li>
-<li>Enables writing traditional firmware applications such as bootloader, debugging, diagnosis, and error detection applications as cross-architecture and cross-platform portable Linux applications.</li>
+<li>Provides a Go based userland that can then bring up the kernel that you want
+to run on the machine.</li>
+<li>Enables writing traditional firmware applications such as bootloader,
+debugging, diagnosis, and error detection applications as cross-architecture
+and cross-platform portable Linux applications.</li>
 </ol>
 <p>The complete LinuxBoot solution is shown in the following diagram.</p>
 <img src="../images/Case-study-step6.svg" width=600px>

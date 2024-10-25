@@ -174,8 +174,16 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="ocp-tiogapass-case-study"><a class="header" href="#ocp-tiogapass-case-study">OCP TiogaPass Case Study</a></h1>
-<p>Points of contact: <a href="https://github.com/jonzhang-fb">Jonathan Zhang</a>, <a href="https://github.com/insomniacslk">Andrea Barberio</a>, <a href="https://github.com/dhendrix">David Hendricks</a>, <a href="https://github.com/agangidi53">Adi</a>, <a href="https://github.com/morganjangwiwynn">Morgan Jang</a>, <a href="https://github.com/johnnylinwiwynn">Johnny Lin</a></p>
-<p>This case study describes information for firmware development community to use <a href="https://www.opencompute.org/">OCP</a> platform TiogaPass, made by <a href="http://www.wiwynn.com/english">Wiwynn Corporation</a>.</p>
+<p>Points of contact:
+<a href="https://github.com/jonzhang-fb">Jonathan Zhang</a>,
+<a href="https://github.com/insomniacslk">Andrea Barberio</a>,
+<a href="https://github.com/dhendrix">David Hendricks</a>,
+<a href="https://github.com/agangidi53">Adi</a>,
+<a href="https://github.com/morganjangwiwynn">Morgan Jang</a>,
+<a href="https://github.com/johnnylinwiwynn">Johnny Lin</a></p>
+<p>This case study describes information for firmware development community to use
+<a href="https://www.opencompute.org/">OCP</a> platform TiogaPass, made by <a href="http://www.wiwynn.com/english">Wiwynn
+Corporation</a>.</p>
 <p>It contains following sections:</p>
 <ul>
 <li><a href="#Quick-Start">Quick Start</a></li>
@@ -197,75 +205,88 @@
 <h2 id="quick-start"><a class="header" href="#quick-start">Quick Start</a></h2>
 <ul>
 <li><a href="http://www.wiwynn.com/english">Order the hardware</a> if you have not done so.</li>
-<li>Download or build the firmware binary. The current solution is to boot embedded Linux kernel and initramfs as UEFI payload. Please contact Wiwynn to get a UEFI binary after ordering.</li>
+<li>Download or build the firmware binary. The current solution is to boot
+embedded Linux kernel and initramfs as UEFI payload. Please contact Wiwynn to
+get a UEFI binary after ordering.</li>
 <li>Flash the firmware.
 <ul>
 <li>Copy the downloaded firmware to OpenBMC.</li>
-<li>From OpenBMC</li>
-</ul>
-</li>
-</ul>
+<li>From OpenBMC
 <pre><code>  fw-util mb --update bios --force ./&lt;firmware image name&gt;
 </code></pre>
-<ul>
-<li>Boot and enjoy.
-<ul>
-<li>From OpenBMC</li>
-</ul>
 </li>
 </ul>
+</li>
+<li>Boot and enjoy.
+<ul>
+<li>From OpenBMC
 <pre><code>  power-util mb reset
   sol-util mb
 </code></pre>
+</li>
+</ul>
+</li>
+</ul>
 <h2 id="details"><a class="header" href="#details">Details</a></h2>
 <h3 id="how-to-build"><a class="header" href="#how-to-build">How to build</a></h3>
-<p>Follow <a href="#Build-Details">Build Details</a> for details on how to get the source code, and how to build.</p>
-<p>Boot flow of the current firmware solution is: Power on --&gt; minimized UEFI --&gt; Linuxboot --&gt; target OS.</p>
-<p>In near feature, the boot flow will be: power on --&gt; Coreboot --&gt; Linuxboot --&gt; target OS.</p>
+<p>Follow <a href="#Build-Details">Build Details</a> for details on how to get the source
+code, and how to build.</p>
+<p>Boot flow of the current firmware solution is: Power on → minimized UEFI →
+Linuxboot → target OS.</p>
+<p>In near feature, the boot flow will be: power on → Coreboot → Linuxboot →
+target OS.</p>
 <h4 id="build-details"><a class="header" href="#build-details">Build Details</a></h4>
 <ul>
-<li>Download the code from <a href="https://github.com/linuxboot/linuxboot">linuxboot github</a></li>
-</ul>
+<li>Download the code from <a href="https://github.com/linuxboot/linuxboot">linuxboot github</a>
 <pre><code>  git clone https://github.com/linuxboot/linuxboot.git
 </code></pre>
-<ul>
-<li>You need to apply Wiwiynn's linuxboot patch for now</li>
-</ul>
+</li>
+<li>You need to apply Wiwiynn's linuxboot patch for now
 <pre><code>cd linuxboot
 wget -O TiogaPass.patch https://github.com/johnnylinwiwynn/linuxboot/commit/28ae8450b3b05c6e6b8c74e29d0974ccf711d5e6.patch
 git am TiogaPass.patch
 </code></pre>
-<ul>
-<li>Build the kernel bzImage (has embeded initramfs) for linuxboot, please reference
-<a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-u-root">Building u-root</a> and
-<a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-a-suitable-linux-kernel">Building a suitable Linux kernel</a>
-for how to build the bzImage. You can always customize your Linux kernel configuration to suit your needs, please reference Wiwynn's kernel configuration file as a sample <a href="linux_config">linux_config</a>.</li>
-<li>Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn after ordering, and also put your bzImage
-to the root folder of linuxboot, and then make</li>
-</ul>
+</li>
+<li>Build the kernel bzImage (has embedded initramfs) for linuxboot, please
+reference <a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-u-root">Building u-root</a>
+and <a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-a-suitable-linux-kernel">Building a suitable Linux kernel</a>
+for how to build the bzImage. You can always customize your Linux kernel
+configuration to suit your needs, please reference Wiwynn's kernel
+configuration file as a sample <a href="linux_config">linux_config</a>.</li>
+<li>Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn
+after ordering, and also put your bzImage to the root folder of linuxboot,
+and then make
 <pre><code>  cp path/to/tioga.rom linuxboot/boards/tioga
   cp path/to/bzImage linuxboot
   cd linuxboot
   BOARD=tioga make
 </code></pre>
-<ul>
+</li>
 <li>You should see the built image at build/tioga/linuxboot.rom.</li>
 </ul>
 <h3 id="how-to-operate"><a class="header" href="#how-to-operate">How to operate</a></h3>
 <p>Follow <strong>TBD section</strong> for details on:</p>
 <ul>
-<li>How to flash. The image can be flashed either out-of-band, or from Linuxboot u-root shell, or from targetOS shell.</li>
+<li>How to flash. The image can be flashed either out-of-band, or from Linuxboot
+u-root shell, or from targetOS shell.</li>
 <li>How to run Linuxboot u-root shell commands.</li>
 </ul>
 <h3 id="platform-info"><a class="header" href="#platform-info">Platform info</a></h3>
-<p>The SKU contains TiogaPass board, a debug card, a VGA card, a power adapter. The details can be obtained from <a href="http://www.wiwynn.com/english">Here</a>.</p>
-<p>Platform design details (including the design spec and schematics) can be found from <a href="https://www.opencompute.org/products/108/wiwynn-tioga-pass-standard-sv7220g3-s-2u-ocp-server-up-to-768gb-8gb16gb32gb-ddr4-up-to-2666mts-12-dimm-slots">Here</a>.</p>
+<p>The SKU contains TiogaPass board, a debug card, a VGA card, a power adapter.
+The details can be obtained from the <a href="http://www.wiwynn.com/english">Wiwynn Corporation</a>.</p>
+<p>Platform design details (including the design spec and schematics) can be found
+on the <a href="https://www.opencompute.org/products/108/wiwynn-tioga-pass-standard-sv7220g3-s-2u-ocp-server-up-to-768gb-8gb16gb32gb-ddr4-up-to-2666mts-12-dimm-slots">Open Compute Project UfiSpace product
+page</a>.</p>
 <h2 id="support"><a class="header" href="#support">Support</a></h2>
 <h3 id="hardware-support"><a class="header" href="#hardware-support">Hardware support</a></h3>
-<p>Hardware support can be obtained from Wiwynn Corporation(http://www.wiwynn.com/english)</p>
+<p>Hardware support can be obtained from <a href="http://www.wiwynn.com/english">Wiwynn Corporation</a>.</p>
 <h3 id="community-support"><a class="header" href="#community-support">Community support</a></h3>
-<p><a href="https://www.opencompute.org/projects/open-system-firmware">OCP Open System Firmware</a> is where industry collaborates on how to move forward with OSF. The OCP OSF project has regular recorded meetings and a mailing list.</p>
-<p><a href="https://www.linuxboot.org/">Linuxboot open source community</a> is the community you can ask any technical questions. Linuxboot community has a slack channel, a IRC channel, a mailing list and regular meetings.</p>
+<p><a href="https://www.opencompute.org/projects/open-system-firmware">OCP Open System Firmware</a>
+is where industry collaborates on how to move forward with OSF. The OCP OSF
+project has regular recorded meetings and a mailing list.</p>
+<p><a href="https://www.linuxboot.org/">Linuxboot open source community</a> is the community
+you can ask any technical questions. Linuxboot community has a slack channel, a
+IRC channel, a mailing list and regular meetings.</p>
 <h3 id="professional-support"><a class="header" href="#professional-support">Professional support</a></h3>
 <p>Following companies provides professional support services:</p>
 <p>** TBD **</p>

@@ -173,7 +173,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="uefi-tool-kit"><a class="header" href="#uefi-tool-kit">UEFI Tool Kit</a></h2>
+                        <h1 id="uefi-tool-kit"><a class="header" href="#uefi-tool-kit">UEFI Tool Kit</a></h1>
 <p>Authors: Ryan O'Leary, Gan Shun Lim and Andrea Barberio</p>
 <p>In previous chapters, you learned how to read a raw ROM image from a flash
 part. If you've been following along, you know the next step is to insert a
@@ -194,13 +194,13 @@ volumes, Intel firmware descriptors and FIT.</p>
 <li>Common pitfalls</li>
 <li>Extend UTK with additional commands</li>
 </ol>
-<h3 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h3>
-<pre><code>$ make bzImage
-$ sudo flashrom -r /tmp/ROM.bin
-$ utk /tmp/ROM.bin replace_pe32 Shell arch/86/boot/bzImage save /tmp/NEWROM.bin
-$ sudo flashrom -w /tmp/NEWROM.bin
+<h2 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h2>
+<pre><code>make bzImage
+sudo flashrom -r /tmp/ROM.bin
+utk /tmp/ROM.bin replace_pe32 Shell arch/86/boot/bzImage save /tmp/NEWROM.bin
+sudo flashrom -w /tmp/NEWROM.bin
 </code></pre>
-<h3 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h3>
+<h2 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h2>
 <p>We assume you have a way to read and write the FLASH into a file.</p>
 <p>Let's assume you have read FLASH into an image called ROM.bin and you
 have a kernel, called bzImage, which you want to insert into
@@ -210,18 +210,18 @@ is a quick and easy way to get started. In the long term, you want to
 remove as much of UEFI as possible, but replacing the shell is always
 our first step on a new board.</p>
 <p>Get the tool:</p>
-<pre><code>$ go get -u github.com/linuxboot/fiano/cmds/utk
+<pre><code>go get -u github.com/linuxboot/fiano/cmds/utk
 </code></pre>
 <p>Replace the shell:</p>
-<pre><code>$ utk ROM.bin replace_pe32 Shell bzImage save NEWROM.bin
+<pre><code>utk ROM.bin replace_pe32 Shell bzImage save NEWROM.bin
 </code></pre>
-<p>After that, you can flash NEWROM.bin and test. If anything goes wrong, such as not enough space, you will need to refer to the more detailed instructions below.</p>
-<h3 id="installation"><a class="header" href="#installation">Installation</a></h3>
+<p>After that, you can flash NEWROM.bin and test. If anything goes wrong, such as
+not enough space, you will need to refer to the more detailed instructions
+below.</p>
+<h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
 <p>At the time of writing, you must clone and build UTK from source -- binary
 distributions are not officially available. The source code resides in the
-Fiano project:</p>
-<pre><code>https://github.com/linuxboot/fiano/
-</code></pre>
+<a href="https://github.com/linuxboot/fiano/">Fiano Github project</a>.</p>
 <p>Aside: what is the difference between Fiano and UTK? The Fiano project contains
 a few more tools besides UTK, but UTK is a big element.</p>
 <p>We'll assume you already have Go installed. Check your installation with:</p>
@@ -232,7 +232,7 @@ go version go1.11 linux/amd64
 official binary distributions of Go or install from source. See
 <a href="https://golang.org/">https://golang.org/</a> for details.</p>
 <p>With Go, download and install UTK:</p>
-<pre><code>$ go get -u github.com/linuxboot/fiano/cmds/utk
+<pre><code>go get -u github.com/linuxboot/fiano/cmds/utk
 </code></pre>
 <p>Running the above line installs <code>utk</code> to your <code>$GOPATH/bin</code> directory (or
 <code>$HOME/go/bin</code> if the <code>GOPATH</code> environment variable is not set). Adding this
@@ -265,12 +265,12 @@ Operations:
   validate              : perform extra validation checks
 </code></pre>
 <p>Don't fret if your list of operations differs. UTK is an evolving project!</p>
-<h3 id="inspecting-roms"><a class="header" href="#inspecting-roms">Inspecting ROMs</a></h3>
+<h2 id="inspecting-roms"><a class="header" href="#inspecting-roms">Inspecting ROMs</a></h2>
 <p>Throughout this section, we'll demonstrate commands for inspecting a UEFI
 image. When confronted with a new image, run these commands to get a "lay of
 the land".</p>
 <p>Start by downloading the UEFI image used in these examples:</p>
-<pre><code>$ wget https://github.com/linuxboot/fiano/raw/master/integration/roms/OVMF.rom
+<pre><code>wget https://github.com/linuxboot/fiano/raw/master/integration/roms/OVMF.rom
 </code></pre>
 <p>Aside: alternatively, all UTK operations should work with your own UEFI images.
 Simply substitute "OVMF.rom" with your own UEFI image in all the examples
@@ -350,7 +350,7 @@ BIOS                                                                            
 <p>This format is compact and easy for humans reading, but not ideal for machine
 consumption. Use the <code>json</code> command to print everything (including much more
 metadata) as JSON:</p>
-<pre><code>$ utk OVMF.rom json | less
+<pre><code>utk OVMF.rom json | less
 </code></pre>
 <p>Combine <code>utk</code> with the JSON query command, <code>jq</code> (<code>sudo apt-get install jq</code>),
 and other UNIX commands to quickly write powerful queries. For example, the
@@ -400,16 +400,16 @@ you match a file by its name or GUID.</p>
 contents. The <code>extract &lt;DIR&gt;</code> command extracts all the files from the image and
 saves them to <code>&lt;DIR&gt;</code>. <code>&lt;DIR&gt;/summary.json</code> lists all the paths to the extracted
 files along with their metadata.</p>
-<pre><code>$ utk OVMF.rom extract OVMF/
+<pre><code>utk OVMF.rom extract OVMF/
 </code></pre>
 <p>After modifying the files, they can be reassembled with:</p>
-<pre><code>$ utk OVMF/ save OVMF2.rom
+<pre><code>utk OVMF/ save OVMF2.rom
 </code></pre>
-<h3 id="modifying-roms"><a class="header" href="#modifying-roms">Modifying ROMs</a></h3>
+<h2 id="modifying-roms"><a class="header" href="#modifying-roms">Modifying ROMs</a></h2>
 <p>First, let's verify the image works by running it inside QEMU. This step is not
 absolutely necessary, but gives us confidence the image works before and after
 each change we make.</p>
-<pre><code>$ qemu-system-x86_64 -bios OVMF.rom -nographic -net none
+<pre><code>qemu-system-x86_64 -bios OVMF.rom -nographic -net none
 </code></pre>
 <p>For the provided OVMF.rom image, this should boot to the EDK2 shell.</p>
 <p>TODO: include screenshot of the EDK2 shell</p>
@@ -447,14 +447,14 @@ $ utk OVMF.rom \
 </code></pre>
 <p>That's all there to it! Try experimenting with the other commands such as
 insert.</p>
-<h3 id="common-pitfalls"><a class="header" href="#common-pitfalls">Common Pitfalls</a></h3>
-<h4 id="kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode"><a class="header" href="#kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode">Kernel is not built as a DXE or has not enabled UEFI stub mode</a></h4>
+<h2 id="common-pitfalls"><a class="header" href="#common-pitfalls">Common Pitfalls</a></h2>
+<h3 id="kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode"><a class="header" href="#kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode">Kernel is not built as a DXE or has not enabled UEFI stub mode</a></h3>
 <p>In order to be properly bootable as a DXE, kernels must have the following
 enabled:</p>
 <pre><code>CONFIG_EFI=y
 CONFIG_EFI_STUB=y
 </code></pre>
-<h4 id="files-are-missing-from-the-firmware-volume"><a class="header" href="#files-are-missing-from-the-firmware-volume">Files are missing from the Firmware Volume</a></h4>
+<h3 id="files-are-missing-from-the-firmware-volume"><a class="header" href="#files-are-missing-from-the-firmware-volume">Files are missing from the Firmware Volume</a></h3>
 <p>When UTK does not recognize the compression format used by the particular
 image, the files within it are not listed.</p>
 <p>In the wild, three compression schemes are common:</p>
@@ -467,7 +467,7 @@ image, the files within it are not listed.</p>
 </div>
 <p>To determine which compression scheme you are using, search for the respective
 GUID in the json summary.</p>
-<h4 id="file-size-too-big"><a class="header" href="#file-size-too-big">File size too big!</a></h4>
+<h3 id="file-size-too-big"><a class="header" href="#file-size-too-big">File size too big</a></h3>
 <pre><code>File size too big! File with GUID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX has length 543210, but is only 123450 bytes big
 </code></pre>
 <p>When saving a UEFI image, files are added successively to each firmware volume.
@@ -482,12 +482,13 @@ equality section") -- compressed volumes are recompressed.</p>
 <p>By default, UTK uses the Go compressor, which is generally worse than the
 compression found in most UEFI images. Pass <code>--systemXZ=xz</code> as the first
 argument to UTK to use a better compressor.</p>
-<h4 id="todo-for-everything-after-this-point-arbitrary-data-before-or-after-the-image"><a class="header" href="#todo-for-everything-after-this-point-arbitrary-data-before-or-after-the-image">(TODO for everything after this point) Arbitrary data before or after the image.</a></h4>
-<p>Find a general solution which works for all images is a topic of research: <a href="https://github.com/linuxboot/fiano/issues/200">#200</a>.</p>
-<h4 id="hard-coded-addresses"><a class="header" href="#hard-coded-addresses">Hard-coded addresses</a></h4>
-<h4 id="binary-equality"><a class="header" href="#binary-equality">Binary equality</a></h4>
+<h3 id="todo-for-everything-after-this-point-arbitrary-data-before-or-after-the-image"><a class="header" href="#todo-for-everything-after-this-point-arbitrary-data-before-or-after-the-image">(TODO for everything after this point) Arbitrary data before or after the image</a></h3>
+<p>Find a general solution which works for all images is a topic of research:
+<a href="https://github.com/linuxboot/fiano/issues/200">#200</a>.</p>
+<h3 id="hard-coded-addresses"><a class="header" href="#hard-coded-addresses">Hard-coded addresses</a></h3>
+<h3 id="binary-equality"><a class="header" href="#binary-equality">Binary equality</a></h3>
 <p>TODO</p>
-<h3 id="extending-utk"><a class="header" href="#extending-utk">Extending UTK</a></h3>
+<h2 id="extending-utk"><a class="header" href="#extending-utk">Extending UTK</a></h2>
 <p>Visitor pattern means decoupling the structure from the operations.</p>
 <ul>
 <li>pkg/uefi: structure</li>
@@ -500,14 +501,14 @@ argument to UTK to use a better compressor.</p>
 </ol>
 <p>A good visitor still works when new Firmware are introduced. A good Firmware
 still works when a new visitor is introduced.</p>
-<p><strong>AST</strong></p>
+<h3 id="ast"><a class="header" href="#ast">AST</a></h3>
 <p>Abstract Syntax Tree -- this is a concept borrowed from compilers. When you're
 extracting the DXE to create a tree of structs containing a simplified model,
 you're essentially creating an AST. Then think about how patterns used in
 compiler architecture might apply to UTK.</p>
-<p><strong>Visitor Interface</strong></p>
+<h3 id="visitor-interface"><a class="header" href="#visitor-interface">Visitor Interface</a></h3>
 <p>Each visitor implements the following:</p>
-<pre><code>type Visitor interface {
+<pre><code class="language-go">type Visitor interface {
     VisitFV(*FV) error
     VisitFile(*File) error
     VisitSection(*FileSection) error
@@ -516,9 +517,9 @@ compiler architecture might apply to UTK.</p>
 </code></pre>
 <p>Think of a visitor as an "action" or a "transformation" being applied on the
 AST.</p>
-<p><strong>Visitor</strong></p>
+<h3 id="visitor"><a class="header" href="#visitor">Visitor</a></h3>
 <p>A struct implementing Visitor performs a transformation on the AST, for example:</p>
-<pre><code>type RenameDXE struct {
+<pre><code class="language-go">type RenameDXE struct {
     before, after string
 }
 func (v *RenameDXE) VisitFV(fv *FV) error {
@@ -544,26 +545,26 @@ func (v *RenameDXE) VisitSection(s *FileSection) error {
 <li>Replace a GUID with a file</li>
 <li>Validate that all the nodes in the tree are valid</li>
 <li>Find compressed files in the tree and decompress them</li>
-<li>Assembe the AST back into an image.</li>
+<li>Assemble the AST back into an image.</li>
 <li>Recursively write the AST to the filesystem (what you currently do with extract)</li>
 <li>Print an overview of the files to the terminal for debugging</li>
 <li>...</li>
 </ul>
 <p>It is easy to add more visitors without modifying existing code. Each action can
 be in a separate file.</p>
-<p><strong>Applying</strong></p>
+<h3 id="applying"><a class="header" href="#applying">Applying</a></h3>
 <p>Visitors are applied to the AST. Each node in the AST has an "Apply" method, for
 example:</p>
-<pre><code>func (f *File) Apply(v *visitor) error {
+<pre><code class="language-go">func (f *File) Apply(v *visitor) error {
     return v.VisitFile(f)
 }
 </code></pre>
 <p>This is so the visitors can be applied recursively over the AST.</p>
 <p>To apply the above RenameDXE visitor, you'd run:</p>
-<pre><code>v := &amp;RenameDXE{"Shell", "NotShell"}
+<pre><code class="language-go">v := &amp;RenameDXE{"Shell", "NotShell"}
 fv.Apply(v)
 </code></pre>
-<p><strong>Chaining Visitors Together</strong></p>
+<h3 id="chaining-visitors-together"><a class="header" href="#chaining-visitors-together">Chaining Visitors Together</a></h3>
 <p>It would be exciting/useful to be able to chain these small actions together
 through the command line. For example:</p>
 <pre><code>utk extract bios.rom \

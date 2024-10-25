@@ -184,29 +184,84 @@
 <li>Guides you through the steps needed to implement LinuxBoot</li>
 </ul>
 <h2 id="what-is-linuxboot"><a class="header" href="#what-is-linuxboot">What is LinuxBoot?</a></h2>
-<p>LinuxBoot is a project that aims to replace specific <a href="./glossary.html">firmware</a> functionality with a Linux kernel and runtime. Over the years this project has grown to include various initiatives with the overarching goal of moving from obscure, complex firmware to simpler, open source firmware.</p>
-<p>The goal of LinuxBoot is to reduce the role of firmware to a small, fixed-function core whose only purpose is to get a flash-based Linux kernel started. This “bare essentials” firmware prepares the hardware and starts a Linux kernel and a userland environment will run on the machine. Go is the recommended userland environment, but is not required.</p>
+<p>LinuxBoot is a project that aims to replace specific <a href="./glossary.html">firmware</a>
+functionality with a Linux kernel and runtime. Over the years this project has
+grown to include various initiatives with the overarching goal of moving from
+obscure, complex firmware to simpler, open source firmware.</p>
+<p>The goal of LinuxBoot is to reduce the role of firmware to a small,
+fixed-function core whose only purpose is to get a flash-based Linux kernel
+started. This “bare essentials” firmware prepares the hardware and starts a
+Linux kernel and a userland environment will run on the machine. Go is the
+recommended userland environment, but is not required.</p>
 <h2 id="why-linuxboot-is-needed"><a class="header" href="#why-linuxboot-is-needed">Why LinuxBoot is needed</a></h2>
-<p>Sometimes firmware contains drivers and utilities. They can have bugs, or be unmaintained, which can be a source of problems and security issues. LinuxBoot replaces proprietary, closed-source, vendor-supplied firmware drivers with Linux drivers. This enables engineers writing Linux drivers and engineers writing firmware drivers to focus on one set of drivers. Those drivers will, as a result, have a larger set of contributors and reviewers, and because the drivers are part of Linux, standard industry coding infrastructure can be used to improve them. Finally, because these Linux drivers are currently being run 24x7 at scale, they will have fewer bugs.</p>
+<p>Sometimes firmware contains drivers and utilities. They can have bugs, or be
+unmaintained, which can be a source of problems and security issues. LinuxBoot
+replaces proprietary, closed-source, vendor-supplied firmware drivers with
+Linux drivers. This enables engineers writing Linux drivers and engineers
+writing firmware drivers to focus on one set of drivers. Those drivers will, as
+a result, have a larger set of contributors and reviewers, and because the
+drivers are part of Linux, standard industry coding infrastructure can be used
+to improve them. Finally, because these Linux drivers are currently being run
+24x7 at scale, they will have fewer bugs.</p>
 <h2 id="what-linuxboot-does"><a class="header" href="#what-linuxboot-does">What LinuxBoot does</a></h2>
-<p>LinuxBoot replaces many Driver Execution Environment (DXE) modules used by Unified Extensible Firmware Interface (UEFI) and other firmware, particularly the network stack and file system modules, with Linux applications.</p>
-<p>LinuxBoot brings up the Linux kernel as a DXE in flash ROM instead of the UEFI shell. The Linux kernel, with a provided Go based userland, can then bring up the kernel that you want to run on the machine. The LinuxBoot firmware paradigm enables writing traditional firmware applications such as bootloader, debugging, diagnosis, and error detection applications as cross-architecture and cross-platform portable Linux applications.</p>
-<p>When Linux boots it needs a root file system with utilities. One such root filesystem used for Linuxboot is based on u-root standard utilities written in Go. The following diagram shows the current state of the UEFI boot process and what is planned for the transition to LinuxBoot.</p>
-<h2 id=""><a class="header" href="#"></a></h2>
+<p>LinuxBoot replaces many Driver Execution Environment (DXE) modules used by
+Unified Extensible Firmware Interface (UEFI) and other firmware, particularly
+the network stack and file system modules, with Linux applications.</p>
+<p>LinuxBoot brings up the Linux kernel as a DXE in flash ROM instead of the UEFI
+shell. The Linux kernel, with a provided Go based userland, can then bring up
+the kernel that you want to run on the machine. The LinuxBoot firmware paradigm
+enables writing traditional firmware applications such as bootloader,
+debugging, diagnosis, and error detection applications as cross-architecture
+and cross-platform portable Linux applications.</p>
+<p>When Linux boots it needs a root file system with utilities. One such root
+filesystem used for Linuxboot is based on u-root standard utilities written in
+Go. The following diagram shows the current state of the UEFI boot process and
+what is planned for the transition to LinuxBoot.</p>
 <p><img src="../images/UEFI-versus-LinuxBoot.svg" alt="image" /></p>
 <h2 id="benefits-of-using-the-go-userland-environment-and-compiler"><a class="header" href="#benefits-of-using-the-go-userland-environment-and-compiler">Benefits of using the Go userland environment and compiler</a></h2>
-<p>Go is a systems programming language created by Google. Go has strong typing, language level support for concurrency, inter-process communication via channels, runtime type safety and other protective measures, dynamic allocation and garbage collection, and closures. Go has a package syntax similar to Java that makes it easy to determine what packages a given program needs.</p>
-<p>The modern language constructs make Go a much safer language than C. This safety is critical for network-attached embedded systems, which usually have network utilities written in C, including web servers, network servers including sshd, and programs that provide access to a command interpreter, itself written in C. All are proving to be vulnerable to the attack-rich environment that the Internet has become.</p>
-<p>Even the most skilled programmers make simple mistakes that in C can be fatal, especially on network connected systems. Currently, even the lowest-level firmware in our PCs, printers, and thermostats is network-connected. These programming mistakes are either impossible to make in Go or, if made, are detected at runtime and result in the program exiting.</p>
-<p>The case for using a high-level, safe language like Go in very low level embedded firmware might be stronger than for user programs, because exploits at the firmware level are nearly impossible to detect and mitigate.</p>
-<p>The challenge to using Go in a storage-constrained environment such as firmware is that advanced language features lead to big binaries. Even a date program is about 2 MiB. One Go binary, implementing one function, is twice as large as a BusyBox binary implementing many functions. Currently, a typical BIOS FLASH part is 16 MiB. Fitting many Go binaries into a single BIOS flash part is not practical. The Go compiler is very fast and its sheer speed suggests a solution of having programs compiled only when they are used. With this approach, you can build a root file system that has almost no binaries except the Go compiler itself. The compiled programs and packages can be saved to a RAM-based file system. Another solution is to compile everything together into one BusyBox-style program. There are also other solutions that involve fetching things over the network, but compiling dynamically with Go or creating a BusyBox program are the recommended solutions.</p>
+<p>Go is a systems programming language created by Google. Go has strong typing,
+language level support for concurrency, inter-process communication via
+channels, runtime type safety and other protective measures, dynamic allocation
+and garbage collection, and closures. Go has a package syntax similar to Java
+that makes it easy to determine what packages a given program needs.</p>
+<p>The modern language constructs make Go a much safer language than C. This
+safety is critical for network-attached embedded systems, which usually have
+network utilities written in C, including web servers, network servers
+including sshd, and programs that provide access to a command interpreter,
+itself written in C. All are proving to be vulnerable to the attack-rich
+environment that the Internet has become.</p>
+<p>Even the most skilled programmers make simple mistakes that in C can be fatal,
+especially on network connected systems. Currently, even the lowest-level
+firmware in our PCs, printers, and thermostats is network-connected. These
+programming mistakes are either impossible to make in Go or, if made, are
+detected at runtime and result in the program exiting.</p>
+<p>The case for using a high-level, safe language like Go in very low level
+embedded firmware might be stronger than for user programs, because exploits at
+the firmware level are nearly impossible to detect and mitigate.</p>
+<p>The challenge to using Go in a storage-constrained environment such as firmware
+is that advanced language features lead to big binaries. Even a date program is
+about 2 MiB. One Go binary, implementing one function, is twice as large as a
+BusyBox binary implementing many functions. Currently, a typical BIOS FLASH
+part is 16 MiB. Fitting many Go binaries into a single BIOS flash part is not
+practical. The Go compiler is very fast and its sheer speed suggests a solution
+of having programs compiled only when they are used. With this approach, you
+can build a root file system that has almost no binaries except the Go compiler
+itself. The compiled programs and packages can be saved to a RAM-based file
+system. Another solution is to compile everything together into one
+BusyBox-style program. There are also other solutions that involve fetching
+things over the network, but compiling dynamically with Go or creating a
+BusyBox program are the recommended solutions.</p>
 <h2 id="benefits-of-linuxboot-with-uefi-servers"><a class="header" href="#benefits-of-linuxboot-with-uefi-servers">Benefits of LinuxBoot with UEFI servers</a></h2>
-<p>Most server firmware is based on Intel’s Universal Extensible Firmware Interface (UEFI). LinuxBoot provides the following benefits over UEFI:</p>
+<p>Most server firmware is based on Intel’s Universal Extensible Firmware
+Interface (UEFI). LinuxBoot provides the following benefits over UEFI:</p>
 <p>Reliability</p>
 <ul>
-<li>Improves boot reliability by replacing lightly-tested firmware drivers with hardened Linux drivers</li>
-<li>Proven approach for almost 20 years in military, consumer electronics, and supercomputing systems – wherever reliability and performance are paramount</li>
-<li>Fault Tolerance - Linux isolates processes** **(for example, when Pxeboot fails catastrophically, diskboot still works afterwards)</li>
+<li>Improves boot reliability by replacing lightly-tested firmware drivers with
+hardened Linux drivers</li>
+<li>Proven approach for almost 20 years in military, consumer electronics, and
+supercomputing systems – wherever reliability and performance are paramount</li>
+<li>Fault Tolerance - Linux isolates processes** **(for example, when Pxeboot
+fails catastrophically, diskboot still works afterwards)</li>
 </ul>
 <p>Security</p>
 <ul>
@@ -221,8 +276,10 @@
 </ul>
 <p>Flexibility</p>
 <ul>
-<li>Can be used with coreboot, u-boot, OpenPOWER Abstraction Layer (OPAL), SlimBootLoader, ARM Trusted Firmware (ATF)</li>
-<li>Can boot multiple operating systems (Linux, Berkeley UNIX (BSD), XEN, Windows)</li>
+<li>Can be used with coreboot, u-boot, OpenPOWER Abstraction Layer (OPAL),
+SlimBootLoader, ARM Trusted Firmware (ATF)</li>
+<li>Can boot multiple operating systems (Linux, Berkeley UNIX (BSD), XEN,
+Windows)</li>
 <li>Supports the following server mainboards:
 <ul>
 <li>QEMU emulated Q35 systems</li>
@@ -237,29 +294,28 @@
 </ul>
 <p>Boot speed</p>
 <ul>
-<li>Improves boot time by removing unnecessary code; typically makes boot 20 times faster</li>
+<li>Improves boot time by removing unnecessary code; typically makes boot 20
+times faster</li>
 </ul>
 <p>Customization</p>
 <ul>
-<li>Allows customization of the initrd runtime to support site-specific needs (both device drivers as well as custom executables)</li>
+<li>Allows customization of the initrd runtime to support site-specific needs
+(both device drivers as well as custom executables)</li>
 </ul>
 <p>Engineering Productivity</p>
 <ul>
-<li>
-<p>Write a driver once, not twice</p>
+<li>Write a driver once, not twice
 <ul>
 <li>Linux is <strong>open, measurable, reproducible, updatable</strong></li>
 <li>Linux already has drivers for almost everything</li>
 </ul>
 </li>
-<li>
-<p>Kernel Engineers = Firmware Engineers</p>
+<li>Kernel Engineers = Firmware Engineers
 <ul>
 <li>Many more Engineers know Linux than know UEFI</li>
 </ul>
 </li>
-<li>
-<p>Reduced build time</p>
+<li>Reduced build time
 <ul>
 <li><strong>30s</strong> for initramfs</li>
 <li><strong>15s</strong> for kernel (incremental)</li>
@@ -267,12 +323,12 @@
 <li><strong>Total: ~1m</strong> for a new full bios image, ready to be tested</li>
 </ul>
 </li>
-<li>
-<p>Testing and debugging</p>
+<li>Testing and debugging
 <ul>
 <li>Diskboot, Pxeboot already have unit tests</li>
 <li>Easier to write tests using resources (like network) with Linux</li>
-<li>Open-source projects such as u-root follow excellent software practices such as running automated test on each submitted change</li>
+<li>Open-source projects such as u-root follow excellent software practices
+such as running automated test on each submitted change</li>
 <li>Much easier to debug Go userspace applications</li>
 <li>Test with a kernel in QEMU</li>
 </ul>
@@ -375,35 +431,159 @@ with different internal boot-related components, and kexec the next kernel.</p>
 repository, we have executable commands in <code>cmds</code> and the packages containing
 libraries and implementations in <code>pkg</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="all-about-u-root"><a class="header" href="#all-about-u-root">All about u-root</a></h1>
-<p>U-root is an embeddable root file system intended to be placed in a flash device as part of the firmware image, along with a Linux kernel. The program source code is installed in the root file system contained in the firmware flash part and compiled on demand. All the u-root utilities, roughly corresponding to standard Unix utilities, are written in Go, a modern, type-safe language with garbage collection and language-level support for concurrency and inter-process communication.</p>
-<p>Unlike most embedded root file systems, which consist largely of binaries, u-root has only 5: an init program and 4 Go compiler binaries. When a program is first run, it, and any not-yet-built packages it uses are compiled to a RAM-based file system. The first invocation of a program takes a fraction of a second, as it is compiled. Packages are only compiled once, so the slowest build is always the first one, on boot, which takes about 3 seconds. Subsequent invocations are very fast, usually a millisecond or so.</p>
-<p>U-root blurs the line between script-based distros such as Perl Linux[24] and binary-based distros such as BusyBox[26]. It has the flexibility of Perl Linux and the performance of BusyBox. Scripts and builtins are written in Go, not a shell scripting language. U-root is a new way to package and distribute file systems for embedded systems, and the use of Go promises a dramatic improvement in their security.</p>
+<p>U-root is an embeddable root file system intended to be placed in a flash
+device as part of the firmware image, along with a Linux kernel. The program
+source code is installed in the root file system contained in the firmware
+flash part and compiled on demand. All the u-root utilities, roughly
+corresponding to standard Unix utilities, are written in Go, a modern,
+type-safe language with garbage collection and language-level support for
+concurrency and inter-process communication.</p>
+<p>Unlike most embedded root file systems, which consist largely of binaries,
+u-root has only 5: an init program and 4 Go compiler binaries. When a program
+is first run, it, and any not-yet-built packages it uses are compiled to a
+RAM-based file system. The first invocation of a program takes a fraction of a
+second, as it is compiled. Packages are only compiled once, so the slowest
+build is always the first one, on boot, which takes about 3 seconds. Subsequent
+invocations are very fast, usually a millisecond or so.</p>
+<p>U-root blurs the line between script-based distros such as Perl Linux<sup class="footnote-reference"><a href="#24">1</a></sup> and
+binary-based distros such as BusyBox<sup class="footnote-reference"><a href="#26">2</a></sup>. It has the flexibility of Perl Linux
+and the performance of BusyBox. Scripts and builtins are written in Go, not a
+shell scripting language. U-root is a new way to package and distribute file
+systems for embedded systems, and the use of Go promises a dramatic improvement
+in their security.</p>
 <h2 id="u-root-and-embedded-systems"><a class="header" href="#u-root-and-embedded-systems">U-root and embedded systems</a></h2>
-<p>Embedding kernels and root file systems in BIOS flash is a common technique for gaining boot time performance and platform customization[25][14][23]. Almost all new firmware includes a multiprocess operating system with a full complement of file systems, network drivers, and protocol stacks, all contained in an embedded file system. In some cases, the kernel is only booted long enough to boot another kernel. In others, the kernel that is booted and the file system it contains constitute the operational environment of the device[15]. These so-called “embedded root file systems” also contain a set of standard Unix-style programs used for both normal operation and maintenance. Space on the device is at a premium, so these programs are usually written in C using the BusyBox toolkit[26], or in an interpretive language such as Perl[24] or Forth. BusyBox in particular has found wide usage in embedded appliance environments, as the entire root file system can be contained in under one MiB.</p>
-<p>Embedded systems, which were once standalone, are now almost always network connected. Network connected systems face a far more challenging security environment than even a few years ago. In response to the many successful attacks against shell interpreters[11] and C programs[8], we have started to look at using a more secure, modern language in embedded root file systems, namely, Go[21][16].</p>
-<p>Go is a new systems programming language created by Google. Go has strong typing; language level support for concurrency; inter-process communication via channels, a la Occam[13], Limbo[17], and Alef[27]; runtime type safety and other protective measures; dynamic allocation and garbage collection; closures; and a package syntax, similar to Java, that makes it easy to determine what packages a given program needs. The modern language constructs make Go a much safer language than C. This safety is critical for network-attached embedded systems, which usually have network utilities written in C, including web servers, network servers including sshd, and programs that provide access to a command interpreter, itself written in C. All are proving to be vulnerable to the attack-rich environment that the Internet has become. Buffer overflow attacks affecting C-based firmware code (among other things) in 2015 include GHOST and the so-called FSVariable.c bug in Intel’s UEFI firmware. Buffer overflows in Intel’s UEFI and Active Management Technology (AMT) have also been discovered in several versions in recent years.</p>
-<p>Both UEFI[12] and AMT[4] are embedded operating systems, loaded from flash that run network-facing software. Attacks against UEFI have been extensively studied[9]. Most printers are network-attached and are a very popular exploitation target[6]. Firmware is not visible to most users and is updated much less frequently (if at all) than programs. It is the first software to run, at power on reset. Exploits in firmware are extremely difficult to detect, because firmware is designed to be as invisible as possible. Firmware is extremely complex; UEFI is roughly equivalent in size and capability to a Unix kernel. Firmware is usually closed and proprietary, with nowhere near the level of testing of kernels. These properties make firmware an ideal place for so-called advanced persistent threats[10][18][5]. Once an exploit is installed, it is almost impossible to remove, since the exploit can inhibit its removal by corrupting the firmware update process. The only sure way to mitigate a firmware exploit is to destroy the hardware.</p>
-<p>U-root is an excellent option for embedded systems. U-root contains only 5 binaries, 4 of them from the Go toolchain, and the 5th is an init binary. The rest of the programs are contained in BIOS flash in source form, including packages. The search path is arranged so that when a command is invoked, if it is not in <code>/bin</code>, an installer is invoked instead which compiles the program into <code>/bin</code>. If the build succeeds, the command is executed. This first invocation takes a fraction of a second, depending on program complexity. After that, the RAM-based, statically linked binaries run in about a millisecond. Scripts are written in Go, not a shell scripting language, with two benefits: the shell can be simple, with fewer corner cases, and the scripting environment is substantially improved since Go is more powerful than most shell scripting languages, but also less fragile and less prone to parsing bugs.</p>
+<p>Embedding kernels and root file systems in BIOS flash is a common technique for
+gaining boot time performance and platform customization[^25][^14]<sup class="footnote-reference"><a href="#23">3</a></sup>. Almost
+all new firmware includes a multiprocess operating system with a full
+complement of file systems, network drivers, and protocol stacks, all contained
+in an embedded file system. In some cases, the kernel is only booted long
+enough to boot another kernel. In others, the kernel that is booted and the
+file system it contains constitute the operational environment of the
+device<sup class="footnote-reference"><a href="#15">4</a></sup>. These so-called “embedded root file systems” also contain a set of
+standard Unix-style programs used for both normal operation and maintenance.
+Space on the device is at a premium, so these programs are usually written in C
+using the BusyBox toolkit<sup class="footnote-reference"><a href="#26">2</a></sup>, or in an interpretive language such as Perl<sup class="footnote-reference"><a href="#24">1</a></sup>
+or Forth. BusyBox in particular has found wide usage in embedded appliance
+environments, as the entire root file system can be contained in under one MiB.</p>
+<p>Embedded systems, which were once standalone, are now almost always network
+connected. Network connected systems face a far more challenging security
+environment than even a few years ago. In response to the many successful
+attacks against shell interpreters<sup class="footnote-reference"><a href="#11">5</a></sup> and C programs<sup class="footnote-reference"><a href="#8">6</a></sup>, we have started to
+look at using a more secure, modern language in embedded root file systems,
+namely, Go[^21]<sup class="footnote-reference"><a href="#16">7</a></sup>.</p>
+<p>Go is a new systems programming language created by Google. Go has strong
+typing; language level support for concurrency; inter-process communication via
+channels, a la Occam<sup class="footnote-reference"><a href="#13">8</a></sup>, Limbo<sup class="footnote-reference"><a href="#17">9</a></sup>, and Alef<sup class="footnote-reference"><a href="#27">10</a></sup>; runtime type safety and
+other protective measures; dynamic allocation and garbage collection; closures;
+and a package syntax, similar to Java, that makes it easy to determine what
+packages a given program needs. The modern language constructs make Go a much
+safer language than C. This safety is critical for network-attached embedded
+systems, which usually have network utilities written in C, including web
+servers, network servers including sshd, and programs that provide access to a
+command interpreter, itself written in C. All are proving to be vulnerable to
+the attack-rich environment that the Internet has become. Buffer overflow
+attacks affecting C-based firmware code (among other things) in 2015 include
+GHOST and the so-called FSVariable.c bug in Intel’s UEFI firmware. Buffer
+overflows in Intel’s UEFI and Active Management Technology (AMT) have also been
+discovered in several versions in recent years.</p>
+<p>Both UEFI<sup class="footnote-reference"><a href="#12">11</a></sup> and AMT<sup class="footnote-reference"><a href="#4">12</a></sup> are embedded operating systems, loaded from flash that
+run network-facing software. Attacks against UEFI have been extensively
+studied<sup class="footnote-reference"><a href="#9">13</a></sup>. Most printers are network-attached and are a very popular
+exploitation target<sup class="footnote-reference"><a href="#6">14</a></sup>. Firmware is not visible to most users and is updated
+much less frequently (if at all) than programs. It is the first software to
+run, at power on reset. Exploits in firmware are extremely difficult to detect,
+because firmware is designed to be as invisible as possible. Firmware is
+extremely complex; UEFI is roughly equivalent in size and capability to a Unix
+kernel. Firmware is usually closed and proprietary, with nowhere near the level
+of testing of kernels. These properties make firmware an ideal place for
+so-called advanced persistent threats[^10][^18]<sup class="footnote-reference"><a href="#5">15</a></sup>. Once an exploit is installed,
+it is almost impossible to remove, since the exploit can inhibit its removal by
+corrupting the firmware update process. The only sure way to mitigate a
+firmware exploit is to destroy the hardware.</p>
+<p>U-root is an excellent option for embedded systems. U-root contains only 5
+binaries, 4 of them from the Go toolchain, and the 5th is an init binary. The
+rest of the programs are contained in BIOS flash in source form, including
+packages. The search path is arranged so that when a command is invoked, if it
+is not in <code>/bin</code>, an installer is invoked instead which compiles the program
+into <code>/bin</code>. If the build succeeds, the command is executed. This first
+invocation takes a fraction of a second, depending on program complexity. After
+that, the RAM-based, statically linked binaries run in about a millisecond.
+Scripts are written in Go, not a shell scripting language, with two benefits:
+the shell can be simple, with fewer corner cases, and the scripting environment
+is substantially improved since Go is more powerful than most shell scripting
+languages, but also less fragile and less prone to parsing bugs.</p>
 <h2 id="u-root-design"><a class="header" href="#u-root-design">U-root design</a></h2>
-<p>The u-root boot image is a build toolchain and a set of programs in source form. When first used, a program and any needed but not-yet-built packages are built and installed, typically in a fraction of a second. With later uses, the binary is executed. The root file system is almost entirely unformed on boot; <code>/init</code> sets up the key directories and mounts, including common ones such as <code>/etc</code> and <code>/proc</code>.</p>
-<p>Since the init program itself is only 132 lines of code and is easy to change, the structure is very flexible and allows for many use cases, for example:</p>
+<p>The u-root boot image is a build toolchain and a set of programs in source
+form. When first used, a program and any needed but not-yet-built packages are
+built and installed, typically in a fraction of a second. With later uses, the
+binary is executed. The root file system is almost entirely unformed on boot;
+<code>/init</code> sets up the key directories and mounts, including common ones such as
+<code>/etc</code> and <code>/proc</code>.</p>
+<p>Since the init program itself is only 132 lines of code and is easy to change,
+the structure is very flexible and allows for many use cases, for example:</p>
 <ul>
-<li>Additional binaries: if the 3 seconds it takes to get to a shell is too long (some applications such as automotive computing require 800 ms startup time), and there is room in flash, some programs can be precompiled into /bin.</li>
-<li>Build it all on boot: if on-demand compilation is not desired, a background thread in the init process can build all the programs on boot.</li>
-<li>Selectively remove binaries after use: if RAM space is at a premium, once booted, a script can remove everything in <code>/bin</code>. Utilities or commands that are used will be rebuilt on demand.</li>
-<li>Always build on demand: run in a mode in which programs are never written to <code>/bin</code> and always rebuilt on demand. This is a very practical option given that program compilation is so fast.</li>
-<li>Lockdown: if desired, the system can be locked down once booted in one of several ways: the entire <code>/src</code> tree can be removed, for example, or just the compiler toolchain can be deleted.</li>
+<li>Additional binaries: if the 3 seconds it takes to get to a shell is too
+long (some applications such as automotive computing require 800 ms startup
+time), and there is room in flash, some programs can be precompiled into /bin.</li>
+<li>Build it all on boot: if on-demand compilation is not desired, a background
+thread in the init process can build all the programs on boot.</li>
+<li>Selectively remove binaries after use: if RAM space is at a premium, once
+booted, a script can remove everything in <code>/bin</code>. Utilities or commands
+that are used will be rebuilt on demand.</li>
+<li>Always build on demand: run in a mode in which programs are never written
+to <code>/bin</code> and always rebuilt on demand. This is a very practical option
+given that program compilation is so fast.</li>
+<li>Lockdown: if desired, the system can be locked down once booted in one of
+several ways: the entire <code>/src</code> tree can be removed, for example, or just the
+compiler toolchain can be deleted.</li>
 </ul>
 <h2 id="u-root-functionality"><a class="header" href="#u-root-functionality">U-root functionality</a></h2>
-<p>U-root is packaged as an LZMA-compressed initial RAM file system (initramfs) in cpio format. It is contained in a Linux compressed kernel image, also know as bzImage. The bootloader (for example, syslinux) or firmware (for example, coreboot) loads the bzImage into memory and starts it. The Linux kernel sets up a RAM-based root file system and unpacks the u-root file system into it. This initial root file system contains the Go toolchain (4 binaries), an init binary, the u-root program source, and the entire Go source tree, which provides packages needed for u-root programs.</p>
-<p>All Unix systems start an init process on boot and u-root is no exception. The init for u-root sets up some basic directories, symlinks, and files. It builds a command installer and invokes the shell. This process is described in more detail below. The boot file system layout is shown in Table 1.</p>
-<p>The src directory is where programs and u-root packages reside. The go/bin directory is for any Go tools built after boot; the go/pkg/tool directory contains binaries for various architecture/kernel combinations. The directory in which a compiler toolchain is placed provides information about the target OS and architecture, for example, the Go build places binaries for Linux on x86 64 in <code>/go/pkg/tool/linux</code> <code>amd64/</code>. Note that there is no <code>/bin</code> or many of the other directories expected in a root file system. The init binary builds them. It creates an empty <code>/bin</code> which is filled with binaries on demand as shown in Table 2.The u-root root file system has very little state.</p>
-<p>For most programs to work, the file system must be more complete. Image space is saved by having init create additional file system structure at boot time: it fills in the missing parts of the root filesystem. It creates <code>/dev</code> and <code>/proc</code> and mounts them. It creates an empty <code>/bin</code> which is filled with binaries on demand.</p>
-<p>In addition to <code>/bin</code>, there is a directory called <code>/buildbin</code>. <code>Buildbin</code> and the correct setup of $PATH are the keys to making on-demand compilation work. The init process sets $PATH to <code>/go/bin:/bin:/buildbin:/usr/local/bin</code>. Init also builds <code>installcommand</code> using the Go bootstrap builder and creates a complete set of symlinks. As a final step, init execs <code>sh</code>.</p>
-<p>There is no <code>/bin/sh</code> at this point; the first <code>sh</code> found in $PATH is <code>/buildbin/sh</code>. This is a symlink to <code>installcommand</code>. <code>Installcommand</code>, once started, examines argv[0], which is <code>sh</code>, and takes this as instruction to build <code>/src/cmds/sh/.go</code> into <code>/bin</code> and then exec <code>/bin/sh</code>. There is no difference between starting the first shell and any other program. Hence, part of the boot process involves the construction of an installation tool to build a binary for a shell which is then run.</p>
-<p>If a user wants to examine the source to the shell, they can <code>cat</code> <code>/src/cmds/sh/.go</code>. The <code>cat</code> command will be built and then show those files. U-root is intended for network-based devices and hence good network initialization code is essential. U-root includes a Go version of the IP and DHCP programs, along with the docker netlink package and a DHCP package.</p>
+<p>U-root is packaged as an LZMA-compressed initial RAM file system (initramfs) in
+cpio format. It is contained in a Linux compressed kernel image, also know as
+bzImage. The bootloader (for example, syslinux) or firmware (for example,
+coreboot) loads the bzImage into memory and starts it. The Linux kernel sets up
+a RAM-based root file system and unpacks the u-root file system into it. This
+initial root file system contains the Go toolchain (4 binaries), an init
+binary, the u-root program source, and the entire Go source tree, which
+provides packages needed for u-root programs.</p>
+<p>All Unix systems start an init process on boot and u-root is no exception. The
+init for u-root sets up some basic directories, symlinks, and files. It builds
+a command installer and invokes the shell. This process is described in more
+detail below. The boot file system layout is shown in Table 1.</p>
+<p>The src directory is where programs and u-root packages reside. The go/bin
+directory is for any Go tools built after boot; the go/pkg/tool directory
+contains binaries for various architecture/kernel combinations. The directory
+in which a compiler toolchain is placed provides information about the target
+OS and architecture, for example, the Go build places binaries for Linux on x86
+64 in <code>/go/pkg/tool/linux</code> <code>amd64/</code>. Note that there is no <code>/bin</code> or many of
+the other directories expected in a root file system. The init binary builds
+them. It creates an empty <code>/bin</code> which is filled with binaries on demand as
+shown in Table 2.The u-root root file system has very little state.</p>
+<p>For most programs to work, the file system must be more complete. Image space
+is saved by having init create additional file system structure at boot time:
+it fills in the missing parts of the root filesystem. It creates <code>/dev</code> and
+<code>/proc</code> and mounts them. It creates an empty <code>/bin</code> which is filled with
+binaries on demand.</p>
+<p>In addition to <code>/bin</code>, there is a directory called <code>/buildbin</code>. <code>Buildbin</code> and
+the correct setup of $PATH are the keys to making on-demand compilation work.
+The init process sets $PATH to <code>/go/bin:/bin:/buildbin:/usr/local/bin</code>. Init
+also builds <code>installcommand</code> using the Go bootstrap builder and creates a
+complete set of symlinks. As a final step, init execs <code>sh</code>.</p>
+<p>There is no <code>/bin/sh</code> at this point; the first <code>sh</code> found in $PATH is
+<code>/buildbin/sh</code>. This is a symlink to <code>installcommand</code>. <code>Installcommand</code>, once
+started, examines argv[0], which is <code>sh</code>, and takes this as instruction to
+build <code>/src/cmds/sh/.go</code> into <code>/bin</code> and then exec <code>/bin/sh</code>. There is no
+difference between starting the first shell and any other program. Hence, part
+of the boot process involves the construction of an installation tool to build
+a binary for a shell which is then run.</p>
+<p>If a user wants to examine the source to the shell, they can <code>cat</code>
+<code>/src/cmds/sh/.go</code>. The <code>cat</code> command will be built and then show those files.
+U-root is intended for network-based devices and hence good network
+initialization code is essential. U-root includes a Go version of the IP and
+DHCP programs, along with the docker netlink package and a DHCP package.</p>
 <p>Table 1 below shows the initial layout of a u-root file system.</p>
-<p>All Go compiler and runtime source is included under <code>/go/src</code>. All u-root source is under <code>/src</code> and the compiler toolchain binaries are under <code>/go/pkg</code>.</p>
+<p>All Go compiler and runtime source is included under <code>/go/src</code>. All u-root
+source is under <code>/src</code> and the compiler toolchain binaries are under <code>/go/pkg</code>.</p>
 <div class="table-wrapper"><table><thead><tr><th>Directory</th><th style="text-align: center">Subdirectory</th><th style="text-align: left">Command</th></tr></thead><tbody>
 <tr><td>/src</td><td style="text-align: center">cmds/</td><td style="text-align: left"></td></tr>
 <tr><td></td><td style="text-align: center"></td><td style="text-align: left">builtin/builtin.go</td></tr>
@@ -503,12 +683,33 @@ libraries and implementations in <code>pkg</code>.</p>
 </tbody></table>
 </div>
 <p><strong>Table 2</strong>: Layout after <code>/init</code> has run.</p>
-<p><code>/buildbin</code> contains symlinks to enable the on-demand compilation, and other standard directories and mount points are ready.</p>
+<p><code>/buildbin</code> contains symlinks to enable the on-demand compilation, and other
+standard directories and mount points are ready.</p>
 <h2 id="the-u-root-shell"><a class="header" href="#the-u-root-shell">The u-root shell</a></h2>
-<p>U-root provides a shell that is stripped down to the fundamentals: it can read commands in using the Go scanner package; it can expand (that is, glob) the command elements, using the Go filepath package, and it can run the resulting commands, either programs or shell builtins. It supports pipelines and IO redirection. At the same time, the shell defines no language of its own for scripting and builtins. Instead, the u-root shell uses the Go compiler. In that sense, the u-root shell reflects a break in important ways with the last few decades of shell development, which has seen shells and their language grow ever more complex and, partially as a result, ever more insecure[19] and fragile[11].</p>
-<p>The shell has several builtin commands, and you can extend it with builtin commands of your own. First, you need to understand the basic source structure of u-root shell builtins. Then, you will learn about user-defined builtins.</p>
-<p>All shell builtins, including the ones that come with the shell by default, are written with a standard Go init pattern which installs one or more builtins.</p>
-<p>Builtins in the shell are defined by a name and a function. One or more builtins can be described in a source file. The name is kept in a map and the map is searched for a command name before looking in the file system. The function must accept a string as a name and a (possibly zero-length) array of string arguments, and return an error. In order to connect the builtin to the map, a programmer must provide an <code>init</code> function which adds the name and function to the map. The <code>init</code> function is special in that it is run by Go when the program starts up. In this case, the <code>init</code> function just installs a builtin for the time command.</p>
+<p>U-root provides a shell that is stripped down to the fundamentals: it can read
+commands in using the Go scanner package; it can expand (that is, glob) the
+command elements, using the Go filepath package, and it can run the resulting
+commands, either programs or shell builtins. It supports pipelines and IO
+redirection. At the same time, the shell defines no language of its own for
+scripting and builtins. Instead, the u-root shell uses the Go compiler. In that
+sense, the u-root shell reflects a break in important ways with the last few
+decades of shell development, which has seen shells and their language grow
+ever more complex and, partially as a result, ever more insecure<sup class="footnote-reference"><a href="#19">16</a></sup> and
+fragile<sup class="footnote-reference"><a href="#11">5</a></sup>.</p>
+<p>The shell has several builtin commands, and you can extend it with builtin
+commands of your own. First, you need to understand the basic source structure
+of u-root shell builtins. Then, you will learn about user-defined builtins.</p>
+<p>All shell builtins, including the ones that come with the shell by default, are
+written with a standard Go init pattern which installs one or more builtins.</p>
+<p>Builtins in the shell are defined by a name and a function. One or more
+builtins can be described in a source file. The name is kept in a map and the
+map is searched for a command name before looking in the file system. The
+function must accept a string as a name and a (possibly zero-length) array of
+string arguments, and return an error. In order to connect the builtin to the
+map, a programmer must provide an <code>init</code> function which adds the name and
+function to the map. The <code>init</code> function is special in that it is run by Go
+when the program starts up. In this case, the <code>init</code> function just installs a
+builtin for the time command.</p>
 <p>Figure 1 and Figure 2 below show the shell builtin for time.</p>
 <pre><code class="language-go">// Package main is the 'root' of the package hierarchy for a program.
 // This code is part of the main program, not another package,
@@ -576,123 +777,262 @@ error {
 </code></pre>
 <p><strong>Figure 2</strong>: The code for the shell time builtin, Part II</p>
 <h2 id="scripting-and-builtins"><a class="header" href="#scripting-and-builtins">Scripting and builtins</a></h2>
-<p>To support scripting and builtins, u-root provides two programs: script and builtin. The script program allows users to specify a Go fragment on the command line, and runs that fragment as a program. The builtin program allows a Go fragment to be built into the shell as a new command. Builtins are persistent; the builtin command instantiates a new shell with the new command built in. Scripts run via the script command are not persistent.</p>
+<p>To support scripting and builtins, u-root provides two programs: script and
+builtin. The script program allows users to specify a Go fragment on the
+command line, and runs that fragment as a program. The builtin program allows a
+Go fragment to be built into the shell as a new command. Builtins are
+persistent; the builtin command instantiates a new shell with the new command
+built in. Scripts run via the script command are not persistent.</p>
 <p>A basic hello builtin can be defined on the command line:</p>
 <pre><code>builtin hello '{ fmt.Printf("Hello\n") }'
 </code></pre>
-<p>The fragment is defined by the {} pair. Given a fragment that starts with a {, the builtin command generates all the wrapper boiler plate needed. The builtin command is slightly different from the script command in that the Go fragment is bundled into one argument. The command accepts multiple pairs of command name and Go code fragments, allowing multiple new builtin commands to be installed in the shell.</p>
-<p>Builtin creates a new shell at <code>/bin/sh</code> with the source at <code>/src/cmds/sh/</code>. Invocations of <code>/bin/sh</code> by this shell and its children will use the new shell.</p>
-<p>Processes spawned by this new shell can access the new shell source and can run the builtin command again and create a shell that further extends the new shell. Processes outside the new shell’s process hierarchy can not use this new shell or the builtin source. When the new shell exits, the builtins are no longer visible in any part of the file system. We use Linux mount name spaces to create this effect[22]. Once the builtin command has verified that the Go fragment is valid, it builds a new, private namespace with the shell source, including the new builtin source. From that point on, the new shell and its children will only use the new shell. The parent process and other processes outside the private namespace continue to use the old shell.</p>
+<p>The fragment is defined by the {} pair. Given a fragment that starts with a {,
+the builtin command generates all the wrapper boiler plate needed. The builtin
+command is slightly different from the script command in that the Go fragment
+is bundled into one argument. The command accepts multiple pairs of command
+name and Go code fragments, allowing multiple new builtin commands to be
+installed in the shell.</p>
+<p>Builtin creates a new shell at <code>/bin/sh</code> with the source at <code>/src/cmds/sh/</code>.
+Invocations of <code>/bin/sh</code> by this shell and its children will use the new shell.</p>
+<p>Processes spawned by this new shell can access the new shell source and can run
+the builtin command again and create a shell that further extends the new
+shell. Processes outside the new shell’s process hierarchy can not use this new
+shell or the builtin source. When the new shell exits, the builtins are no
+longer visible in any part of the file system. We use Linux mount name spaces
+to create this effect<sup class="footnote-reference"><a href="#22">17</a></sup>. Once the builtin command has verified that the Go
+fragment is valid, it builds a new, private namespace with the shell source,
+including the new builtin source. From that point on, the new shell and its
+children will only use the new shell. The parent process and other processes
+outside the private namespace continue to use the old shell.</p>
 <p>Figure 3 below shows an example usage of the script command.</p>
-<p>This script implements printenv. Note that it is not a complete Go program in that it lacks a package statement, imports, a main function declaration, and a return at the end. All the boilerplate is added by the script command, which uses the Go imports package to scan the code and create the import statements required for compilation (in this case, both fmt and os packages are imported). Because the u-root shell is so simple, there is no need to escape many of these special characters. The complex parsing tasks have been offloaded to Go. Builtins are implemented in almost the same way. The builtin command takes the Go fragment and creates a standard shell builtin Go source file which conforms to the builtin pattern. This structure is easy to generate programmatically, building on the techniques used for the script command.</p>
+<p>This script implements printenv. Note that it is not a complete Go program in
+that it lacks a package statement, imports, a main function declaration, and a
+return at the end. All the boilerplate is added by the script command, which
+uses the Go imports package to scan the code and create the import statements
+required for compilation (in this case, both fmt and os packages are imported).
+Because the u-root shell is so simple, there is no need to escape many of these
+special characters. The complex parsing tasks have been offloaded to Go.
+Builtins are implemented in almost the same way. The builtin command takes the
+Go fragment and creates a standard shell builtin Go source file which conforms
+to the builtin pattern. This structure is easy to generate programmatically,
+building on the techniques used for the script command.</p>
 <pre><code>script{ fmt.Printf("%v\n", os.Environ()) }
 </code></pre>
-<p><strong>Figure 3</strong>: Go fragment for a printenv script. Code structure is inserted and packages are determined automatically.</p>
+<p><strong>Figure 3</strong>: Go fragment for a printenv script. Code structure is inserted and
+packages are determined automatically.</p>
 <h2 id="environment-variables"><a class="header" href="#environment-variables">Environment variables</a></h2>
-<p>The u-root shell supports environment variables, but manages them differently than most Unix environments. The variables are maintained in a directory called <code>/env</code>; the file name corresponds to the environment variable name, and the files contents are the value. When it is starting a new process, the shell populates child process environment variables from the <code>/env</code> directory. The syntax is the same; $ followed by a name directs the shell to substitute the value of the variable in the argument by prepending <code>/env</code> to the path and reading the file.</p>
-<p>The shell variables described above are relative paths; <code>/env</code> is prepended to them. In the u-root shell, the name can also be an absolute path. For example, the command script $<code>/home/$USER/scripts/hello</code> will substitute the value of the <code>hello</code> script into the command line and then run the script command. The ability to place arbitrary text from a file into an argument is proving to be extremely convenient, especially for script and builtin commands.</p>
+<p>The u-root shell supports environment variables, but manages them differently
+than most Unix environments. The variables are maintained in a directory called
+<code>/env</code>; the file name corresponds to the environment variable name, and the
+files contents are the value. When it is starting a new process, the shell
+populates child process environment variables from the <code>/env</code> directory. The
+syntax is the same; $ followed by a name directs the shell to substitute the
+value of the variable in the argument by prepending <code>/env</code> to the path and
+reading the file.</p>
+<p>The shell variables described above are relative paths; <code>/env</code> is prepended to
+them. In the u-root shell, the name can also be an absolute path. For example,
+the command script $<code>/home/$USER/scripts/hello</code> will substitute the value of
+the <code>hello</code> script into the command line and then run the script command. The
+ability to place arbitrary text from a file into an argument is proving to be
+extremely convenient, especially for script and builtin commands.</p>
 <h2 id="using-external-packages-and-programs"><a class="header" href="#using-external-packages-and-programs">Using external packages and programs</a></h2>
-<p>No root file system can provide all the packages all users want, and u-root is no exception. You need to have the ability to load external packages from popular Linux distros. The <code>tcz</code> command can be used to load external packages from the TinyCore Linux distribution, also known as <em>tinycore</em>. A tinycore package is a mountable file system image, containing all the package files, including a file listing any additional package dependencies. To load these packages, u-root provides the <code>tcz</code> command which fetches the package and needed dependencies. Hence, if a user wants emacs, they need merely type <code>tcz emacs</code>, and emacs will become available in <code>/usr/local/bin</code>. The tinycore packages directory can be a persistent directory or it can be empty on each boot.</p>
-<p>The <code>tcz</code> command is quite flexible as to what packages it loads and where they are loaded from. Users can specify the host name which provides the packages, the TCP port on which to connect, the version of tinycore to use, and the architecture. The <code>tcz</code> command must loopback mount each package as it is fetched, and hence must cache them locally. It will not refetch already cached packages. This cache can be volatile or maintained on more permanent storage. Performance varies depending on the network being used and the number of packages being loaded, but averages about 1 second per package on a WIFI-attached laptop. U-root also provides a small web server, called <em>srvfiles</em>, that can be used to serve locally cached tinycore packages for testing. The entire server is 18 lines of Go.</p>
+<p>No root file system can provide all the packages all users want, and u-root is
+no exception. You need to have the ability to load external packages from
+popular Linux distros. The <code>tcz</code> command can be used to load external packages
+from the TinyCore Linux distribution, also known as <em>tinycore</em>. A tinycore
+package is a mountable file system image, containing all the package files,
+including a file listing any additional package dependencies. To load these
+packages, u-root provides the <code>tcz</code> command which fetches the package and
+needed dependencies. Hence, if a user wants emacs, they need merely type <code>tcz emacs</code>, and emacs will become available in <code>/usr/local/bin</code>. The tinycore
+packages directory can be a persistent directory or it can be empty on each
+boot.</p>
+<p>The <code>tcz</code> command is quite flexible as to what packages it loads and where they
+are loaded from. Users can specify the host name which provides the packages,
+the TCP port on which to connect, the version of tinycore to use, and the
+architecture. The <code>tcz</code> command must loopback mount each package as it is
+fetched, and hence must cache them locally. It will not refetch already cached
+packages. This cache can be volatile or maintained on more permanent storage.
+Performance varies depending on the network being used and the number of
+packages being loaded, but averages about 1 second per package on a
+WIFI-attached laptop. U-root also provides a small web server, called
+<em>srvfiles</em>, that can be used to serve locally cached tinycore packages for
+testing. The entire server is 18 lines of Go.</p>
 <h2 id="on-demand-compilation"><a class="header" href="#on-demand-compilation">On-Demand Compilation</a></h2>
-<p>On-Demand compilation is one of the oldest ideas in
-computer science.
-Slimline Open Firmware (SLOF)[7] is a FORTHbased implementation of Open Firmware developed by
-IBM for some of its Power and Cell processors. SLOF is
-capable of storing all of Open Firmware as source in the
-flash memory and compiling components to indirect
-threading on demand[2].</p>
-<p>In the last few decades, as our compiler infrastructure
-has gotten slower and more complex, true on-demand
-compilation has split into two different forms. First is the
-on-demand compilation of source into executable byte
-codes, as in Python. The byte codes are not native but
-are more efficient than source. If the python interpreter
-finds the byte code it will interpret that instead of source
-to provide improved performance.
-Java takes the process one step further with the Just In
-Time compilation of byte code to machine code[20] to
-boost performance.</p>
+<p>On-Demand compilation is one of the oldest ideas in computer science.
+Slimline Open Firmware (SLOF)<sup class="footnote-reference"><a href="#7">18</a></sup> is a FORTHbased implementation of Open
+Firmware developed by IBM for some of its Power and Cell processors. SLOF is
+capable of storing all of Open Firmware as source in the flash memory and
+compiling components to indirect threading on demand<sup class="footnote-reference"><a href="#2">19</a></sup>.</p>
+<p>In the last few decades, as our compiler infrastructure has gotten slower and
+more complex, true on-demand compilation has split into two different forms.
+First is the on-demand compilation of source into executable byte codes, as in
+Python. The byte codes are not native but are more efficient than source. If
+the python interpreter finds the byte code it will interpret that instead of
+source to provide improved performance. Java takes the process one step further
+with the Just In Time compilation of byte code to machine code<sup class="footnote-reference"><a href="#20">20</a></sup> to boost
+performance.</p>
 <h2 id="embedding-kernel-and-root-file-systems-in-flash"><a class="header" href="#embedding-kernel-and-root-file-systems-in-flash">Embedding kernel and root file systems in flash</a></h2>
-<p>The LinuxBIOS project[14][1], together with
-clustermatic[25], used an embedded kernel and simple
-root file system to manage supercomputing clusters. Due
-to space constraints of 1 MiB or less of flash, clusters
-embedded only a single-processor Linux kernel with a
-daemon. The daemon was a network bootloader that
-downloaded a more complex SMP kernel and root file
-system and started them. Clusters built this way were
-able to boot 1024 nodes in the time it took the standard
-PXE network boot firmware to find a working network
+<p>The LinuxBIOS project[^14]<sup class="footnote-reference"><a href="#1">21</a></sup>, together with clustermatic<sup class="footnote-reference"><a href="#25">22</a></sup>, used an embedded
+kernel and simple root file system to manage supercomputing clusters. Due to
+space constraints of 1 MiB or less of flash, clusters embedded only a
+single-processor Linux kernel with a daemon. The daemon was a network
+bootloader that downloaded a more complex SMP kernel and root file system and
+started them. Clusters built this way were able to boot 1024 nodes in the time
+it took the standard PXE network boot firmware to find a working network
 interface.</p>
-<p>Early versions of One Laptop Per Child used LinuxBIOS, with Linux in flash as a boot loader, to boot
-the eventual target. This system was very handy, as they
-were able to embed a full WIFI stack in flash with Linux,
-and could boot test OLPC images over WIFI. The continuing growth of the Linux kernel, coupled with the small
-flash size on OLPC, eventually led OLPC to move to
-Open Firmware.</p>
-<p>AlphaPower shipped their Alpha nodes with a so-called Direct Boot Linux, or DBLX. This work was
-never published, but the code was partially released on
-sourceforge.net just as AlphaPower went out of business.
-Compaq also worked with a Linux-As-Bootloader for the
-iPaq.</p>
-<p>Car computers and other embedded ARM systems frequently contain a kernel and an ext2 formatted file system in NOR flash, that is, flash that can be treated as
-memory instead of a block device. Many of these kernels use the so-called eXecute In Place[3] (XIP) patch,
-which allows the kernel to page binaries directly from
-the memory-addressable flash rather than copying it
-to RAM, providing a significant savings in system startup
-time. A downside of this approach is that the executables can not be compressed, which puts further pressure
-on the need to optimize binary size. NOR flash is
-very slow, and paging from it comes at a significant performance cost. Finally, an uncompressed binary image
-stored in NOR flash has a much higher monetary cost
-than the same image stored in RAM since the cost per bit
-is so much higher.</p>
-<p>UEFI[12] contains a non-Linux kernel (the UEFI
-firmware binary) and a full set of drivers, file systems,
-network protocol stacks, and command binaries in the
+<p>Early versions of One Laptop Per Child used LinuxBIOS, with Linux in flash as a
+boot loader, to boot the eventual target. This system was very handy, as they
+were able to embed a full WIFI stack in flash with Linux, and could boot test
+OLPC images over WIFI. The continuing growth of the Linux kernel, coupled with
+the small flash size on OLPC, eventually led OLPC to move to Open Firmware.</p>
+<p>AlphaPower shipped their Alpha nodes with a so-called Direct Boot Linux, or
+DBLX. This work was never published, but the code was partially released on
+sourceforge.net just as AlphaPower went out of business.  Compaq also worked
+with a Linux-As-Bootloader for the iPaq.</p>
+<p>Car computers and other embedded ARM systems frequently contain a kernel and an
+ext2 formatted file system in NOR flash, that is, flash that can be treated as
+memory instead of a block device. Many of these kernels use the so-called
+eXecute In Place<sup class="footnote-reference"><a href="#3">23</a></sup> (XIP) patch, which allows the kernel to page binaries
+directly from the memory-addressable flash rather than copying it to RAM,
+providing a significant savings in system startup time. A downside of this
+approach is that the executables can not be compressed, which puts further
+pressure on the need to optimize binary size. NOR flash is very slow, and
+paging from it comes at a significant performance cost. Finally, an
+uncompressed binary image stored in NOR flash has a much higher monetary cost
+than the same image stored in RAM since the cost per bit is so much higher.</p>
+<p>UEFI<sup class="footnote-reference"><a href="#12">11</a></sup> contains a non-Linux kernel (the UEFI firmware binary) and a full set
+of drivers, file systems, network protocol stacks, and command binaries in the
 firmware image. It is a full operating system environment realized as firmware.</p>
-<p>The ONIE project[23] is a more recent realization of
-the Kernel-in-flash idea, based on Linux. ONIE packs
-a Linux kernel and Busybox binaries into a very small
-package. Since the Linux build process allows an initial RAM file system (initramfs) to be built directly into
-the kernel binary, some companies are now embedding
-ONIE images into flash with coreboot. Sage Engineering has shown a bzImage with a small Busybox
-packed into a 4M image. ONIE has brought new life to
-an old idea: packaging a kernel and small set of binaries
-in flash to create a fast, capable boot system.</p>
+<p>The ONIE project<sup class="footnote-reference"><a href="#23">3</a></sup> is a more recent realization of the Kernel-in-flash idea,
+based on Linux. ONIE packs a Linux kernel and Busybox binaries into a very
+small package. Since the Linux build process allows an initial RAM file system
+(initramfs) to be built directly into the kernel binary, some companies are now
+embedding ONIE images into flash with coreboot. Sage Engineering has shown a
+bzImage with a small Busybox packed into a 4M image. ONIE has brought new life
+to an old idea: packaging a kernel and small set of binaries in flash to create
+a fast, capable boot system.</p>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
-<p>[1] AGNEW, A., SULMICKI, A., MINNICH, R., AND ARBAUGH, W. A. Flexibility in rom: A stackable open source bios. In USENIX Annual Technical Conference, FREENIX Track (2003), pp. 115–124.</p>
-<p>[2] (AUTHOR OF SLOF), S. B. Personal conversation.</p>
-<p>[3] BENAVIDES, T., TREON, J., HULBERT, J., AND CHANG, W. The enabling of an execute-in-place architecture to reduce the embedded system memory footprint and boot time. Journal of computers 3, 1 (2008), 79–89.</p>
-<p>[4] BOGOWITZ, B., AND SWINFORD, T. Intel⃝R active management technology reduces it costs with improved pc manageability. Technology@ Intel Magazine (2004).</p>
-<p>[5] CELEDA, P., KREJCI, R., VYKOPAL, J., AND DRASAR, M. Embedded malware-an analysis of the chuck norris botnet. In Computer Network Defense (EC2ND), 2010 European Conference on (2010), IEEE, pp. 3–10.</p>
-<p>[6] CUI, A., COSTELLO, M., AND STOLFO, S. J. When firmware modifications attack: A case study of embedded exploitation. In NDSS (2013).</p>
-<p>[7] DALY, D., CHOI, J. H., MOREIRA, J. E., AND WATERLAND, A. Base operating system provisioning and bringup for a commercial supercomputer. In Parallel and Distributed Processing Symposium, 2007. IPDPS 2007. IEEE International (2007), IEEE, pp. 1–7.</p>
-<p>[8] DURUMERIC, Z., KASTEN, J., ADRIAN, D., HALDERMAN, J. A., BAILEY, M., LI, F., WEAVER, N., AMANN, J., BEEKMAN, J., PAYER, M., ET AL. The matter of heartbleed. In Proceedings of the 2014 Conference on Internet Measurement Conference (2014), ACM, pp. 475–488.</p>
-<p>[9] KALLENBERG, C., AND BULYGIN, Y. All your boot are belong to us intel, mitre. cansecwest 2014.</p>
-<p>[10] KALLENBERG, C., KOVAH, X., BUTTERWORTH, J., AND CORNWELL, S. Extreme privilege escalation on windows 8/uefi systems.</p>
-<p>[11] KOZIOL, J., LITCHFIELD, D., AITEL, D., ANLEY, C., EREN, S., MEHTA, N., AND HASSELL, R. The Shellcoder’s Handbook. Wiley Indianapolis, 2004.</p>
-<p>[12] LEWIS, T. Uefi overview, 2007.</p>
-<p>[13] MAY,D.Occam.ACMSigplanNotices18,4(1983),69–79.</p>
-<p>[14] MINNICH, R. G. Linuxbios at four. Linux J. 2004, 118 (Feb. 2004), 8–.</p>
-<p>[15] MOON, S.-P., KIM, J.-W., BAE, K.-H., LEE, J.-C., AND SEO, D.-W. Embedded linux implementation on a commercial digital tv system. Consumer Electronics, IEEE Transactions on 49, 4 (Nov 2003), 1402–1407.</p>
-<p>[16] PIKE, R. Another go at language design. Stanford University Computer Systems Laboratory Colloquium.</p>
-<p>[17] RITCHIE, D. M. The limbo programming language. Inferno Programmer’s Manual 2 (1997).</p>
-<p>[18] SACCO, A. L., AND ORTEGA, A. A. Persistent bios infection. In CanSecWest Applied Security Conference (2009).</p>
-<p>[19] SAMPATHKUMAR, R. Vulnerability Management for Cloud Computing-2014: A Cloud Computing Security Essential. Rajakumar Sampathkumar, 2014.</p>
-<p>[20] SUGANUMA, T., OGASAWARA, T., TAKEUCHI, M., YASUE, T., KAWAHITO, M., ISHIZAKI, K., KOMATSU, H., AND NAKATANI, T. Overview of the ibm java just-in-time compiler. IBM systems Journal 39, 1 (2000), 175–193.</p>
-<p>[21] TEAM, G. The go programming language specification. Tech. rep., Technical Report <a href="http://golang/">http://golang</a>. org/doc/doc/go spec. html, Google Inc, 2009.</p>
-<p>[22] VAN HENSBERGEN, E., AND MINNICH, R. Grave robbers from outer space: Using 9p2000 under linux. In USENIX Annual Technical Conference, FREENIX Track (2005), pp. 83–94.</p>
-<p>[23] VARIOUS. No papers have been published on onie; see onie.org.</p>
-<p>[24] VARIOUS. No papers were published; see perllinux.sourceforge.net.</p>
-<p>[25] WATSON, G. R., SOTTILE, M. J., MINNICH, R. G., CHOI, S.-E., AND HERTDRIKS, E. Pink: A 1024-node single-system image linux cluster. In High Performance Computing and Grid in Asia Pacific Region, 2004. Proceedings. Seventh International Conference on (2004), IEEE, pp. 454–461.</p>
-<p>[26] WELLS, N. Busybox: A swiss army knife for linux. Linux J. 2000, 78es (Oct. 2000).</p>
-<p>[27] WINTERBOTTOM, P. Alef language reference manual. Plan 9 Programmer’s Man (1995).</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">21</sup>
+<p>AGNEW, A., SULMICKI, A., MINNICH, R., AND ARBAUGH, W. A. Flexibility in
+rom: A stackable open source bios. In USENIX Annual Technical Conference,
+FREENIX Track (2003), pp. 115–124.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">19</sup>
+<p>(AUTHOR OF SLOF), S. B. Personal conversation.</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">23</sup>
+<p>BENAVIDES, T., TREON, J., HULBERT, J., AND CHANG, W. The enabling of an
+execute-in-place architecture to reduce the embedded system memory
+footprint and boot time. Journal of computers 3, 1 (2008), 79–89.</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">12</sup>
+<p>BOGOWITZ, B., AND SWINFORD, T. Intel⃝R active management technology
+reduces it costs with improved pc manageability. Technology@ Intel Magazine
+(2004).</p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">15</sup>
+<p>CELEDA, P., KREJCI, R., VYKOPAL, J., AND DRASAR, M. Embedded malware-an
+analysis of the chuck norris botnet. In Computer Network Defense (EC2ND),
+2010 European Conference on (2010), IEEE, pp. 3–10.</p>
+</div>
+<div class="footnote-definition" id="6"><sup class="footnote-definition-label">14</sup>
+<p>CUI, A., COSTELLO, M., AND STOLFO, S. J. When firmware modifications
+attack: A case study of embedded exploitation. In NDSS (2013).</p>
+</div>
+<div class="footnote-definition" id="7"><sup class="footnote-definition-label">18</sup>
+<p>DALY, D., CHOI, J. H., MOREIRA, J. E., AND WATERLAND, A. Base operating
+system provisioning and bringup for a commercial supercomputer. In Parallel
+and Distributed Processing Symposium, 2007. IPDPS 2007. IEEE International
+(2007), IEEE, pp. 1–7.</p>
+</div>
+<div class="footnote-definition" id="8"><sup class="footnote-definition-label">6</sup>
+<p>DURUMERIC, Z., KASTEN, J., ADRIAN, D., HALDERMAN, J. A., BAILEY, M., LI,
+F., WEAVER, N., AMANN, J., BEEKMAN, J., PAYER, M., ET AL. The matter of
+heartbleed. In Proceedings of the 2014 Conference on Internet Measurement
+Conference (2014), ACM, pp. 475–488.</p>
+</div>
+<div class="footnote-definition" id="9"><sup class="footnote-definition-label">13</sup>
+<p>KALLENBERG, C., AND BULYGIN, Y. All your boot are belong to us intel,
+mitre. cansecwest 2014.</p>
+</div>
+<div class="footnote-definition" id="10"><sup class="footnote-definition-label">24</sup>
+<p>KALLENBERG, C., KOVAH, X., BUTTERWORTH, J., AND CORNWELL, S. Extreme
+privilege escalation on windows 8/uefi systems.</p>
+</div>
+<div class="footnote-definition" id="11"><sup class="footnote-definition-label">5</sup>
+<p>KOZIOL, J., LITCHFIELD, D., AITEL, D., ANLEY, C., EREN, S., MEHTA, N.,
+AND HASSELL, R. The Shellcoder’s Handbook. Wiley Indianapolis, 2004.</p>
+</div>
+<div class="footnote-definition" id="12"><sup class="footnote-definition-label">11</sup>
+<p>LEWIS, T. Uefi overview, 2007.</p>
+</div>
+<div class="footnote-definition" id="13"><sup class="footnote-definition-label">8</sup>
+<p>MAY,D.Occam.ACMSigplanNotices18,4(1983),69–79.</p>
+</div>
+<div class="footnote-definition" id="14"><sup class="footnote-definition-label">25</sup>
+<p>MINNICH, R. G. Linuxbios at four. Linux J. 2004, 118 (Feb. 2004), 8–.</p>
+</div>
+<div class="footnote-definition" id="15"><sup class="footnote-definition-label">4</sup>
+<p>MOON, S.-P., KIM, J.-W., BAE, K.-H., LEE, J.-C., AND SEO, D.-W. Embedded
+linux implementation on a commercial digital tv system. Consumer
+Electronics, IEEE Transactions on 49, 4 (Nov 2003), 1402–1407.</p>
+</div>
+<div class="footnote-definition" id="16"><sup class="footnote-definition-label">7</sup>
+<p>PIKE, R. Another go at language design. Stanford University Computer
+Systems Laboratory Colloquium.</p>
+</div>
+<div class="footnote-definition" id="17"><sup class="footnote-definition-label">9</sup>
+<p>RITCHIE, D. M. The limbo programming language. Inferno Programmer’s
+Manual 2 (1997).</p>
+</div>
+<div class="footnote-definition" id="18"><sup class="footnote-definition-label">26</sup>
+<p>SACCO, A. L., AND ORTEGA, A. A. Persistent bios infection. In CanSecWest
+Applied Security Conference (2009).</p>
+</div>
+<div class="footnote-definition" id="19"><sup class="footnote-definition-label">16</sup>
+<p>SAMPATHKUMAR, R. Vulnerability Management for Cloud Computing-2014: A
+Cloud Computing Security Essential. Rajakumar Sampathkumar, 2014.</p>
+</div>
+<div class="footnote-definition" id="20"><sup class="footnote-definition-label">20</sup>
+<p>SUGANUMA, T., OGASAWARA, T., TAKEUCHI, M., YASUE, T., KAWAHITO, M.,
+ISHIZAKI, K., KOMATSU, H., AND NAKATANI, T. Overview of the ibm java
+just-in-time compiler. IBM systems Journal 39, 1 (2000), 175–193.</p>
+</div>
+<div class="footnote-definition" id="21"><sup class="footnote-definition-label">27</sup>
+<p>TEAM, G. The go programming language specification. Tech. rep.,
+Technical Report <a href="http://golang/">http://golang</a>. org/doc/doc/go spec.
+html, Google Inc, 2009.</p>
+</div>
+<div class="footnote-definition" id="22"><sup class="footnote-definition-label">17</sup>
+<p>VAN HENSBERGEN, E., AND MINNICH, R. Grave robbers from outer space:
+Using 9p2000 under linux. In USENIX Annual Technical Conference, FREENIX
+Track (2005), pp. 83–94.</p>
+</div>
+<div class="footnote-definition" id="23"><sup class="footnote-definition-label">3</sup>
+<p>VARIOUS. No papers have been published on onie; see onie.org.</p>
+</div>
+<div class="footnote-definition" id="24"><sup class="footnote-definition-label">1</sup>
+<p>VARIOUS. No papers were published; see perllinux.sourceforge.net.</p>
+</div>
+<div class="footnote-definition" id="25"><sup class="footnote-definition-label">22</sup>
+<p>WATSON, G. R., SOTTILE, M. J., MINNICH, R. G., CHOI, S.-E., AND
+HERTDRIKS, E. Pink: A 1024-node single-system image linux cluster. In High
+Performance Computing and Grid in Asia Pacific Region, 2004. Proceedings.
+Seventh International Conference on (2004), IEEE, pp. 454–461.</p>
+</div>
+<div class="footnote-definition" id="26"><sup class="footnote-definition-label">2</sup>
+<p>WELLS, N. Busybox: A swiss army knife for linux. Linux J. 2000, 78es
+(Oct. 2000).</p>
+</div>
+<div class="footnote-definition" id="27"><sup class="footnote-definition-label">10</sup>
+<p>WINTERBOTTOM, P. Alef language reference manual. Plan 9 Programmer’s Man
+(1995).</p>
+</div>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="linuxboot-utilities"><a class="header" href="#linuxboot-utilities">LinuxBoot Utilities</a></h1>
 <p>In order to bootstrap, build and maintain LinuxBoot projects, we provide a
 handful of utilities for extracting, reducing, reworking, and stitching firmware
 images.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="uefi-tool-kit"><a class="header" href="#uefi-tool-kit">UEFI Tool Kit</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="uefi-tool-kit"><a class="header" href="#uefi-tool-kit">UEFI Tool Kit</a></h1>
 <p>Authors: Ryan O'Leary, Gan Shun Lim and Andrea Barberio</p>
 <p>In previous chapters, you learned how to read a raw ROM image from a flash
 part. If you've been following along, you know the next step is to insert a
@@ -713,13 +1053,13 @@ volumes, Intel firmware descriptors and FIT.</p>
 <li>Common pitfalls</li>
 <li>Extend UTK with additional commands</li>
 </ol>
-<h3 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h3>
-<pre><code>$ make bzImage
-$ sudo flashrom -r /tmp/ROM.bin
-$ utk /tmp/ROM.bin replace_pe32 Shell arch/86/boot/bzImage save /tmp/NEWROM.bin
-$ sudo flashrom -w /tmp/NEWROM.bin
+<h2 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h2>
+<pre><code>make bzImage
+sudo flashrom -r /tmp/ROM.bin
+utk /tmp/ROM.bin replace_pe32 Shell arch/86/boot/bzImage save /tmp/NEWROM.bin
+sudo flashrom -w /tmp/NEWROM.bin
 </code></pre>
-<h3 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h3>
+<h2 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h2>
 <p>We assume you have a way to read and write the FLASH into a file.</p>
 <p>Let's assume you have read FLASH into an image called ROM.bin and you
 have a kernel, called bzImage, which you want to insert into
@@ -729,18 +1069,18 @@ is a quick and easy way to get started. In the long term, you want to
 remove as much of UEFI as possible, but replacing the shell is always
 our first step on a new board.</p>
 <p>Get the tool:</p>
-<pre><code>$ go get -u github.com/linuxboot/fiano/cmds/utk
+<pre><code>go get -u github.com/linuxboot/fiano/cmds/utk
 </code></pre>
 <p>Replace the shell:</p>
-<pre><code>$ utk ROM.bin replace_pe32 Shell bzImage save NEWROM.bin
+<pre><code>utk ROM.bin replace_pe32 Shell bzImage save NEWROM.bin
 </code></pre>
-<p>After that, you can flash NEWROM.bin and test. If anything goes wrong, such as not enough space, you will need to refer to the more detailed instructions below.</p>
-<h3 id="installation"><a class="header" href="#installation">Installation</a></h3>
+<p>After that, you can flash NEWROM.bin and test. If anything goes wrong, such as
+not enough space, you will need to refer to the more detailed instructions
+below.</p>
+<h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
 <p>At the time of writing, you must clone and build UTK from source -- binary
 distributions are not officially available. The source code resides in the
-Fiano project:</p>
-<pre><code>https://github.com/linuxboot/fiano/
-</code></pre>
+<a href="https://github.com/linuxboot/fiano/">Fiano Github project</a>.</p>
 <p>Aside: what is the difference between Fiano and UTK? The Fiano project contains
 a few more tools besides UTK, but UTK is a big element.</p>
 <p>We'll assume you already have Go installed. Check your installation with:</p>
@@ -751,7 +1091,7 @@ go version go1.11 linux/amd64
 official binary distributions of Go or install from source. See
 <a href="https://golang.org/">https://golang.org/</a> for details.</p>
 <p>With Go, download and install UTK:</p>
-<pre><code>$ go get -u github.com/linuxboot/fiano/cmds/utk
+<pre><code>go get -u github.com/linuxboot/fiano/cmds/utk
 </code></pre>
 <p>Running the above line installs <code>utk</code> to your <code>$GOPATH/bin</code> directory (or
 <code>$HOME/go/bin</code> if the <code>GOPATH</code> environment variable is not set). Adding this
@@ -784,12 +1124,12 @@ Operations:
   validate              : perform extra validation checks
 </code></pre>
 <p>Don't fret if your list of operations differs. UTK is an evolving project!</p>
-<h3 id="inspecting-roms"><a class="header" href="#inspecting-roms">Inspecting ROMs</a></h3>
+<h2 id="inspecting-roms"><a class="header" href="#inspecting-roms">Inspecting ROMs</a></h2>
 <p>Throughout this section, we'll demonstrate commands for inspecting a UEFI
 image. When confronted with a new image, run these commands to get a "lay of
 the land".</p>
 <p>Start by downloading the UEFI image used in these examples:</p>
-<pre><code>$ wget https://github.com/linuxboot/fiano/raw/master/integration/roms/OVMF.rom
+<pre><code>wget https://github.com/linuxboot/fiano/raw/master/integration/roms/OVMF.rom
 </code></pre>
 <p>Aside: alternatively, all UTK operations should work with your own UEFI images.
 Simply substitute "OVMF.rom" with your own UEFI image in all the examples
@@ -869,7 +1209,7 @@ BIOS                                                                            
 <p>This format is compact and easy for humans reading, but not ideal for machine
 consumption. Use the <code>json</code> command to print everything (including much more
 metadata) as JSON:</p>
-<pre><code>$ utk OVMF.rom json | less
+<pre><code>utk OVMF.rom json | less
 </code></pre>
 <p>Combine <code>utk</code> with the JSON query command, <code>jq</code> (<code>sudo apt-get install jq</code>),
 and other UNIX commands to quickly write powerful queries. For example, the
@@ -919,16 +1259,16 @@ you match a file by its name or GUID.</p>
 contents. The <code>extract &lt;DIR&gt;</code> command extracts all the files from the image and
 saves them to <code>&lt;DIR&gt;</code>. <code>&lt;DIR&gt;/summary.json</code> lists all the paths to the extracted
 files along with their metadata.</p>
-<pre><code>$ utk OVMF.rom extract OVMF/
+<pre><code>utk OVMF.rom extract OVMF/
 </code></pre>
 <p>After modifying the files, they can be reassembled with:</p>
-<pre><code>$ utk OVMF/ save OVMF2.rom
+<pre><code>utk OVMF/ save OVMF2.rom
 </code></pre>
-<h3 id="modifying-roms"><a class="header" href="#modifying-roms">Modifying ROMs</a></h3>
+<h2 id="modifying-roms"><a class="header" href="#modifying-roms">Modifying ROMs</a></h2>
 <p>First, let's verify the image works by running it inside QEMU. This step is not
 absolutely necessary, but gives us confidence the image works before and after
 each change we make.</p>
-<pre><code>$ qemu-system-x86_64 -bios OVMF.rom -nographic -net none
+<pre><code>qemu-system-x86_64 -bios OVMF.rom -nographic -net none
 </code></pre>
 <p>For the provided OVMF.rom image, this should boot to the EDK2 shell.</p>
 <p>TODO: include screenshot of the EDK2 shell</p>
@@ -966,14 +1306,14 @@ $ utk OVMF.rom \
 </code></pre>
 <p>That's all there to it! Try experimenting with the other commands such as
 insert.</p>
-<h3 id="common-pitfalls"><a class="header" href="#common-pitfalls">Common Pitfalls</a></h3>
-<h4 id="kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode"><a class="header" href="#kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode">Kernel is not built as a DXE or has not enabled UEFI stub mode</a></h4>
+<h2 id="common-pitfalls"><a class="header" href="#common-pitfalls">Common Pitfalls</a></h2>
+<h3 id="kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode"><a class="header" href="#kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode">Kernel is not built as a DXE or has not enabled UEFI stub mode</a></h3>
 <p>In order to be properly bootable as a DXE, kernels must have the following
 enabled:</p>
 <pre><code>CONFIG_EFI=y
 CONFIG_EFI_STUB=y
 </code></pre>
-<h4 id="files-are-missing-from-the-firmware-volume"><a class="header" href="#files-are-missing-from-the-firmware-volume">Files are missing from the Firmware Volume</a></h4>
+<h3 id="files-are-missing-from-the-firmware-volume"><a class="header" href="#files-are-missing-from-the-firmware-volume">Files are missing from the Firmware Volume</a></h3>
 <p>When UTK does not recognize the compression format used by the particular
 image, the files within it are not listed.</p>
 <p>In the wild, three compression schemes are common:</p>
@@ -986,7 +1326,7 @@ image, the files within it are not listed.</p>
 </div>
 <p>To determine which compression scheme you are using, search for the respective
 GUID in the json summary.</p>
-<h4 id="file-size-too-big"><a class="header" href="#file-size-too-big">File size too big!</a></h4>
+<h3 id="file-size-too-big"><a class="header" href="#file-size-too-big">File size too big</a></h3>
 <pre><code>File size too big! File with GUID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX has length 543210, but is only 123450 bytes big
 </code></pre>
 <p>When saving a UEFI image, files are added successively to each firmware volume.
@@ -1001,12 +1341,13 @@ equality section") -- compressed volumes are recompressed.</p>
 <p>By default, UTK uses the Go compressor, which is generally worse than the
 compression found in most UEFI images. Pass <code>--systemXZ=xz</code> as the first
 argument to UTK to use a better compressor.</p>
-<h4 id="todo-for-everything-after-this-point-arbitrary-data-before-or-after-the-image"><a class="header" href="#todo-for-everything-after-this-point-arbitrary-data-before-or-after-the-image">(TODO for everything after this point) Arbitrary data before or after the image.</a></h4>
-<p>Find a general solution which works for all images is a topic of research: <a href="https://github.com/linuxboot/fiano/issues/200">#200</a>.</p>
-<h4 id="hard-coded-addresses"><a class="header" href="#hard-coded-addresses">Hard-coded addresses</a></h4>
-<h4 id="binary-equality"><a class="header" href="#binary-equality">Binary equality</a></h4>
+<h3 id="todo-for-everything-after-this-point-arbitrary-data-before-or-after-the-image"><a class="header" href="#todo-for-everything-after-this-point-arbitrary-data-before-or-after-the-image">(TODO for everything after this point) Arbitrary data before or after the image</a></h3>
+<p>Find a general solution which works for all images is a topic of research:
+<a href="https://github.com/linuxboot/fiano/issues/200">#200</a>.</p>
+<h3 id="hard-coded-addresses"><a class="header" href="#hard-coded-addresses">Hard-coded addresses</a></h3>
+<h3 id="binary-equality"><a class="header" href="#binary-equality">Binary equality</a></h3>
 <p>TODO</p>
-<h3 id="extending-utk"><a class="header" href="#extending-utk">Extending UTK</a></h3>
+<h2 id="extending-utk"><a class="header" href="#extending-utk">Extending UTK</a></h2>
 <p>Visitor pattern means decoupling the structure from the operations.</p>
 <ul>
 <li>pkg/uefi: structure</li>
@@ -1019,14 +1360,14 @@ argument to UTK to use a better compressor.</p>
 </ol>
 <p>A good visitor still works when new Firmware are introduced. A good Firmware
 still works when a new visitor is introduced.</p>
-<p><strong>AST</strong></p>
+<h3 id="ast"><a class="header" href="#ast">AST</a></h3>
 <p>Abstract Syntax Tree -- this is a concept borrowed from compilers. When you're
 extracting the DXE to create a tree of structs containing a simplified model,
 you're essentially creating an AST. Then think about how patterns used in
 compiler architecture might apply to UTK.</p>
-<p><strong>Visitor Interface</strong></p>
+<h3 id="visitor-interface"><a class="header" href="#visitor-interface">Visitor Interface</a></h3>
 <p>Each visitor implements the following:</p>
-<pre><code>type Visitor interface {
+<pre><code class="language-go">type Visitor interface {
     VisitFV(*FV) error
     VisitFile(*File) error
     VisitSection(*FileSection) error
@@ -1035,9 +1376,9 @@ compiler architecture might apply to UTK.</p>
 </code></pre>
 <p>Think of a visitor as an "action" or a "transformation" being applied on the
 AST.</p>
-<p><strong>Visitor</strong></p>
+<h3 id="visitor"><a class="header" href="#visitor">Visitor</a></h3>
 <p>A struct implementing Visitor performs a transformation on the AST, for example:</p>
-<pre><code>type RenameDXE struct {
+<pre><code class="language-go">type RenameDXE struct {
     before, after string
 }
 func (v *RenameDXE) VisitFV(fv *FV) error {
@@ -1063,26 +1404,26 @@ func (v *RenameDXE) VisitSection(s *FileSection) error {
 <li>Replace a GUID with a file</li>
 <li>Validate that all the nodes in the tree are valid</li>
 <li>Find compressed files in the tree and decompress them</li>
-<li>Assembe the AST back into an image.</li>
+<li>Assemble the AST back into an image.</li>
 <li>Recursively write the AST to the filesystem (what you currently do with extract)</li>
 <li>Print an overview of the files to the terminal for debugging</li>
 <li>...</li>
 </ul>
 <p>It is easy to add more visitors without modifying existing code. Each action can
 be in a separate file.</p>
-<p><strong>Applying</strong></p>
+<h3 id="applying"><a class="header" href="#applying">Applying</a></h3>
 <p>Visitors are applied to the AST. Each node in the AST has an "Apply" method, for
 example:</p>
-<pre><code>func (f *File) Apply(v *visitor) error {
+<pre><code class="language-go">func (f *File) Apply(v *visitor) error {
     return v.VisitFile(f)
 }
 </code></pre>
 <p>This is so the visitors can be applied recursively over the AST.</p>
 <p>To apply the above RenameDXE visitor, you'd run:</p>
-<pre><code>v := &amp;RenameDXE{"Shell", "NotShell"}
+<pre><code class="language-go">v := &amp;RenameDXE{"Shell", "NotShell"}
 fv.Apply(v)
 </code></pre>
-<p><strong>Chaining Visitors Together</strong></p>
+<h3 id="chaining-visitors-together"><a class="header" href="#chaining-visitors-together">Chaining Visitors Together</a></h3>
 <p>It would be exciting/useful to be able to chain these small actions together
 through the command line. For example:</p>
 <pre><code>utk extract bios.rom \
@@ -1103,7 +1444,7 @@ methods to modify the AST.</p>
 <li>UEFITool</li>
 <li>uefi-firmware-parser</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="the-u-root-cpu-command"><a class="header" href="#the-u-root-cpu-command">The u-root <code>cpu</code> command</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-u-root-cpu-command"><a class="header" href="#the-u-root-cpu-command">The u-root <code>cpu</code> command</a></h1>
 <p>Do you want to have all the tools on your linuxboot system that you have on your
 desktop, but you can't get them to fit in your tiny flash part? Do you want all
 your desktop files visible on your linuxboot system, but just remembered there's
@@ -1113,7 +1454,7 @@ know they can't ever fit? What about <code>zsh</code>? How about being able to r
 on your linuxboot machine and have the output appear on your home file system?
 You say you'd like to make this all work without having to fill out web forms in
 triplicate to get your organization to Do Magic to your desktop?</p>
-<h4 id="your-search-is-over-cpu-is-here-to-answer-all-your-usability-needs"><a class="header" href="#your-search-is-over-cpu-is-here-to-answer-all-your-usability-needs">Your search is over: <code>cpu</code> is here to answer all your usability needs.</a></h4>
+<p><strong>Your search is over: <code>cpu</code> is here to answer all your usability needs.</strong></p>
 <h2 id="the-problem-running-your-program-on-some-other-system"><a class="header" href="#the-problem-running-your-program-on-some-other-system">The problem: running your program on some other system</a></h2>
 <p>People often need to run a command on a remote system. That is easy when the
 remote system is the same as the system you are on, e.g., both systems are
@@ -1253,7 +1594,7 @@ the network going. Once the network is up, users can <code>'cpu</code> in', and 
 they need is there. It actually looks like they are still logged in to their
 desktop, except, of course, truly local file systems such as <code>/proc</code> and <code>/sys</code>
 will come from the machine they are on, not their desktop.</p>
-<h1 id="an-easy-overview-of-how-cpu-works"><a class="header" href="#an-easy-overview-of-how-cpu-works">An easy overview of how <code>cpu</code> works</a></h1>
+<h2 id="an-easy-overview-of-how-cpu-works"><a class="header" href="#an-easy-overview-of-how-cpu-works">An easy overview of how <code>cpu</code> works</a></h2>
 <p><code>Cpu</code>, as mentioned, consists of a client and a server. The client is on your
 desktop (or laptop), and the server is on the remote system. Both client and
 server use an <code>ssh</code> transport, meaning that the “wire” protocol is <code>ssh</code>. In
@@ -1289,7 +1630,7 @@ property of <code>cpu</code>, that the names used on the user’s machine work t
 way on the remote machine. An overview of the process is shown below.</li>
 </ol>
 <img src="utilities/../images/cpu_overview.svg" width=600px>
-<h3 id="cpu-startup"><a class="header" href="#cpu-startup"><code>Cpu</code> startup</a></h3>
+<h2 id="cpu-startup"><a class="header" href="#cpu-startup"><code>cpu</code> startup</a></h2>
 <p>The startup proceeds in several steps. Every session begins with an initial
 contact from the <code>cpu</code> client to the <code>cpu</code> server.</p>
 <img src="utilities/../images/cpu_startup.svg" width=600px>
@@ -1318,8 +1659,8 @@ children, have exited. But <code>cpud</code>’s responsibilities to start a
 program ends with that first program.</p>
 <p>But what happens when <code>cpud</code> runs that first program? Here is where it gets
 interesting, and, depending on your point of view, either magical, confounding,
-or counterintuitive. We’ll go with magical.</p>
-<h2 id="starting-that-first-program"><a class="header" href="#starting-that-first-program">Starting that first program</a></h2>
+or counter-intuitive. We’ll go with magical.</p>
+<h3 id="starting-that-first-program"><a class="header" href="#starting-that-first-program">Starting that first program</a></h3>
 <p>As mentioned above, <code>cpud</code> sets up mounts for a name space, and calls the Linux
 <code>exec()</code> call to start the program.</p>
 <p>We can actually watch all the <code>cpu</code> file server operations. The file server
@@ -1365,13 +1706,13 @@ We would then invoke <code>cpu</code> as follows:</p>
 <pre><code>cpu -root ~/arm date
 </code></pre>
 <p>And the remote <code>cpud</code>, running on an ARM, would be provided with ARM binaries.</p>
-<h2 id="learning-how-to-use-cpu"><a class="header" href="#learning-how-to-use-cpu">Learning how to use <code>cpu</code></a></h2>
+<h3 id="learning-how-to-use-cpu"><a class="header" href="#learning-how-to-use-cpu">Learning how to use <code>cpu</code></a></h3>
 <p><code>Cpu</code> can be a hard thing to learn, not because it is difficult, but because it
 is different. To paraphrase Yoda, you have to unlearn what you have learned.
 Forget about copying files from here to there; when you <code>cpu</code> there, it looks
 like your files are waiting for you.</p>
 <p>You can start experimenting and learning about <code>cpu</code> by just running it locally.</p>
-<h3 id="a-set-of-binaries-for-you-to-try"><a class="header" href="#a-set-of-binaries-for-you-to-try">A set of binaries for you to try</a></h3>
+<h4 id="a-set-of-binaries-for-you-to-try"><a class="header" href="#a-set-of-binaries-for-you-to-try">A set of binaries for you to try</a></h4>
 <p>In order for you to try it out, start by working with the set of <code>cpu</code> binaries
 at
 <a href="https://github.com/u-root/cpubinaries">https://github.com/u-root/cpubinaries</a>.
@@ -1403,7 +1744,7 @@ you clone this repo, the following commands will rebuild the kernel:</p>
 <li><code>make fetch</code></li>
 <li><code>make cpukernel</code></li>
 </ul>
-<h3 id="how-to-use-the-cpu-binaries"><a class="header" href="#how-to-use-the-cpu-binaries">How to use the cpu binaries</a></h3>
+<h4 id="how-to-use-the-cpu-binaries"><a class="header" href="#how-to-use-the-cpu-binaries">How to use the cpu binaries</a></h4>
 <p>You’ll first need to start the server, and we show the entire sequence below,
 including unpacking the image:</p>
 <pre><code>xz -d usbstick.xz
@@ -1415,7 +1756,7 @@ at the <code>boot:</code> prompt, you can hit return or wait:</p>
 
 SeaBIOS (version 1.13.0-1)
 iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+3FF90750+3FED0750 CA00
-                                                                           Booting from Hard Disk...
+Booting from Hard Disk...
 SYSLINUX 6.03 EDD 20171017 Copyright (C) 1994-2014 H. Peter Anvin et al
 boot:
 .
@@ -1465,13 +1806,13 @@ that the <code>cpu</code> client is a 9p server, so your files are visible on th
 node). Further, you can see mounts on <code>/usr</code>, <code>/bin</code>, <code>/etc</code>, and so on. For
 this reason, we can run <code>date</code> and it will find its needed libraries in <code>/usr</code>,
 as the <code>ldd</code> command demonstrates.</p>
-<h3 id="making-cpu-easier-to-use"><a class="header" href="#making-cpu-easier-to-use">Making cpu easier to use</a></h3>
+<h4 id="making-cpu-easier-to-use"><a class="header" href="#making-cpu-easier-to-use">Making cpu easier to use</a></h4>
 <p>If you get tired of typing <code>-keys</code>, do the following: put your own <code>cpu_rsa</code> in
 <code>~/.ssh</code>; and copy the <code>cpu</code> binary to <code>bin</code> (or build a new one).</p>
 <p>Warning! The <code>cpu</code> keys we provide in the repo are only to be used for this
 demo. You should not use them for any other purpose, as they are in a github
 repo and hence open to the world.</p>
-<h3 id="what-if-you-dont-want-all-the-name-space"><a class="header" href="#what-if-you-dont-want-all-the-name-space">What if you don’t want all the name space?</a></h3>
+<h4 id="what-if-you-dont-want-all-the-name-space"><a class="header" href="#what-if-you-dont-want-all-the-name-space">What if you don’t want all the name space?</a></h4>
 <p>Sometimes, you don’t want all the <code>/usr</code> and <code>/bin</code> directories to be replaced
 with those from your machine. You might, for example, <code>cpu</code> into an ARM system,
 and hence only need a <code>/home</code>, but nothing else.</p>
@@ -1506,8 +1847,8 @@ init
 </code></pre>
 <p>There is a bit of a subtlety about the interaction of the namespace and 9p switches,
 which we are still discussing: the -namespace value can override the -9p switch.</p>
-<p>If you set -9p=false but have a non-empty namespace variable, then 9p will be set to
-true. So in this example, the -9p switch has no effect:</p>
+<p>If you set -9p=false but have a non-empty namespace variable, then 9p will be
+set to true. So in this example, the -9p switch has no effect:</p>
 <pre><code>cpu -9p=false h ls
 </code></pre>
 <p>Why is this? Because the default value of -namespace is non-empty.
@@ -1520,7 +1861,7 @@ and exit:</p>
 error: 9p is false but the namespace is non-empty; to force an empty namespace use -namespace=""
 </code></pre>
 <p>We welcome comments on this issue.</p>
-<h3 id="cpu-and-docker"><a class="header" href="#cpu-and-docker">cpu and Docker</a></h3>
+<h4 id="cpu-and-docker"><a class="header" href="#cpu-and-docker">cpu and Docker</a></h4>
 <p>Maintaining file system images is inconvenient.
 We can use Docker containers on remote hosts instead.
 We can take a standard Docker container and, with suitable options, use docker
@@ -1541,55 +1882,63 @@ bbin  buildbin	env  go    init     lib    proc  tcz  ubin  var
 bin   dev	etc  home  key.pub  lib64  sys	 tmp  usr
 #
 </code></pre>
-<p>Note that the image was update and then started. The /lib64 mount fails, because there is no /lib64 directory in the image, but
-that is harmless.</p>
+<p>Note that the image was update and then started. The /lib64 mount fails,
+because there is no /lib64 directory in the image, but that is harmless.</p>
 <p>On the local host, on which we ran docker, this image will show up in docker ps:</p>
 <pre><code>rminnich@a300:~$ docker ps
 CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
 b92a3576229b   ubuntu    "/home/rminnich/go/b…"   9 seconds ago   Up 9 seconds             inspiring_mcnulty
 </code></pre>
 <p>Even though the binaries themselves are running on the remote ARM system.</p>
-<h3 id="cpu-and-virtiofs"><a class="header" href="#cpu-and-virtiofs">cpu and virtiofs</a></h3>
-<p>While 9p is very general, because it is <em>transport-independent</em>, there are cases where we can get much better performance by using a less general
-file system.
-One such case is with virtofs.</p>
-<p>Because virtiofs is purely from guest kernel vfs to host kernel vfs, via virtio transport, it has been measured to run at up to 100 times faster.</p>
-<p>We can use virtiofs by specifying virtiofs mounts. The cpud will look for an environemnt variable, CPU_FSTAB, which is in fstab(5) format. The client
-can specify an fstab in one of two ways:
-o via the -fstab switch, in which case the client will populate the CPU_FSTAB variable with the contents of the file
-o by passing the CPU_FSTAB environment variable, which happens by default</p>
-<p>On the client side, the file specified via the -fstab takes precedence over any value of the CPU_FSTAB environment variable. On the server side,
-cpud does not use the -fstab switch, only using the environment variable.</p>
+<h4 id="cpu-and-virtiofs"><a class="header" href="#cpu-and-virtiofs">cpu and virtiofs</a></h4>
+<p>While 9p is very general, because it is <em>transport-independent</em>, there are
+cases where we can get much better performance by using a less general file
+system. One such case is with virtofs.</p>
+<p>Because virtiofs is purely from guest kernel vfs to host kernel vfs, via virtio
+transport, it has been measured to run at up to 100 times faster.</p>
+<p>We can use virtiofs by specifying virtiofs mounts. cpud will look for an
+environemnt variable, <code>CPU_FSTAB</code>, which is in <code>fstab(5)</code> format. The client
+can specify an fstab in one of two ways. Either via the <code>-fstab</code> switch, in
+which case the client will populate the <code>CPU_FSTAB</code> variable with the contents
+of the file or by passing the <code>CPU_FSTAB</code> environment variable, which happens
+by default.</p>
+<p>On the client side, the file specified via the -fstab takes precedence over any
+value of the CPU_FSTAB environment variable. On the server side, cpud does not
+use the -fstab switch, only using the environment variable.</p>
 <p>Here is an example of using the CPU_FSTAB variable with one entry:</p>
 <pre><code>CPU_FSTAB="myfs /mnt virtiofs rw 0 0" cpu v
 </code></pre>
-<p>In this case, the virtiofs server had the name myfs, and on the remote side, virtiofs was mounted on /mnt.</p>
+<p>In this case, the virtiofs server had the name myfs, and on the remote side,
+virtiofs was mounted on /mnt.</p>
 <p>For the fstab case, the command looks like this:</p>
 <pre><code>cpu -fstab fstab v
 </code></pre>
 <p>The fstab in this case would be</p>
 <pre><code>myfs /mnt virtiofs rw 0 0
 </code></pre>
-<p>Note that both the environment variable and the fstab can have more than one entry, but they entries must be separate by newlines. Hence, this will
-not work:</p>
+<p>Note that both the environment variable and the fstab can have more than one
+entry, but they entries must be separate by newlines. Hence, this will not
+work:</p>
 <pre><code>CPU_FSTAB=`cat fstab` cpu v
 </code></pre>
 <p>as shells insist on converting newlines to spaces.</p>
-<p>The fstab can specify any file system. If there is a mount path to, e.g., Google drive, and it can be specified
-in fstab format, then cpu clients can use Google Drive files. Note, again, that these alternative mounts do not use the 9p server built in to
-the cpu client; they use the file systems provided on the cpu server machine.</p>
+<p>The fstab can specify any file system. If there is a mount path to, e.g.,
+Google drive, and it can be specified in fstab format, then cpu clients can use
+Google Drive files. Note, again, that these alternative mounts do not use the
+9p server built in to the cpu client; they use the file systems provided on the
+cpu server machine.</p>
 <p>There are thus several choices for setting up the mounts</p>
 <ul>
 <li>9p support by the cpu client</li>
 <li>9p supported by the cpu client, with additional mounts via -fstab or -namespace</li>
-<li>9p <em>without</em> any bind mounts, i.e. -9p=false -namespace "", in which case, on the remote machine, files from the client are visible in /tmp/cpu, but no bind mounts are done;
-with additional mounts provided by fstab
+<li>9p <em>without</em> any bind mounts, i.e. -9p=false -namespace "", in which case, on
+the remote machine, files from the client are visible in /tmp/cpu, but no
+bind mounts are done; with additional mounts provided by fstab
 mounts are provided</li>
-<li>no 9p mounts at all, when -namespace="" -9p=false; with optional additional mounts via fstab</li>
+<li>no 9p mounts at all, when -namespace="" -9p=false; with optional additional
+mounts via fstab</li>
 <li>if there are no 9p mounts, and no fstab mounts, cpu is equivalent to ssh.</li>
 </ul>
-<!-- Footnotes themselves at the bottom. -->
-<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>For reference, the command we used: <code>cpu -dbg9p -d apu2 date</code></p>
 </div>
@@ -1880,33 +2229,48 @@ header on the board, or you might have to use a clip.
 </ul>
 <p>The voltage option is required for the Atomic Pi.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="linuxboot-using-coreboot-u-root-and-systemboot"><a class="header" href="#linuxboot-using-coreboot-u-root-and-systemboot">LinuxBoot using coreboot, u-root and systemboot</a></h1>
-<p>Points of contact: <a href="https://github.com/insomniacslk">Andrea Barberio</a>, <a href="https://github.com/dhendrix">David Hendricks</a></p>
-<p>This chapter describes how to build a LinuxBoot firmware based on coreboot, u-root and systemboot.
-The examples will focus on <code>x86_64</code>, and the coreboot builds will cover virtual and physical OCP hardware.</p>
+<p>Points of contact:
+<a href="https://github.com/insomniacslk">Andrea Barberio</a>,
+<a href="https://github.com/dhendrix">David Hendricks</a></p>
+<p>This chapter describes how to build a LinuxBoot firmware based on coreboot,
+u-root and systemboot.  The examples will focus on <code>x86_64</code>, and the coreboot
+builds will cover virtual and physical OCP hardware.</p>
 <h2 id="quick-start-with-coreboot"><a class="header" href="#quick-start-with-coreboot">Quick Start with coreboot</a></h2>
-<p>Run these commands in a directory you create or in /tmp; do so because it creates some files and directories:</p>
+<p>Run these commands in a directory you create or in <code>/tmp</code>; do so because it
+creates some files and directories:</p>
 <pre><code>$ go get github.com/linuxboot/corebootnerf
 $ go run github.com/linuxboot/corebootnerf --fetch
 ... lots and lots of output!
 </code></pre>
 <p>This produces a coreboot image in coreboot-4.9/build/coreboot.rom
-You can now run this rom image:</p>
-<pre><code>$  qemu-system-x86_64 -serial stdio -bios coreboot-4.9/build/coreboot.rom
+You can now run this ROM image:</p>
+<pre><code>qemu-system-x86_64 -serial stdio -bios coreboot-4.9/build/coreboot.rom
 </code></pre>
 <p>And see how it looks when you put this in a coreboot ROM image.</p>
 <h2 id="components-1"><a class="header" href="#components-1">Components</a></h2>
 <p>The final image is built on top of multiple open-source components:</p>
 <ul>
-<li><a href="https://coreboot.org">coreboot</a>, used for the platform initialization. Silicon and DRAM initialization are done here.</li>
-<li><a href="https://kernel.org">Linux</a>, used to initialize peripherals and various device drivers like file systems, storage and network devices; network stack; a multiuser and multitasking environment.</li>
-<li><a href="https://github.com/u-root/u-root">u-root</a>, an user-space environment that provides basic libraries and utilities to work in a Linux environment.</li>
-<li><del><a href="https://systemboot.org">systemboot</a>, an additional set of libraries and tools on top of u-root, that provide a bootloader behaviour for various booting scenarios.</del> systemboot was merged into u-root.</li>
+<li><a href="https://coreboot.org">coreboot</a>, used for the platform initialization.
+Silicon and DRAM initialization are done here.</li>
+<li><a href="https://kernel.org">Linux</a>, used to initialize peripherals and various
+device drivers like file systems, storage and network devices; network stack;
+a multiuser and multitasking environment.</li>
+<li><a href="https://github.com/u-root/u-root">u-root</a>, an user-space environment that
+provides basic libraries and utilities to work in a Linux environment.</li>
+<li><del><a href="https://systemboot.org">systemboot</a>, an additional set of libraries and
+tools on top of u-root, that provide a bootloader behaviour for various
+booting scenarios.</del> systemboot was merged into u-root.</li>
 </ul>
-<p>These components are built in reverse order. <code>u-root</code> and <code>systemboot</code> are built together in a single step.</p>
+<p>These components are built in reverse order. <code>u-root</code> and <code>systemboot</code> are
+built together in a single step.</p>
 <h2 id="building-u-root"><a class="header" href="#building-u-root">Building u-root</a></h2>
-<p>The first step is building the initramfs. This is done using the <code>u-root</code> ramfs builder, with additional tools and libraries from <code>systemboot</code>.</p>
-<p>u-root is written in Go. We recommend using a relatively recent version of the Go toolchain. At the time of writing the latest is 1.11, and we recommend using at least version 1.10. Previous versions may not be fully supported.</p>
-<p>Adjust your <code>PATH</code> to include <code>${GOPATH}/bin</code>, in order to find the <code>u-root</code> command that we will use in the next steps.</p>
+<p>The first step is building the initramfs. This is done using the <code>u-root</code> ramfs
+builder, with additional tools and libraries from <code>systemboot</code>.</p>
+<p>u-root is written in Go. We recommend using a relatively recent version of the
+Go toolchain. At the time of writing the latest is 1.11, and we recommend using
+at least version 1.10. Previous versions may not be fully supported.</p>
+<p>Adjust your <code>PATH</code> to include <code>${GOPATH}/bin</code>, in order to find the <code>u-root</code>
+command that we will use in the next steps.</p>
 <p>Then, fetch <code>u-root</code> and its dependencies:</p>
 <pre><code>go get -u github.com/u-root/u-root
 </code></pre>
@@ -1914,9 +2278,13 @@ You can now run this rom image:</p>
 uinit to wrap everything together:</p>
 <pre><code>u-root -build=bb core github.com/u-root/u-root/cmds/boot/{uinit,localboot,fbnetboot}
 </code></pre>
-<p>This command will generate a ramfs named <code>/tmp/initramfs_${os}_${arch}.cpio</code>, e.g. <code>/tmp/initramfs.linux_amd64.cpio</code>. You can specify an alternative output path with <code>-o</code>. Run <code>u-root -h</code> for additional command line parameters.</p>
-<p>Note: the above command will include only pure-Go commands from <code>u-root</code>. If you need to include other files or non-Go binaries, use the <code>-file</code> option in <code>u-root</code>.
-For example, you may want to include static builds of <code>kexec</code> or <code>flashrom</code>, that we build on https://github.com/systemboot/binaries .</p>
+<p>This command will generate a ramfs named <code>/tmp/initramfs_${os}_${arch}.cpio</code>,
+e.g. <code>/tmp/initramfs.linux_amd64.cpio</code>. You can specify an alternative output
+path with <code>-o</code>. Run <code>u-root -h</code> for additional command line parameters.</p>
+<p>Note: the above command will include only pure-Go commands from <code>u-root</code>. If
+you need to include other files or non-Go binaries, use the <code>-file</code> option in
+<code>u-root</code>.  For example, you may want to include static builds of <code>kexec</code> or
+<code>flashrom</code>, that we build on https://github.com/systemboot/binaries .</p>
 <p>Then, the initramfs has to be compressed. This step is necessary to embed the
 initramfs in the kernel as explained below, in order to maintain the image size
 smaller. Linux has a limited XZ compressor, so the compression requires specific
@@ -1925,11 +2293,14 @@ options:</p>
 </code></pre>
 <p>which will produce the file <code>/tmp/initramfs.linux_amd64.cpio.xz</code>.</p>
 <p>The kernel compression requirements are documented under
-<a href="https://www.kernel.org/doc/Documentation/xz.txt">Documentation/xz.txt</a> (last checked 2018-12-03)
-in the kernel docs.</p>
+<a href="https://www.kernel.org/doc/Documentation/xz.txt">Documentation/xz.txt</a> (last
+checked 2018-12-03) in the kernel docs.</p>
 <h2 id="building-a-suitable-linux-kernel"><a class="header" href="#building-a-suitable-linux-kernel">Building a suitable Linux kernel</a></h2>
-<p>A sample config to use with Qemu can be downloaded here: <a href="coreboot.u-root.systemboot/linux-4.19.6-linuxboot.config">linux-4.19.6-linuxboot.config</a>.</p>
-<p>You need a relatively recent kernel. Ideally a kernel 4.16, to have support for VPD variables, but a 4.11 can do the job too, if you don't care about boot entries and want "brute-force" booting only.</p>
+<p>A sample config to use with QEMU can be downloaded here:
+<a href="coreboot.u-root.systemboot/linux-4.19.6-linuxboot.config">linux-4.19.6-linuxboot.config</a>.</p>
+<p>You need a relatively recent kernel. Ideally a kernel 4.16, to have support for
+VPD variables, but a 4.11 can do the job too, if you don't care about boot
+entries and want "brute-force" booting only.</p>
 <p>We will build a kernel with the following properties:</p>
 <ul>
 <li>small enough to fit most flash chips, and with some fundamental kernel features</li>
@@ -1946,51 +2317,64 @@ in the kernel docs.</p>
 </ul>
 <h3 id="download-kernel-sources"><a class="header" href="#download-kernel-sources">Download kernel sources</a></h3>
 <p>You can either download a tarball from kernel.org, or get it via git and use a
-version tag. We recommend at least a kernel 4.16, in order to have VPD variables
-support.</p>
+version tag. We recommend at least a kernel 4.16, in order to have VPD
+variables support.</p>
 <pre><code># download the kernel tarball. Replace 4.19.6` with whatever kernel version you want
 wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.6.tar.xz
 tar xvJf linux-4.19.6.tar.xz
 cd linux-4.19.6
 make tinyconfig
 </code></pre>
-<p>You can also check out the <code>linux-stable</code> branch, that will point to the latest stable commit. You need to download it via <code>git</code> as follows:</p>
+<p>You can also check out the <code>linux-stable</code> branch, that will point to the latest
+stable commit. You need to download it via <code>git</code> as follows:</p>
 <pre><code>git clone --depth 1 -b linux-stable
 git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 cd linux-stable
 make tinyconfig
 </code></pre>
-<p>Some more information about tiny configs can be found at https://tiny.wiki.kernel.org (last checked 2018-12-01).</p>
+<p>Some more information about tiny configs can be found at
+https://tiny.wiki.kernel.org (last checked 2018-12-01).</p>
 <h3 id="a-few-fundamental-features"><a class="header" href="#a-few-fundamental-features">A few fundamental features</a></h3>
 <p>Assuming we are running on <code>x86_64</code>, some basic features to enable are:</p>
 <ul>
 <li><code>64-bit kernel</code></li>
 <li><code>General setup</code> → <code>Configure standard kernel features</code> → <code>Enable support for printk</code></li>
-<li><code>General setup</code> → <code>Configure standard kernel features</code> → <code>Multiple users, groups and capabilities support</code> (this is not strictly required on LinuxBoot)</li>
-<li><code>Processor type and features</code> → <code>Built-in kernel command line</code> (customize your command line here if needed, e.g. <code>earlyprintk=serial,ttyS0,57600 console=ttyS0,57600</code>)</li>
+<li><code>General setup</code> → <code>Configure standard kernel features</code> → <code>Multiple users, groups and capabilities support</code> (this is not strictly required on
+LinuxBoot)</li>
+<li><code>Processor type and features</code> → <code>Built-in kernel command line</code>
+(customize your command line here if needed, e.g.
+<code>earlyprintk=serial,ttyS0,57600 console=ttyS0,57600</code>)</li>
 <li><code>Executable file formats / Emulations</code> → <code>Kernel support for ELF binaries</code> (you may want to enable more formats)</li>
 <li><code>Networking support</code> → <code>Networking options</code> → <code>TCP/IP networking</code></li>
 <li><code>Networking support</code> → <code>Networking options</code> → <code>The IPv6 protocol</code></li>
 <li><code>Device Drivers</code> → <code>Character devices</code> → <code>Enable TTY</code></li>
-<li><code>Device Drivers</code> → <code>Character devices</code> → <code>Serial drivers</code> → <code>8250/16550 and compatible serial support</code></li>
-<li><code>Device Drivers</code> → <code>Character devices</code> → <code>Serial drivers</code> → <code>Console on 8250/16550 and compatible serial port</code></li>
+<li><code>Device Drivers</code> → <code>Character devices</code> → <code>Serial drivers</code> →
+<code>8250/16550 and compatible serial support</code></li>
+<li><code>Device Drivers</code> → <code>Character devices</code> → <code>Serial drivers</code> →
+<code>Console on 8250/16550 and compatible serial port</code></li>
 <li><code>File systems</code> → <code>Pseudo filesystems</code> → <code>/proc file system support</code></li>
 <li><code>File systems</code> → <code>Pseudo filesystems</code> → <code>sysfs file system support</code></li>
 </ul>
 <h3 id="requirements-for-go-111"><a class="header" href="#requirements-for-go-111">Requirements for Go 1.11</a></h3>
 <p><code>Go</code> requires a few kernel features to work properly. At the time of writing,
-you need to enable <code>CONFIG_FUTEX</code> in your kernel config.
-Older versions of Go may require <code>CONFIG_EPOLL</code>.</p>
+you need to enable <code>CONFIG_FUTEX</code> in your kernel config. Older versions of Go
+may require <code>CONFIG_EPOLL</code>.</p>
 <p>In menuconfig:</p>
 <ul>
-<li><code>General setup</code> → <code>Configure standard kernel features (expert users)</code> → <code>Enable futex support</code></li>
-<li><code>General setup</code> → <code>Configure standard kernel features (expert users)</code> → <code>Enable eventpoll support</code></li>
+<li><code>General setup</code> → <code>Configure standard kernel features (expert users)</code>
+→ <code>Enable futex support</code></li>
+<li><code>General setup</code> → <code>Configure standard kernel features (expert users)</code>
+→ <code>Enable eventpoll support</code></li>
 </ul>
 <p>Additional information about Go's minimum requirements can be found at
-https://github.com/golang/go/wiki/MinimumRequirements (last checked 2018-12-01).</p>
+https://github.com/golang/go/wiki/MinimumRequirements (last checked
+2018-12-01).</p>
 <h3 id="enable-devtmpfs"><a class="header" href="#enable-devtmpfs">Enable devtmpfs</a></h3>
-<p>Our system firmware uses u-root, which does not have (intentionally) an <code>udev</code> equivalent. Therefore, to have <code>/dev/</code> automatically populated at boot time you should enable devtmps.</p>
-<p>Simply enable <code>CONFIG_DEVTMPFS</code> and <code>CONFIG_DEVTMPFS_MOUNT</code> in your kernel config</p>
+<p>Our system firmware uses u-root, which does not have (intentionally) an <code>udev</code>
+equivalent. Therefore, to have <code>/dev/</code> automatically populated at boot time you
+should enable devtmps.</p>
+<p>Simply enable <code>CONFIG_DEVTMPFS</code> and <code>CONFIG_DEVTMPFS_MOUNT</code> in your kernel
+config.</p>
 <p>In menuconfig:</p>
 <ul>
 <li><code>Device drivers</code> → <code>Generic Driver Options</code> → <code>Maintain a devtmpfs filesystem to mount at /dev</code></li>
@@ -1998,10 +2382,11 @@ https://github.com/golang/go/wiki/MinimumRequirements (last checked 2018-12-01).
 </ul>
 <h3 id="additional-drivers"><a class="header" href="#additional-drivers">Additional drivers</a></h3>
 <p>This really depends on your hardware. You may want to add all the relevant
-drivers for the platforms you plan to run LinuxBoot on. For example you may need
-to include NIC drivers, file system drivers, and any other device that you need
-at boot time.</p>
-<p>For example, enable SCSI disk, SATA drivers, EXT4, and e1000 NIC driver. In menuconfig:</p>
+drivers for the platforms you plan to run LinuxBoot on. For example you may
+need to include NIC drivers, file system drivers, and any other device that you
+need at boot time.</p>
+<p>For example, enable SCSI disk, SATA drivers, EXT4, and e1000 NIC driver. In
+menuconfig:</p>
 <ul>
 <li><code>Bus options</code> → <code>PCI support</code></li>
 <li><code>Enable the block layer</code></li>
@@ -2022,9 +2407,11 @@ Hence you need to enable XZ compression support. Make sure to have at least
 <li><code>General setup</code> → <code>Initial RAM filesystem and RAM disk (initramfs/initrd) support</code> → <code>Support initial ramdisk/ramfs compressed using XZ</code></li>
 </ul>
 <h3 id="enable-vpd"><a class="header" href="#enable-vpd">Enable VPD</a></h3>
-<p>VPD stands for <a href="https://chromium.googlesource.com/chromiumos/platform/vpd/+/1c1806d8df4bb5976eed71a2e2bf156c36ccdce2/README.md">Vital Product Data</a>.
-We use VPD to store boot configuration for <code>localboot</code> and <code>fbnetboot</code>, similarly to UEFI's boot variables.
-Linux supports VPD out of the box, but you need at least a kernel 4.16.</p>
+<p>VPD stands for <a href="https://chromium.googlesource.com/chromiumos/platform/vpd/+/1c1806d8df4bb5976eed71a2e2bf156c36ccdce2/README.md">Vital Product
+Data</a>.
+We use VPD to store boot configuration for <code>localboot</code> and <code>fbnetboot</code>,
+similarly to UEFI's boot variables. Linux supports VPD out of the box, but you
+need at least a kernel 4.16.</p>
 <p>Make sure to have <code>CONFIG_GOOGLE_VPD</code> enabled in your kernel config.</p>
 <p>In menuconfig:</p>
 <ul>
@@ -2035,21 +2422,23 @@ Linux supports VPD out of the box, but you need at least a kernel 4.16.</p>
 by your platform, make sure to enable <code>CONFIG_TCG_TPM</code>.</p>
 <p>In menuconfig:</p>
 <ul>
-<li><code>Device drivers</code> → <code>Character devices</code> → <code>TPM Hardware Support</code> → (enable the relevant drivers)</li>
+<li><code>Device drivers</code> → <code>Character devices</code> → <code>TPM Hardware Support</code>
+→ (enable the relevant drivers)</li>
 </ul>
 <h3 id="include-the-initramfs"><a class="header" href="#include-the-initramfs">Include the initramfs</a></h3>
 <p>As mentioned above, the kernel will embed the compressed initramfs image. Your
 kernel configuration should point to the appropriate file using the
 <code>CONFIG_INITRAMFS_SOURCE</code> directive. E.g.</p>
-<pre><code>CONFIG_INITRAMFS_SOURCE="/path/to/initramfs_linux.x86_64.cpio.xz"`
+<pre><code>CONFIG_INITRAMFS_SOURCE="/path/to/initramfs_linux.x86_64.cpio.xz"
 </code></pre>
 <p>In menuconfig:</p>
 <ul>
 <li><code>General setup</code> → <code>Initial RAM filesystem and RAM disk (initramfs/initrd) support</code> → <code>Initramfs source file(s)</code></li>
 </ul>
 <h3 id="default-hostname"><a class="header" href="#default-hostname">Default hostname</a></h3>
-<p>We use "linuxboot" as default hostname. You may want to adjust it to a different
-value, You need to set <code>CONFIG_DEFAULT_HOSTNAME</code> for the purpose, e.g.</p>
+<p>We use "linuxboot" as the default hostname. You may want to adjust it to a
+different value. You need to set <code>CONFIG_DEFAULT_HOSTNAME</code> for the purpose. For
+example:</p>
 <pre><code>CONFIG_DEFAULT_HOSTNAME="linuxboot"
 </code></pre>
 <p>In menuconfig:</p>
@@ -2060,12 +2449,14 @@ value, You need to set <code>CONFIG_DEFAULT_HOSTNAME</code> for the purpose, e.g
 <p>Once your configuration is ready, build the kernel as usual:</p>
 <pre><code>make -j$(nproc --ignore=1)
 </code></pre>
-<p>The image will be located under <code>arch/${ARCH}/boot/bzImage</code> if your architecture supports bzImage (e.g. x86).</p>
-<p>For more details on how to build a kernel, see https://kernelnewbies.org/KernelBuild (last checked 2018-12-01).</p>
+<p>The image will be located under <code>arch/${ARCH}/boot/bzImage</code> if your
+architecture supports bzImage (e.g. x86).</p>
+<p>For more details on how to build a kernel, see
+https://kernelnewbies.org/KernelBuild (last checked 2018-12-01).</p>
 <h2 id="building-coreboot"><a class="header" href="#building-coreboot">Building coreboot</a></h2>
-<p>In this step we will build <code>coreboot</code> using the Linux kernel image that we built
-at the previous step as payload. This build is for a Qemu x86 target, the process
-may be somehow different for other platforms.</p>
+<p>In this step we will build <code>coreboot</code> using the Linux kernel image that we
+built at the previous step as payload. This build is for a Qemu x86 target, the
+process may be somehow different for other platforms.</p>
 <p>Steps overview:</p>
 <ul>
 <li>download coreboot from the git repo</li>
@@ -2140,8 +2531,8 @@ Built emulation/qemu-q35 (QEMU x86 q35/ich9)
 <p>TODO</p>
 <h2 id="running-on-a-virtual-machine"><a class="header" href="#running-on-a-virtual-machine">Running on a virtual machine</a></h2>
 <p>The image built with the above steps can run on a QEMU virtual machine, using
-the machine type <code>q35</code>, as specified in the coreboot mainboard section. Assuming
-that your coreboot image is located at <code>build/coreboot.rom</code>, you can
+the machine type <code>q35</code>, as specified in the coreboot mainboard section.
+Assuming that your coreboot image is located at <code>build/coreboot.rom</code>, you can
 run the following command:</p>
 <pre><code>sudo qemu-system-x86_64\        # sudo is required to enable KVM below
     -M q35 \                    # the machine type specified in the coreboot mainboard configuration
@@ -2191,11 +2582,11 @@ on. It checks to see what hardware components the computing device has, wakes
 the components up, and hands them over to the operating system that is to be
 installed on the machine. The current x86 firmware is based on Intel’s
 Universal Extensible Firmware Interface (UEFI).</li>
-<li><a href="https://github.com/linuxboot/heads"><em><strong>Heads</strong></em>_</a>: An open source firmware
+<li><a href="https://github.com/linuxboot/heads"><em><strong>Heads</strong></em></a>: An open source firmware
 for laptops and servers, aimed at strong platform security. Developed by
 Trammell Hudson, based on stripped UEFI plus Linux, and BusyBox instead of
 u-root.</li>
-<li><em><strong>iSCSI</strong></em>_: A protocol that provides a way to make network-attached storage
+<li><em><strong>iSCSI</strong></em>: A protocol that provides a way to make network-attached storage
 appear to be a local device to the hosts using it, allowing it to be (among
 other things) mounted as a regular local file system.</li>
 <li><em><strong>kexec</strong></em>: A system call that enables you to load and boot into another
@@ -2259,59 +2650,130 @@ implementations are.</li>
 interact with the kernel.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="coreboot-linuxboot-nerf-what"><a class="header" href="#coreboot-linuxboot-nerf-what">coreboot, LinuxBoot, NERF... What?</a></h1>
-<p>Naming is hard. You may have heard of <code>coreboot</code>, <code>NERF</code>, <code>u-root</code>, <code>systemboot</code>, etc. If you are confused, well, you're not alone.</p>
-<h1 id="linuxbios"><a class="header" href="#linuxbios">LinuxBIOS</a></h1>
-<p><code>LinuxBIOS</code> is a project originated in 1999 from Ron Minnich, Stefan Reinauer and others. It is not much younger than UEFI, but they were already experimenting the idea of running Linux as firmware! Like many great ideas, it was way ahead of its time. At that time Linux was not mature enough for hardware initialization project, and while LinuxBIOS was successful in several performance-and-reliability critical environments, it didn't see mass adoption.</p>
-<h1 id="coreboot"><a class="header" href="#coreboot">coreboot</a></h1>
-<p>LinuxBIOS became <code>coreboot</code> in 2008. It is effectively the same project that evolved over time. <code>coreboot</code> (spelled lowercase) is a complete open source system firmware package, aimed at replacing proprietary implementations. It's also one of the most mature and well-maintained open source firmware projects.</p>
-<p><code>coreboot</code> supports a <strong>wide varieties of platforms</strong>, and has a <strong>modular architecture</strong>. It provides <strong>platform initialization</strong> (CPU, DRAM, PCI, ACPI, SMBIOS, etc), <strong>a filesystem</strong> (CBFS) suitable for on-firmware storage, integration with <strong>vendor extensions and blobs</strong>, a friendly license, and a <strong>wide variety of payloads</strong>.</p>
-<p>This modular design also <strong>enables various bootloader scenarios</strong>, through coreboot payloads. Among the various options, there are:</p>
+<p>Naming is hard. You may have heard of <code>coreboot</code>, <code>NERF</code>, <code>u-root</code>,
+<code>systemboot</code>, etc. If you are confused, well, you're not alone.</p>
+<h2 id="linuxbios"><a class="header" href="#linuxbios">LinuxBIOS</a></h2>
+<p><code>LinuxBIOS</code> is a project originated in 1999 from Ron Minnich, Stefan Reinauer
+and others. It is not much younger than UEFI, but they were already
+experimenting the idea of running Linux as firmware! Like many great ideas, it
+was way ahead of its time. At that time Linux was not mature enough for
+hardware initialization project, and while LinuxBIOS was successful in several
+performance-and-reliability critical environments, it didn't see mass adoption.</p>
+<h2 id="coreboot"><a class="header" href="#coreboot">coreboot</a></h2>
+<p>LinuxBIOS became <code>coreboot</code> in 2008. It is effectively the same project that
+evolved over time. <code>coreboot</code> (spelled lowercase) is a complete open source
+system firmware package, aimed at replacing proprietary implementations. It's
+also one of the most mature and well-maintained open source firmware projects.</p>
+<p><code>coreboot</code> supports a <strong>wide varieties of platforms</strong>, and has a <strong>modular
+architecture</strong>. It provides <strong>platform initialization</strong> (CPU, DRAM, PCI, ACPI,
+SMBIOS, etc), <strong>a filesystem</strong> (CBFS) suitable for on-firmware storage,
+integration with <strong>vendor extensions and blobs</strong>, a friendly license, and a
+<strong>wide variety of payloads</strong>.</p>
+<p>This modular design also <strong>enables various bootloader scenarios</strong>, through
+coreboot payloads. Among the various options, there are:</p>
 <ul>
 <li><em>SeaBIOS</em>, a very popular open source BIOS implementation</li>
 <li><em>depthcharge</em>, the blazing-fast boot payload for ChromeOS/Chromebooks</li>
 <li><em>LinuxBoot</em>, of course! More details below</li>
 <li><em>UEFI</em>, via the open-source EDK II.</li>
 </ul>
-<h1 id="linuxboot"><a class="header" href="#linuxboot">LinuxBoot</a></h1>
-<p>LinuxBoot is not a product, but rather a <strong>concept</strong>. It's the idea of <strong>booting Linux (OS) with Linux (system firmware)</strong>. In a way, the same concept pioneered by LinuxBIOS.</p>
-<p>"LinuxBoot" is also often used as an umbrella name at Facebook to indicate how we do open source firmware, i.e. coreboot + Linux + u-root + systemboot. <strong>Imagine it like a Linux distribution, but for firmware</strong>. It is a collection of various open source components, glued together to work as a consistent firmware OS.</p>
-<p>Depending on who you are talking to, you may hear "LinuxBoot" used as a reference to "stripped UEFI, plus Linux". This is because LinuxBoot, when originally created, was meant to run a Linux kernel on top of a stripped UEFI firmware, not on coreboot. See also "NERF" below.</p>
-<h1 id="nerf"><a class="header" href="#nerf">NERF</a></h1>
-<p>This is the original name for the stripped UEFI, plus Linux, plus u-root. The name stands for Non-Extensible Reduced Firmware, as opposed to UEFI's Unified Extensible Firmware Interface. Basically, saying that NERF is an UEFI replacement that prefers to be more compact, less extensible, and a bit more opinionated. While extensibility is nice and often desirable, too much extensibility and too many "yes" can make a complex project very hard to maintain and keep secure.</p>
-<p>NERF started from Ron Minnich (one of the coreboot founders) at Google, and is now developed by a few other folks that are now part of Google's "NERF team". This name, in my understanding, is mostly used within Google, while "LinuxBoot" is becoming a more common name for this effort.</p>
-<h1 id="heads"><a class="header" href="#heads">Heads</a></h1>
-<p>Heads is an open source firmware for laptops and servers, aimed at strong platform security. Developed by <a href="https://twitter.com/qrs">Trammell Hudson</a>, this is based on stripped UEFI plus Linux, and BusyBox instead of u-root. More info at https://trmm.net/Heads .</p>
-<h1 id="open-system-firmware"><a class="header" href="#open-system-firmware">Open System Firmware</a></h1>
-<p><a href="https://www.opencompute.org/projects/open-system-firmware">Open System Firmware</a>, or in short OSF, is an official subproject of the <a href="https://www.opencompute.org">Open Compute Project</a> (OCP).
-OSF has been developed in the open, by various members of OCP that were interested in having open source <strong>system firmware</strong>. OSF defines a set of guidelines with contributions from Microsoft, Google, Facebook, Intel, 9elements, TwoSigma, and several other companies.</p>
-<p>The important thing to keep in mind is that <strong>Open System Firmware is a project name</strong>, not an implementation, nor an idea. An implementation (like LinuxBoot or OpenEDK2) can be OSF-compliant if it follows the aforementioned guidelines.</p>
+<h2 id="linuxboot"><a class="header" href="#linuxboot">LinuxBoot</a></h2>
+<p>LinuxBoot is not a product, but rather a <strong>concept</strong>. It's the idea of
+<strong>booting Linux (OS) with Linux (system firmware)</strong>. In a way, the same concept
+pioneered by LinuxBIOS.</p>
+<p>"LinuxBoot" is also often used as an umbrella name at Facebook to indicate how
+we do open source firmware, i.e. coreboot + Linux + u-root + systemboot.
+<strong>Imagine it like a Linux distribution, but for firmware</strong>. It is a collection
+of various open source components, glued together to work as a consistent
+firmware OS.</p>
+<p>Depending on who you are talking to, you may hear "LinuxBoot" used as a
+reference to "stripped UEFI, plus Linux". This is because LinuxBoot, when
+originally created, was meant to run a Linux kernel on top of a stripped UEFI
+firmware, not on coreboot. See also "NERF" below.</p>
+<h2 id="nerf"><a class="header" href="#nerf">NERF</a></h2>
+<p>This is the original name for the stripped UEFI, plus Linux, plus u-root. The
+name stands for Non-Extensible Reduced Firmware, as opposed to UEFI's Unified
+Extensible Firmware Interface. Basically, saying that NERF is an UEFI
+replacement that prefers to be more compact, less extensible, and a bit more
+opinionated. While extensibility is nice and often desirable, too much
+extensibility and too many "yes" can make a complex project very hard to
+maintain and keep secure.</p>
+<p>NERF started from Ron Minnich (one of the coreboot founders) at Google, and is
+now developed by a few other folks that are now part of Google's "NERF team".
+This name, in my understanding, is mostly used within Google, while "LinuxBoot"
+is becoming a more common name for this effort.</p>
+<h2 id="heads"><a class="header" href="#heads">Heads</a></h2>
+<p><a href="https://trmm.net/Heads">Heads</a> is an open source firmware for laptops and
+servers, aimed at strong platform security. Developed by <a href="https://twitter.com/qrs">Trammell
+Hudson</a>, this is based on stripped UEFI plus Linux,
+and BusyBox instead of u-root.</p>
+<h2 id="open-system-firmware"><a class="header" href="#open-system-firmware">Open System Firmware</a></h2>
+<p><a href="https://www.opencompute.org/projects/open-system-firmware">Open System Firmware</a>,
+or in short OSF, is an official subproject of the <a href="https://www.opencompute.org">Open Compute
+Project</a> (OCP). OSF has been developed in the
+open, by various members of OCP that were interested in having open source
+<strong>system firmware</strong>. OSF defines a set of guidelines with contributions from
+Microsoft, Google, Facebook, Intel, 9elements, TwoSigma, and several other
+companies.</p>
+<p>The important thing to keep in mind is that <strong>Open System Firmware is a project
+name</strong>, not an implementation, nor an idea. An implementation (like LinuxBoot
+or OpenEDK2) can be OSF-compliant if it follows the aforementioned guidelines.</p>
 <p>Currently, Open System Firmware has two work streams:</p>
 <ul>
 <li>LinuxBoot, led by Google, Facebook, 9elements, ITRenew, TwoSigma, and others</li>
 <li>OpenEDK II, led by Microsoft and Intel.</li>
 </ul>
-<h1 id="open-source-firmware"><a class="header" href="#open-source-firmware">Open Source Firmware</a></h1>
-<p>While this may sound obvious, it's worth noting that OSF can be used to refer to "Open Source Firmware" or "Open System Firmware" depending on the context. Confusing? I couldn't agree more.</p>
-<h1 id="bios-1"><a class="header" href="#bios-1">BIOS</a></h1>
-<p>BIOS is the good old, imperscrutable, unstructured, non-standard way of initializing a hardware platform in the pre-UEFI days. In other words it's a binary blob with no standardized structure, that is responsible for initializing CPU and memory, and jumping to a hard-coded position on the MBR of the first disk drive.</p>
-<p>BIOS has been largely replaced by the (much better) UEFI over the past 20 years. Many UEFI implementations still offer a "BIOS compatibility mode" which make it behave like an old BIOS, with its (lack of) features.</p>
-<p>BIOS is also a misused term for system firmware nowadays. You may still hear "BIOS" in reference to system firmware, either it's UEFI or even LinuxBoot. However, "BIOS" refers to a specific type of firmware, and UEFI is definitely not BIOS, just like LinuxBoot is not BIOS.</p>
-<h1 id="uefi"><a class="header" href="#uefi">UEFI</a></h1>
-<p>It's a complex specification of a standard for system firmware. It defines everything from the layout on the flash chip, to how to interface to peripherals, boot from disk or from network, how UEFI applications work, etc). <strong>It is not an implementation</strong>, it's a standard. EDK II and OpenEDK II are UEFI implementations.</p>
-<p>UEFI is not closed source per-se, but in practice most implementations are. Typically IBVs and ODMs would take a snapshot of the reference implementation EDK II, and base their work on that, with their patches and additional components.</p>
-<h1 id="edk-ii"><a class="header" href="#edk-ii">EDK II</a></h1>
-<p>It is the open source reference implementation of an UEFI-compliant firmware, originally developed by Intel. See https://github.com/tianocore/edk2 .</p>
-<h1 id="u-boot"><a class="header" href="#u-boot">u-boot</a></h1>
+<h2 id="open-source-firmware"><a class="header" href="#open-source-firmware">Open Source Firmware</a></h2>
+<p>While this may sound obvious, it's worth noting that OSF can be used to refer
+to "Open Source Firmware" or "Open System Firmware" depending on the context.
+Confusing? I couldn't agree more.</p>
+<h2 id="bios-1"><a class="header" href="#bios-1">BIOS</a></h2>
+<p>BIOS is the good old, inscrutable, unstructured, non-standard way of
+initializing a hardware platform in the pre-UEFI days. In other words it's a
+binary blob with no standardized structure, that is responsible for
+initializing CPU and memory, and jumping to a hard-coded position on the MBR of
+the first disk drive.</p>
+<p>BIOS has been largely replaced by the (much better) UEFI over the past 20
+years. Many UEFI implementations still offer a "BIOS compatibility mode" which
+make it behave like an old BIOS, with its (lack of) features.</p>
+<p>BIOS is also a misused term for system firmware nowadays. You may still hear
+"BIOS" in reference to system firmware, either it's UEFI or even LinuxBoot.
+However, "BIOS" refers to a specific type of firmware, and UEFI is definitely
+not BIOS, just like LinuxBoot is not BIOS.</p>
+<h2 id="uefi"><a class="header" href="#uefi">UEFI</a></h2>
+<p>It's a complex specification of a standard for system firmware. It defines
+everything from the layout on the flash chip, to how to interface to
+peripherals, boot from disk or from network, how UEFI applications work, etc).
+<strong>It is not an implementation</strong>, it's a standard. EDK II and OpenEDK II are
+UEFI implementations.</p>
+<p>UEFI is not closed source per-se, but in practice most implementations are.
+Typically IBVs and ODMs would take a snapshot of the reference implementation
+EDK II, and base their work on that, with their patches and additional
+components.</p>
+<h2 id="edk-ii"><a class="header" href="#edk-ii">EDK II</a></h2>
+<p>It is the open source reference implementation of an UEFI-compliant firmware,
+originally developed by Intel (see <a href="https://github.com/tianocore/edk2">edk2 Github
+project</a>).</p>
+<h2 id="u-boot"><a class="header" href="#u-boot">u-boot</a></h2>
 <p>u-boot is another very popular open source firmware and bootloader.</p>
-<h1 id="u-root"><a class="header" href="#u-root">u-root</a></h1>
+<h2 id="u-root"><a class="header" href="#u-root">u-root</a></h2>
 <p>u-root is not u-boot! They are two completely different projects.</p>
-<p>u-root is modern, embedded userspace environment for Linux, with bootloader tools.
-u-root has several advantages:</p>
+<p>u-root is modern, embedded userspace environment for Linux, with bootloader
+tools. u-root has several advantages:</p>
 <ul>
-<li>it is written in a memory-safe language, Go, and it's compiled to avoid native code (CGo is disabled). No segfaults at firmware space!</li>
-<li>it has a bb (busybox) mode: it's more space-efficient than compiling the programs individually, because it automatically merges the source code of the programs and libraries you need, into one.</li>
-<li>it has a source mode: you have the source code of your tools <strong>in the firmware image</strong>, so you can modify any tool in place and re-run it, instead of rebuilding the whole image and reflashing, rebooting, and re-running the tool</li>
-<li>it <strong>can run any unmodified Go program</strong>, it doesn't have to be written specifically for u-root (while with BusyBox it needs to be part of that source tree, using different libraries). This allows using any Go library or program written for non-embedded environments</li>
+<li>it is written in a memory-safe language, Go, and it's compiled to avoid
+native code (CGo is disabled). No segfaults at firmware space!</li>
+<li>it has a bb (busybox) mode: it's more space-efficient than compiling the
+programs individually, because it automatically merges the source code of the
+programs and libraries you need, into one.</li>
+<li>it has a source mode: you have the source code of your tools <strong>in the
+firmware image</strong>, so you can modify any tool in place and re-run it, instead
+of rebuilding the whole image and reflashing, rebooting, and re-running the
+tool</li>
+<li>it <strong>can run any unmodified Go program</strong>, it doesn't have to be written
+specifically for u-root (while with BusyBox it needs to be part of that
+source tree, using different libraries). This allows using any Go library or
+program written for non-embedded environments</li>
 <li>is <strong>blazing fast to build</strong>: seconds instead of minutes</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="case-studies"><a class="header" href="#case-studies">Case Studies</a></h1>
@@ -2378,7 +2840,7 @@ By loading during the DXE, LinuxBoot runs after the first two stages
 of the UEFI, but takes over after that point, replacing the
 UEFI drivers. It therefore completely replaces a large portion
 of the boot process.</p>
-<h1 id="phases-of-the-project"><a class="header" href="#phases-of-the-project">Phases of the project</a></h1>
+<h2 id="phases-of-the-project"><a class="header" href="#phases-of-the-project">Phases of the project</a></h2>
 <p>Google's LinuxBoot project is focused on moving UEFI boot functionality
 into the kernel and userspace. That is, converting UEFI firmware
 to run LinuxBoot. The project has taken the standard UEFI boot process
@@ -2393,7 +2855,7 @@ Linux applications.</p>
 <p>The following diagram shows the phases of the UEFI boot process.
 The items in <span style="color:red">red</span> are components
 that are either reduced or eliminated with LinuxBoot.
-The dark <span style="color:blue">blue</span> items on the left
+The <span style="color:blue">dark blue</span> items on the left
 cannot be changed.</p>
 <img src="case_studies/../images/Case-study-step1.svg" width=600px>
 <p>In the real FLASH part, the SEC and PEI are actually only 10% of total,
@@ -2449,14 +2911,25 @@ development continues to provide an open-source solution that
 does the following:</p>
 <ol>
 <li>Brings up the Linux kernel as a DXE in flash ROM instead of the UEFI shell.</li>
-<li>Provides a Go based userland that can then bring up the kernel that you want to run on the machine.</li>
-<li>Enables writing traditional firmware applications such as bootloader, debugging, diagnosis, and error detection applications as cross-architecture and cross-platform portable Linux applications.</li>
+<li>Provides a Go based userland that can then bring up the kernel that you want
+to run on the machine.</li>
+<li>Enables writing traditional firmware applications such as bootloader,
+debugging, diagnosis, and error detection applications as cross-architecture
+and cross-platform portable Linux applications.</li>
 </ol>
 <p>The complete LinuxBoot solution is shown in the following diagram.</p>
 <img src="case_studies/../images/Case-study-step6.svg" width=600px>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ocp-tiogapass-case-study"><a class="header" href="#ocp-tiogapass-case-study">OCP TiogaPass Case Study</a></h1>
-<p>Points of contact: <a href="https://github.com/jonzhang-fb">Jonathan Zhang</a>, <a href="https://github.com/insomniacslk">Andrea Barberio</a>, <a href="https://github.com/dhendrix">David Hendricks</a>, <a href="https://github.com/agangidi53">Adi</a>, <a href="https://github.com/morganjangwiwynn">Morgan Jang</a>, <a href="https://github.com/johnnylinwiwynn">Johnny Lin</a></p>
-<p>This case study describes information for firmware development community to use <a href="https://www.opencompute.org/">OCP</a> platform TiogaPass, made by <a href="http://www.wiwynn.com/english">Wiwynn Corporation</a>.</p>
+<p>Points of contact:
+<a href="https://github.com/jonzhang-fb">Jonathan Zhang</a>,
+<a href="https://github.com/insomniacslk">Andrea Barberio</a>,
+<a href="https://github.com/dhendrix">David Hendricks</a>,
+<a href="https://github.com/agangidi53">Adi</a>,
+<a href="https://github.com/morganjangwiwynn">Morgan Jang</a>,
+<a href="https://github.com/johnnylinwiwynn">Johnny Lin</a></p>
+<p>This case study describes information for firmware development community to use
+<a href="https://www.opencompute.org/">OCP</a> platform TiogaPass, made by <a href="http://www.wiwynn.com/english">Wiwynn
+Corporation</a>.</p>
 <p>It contains following sections:</p>
 <ul>
 <li><a href="case_studies/TiogaPass.html#Quick-Start">Quick Start</a></li>
@@ -2478,75 +2951,88 @@ does the following:</p>
 <h2 id="quick-start-1"><a class="header" href="#quick-start-1">Quick Start</a></h2>
 <ul>
 <li><a href="http://www.wiwynn.com/english">Order the hardware</a> if you have not done so.</li>
-<li>Download or build the firmware binary. The current solution is to boot embedded Linux kernel and initramfs as UEFI payload. Please contact Wiwynn to get a UEFI binary after ordering.</li>
+<li>Download or build the firmware binary. The current solution is to boot
+embedded Linux kernel and initramfs as UEFI payload. Please contact Wiwynn to
+get a UEFI binary after ordering.</li>
 <li>Flash the firmware.
 <ul>
 <li>Copy the downloaded firmware to OpenBMC.</li>
-<li>From OpenBMC</li>
-</ul>
-</li>
-</ul>
+<li>From OpenBMC
 <pre><code>  fw-util mb --update bios --force ./&lt;firmware image name&gt;
 </code></pre>
-<ul>
-<li>Boot and enjoy.
-<ul>
-<li>From OpenBMC</li>
-</ul>
 </li>
 </ul>
+</li>
+<li>Boot and enjoy.
+<ul>
+<li>From OpenBMC
 <pre><code>  power-util mb reset
   sol-util mb
 </code></pre>
+</li>
+</ul>
+</li>
+</ul>
 <h2 id="details"><a class="header" href="#details">Details</a></h2>
 <h3 id="how-to-build"><a class="header" href="#how-to-build">How to build</a></h3>
-<p>Follow <a href="case_studies/TiogaPass.html#Build-Details">Build Details</a> for details on how to get the source code, and how to build.</p>
-<p>Boot flow of the current firmware solution is: Power on --&gt; minimized UEFI --&gt; Linuxboot --&gt; target OS.</p>
-<p>In near feature, the boot flow will be: power on --&gt; Coreboot --&gt; Linuxboot --&gt; target OS.</p>
+<p>Follow <a href="case_studies/TiogaPass.html#Build-Details">Build Details</a> for details on how to get the source
+code, and how to build.</p>
+<p>Boot flow of the current firmware solution is: Power on → minimized UEFI →
+Linuxboot → target OS.</p>
+<p>In near feature, the boot flow will be: power on → Coreboot → Linuxboot →
+target OS.</p>
 <h4 id="build-details"><a class="header" href="#build-details">Build Details</a></h4>
 <ul>
-<li>Download the code from <a href="https://github.com/linuxboot/linuxboot">linuxboot github</a></li>
-</ul>
+<li>Download the code from <a href="https://github.com/linuxboot/linuxboot">linuxboot github</a>
 <pre><code>  git clone https://github.com/linuxboot/linuxboot.git
 </code></pre>
-<ul>
-<li>You need to apply Wiwiynn's linuxboot patch for now</li>
-</ul>
+</li>
+<li>You need to apply Wiwiynn's linuxboot patch for now
 <pre><code>cd linuxboot
 wget -O TiogaPass.patch https://github.com/johnnylinwiwynn/linuxboot/commit/28ae8450b3b05c6e6b8c74e29d0974ccf711d5e6.patch
 git am TiogaPass.patch
 </code></pre>
-<ul>
-<li>Build the kernel bzImage (has embeded initramfs) for linuxboot, please reference
-<a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-u-root">Building u-root</a> and
-<a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-a-suitable-linux-kernel">Building a suitable Linux kernel</a>
-for how to build the bzImage. You can always customize your Linux kernel configuration to suit your needs, please reference Wiwynn's kernel configuration file as a sample <a href="case_studies/linux_config">linux_config</a>.</li>
-<li>Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn after ordering, and also put your bzImage
-to the root folder of linuxboot, and then make</li>
-</ul>
+</li>
+<li>Build the kernel bzImage (has embedded initramfs) for linuxboot, please
+reference <a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-u-root">Building u-root</a>
+and <a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-a-suitable-linux-kernel">Building a suitable Linux kernel</a>
+for how to build the bzImage. You can always customize your Linux kernel
+configuration to suit your needs, please reference Wiwynn's kernel
+configuration file as a sample <a href="case_studies/linux_config">linux_config</a>.</li>
+<li>Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn
+after ordering, and also put your bzImage to the root folder of linuxboot,
+and then make
 <pre><code>  cp path/to/tioga.rom linuxboot/boards/tioga
   cp path/to/bzImage linuxboot
   cd linuxboot
   BOARD=tioga make
 </code></pre>
-<ul>
+</li>
 <li>You should see the built image at build/tioga/linuxboot.rom.</li>
 </ul>
 <h3 id="how-to-operate"><a class="header" href="#how-to-operate">How to operate</a></h3>
 <p>Follow <strong>TBD section</strong> for details on:</p>
 <ul>
-<li>How to flash. The image can be flashed either out-of-band, or from Linuxboot u-root shell, or from targetOS shell.</li>
+<li>How to flash. The image can be flashed either out-of-band, or from Linuxboot
+u-root shell, or from targetOS shell.</li>
 <li>How to run Linuxboot u-root shell commands.</li>
 </ul>
 <h3 id="platform-info"><a class="header" href="#platform-info">Platform info</a></h3>
-<p>The SKU contains TiogaPass board, a debug card, a VGA card, a power adapter. The details can be obtained from <a href="http://www.wiwynn.com/english">Here</a>.</p>
-<p>Platform design details (including the design spec and schematics) can be found from <a href="https://www.opencompute.org/products/108/wiwynn-tioga-pass-standard-sv7220g3-s-2u-ocp-server-up-to-768gb-8gb16gb32gb-ddr4-up-to-2666mts-12-dimm-slots">Here</a>.</p>
+<p>The SKU contains TiogaPass board, a debug card, a VGA card, a power adapter.
+The details can be obtained from the <a href="http://www.wiwynn.com/english">Wiwynn Corporation</a>.</p>
+<p>Platform design details (including the design spec and schematics) can be found
+on the <a href="https://www.opencompute.org/products/108/wiwynn-tioga-pass-standard-sv7220g3-s-2u-ocp-server-up-to-768gb-8gb16gb32gb-ddr4-up-to-2666mts-12-dimm-slots">Open Compute Project UfiSpace product
+page</a>.</p>
 <h2 id="support"><a class="header" href="#support">Support</a></h2>
 <h3 id="hardware-support"><a class="header" href="#hardware-support">Hardware support</a></h3>
-<p>Hardware support can be obtained from Wiwynn Corporation(http://www.wiwynn.com/english)</p>
+<p>Hardware support can be obtained from <a href="http://www.wiwynn.com/english">Wiwynn Corporation</a>.</p>
 <h3 id="community-support"><a class="header" href="#community-support">Community support</a></h3>
-<p><a href="https://www.opencompute.org/projects/open-system-firmware">OCP Open System Firmware</a> is where industry collaborates on how to move forward with OSF. The OCP OSF project has regular recorded meetings and a mailing list.</p>
-<p><a href="https://www.linuxboot.org/">Linuxboot open source community</a> is the community you can ask any technical questions. Linuxboot community has a slack channel, a IRC channel, a mailing list and regular meetings.</p>
+<p><a href="https://www.opencompute.org/projects/open-system-firmware">OCP Open System Firmware</a>
+is where industry collaborates on how to move forward with OSF. The OCP OSF
+project has regular recorded meetings and a mailing list.</p>
+<p><a href="https://www.linuxboot.org/">Linuxboot open source community</a> is the community
+you can ask any technical questions. Linuxboot community has a slack channel, a
+IRC channel, a mailing list and regular meetings.</p>
 <h3 id="professional-support"><a class="header" href="#professional-support">Professional support</a></h3>
 <p>Following companies provides professional support services:</p>
 <p>** TBD **</p>

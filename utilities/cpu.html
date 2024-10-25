@@ -173,7 +173,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="the-u-root-cpu-command"><a class="header" href="#the-u-root-cpu-command">The u-root <code>cpu</code> command</a></h2>
+                        <h1 id="the-u-root-cpu-command"><a class="header" href="#the-u-root-cpu-command">The u-root <code>cpu</code> command</a></h1>
 <p>Do you want to have all the tools on your linuxboot system that you have on your
 desktop, but you can't get them to fit in your tiny flash part? Do you want all
 your desktop files visible on your linuxboot system, but just remembered there's
@@ -183,7 +183,7 @@ know they can't ever fit? What about <code>zsh</code>? How about being able to r
 on your linuxboot machine and have the output appear on your home file system?
 You say you'd like to make this all work without having to fill out web forms in
 triplicate to get your organization to Do Magic to your desktop?</p>
-<h4 id="your-search-is-over-cpu-is-here-to-answer-all-your-usability-needs"><a class="header" href="#your-search-is-over-cpu-is-here-to-answer-all-your-usability-needs">Your search is over: <code>cpu</code> is here to answer all your usability needs.</a></h4>
+<p><strong>Your search is over: <code>cpu</code> is here to answer all your usability needs.</strong></p>
 <h2 id="the-problem-running-your-program-on-some-other-system"><a class="header" href="#the-problem-running-your-program-on-some-other-system">The problem: running your program on some other system</a></h2>
 <p>People often need to run a command on a remote system. That is easy when the
 remote system is the same as the system you are on, e.g., both systems are
@@ -323,7 +323,7 @@ the network going. Once the network is up, users can <code>'cpu</code> in', and 
 they need is there. It actually looks like they are still logged in to their
 desktop, except, of course, truly local file systems such as <code>/proc</code> and <code>/sys</code>
 will come from the machine they are on, not their desktop.</p>
-<h1 id="an-easy-overview-of-how-cpu-works"><a class="header" href="#an-easy-overview-of-how-cpu-works">An easy overview of how <code>cpu</code> works</a></h1>
+<h2 id="an-easy-overview-of-how-cpu-works"><a class="header" href="#an-easy-overview-of-how-cpu-works">An easy overview of how <code>cpu</code> works</a></h2>
 <p><code>Cpu</code>, as mentioned, consists of a client and a server. The client is on your
 desktop (or laptop), and the server is on the remote system. Both client and
 server use an <code>ssh</code> transport, meaning that the “wire” protocol is <code>ssh</code>. In
@@ -359,7 +359,7 @@ property of <code>cpu</code>, that the names used on the user’s machine work t
 way on the remote machine. An overview of the process is shown below.</li>
 </ol>
 <img src="../images/cpu_overview.svg" width=600px>
-<h3 id="cpu-startup"><a class="header" href="#cpu-startup"><code>Cpu</code> startup</a></h3>
+<h2 id="cpu-startup"><a class="header" href="#cpu-startup"><code>cpu</code> startup</a></h2>
 <p>The startup proceeds in several steps. Every session begins with an initial
 contact from the <code>cpu</code> client to the <code>cpu</code> server.</p>
 <img src="../images/cpu_startup.svg" width=600px>
@@ -388,8 +388,8 @@ children, have exited. But <code>cpud</code>’s responsibilities to start a
 program ends with that first program.</p>
 <p>But what happens when <code>cpud</code> runs that first program? Here is where it gets
 interesting, and, depending on your point of view, either magical, confounding,
-or counterintuitive. We’ll go with magical.</p>
-<h2 id="starting-that-first-program"><a class="header" href="#starting-that-first-program">Starting that first program</a></h2>
+or counter-intuitive. We’ll go with magical.</p>
+<h3 id="starting-that-first-program"><a class="header" href="#starting-that-first-program">Starting that first program</a></h3>
 <p>As mentioned above, <code>cpud</code> sets up mounts for a name space, and calls the Linux
 <code>exec()</code> call to start the program.</p>
 <p>We can actually watch all the <code>cpu</code> file server operations. The file server
@@ -435,13 +435,13 @@ We would then invoke <code>cpu</code> as follows:</p>
 <pre><code>cpu -root ~/arm date
 </code></pre>
 <p>And the remote <code>cpud</code>, running on an ARM, would be provided with ARM binaries.</p>
-<h2 id="learning-how-to-use-cpu"><a class="header" href="#learning-how-to-use-cpu">Learning how to use <code>cpu</code></a></h2>
+<h3 id="learning-how-to-use-cpu"><a class="header" href="#learning-how-to-use-cpu">Learning how to use <code>cpu</code></a></h3>
 <p><code>Cpu</code> can be a hard thing to learn, not because it is difficult, but because it
 is different. To paraphrase Yoda, you have to unlearn what you have learned.
 Forget about copying files from here to there; when you <code>cpu</code> there, it looks
 like your files are waiting for you.</p>
 <p>You can start experimenting and learning about <code>cpu</code> by just running it locally.</p>
-<h3 id="a-set-of-binaries-for-you-to-try"><a class="header" href="#a-set-of-binaries-for-you-to-try">A set of binaries for you to try</a></h3>
+<h4 id="a-set-of-binaries-for-you-to-try"><a class="header" href="#a-set-of-binaries-for-you-to-try">A set of binaries for you to try</a></h4>
 <p>In order for you to try it out, start by working with the set of <code>cpu</code> binaries
 at
 <a href="https://github.com/u-root/cpubinaries">https://github.com/u-root/cpubinaries</a>.
@@ -473,7 +473,7 @@ you clone this repo, the following commands will rebuild the kernel:</p>
 <li><code>make fetch</code></li>
 <li><code>make cpukernel</code></li>
 </ul>
-<h3 id="how-to-use-the-cpu-binaries"><a class="header" href="#how-to-use-the-cpu-binaries">How to use the cpu binaries</a></h3>
+<h4 id="how-to-use-the-cpu-binaries"><a class="header" href="#how-to-use-the-cpu-binaries">How to use the cpu binaries</a></h4>
 <p>You’ll first need to start the server, and we show the entire sequence below,
 including unpacking the image:</p>
 <pre><code>xz -d usbstick.xz
@@ -485,7 +485,7 @@ at the <code>boot:</code> prompt, you can hit return or wait:</p>
 
 SeaBIOS (version 1.13.0-1)
 iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+3FF90750+3FED0750 CA00
-                                                                           Booting from Hard Disk...
+Booting from Hard Disk...
 SYSLINUX 6.03 EDD 20171017 Copyright (C) 1994-2014 H. Peter Anvin et al
 boot:
 .
@@ -535,13 +535,13 @@ that the <code>cpu</code> client is a 9p server, so your files are visible on th
 node). Further, you can see mounts on <code>/usr</code>, <code>/bin</code>, <code>/etc</code>, and so on. For
 this reason, we can run <code>date</code> and it will find its needed libraries in <code>/usr</code>,
 as the <code>ldd</code> command demonstrates.</p>
-<h3 id="making-cpu-easier-to-use"><a class="header" href="#making-cpu-easier-to-use">Making cpu easier to use</a></h3>
+<h4 id="making-cpu-easier-to-use"><a class="header" href="#making-cpu-easier-to-use">Making cpu easier to use</a></h4>
 <p>If you get tired of typing <code>-keys</code>, do the following: put your own <code>cpu_rsa</code> in
 <code>~/.ssh</code>; and copy the <code>cpu</code> binary to <code>bin</code> (or build a new one).</p>
 <p>Warning! The <code>cpu</code> keys we provide in the repo are only to be used for this
 demo. You should not use them for any other purpose, as they are in a github
 repo and hence open to the world.</p>
-<h3 id="what-if-you-dont-want-all-the-name-space"><a class="header" href="#what-if-you-dont-want-all-the-name-space">What if you don’t want all the name space?</a></h3>
+<h4 id="what-if-you-dont-want-all-the-name-space"><a class="header" href="#what-if-you-dont-want-all-the-name-space">What if you don’t want all the name space?</a></h4>
 <p>Sometimes, you don’t want all the <code>/usr</code> and <code>/bin</code> directories to be replaced
 with those from your machine. You might, for example, <code>cpu</code> into an ARM system,
 and hence only need a <code>/home</code>, but nothing else.</p>
@@ -576,8 +576,8 @@ init
 </code></pre>
 <p>There is a bit of a subtlety about the interaction of the namespace and 9p switches,
 which we are still discussing: the -namespace value can override the -9p switch.</p>
-<p>If you set -9p=false but have a non-empty namespace variable, then 9p will be set to
-true. So in this example, the -9p switch has no effect:</p>
+<p>If you set -9p=false but have a non-empty namespace variable, then 9p will be
+set to true. So in this example, the -9p switch has no effect:</p>
 <pre><code>cpu -9p=false h ls
 </code></pre>
 <p>Why is this? Because the default value of -namespace is non-empty.
@@ -590,7 +590,7 @@ and exit:</p>
 error: 9p is false but the namespace is non-empty; to force an empty namespace use -namespace=""
 </code></pre>
 <p>We welcome comments on this issue.</p>
-<h3 id="cpu-and-docker"><a class="header" href="#cpu-and-docker">cpu and Docker</a></h3>
+<h4 id="cpu-and-docker"><a class="header" href="#cpu-and-docker">cpu and Docker</a></h4>
 <p>Maintaining file system images is inconvenient.
 We can use Docker containers on remote hosts instead.
 We can take a standard Docker container and, with suitable options, use docker
@@ -611,55 +611,63 @@ bbin  buildbin	env  go    init     lib    proc  tcz  ubin  var
 bin   dev	etc  home  key.pub  lib64  sys	 tmp  usr
 #
 </code></pre>
-<p>Note that the image was update and then started. The /lib64 mount fails, because there is no /lib64 directory in the image, but
-that is harmless.</p>
+<p>Note that the image was update and then started. The /lib64 mount fails,
+because there is no /lib64 directory in the image, but that is harmless.</p>
 <p>On the local host, on which we ran docker, this image will show up in docker ps:</p>
 <pre><code>rminnich@a300:~$ docker ps
 CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
 b92a3576229b   ubuntu    "/home/rminnich/go/b…"   9 seconds ago   Up 9 seconds             inspiring_mcnulty
 </code></pre>
 <p>Even though the binaries themselves are running on the remote ARM system.</p>
-<h3 id="cpu-and-virtiofs"><a class="header" href="#cpu-and-virtiofs">cpu and virtiofs</a></h3>
-<p>While 9p is very general, because it is <em>transport-independent</em>, there are cases where we can get much better performance by using a less general
-file system.
-One such case is with virtofs.</p>
-<p>Because virtiofs is purely from guest kernel vfs to host kernel vfs, via virtio transport, it has been measured to run at up to 100 times faster.</p>
-<p>We can use virtiofs by specifying virtiofs mounts. The cpud will look for an environemnt variable, CPU_FSTAB, which is in fstab(5) format. The client
-can specify an fstab in one of two ways:
-o via the -fstab switch, in which case the client will populate the CPU_FSTAB variable with the contents of the file
-o by passing the CPU_FSTAB environment variable, which happens by default</p>
-<p>On the client side, the file specified via the -fstab takes precedence over any value of the CPU_FSTAB environment variable. On the server side,
-cpud does not use the -fstab switch, only using the environment variable.</p>
+<h4 id="cpu-and-virtiofs"><a class="header" href="#cpu-and-virtiofs">cpu and virtiofs</a></h4>
+<p>While 9p is very general, because it is <em>transport-independent</em>, there are
+cases where we can get much better performance by using a less general file
+system. One such case is with virtofs.</p>
+<p>Because virtiofs is purely from guest kernel vfs to host kernel vfs, via virtio
+transport, it has been measured to run at up to 100 times faster.</p>
+<p>We can use virtiofs by specifying virtiofs mounts. cpud will look for an
+environemnt variable, <code>CPU_FSTAB</code>, which is in <code>fstab(5)</code> format. The client
+can specify an fstab in one of two ways. Either via the <code>-fstab</code> switch, in
+which case the client will populate the <code>CPU_FSTAB</code> variable with the contents
+of the file or by passing the <code>CPU_FSTAB</code> environment variable, which happens
+by default.</p>
+<p>On the client side, the file specified via the -fstab takes precedence over any
+value of the CPU_FSTAB environment variable. On the server side, cpud does not
+use the -fstab switch, only using the environment variable.</p>
 <p>Here is an example of using the CPU_FSTAB variable with one entry:</p>
 <pre><code>CPU_FSTAB="myfs /mnt virtiofs rw 0 0" cpu v
 </code></pre>
-<p>In this case, the virtiofs server had the name myfs, and on the remote side, virtiofs was mounted on /mnt.</p>
+<p>In this case, the virtiofs server had the name myfs, and on the remote side,
+virtiofs was mounted on /mnt.</p>
 <p>For the fstab case, the command looks like this:</p>
 <pre><code>cpu -fstab fstab v
 </code></pre>
 <p>The fstab in this case would be</p>
 <pre><code>myfs /mnt virtiofs rw 0 0
 </code></pre>
-<p>Note that both the environment variable and the fstab can have more than one entry, but they entries must be separate by newlines. Hence, this will
-not work:</p>
+<p>Note that both the environment variable and the fstab can have more than one
+entry, but they entries must be separate by newlines. Hence, this will not
+work:</p>
 <pre><code>CPU_FSTAB=`cat fstab` cpu v
 </code></pre>
 <p>as shells insist on converting newlines to spaces.</p>
-<p>The fstab can specify any file system. If there is a mount path to, e.g., Google drive, and it can be specified
-in fstab format, then cpu clients can use Google Drive files. Note, again, that these alternative mounts do not use the 9p server built in to
-the cpu client; they use the file systems provided on the cpu server machine.</p>
+<p>The fstab can specify any file system. If there is a mount path to, e.g.,
+Google drive, and it can be specified in fstab format, then cpu clients can use
+Google Drive files. Note, again, that these alternative mounts do not use the
+9p server built in to the cpu client; they use the file systems provided on the
+cpu server machine.</p>
 <p>There are thus several choices for setting up the mounts</p>
 <ul>
 <li>9p support by the cpu client</li>
 <li>9p supported by the cpu client, with additional mounts via -fstab or -namespace</li>
-<li>9p <em>without</em> any bind mounts, i.e. -9p=false -namespace "", in which case, on the remote machine, files from the client are visible in /tmp/cpu, but no bind mounts are done;
-with additional mounts provided by fstab
+<li>9p <em>without</em> any bind mounts, i.e. -9p=false -namespace "", in which case, on
+the remote machine, files from the client are visible in /tmp/cpu, but no
+bind mounts are done; with additional mounts provided by fstab
 mounts are provided</li>
-<li>no 9p mounts at all, when -namespace="" -9p=false; with optional additional mounts via fstab</li>
+<li>no 9p mounts at all, when -namespace="" -9p=false; with optional additional
+mounts via fstab</li>
 <li>if there are no 9p mounts, and no fstab mounts, cpu is equivalent to ssh.</li>
 </ul>
-<!-- Footnotes themselves at the bottom. -->
-<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
 <div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
 <p>For reference, the command we used: <code>cpu -dbg9p -d apu2 date</code></p>
 </div>

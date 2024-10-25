@@ -174,33 +174,48 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="linuxboot-using-coreboot-u-root-and-systemboot"><a class="header" href="#linuxboot-using-coreboot-u-root-and-systemboot">LinuxBoot using coreboot, u-root and systemboot</a></h1>
-<p>Points of contact: <a href="https://github.com/insomniacslk">Andrea Barberio</a>, <a href="https://github.com/dhendrix">David Hendricks</a></p>
-<p>This chapter describes how to build a LinuxBoot firmware based on coreboot, u-root and systemboot.
-The examples will focus on <code>x86_64</code>, and the coreboot builds will cover virtual and physical OCP hardware.</p>
+<p>Points of contact:
+<a href="https://github.com/insomniacslk">Andrea Barberio</a>,
+<a href="https://github.com/dhendrix">David Hendricks</a></p>
+<p>This chapter describes how to build a LinuxBoot firmware based on coreboot,
+u-root and systemboot.  The examples will focus on <code>x86_64</code>, and the coreboot
+builds will cover virtual and physical OCP hardware.</p>
 <h2 id="quick-start-with-coreboot"><a class="header" href="#quick-start-with-coreboot">Quick Start with coreboot</a></h2>
-<p>Run these commands in a directory you create or in /tmp; do so because it creates some files and directories:</p>
+<p>Run these commands in a directory you create or in <code>/tmp</code>; do so because it
+creates some files and directories:</p>
 <pre><code>$ go get github.com/linuxboot/corebootnerf
 $ go run github.com/linuxboot/corebootnerf --fetch
 ... lots and lots of output!
 </code></pre>
 <p>This produces a coreboot image in coreboot-4.9/build/coreboot.rom
-You can now run this rom image:</p>
-<pre><code>$  qemu-system-x86_64 -serial stdio -bios coreboot-4.9/build/coreboot.rom
+You can now run this ROM image:</p>
+<pre><code>qemu-system-x86_64 -serial stdio -bios coreboot-4.9/build/coreboot.rom
 </code></pre>
 <p>And see how it looks when you put this in a coreboot ROM image.</p>
 <h2 id="components"><a class="header" href="#components">Components</a></h2>
 <p>The final image is built on top of multiple open-source components:</p>
 <ul>
-<li><a href="https://coreboot.org">coreboot</a>, used for the platform initialization. Silicon and DRAM initialization are done here.</li>
-<li><a href="https://kernel.org">Linux</a>, used to initialize peripherals and various device drivers like file systems, storage and network devices; network stack; a multiuser and multitasking environment.</li>
-<li><a href="https://github.com/u-root/u-root">u-root</a>, an user-space environment that provides basic libraries and utilities to work in a Linux environment.</li>
-<li><del><a href="https://systemboot.org">systemboot</a>, an additional set of libraries and tools on top of u-root, that provide a bootloader behaviour for various booting scenarios.</del> systemboot was merged into u-root.</li>
+<li><a href="https://coreboot.org">coreboot</a>, used for the platform initialization.
+Silicon and DRAM initialization are done here.</li>
+<li><a href="https://kernel.org">Linux</a>, used to initialize peripherals and various
+device drivers like file systems, storage and network devices; network stack;
+a multiuser and multitasking environment.</li>
+<li><a href="https://github.com/u-root/u-root">u-root</a>, an user-space environment that
+provides basic libraries and utilities to work in a Linux environment.</li>
+<li><del><a href="https://systemboot.org">systemboot</a>, an additional set of libraries and
+tools on top of u-root, that provide a bootloader behaviour for various
+booting scenarios.</del> systemboot was merged into u-root.</li>
 </ul>
-<p>These components are built in reverse order. <code>u-root</code> and <code>systemboot</code> are built together in a single step.</p>
+<p>These components are built in reverse order. <code>u-root</code> and <code>systemboot</code> are
+built together in a single step.</p>
 <h2 id="building-u-root"><a class="header" href="#building-u-root">Building u-root</a></h2>
-<p>The first step is building the initramfs. This is done using the <code>u-root</code> ramfs builder, with additional tools and libraries from <code>systemboot</code>.</p>
-<p>u-root is written in Go. We recommend using a relatively recent version of the Go toolchain. At the time of writing the latest is 1.11, and we recommend using at least version 1.10. Previous versions may not be fully supported.</p>
-<p>Adjust your <code>PATH</code> to include <code>${GOPATH}/bin</code>, in order to find the <code>u-root</code> command that we will use in the next steps.</p>
+<p>The first step is building the initramfs. This is done using the <code>u-root</code> ramfs
+builder, with additional tools and libraries from <code>systemboot</code>.</p>
+<p>u-root is written in Go. We recommend using a relatively recent version of the
+Go toolchain. At the time of writing the latest is 1.11, and we recommend using
+at least version 1.10. Previous versions may not be fully supported.</p>
+<p>Adjust your <code>PATH</code> to include <code>${GOPATH}/bin</code>, in order to find the <code>u-root</code>
+command that we will use in the next steps.</p>
 <p>Then, fetch <code>u-root</code> and its dependencies:</p>
 <pre><code>go get -u github.com/u-root/u-root
 </code></pre>
@@ -208,9 +223,13 @@ You can now run this rom image:</p>
 uinit to wrap everything together:</p>
 <pre><code>u-root -build=bb core github.com/u-root/u-root/cmds/boot/{uinit,localboot,fbnetboot}
 </code></pre>
-<p>This command will generate a ramfs named <code>/tmp/initramfs_${os}_${arch}.cpio</code>, e.g. <code>/tmp/initramfs.linux_amd64.cpio</code>. You can specify an alternative output path with <code>-o</code>. Run <code>u-root -h</code> for additional command line parameters.</p>
-<p>Note: the above command will include only pure-Go commands from <code>u-root</code>. If you need to include other files or non-Go binaries, use the <code>-file</code> option in <code>u-root</code>.
-For example, you may want to include static builds of <code>kexec</code> or <code>flashrom</code>, that we build on https://github.com/systemboot/binaries .</p>
+<p>This command will generate a ramfs named <code>/tmp/initramfs_${os}_${arch}.cpio</code>,
+e.g. <code>/tmp/initramfs.linux_amd64.cpio</code>. You can specify an alternative output
+path with <code>-o</code>. Run <code>u-root -h</code> for additional command line parameters.</p>
+<p>Note: the above command will include only pure-Go commands from <code>u-root</code>. If
+you need to include other files or non-Go binaries, use the <code>-file</code> option in
+<code>u-root</code>.  For example, you may want to include static builds of <code>kexec</code> or
+<code>flashrom</code>, that we build on https://github.com/systemboot/binaries .</p>
 <p>Then, the initramfs has to be compressed. This step is necessary to embed the
 initramfs in the kernel as explained below, in order to maintain the image size
 smaller. Linux has a limited XZ compressor, so the compression requires specific
@@ -219,11 +238,14 @@ options:</p>
 </code></pre>
 <p>which will produce the file <code>/tmp/initramfs.linux_amd64.cpio.xz</code>.</p>
 <p>The kernel compression requirements are documented under
-<a href="https://www.kernel.org/doc/Documentation/xz.txt">Documentation/xz.txt</a> (last checked 2018-12-03)
-in the kernel docs.</p>
+<a href="https://www.kernel.org/doc/Documentation/xz.txt">Documentation/xz.txt</a> (last
+checked 2018-12-03) in the kernel docs.</p>
 <h2 id="building-a-suitable-linux-kernel"><a class="header" href="#building-a-suitable-linux-kernel">Building a suitable Linux kernel</a></h2>
-<p>A sample config to use with Qemu can be downloaded here: <a href="linux-4.19.6-linuxboot.config">linux-4.19.6-linuxboot.config</a>.</p>
-<p>You need a relatively recent kernel. Ideally a kernel 4.16, to have support for VPD variables, but a 4.11 can do the job too, if you don't care about boot entries and want "brute-force" booting only.</p>
+<p>A sample config to use with QEMU can be downloaded here:
+<a href="linux-4.19.6-linuxboot.config">linux-4.19.6-linuxboot.config</a>.</p>
+<p>You need a relatively recent kernel. Ideally a kernel 4.16, to have support for
+VPD variables, but a 4.11 can do the job too, if you don't care about boot
+entries and want "brute-force" booting only.</p>
 <p>We will build a kernel with the following properties:</p>
 <ul>
 <li>small enough to fit most flash chips, and with some fundamental kernel features</li>
@@ -240,51 +262,64 @@ in the kernel docs.</p>
 </ul>
 <h3 id="download-kernel-sources"><a class="header" href="#download-kernel-sources">Download kernel sources</a></h3>
 <p>You can either download a tarball from kernel.org, or get it via git and use a
-version tag. We recommend at least a kernel 4.16, in order to have VPD variables
-support.</p>
+version tag. We recommend at least a kernel 4.16, in order to have VPD
+variables support.</p>
 <pre><code># download the kernel tarball. Replace 4.19.6` with whatever kernel version you want
 wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.6.tar.xz
 tar xvJf linux-4.19.6.tar.xz
 cd linux-4.19.6
 make tinyconfig
 </code></pre>
-<p>You can also check out the <code>linux-stable</code> branch, that will point to the latest stable commit. You need to download it via <code>git</code> as follows:</p>
+<p>You can also check out the <code>linux-stable</code> branch, that will point to the latest
+stable commit. You need to download it via <code>git</code> as follows:</p>
 <pre><code>git clone --depth 1 -b linux-stable
 git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 cd linux-stable
 make tinyconfig
 </code></pre>
-<p>Some more information about tiny configs can be found at https://tiny.wiki.kernel.org (last checked 2018-12-01).</p>
+<p>Some more information about tiny configs can be found at
+https://tiny.wiki.kernel.org (last checked 2018-12-01).</p>
 <h3 id="a-few-fundamental-features"><a class="header" href="#a-few-fundamental-features">A few fundamental features</a></h3>
 <p>Assuming we are running on <code>x86_64</code>, some basic features to enable are:</p>
 <ul>
 <li><code>64-bit kernel</code></li>
 <li><code>General setup</code> → <code>Configure standard kernel features</code> → <code>Enable support for printk</code></li>
-<li><code>General setup</code> → <code>Configure standard kernel features</code> → <code>Multiple users, groups and capabilities support</code> (this is not strictly required on LinuxBoot)</li>
-<li><code>Processor type and features</code> → <code>Built-in kernel command line</code> (customize your command line here if needed, e.g. <code>earlyprintk=serial,ttyS0,57600 console=ttyS0,57600</code>)</li>
+<li><code>General setup</code> → <code>Configure standard kernel features</code> → <code>Multiple users, groups and capabilities support</code> (this is not strictly required on
+LinuxBoot)</li>
+<li><code>Processor type and features</code> → <code>Built-in kernel command line</code>
+(customize your command line here if needed, e.g.
+<code>earlyprintk=serial,ttyS0,57600 console=ttyS0,57600</code>)</li>
 <li><code>Executable file formats / Emulations</code> → <code>Kernel support for ELF binaries</code> (you may want to enable more formats)</li>
 <li><code>Networking support</code> → <code>Networking options</code> → <code>TCP/IP networking</code></li>
 <li><code>Networking support</code> → <code>Networking options</code> → <code>The IPv6 protocol</code></li>
 <li><code>Device Drivers</code> → <code>Character devices</code> → <code>Enable TTY</code></li>
-<li><code>Device Drivers</code> → <code>Character devices</code> → <code>Serial drivers</code> → <code>8250/16550 and compatible serial support</code></li>
-<li><code>Device Drivers</code> → <code>Character devices</code> → <code>Serial drivers</code> → <code>Console on 8250/16550 and compatible serial port</code></li>
+<li><code>Device Drivers</code> → <code>Character devices</code> → <code>Serial drivers</code> →
+<code>8250/16550 and compatible serial support</code></li>
+<li><code>Device Drivers</code> → <code>Character devices</code> → <code>Serial drivers</code> →
+<code>Console on 8250/16550 and compatible serial port</code></li>
 <li><code>File systems</code> → <code>Pseudo filesystems</code> → <code>/proc file system support</code></li>
 <li><code>File systems</code> → <code>Pseudo filesystems</code> → <code>sysfs file system support</code></li>
 </ul>
 <h3 id="requirements-for-go-111"><a class="header" href="#requirements-for-go-111">Requirements for Go 1.11</a></h3>
 <p><code>Go</code> requires a few kernel features to work properly. At the time of writing,
-you need to enable <code>CONFIG_FUTEX</code> in your kernel config.
-Older versions of Go may require <code>CONFIG_EPOLL</code>.</p>
+you need to enable <code>CONFIG_FUTEX</code> in your kernel config. Older versions of Go
+may require <code>CONFIG_EPOLL</code>.</p>
 <p>In menuconfig:</p>
 <ul>
-<li><code>General setup</code> → <code>Configure standard kernel features (expert users)</code> → <code>Enable futex support</code></li>
-<li><code>General setup</code> → <code>Configure standard kernel features (expert users)</code> → <code>Enable eventpoll support</code></li>
+<li><code>General setup</code> → <code>Configure standard kernel features (expert users)</code>
+→ <code>Enable futex support</code></li>
+<li><code>General setup</code> → <code>Configure standard kernel features (expert users)</code>
+→ <code>Enable eventpoll support</code></li>
 </ul>
 <p>Additional information about Go's minimum requirements can be found at
-https://github.com/golang/go/wiki/MinimumRequirements (last checked 2018-12-01).</p>
+https://github.com/golang/go/wiki/MinimumRequirements (last checked
+2018-12-01).</p>
 <h3 id="enable-devtmpfs"><a class="header" href="#enable-devtmpfs">Enable devtmpfs</a></h3>
-<p>Our system firmware uses u-root, which does not have (intentionally) an <code>udev</code> equivalent. Therefore, to have <code>/dev/</code> automatically populated at boot time you should enable devtmps.</p>
-<p>Simply enable <code>CONFIG_DEVTMPFS</code> and <code>CONFIG_DEVTMPFS_MOUNT</code> in your kernel config</p>
+<p>Our system firmware uses u-root, which does not have (intentionally) an <code>udev</code>
+equivalent. Therefore, to have <code>/dev/</code> automatically populated at boot time you
+should enable devtmps.</p>
+<p>Simply enable <code>CONFIG_DEVTMPFS</code> and <code>CONFIG_DEVTMPFS_MOUNT</code> in your kernel
+config.</p>
 <p>In menuconfig:</p>
 <ul>
 <li><code>Device drivers</code> → <code>Generic Driver Options</code> → <code>Maintain a devtmpfs filesystem to mount at /dev</code></li>
@@ -292,10 +327,11 @@ https://github.com/golang/go/wiki/MinimumRequirements (last checked 2018-12-01).
 </ul>
 <h3 id="additional-drivers"><a class="header" href="#additional-drivers">Additional drivers</a></h3>
 <p>This really depends on your hardware. You may want to add all the relevant
-drivers for the platforms you plan to run LinuxBoot on. For example you may need
-to include NIC drivers, file system drivers, and any other device that you need
-at boot time.</p>
-<p>For example, enable SCSI disk, SATA drivers, EXT4, and e1000 NIC driver. In menuconfig:</p>
+drivers for the platforms you plan to run LinuxBoot on. For example you may
+need to include NIC drivers, file system drivers, and any other device that you
+need at boot time.</p>
+<p>For example, enable SCSI disk, SATA drivers, EXT4, and e1000 NIC driver. In
+menuconfig:</p>
 <ul>
 <li><code>Bus options</code> → <code>PCI support</code></li>
 <li><code>Enable the block layer</code></li>
@@ -316,9 +352,11 @@ Hence you need to enable XZ compression support. Make sure to have at least
 <li><code>General setup</code> → <code>Initial RAM filesystem and RAM disk (initramfs/initrd) support</code> → <code>Support initial ramdisk/ramfs compressed using XZ</code></li>
 </ul>
 <h3 id="enable-vpd"><a class="header" href="#enable-vpd">Enable VPD</a></h3>
-<p>VPD stands for <a href="https://chromium.googlesource.com/chromiumos/platform/vpd/+/1c1806d8df4bb5976eed71a2e2bf156c36ccdce2/README.md">Vital Product Data</a>.
-We use VPD to store boot configuration for <code>localboot</code> and <code>fbnetboot</code>, similarly to UEFI's boot variables.
-Linux supports VPD out of the box, but you need at least a kernel 4.16.</p>
+<p>VPD stands for <a href="https://chromium.googlesource.com/chromiumos/platform/vpd/+/1c1806d8df4bb5976eed71a2e2bf156c36ccdce2/README.md">Vital Product
+Data</a>.
+We use VPD to store boot configuration for <code>localboot</code> and <code>fbnetboot</code>,
+similarly to UEFI's boot variables. Linux supports VPD out of the box, but you
+need at least a kernel 4.16.</p>
 <p>Make sure to have <code>CONFIG_GOOGLE_VPD</code> enabled in your kernel config.</p>
 <p>In menuconfig:</p>
 <ul>
@@ -329,21 +367,23 @@ Linux supports VPD out of the box, but you need at least a kernel 4.16.</p>
 by your platform, make sure to enable <code>CONFIG_TCG_TPM</code>.</p>
 <p>In menuconfig:</p>
 <ul>
-<li><code>Device drivers</code> → <code>Character devices</code> → <code>TPM Hardware Support</code> → (enable the relevant drivers)</li>
+<li><code>Device drivers</code> → <code>Character devices</code> → <code>TPM Hardware Support</code>
+→ (enable the relevant drivers)</li>
 </ul>
 <h3 id="include-the-initramfs"><a class="header" href="#include-the-initramfs">Include the initramfs</a></h3>
 <p>As mentioned above, the kernel will embed the compressed initramfs image. Your
 kernel configuration should point to the appropriate file using the
 <code>CONFIG_INITRAMFS_SOURCE</code> directive. E.g.</p>
-<pre><code>CONFIG_INITRAMFS_SOURCE="/path/to/initramfs_linux.x86_64.cpio.xz"`
+<pre><code>CONFIG_INITRAMFS_SOURCE="/path/to/initramfs_linux.x86_64.cpio.xz"
 </code></pre>
 <p>In menuconfig:</p>
 <ul>
 <li><code>General setup</code> → <code>Initial RAM filesystem and RAM disk (initramfs/initrd) support</code> → <code>Initramfs source file(s)</code></li>
 </ul>
 <h3 id="default-hostname"><a class="header" href="#default-hostname">Default hostname</a></h3>
-<p>We use "linuxboot" as default hostname. You may want to adjust it to a different
-value, You need to set <code>CONFIG_DEFAULT_HOSTNAME</code> for the purpose, e.g.</p>
+<p>We use "linuxboot" as the default hostname. You may want to adjust it to a
+different value. You need to set <code>CONFIG_DEFAULT_HOSTNAME</code> for the purpose. For
+example:</p>
 <pre><code>CONFIG_DEFAULT_HOSTNAME="linuxboot"
 </code></pre>
 <p>In menuconfig:</p>
@@ -354,12 +394,14 @@ value, You need to set <code>CONFIG_DEFAULT_HOSTNAME</code> for the purpose, e.g
 <p>Once your configuration is ready, build the kernel as usual:</p>
 <pre><code>make -j$(nproc --ignore=1)
 </code></pre>
-<p>The image will be located under <code>arch/${ARCH}/boot/bzImage</code> if your architecture supports bzImage (e.g. x86).</p>
-<p>For more details on how to build a kernel, see https://kernelnewbies.org/KernelBuild (last checked 2018-12-01).</p>
+<p>The image will be located under <code>arch/${ARCH}/boot/bzImage</code> if your
+architecture supports bzImage (e.g. x86).</p>
+<p>For more details on how to build a kernel, see
+https://kernelnewbies.org/KernelBuild (last checked 2018-12-01).</p>
 <h2 id="building-coreboot"><a class="header" href="#building-coreboot">Building coreboot</a></h2>
-<p>In this step we will build <code>coreboot</code> using the Linux kernel image that we built
-at the previous step as payload. This build is for a Qemu x86 target, the process
-may be somehow different for other platforms.</p>
+<p>In this step we will build <code>coreboot</code> using the Linux kernel image that we
+built at the previous step as payload. This build is for a Qemu x86 target, the
+process may be somehow different for other platforms.</p>
 <p>Steps overview:</p>
 <ul>
 <li>download coreboot from the git repo</li>
@@ -434,8 +476,8 @@ Built emulation/qemu-q35 (QEMU x86 q35/ich9)
 <p>TODO</p>
 <h2 id="running-on-a-virtual-machine"><a class="header" href="#running-on-a-virtual-machine">Running on a virtual machine</a></h2>
 <p>The image built with the above steps can run on a QEMU virtual machine, using
-the machine type <code>q35</code>, as specified in the coreboot mainboard section. Assuming
-that your coreboot image is located at <code>build/coreboot.rom</code>, you can
+the machine type <code>q35</code>, as specified in the coreboot mainboard section.
+Assuming that your coreboot image is located at <code>build/coreboot.rom</code>, you can
 run the following command:</p>
 <pre><code>sudo qemu-system-x86_64\        # sudo is required to enable KVM below
     -M q35 \                    # the machine type specified in the coreboot mainboard configuration

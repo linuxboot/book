@@ -183,29 +183,84 @@
 <li>Guides you through the steps needed to implement LinuxBoot</li>
 </ul>
 <h2 id="what-is-linuxboot"><a class="header" href="#what-is-linuxboot">What is LinuxBoot?</a></h2>
-<p>LinuxBoot is a project that aims to replace specific <a href="./glossary.html">firmware</a> functionality with a Linux kernel and runtime. Over the years this project has grown to include various initiatives with the overarching goal of moving from obscure, complex firmware to simpler, open source firmware.</p>
-<p>The goal of LinuxBoot is to reduce the role of firmware to a small, fixed-function core whose only purpose is to get a flash-based Linux kernel started. This “bare essentials” firmware prepares the hardware and starts a Linux kernel and a userland environment will run on the machine. Go is the recommended userland environment, but is not required.</p>
+<p>LinuxBoot is a project that aims to replace specific <a href="./glossary.html">firmware</a>
+functionality with a Linux kernel and runtime. Over the years this project has
+grown to include various initiatives with the overarching goal of moving from
+obscure, complex firmware to simpler, open source firmware.</p>
+<p>The goal of LinuxBoot is to reduce the role of firmware to a small,
+fixed-function core whose only purpose is to get a flash-based Linux kernel
+started. This “bare essentials” firmware prepares the hardware and starts a
+Linux kernel and a userland environment will run on the machine. Go is the
+recommended userland environment, but is not required.</p>
 <h2 id="why-linuxboot-is-needed"><a class="header" href="#why-linuxboot-is-needed">Why LinuxBoot is needed</a></h2>
-<p>Sometimes firmware contains drivers and utilities. They can have bugs, or be unmaintained, which can be a source of problems and security issues. LinuxBoot replaces proprietary, closed-source, vendor-supplied firmware drivers with Linux drivers. This enables engineers writing Linux drivers and engineers writing firmware drivers to focus on one set of drivers. Those drivers will, as a result, have a larger set of contributors and reviewers, and because the drivers are part of Linux, standard industry coding infrastructure can be used to improve them. Finally, because these Linux drivers are currently being run 24x7 at scale, they will have fewer bugs.</p>
+<p>Sometimes firmware contains drivers and utilities. They can have bugs, or be
+unmaintained, which can be a source of problems and security issues. LinuxBoot
+replaces proprietary, closed-source, vendor-supplied firmware drivers with
+Linux drivers. This enables engineers writing Linux drivers and engineers
+writing firmware drivers to focus on one set of drivers. Those drivers will, as
+a result, have a larger set of contributors and reviewers, and because the
+drivers are part of Linux, standard industry coding infrastructure can be used
+to improve them. Finally, because these Linux drivers are currently being run
+24x7 at scale, they will have fewer bugs.</p>
 <h2 id="what-linuxboot-does"><a class="header" href="#what-linuxboot-does">What LinuxBoot does</a></h2>
-<p>LinuxBoot replaces many Driver Execution Environment (DXE) modules used by Unified Extensible Firmware Interface (UEFI) and other firmware, particularly the network stack and file system modules, with Linux applications.</p>
-<p>LinuxBoot brings up the Linux kernel as a DXE in flash ROM instead of the UEFI shell. The Linux kernel, with a provided Go based userland, can then bring up the kernel that you want to run on the machine. The LinuxBoot firmware paradigm enables writing traditional firmware applications such as bootloader, debugging, diagnosis, and error detection applications as cross-architecture and cross-platform portable Linux applications.</p>
-<p>When Linux boots it needs a root file system with utilities. One such root filesystem used for Linuxboot is based on u-root standard utilities written in Go. The following diagram shows the current state of the UEFI boot process and what is planned for the transition to LinuxBoot.</p>
-<h2 id=""><a class="header" href="#"></a></h2>
+<p>LinuxBoot replaces many Driver Execution Environment (DXE) modules used by
+Unified Extensible Firmware Interface (UEFI) and other firmware, particularly
+the network stack and file system modules, with Linux applications.</p>
+<p>LinuxBoot brings up the Linux kernel as a DXE in flash ROM instead of the UEFI
+shell. The Linux kernel, with a provided Go based userland, can then bring up
+the kernel that you want to run on the machine. The LinuxBoot firmware paradigm
+enables writing traditional firmware applications such as bootloader,
+debugging, diagnosis, and error detection applications as cross-architecture
+and cross-platform portable Linux applications.</p>
+<p>When Linux boots it needs a root file system with utilities. One such root
+filesystem used for Linuxboot is based on u-root standard utilities written in
+Go. The following diagram shows the current state of the UEFI boot process and
+what is planned for the transition to LinuxBoot.</p>
 <p><img src="../images/UEFI-versus-LinuxBoot.svg" alt="image" /></p>
 <h2 id="benefits-of-using-the-go-userland-environment-and-compiler"><a class="header" href="#benefits-of-using-the-go-userland-environment-and-compiler">Benefits of using the Go userland environment and compiler</a></h2>
-<p>Go is a systems programming language created by Google. Go has strong typing, language level support for concurrency, inter-process communication via channels, runtime type safety and other protective measures, dynamic allocation and garbage collection, and closures. Go has a package syntax similar to Java that makes it easy to determine what packages a given program needs.</p>
-<p>The modern language constructs make Go a much safer language than C. This safety is critical for network-attached embedded systems, which usually have network utilities written in C, including web servers, network servers including sshd, and programs that provide access to a command interpreter, itself written in C. All are proving to be vulnerable to the attack-rich environment that the Internet has become.</p>
-<p>Even the most skilled programmers make simple mistakes that in C can be fatal, especially on network connected systems. Currently, even the lowest-level firmware in our PCs, printers, and thermostats is network-connected. These programming mistakes are either impossible to make in Go or, if made, are detected at runtime and result in the program exiting.</p>
-<p>The case for using a high-level, safe language like Go in very low level embedded firmware might be stronger than for user programs, because exploits at the firmware level are nearly impossible to detect and mitigate.</p>
-<p>The challenge to using Go in a storage-constrained environment such as firmware is that advanced language features lead to big binaries. Even a date program is about 2 MiB. One Go binary, implementing one function, is twice as large as a BusyBox binary implementing many functions. Currently, a typical BIOS FLASH part is 16 MiB. Fitting many Go binaries into a single BIOS flash part is not practical. The Go compiler is very fast and its sheer speed suggests a solution of having programs compiled only when they are used. With this approach, you can build a root file system that has almost no binaries except the Go compiler itself. The compiled programs and packages can be saved to a RAM-based file system. Another solution is to compile everything together into one BusyBox-style program. There are also other solutions that involve fetching things over the network, but compiling dynamically with Go or creating a BusyBox program are the recommended solutions.</p>
+<p>Go is a systems programming language created by Google. Go has strong typing,
+language level support for concurrency, inter-process communication via
+channels, runtime type safety and other protective measures, dynamic allocation
+and garbage collection, and closures. Go has a package syntax similar to Java
+that makes it easy to determine what packages a given program needs.</p>
+<p>The modern language constructs make Go a much safer language than C. This
+safety is critical for network-attached embedded systems, which usually have
+network utilities written in C, including web servers, network servers
+including sshd, and programs that provide access to a command interpreter,
+itself written in C. All are proving to be vulnerable to the attack-rich
+environment that the Internet has become.</p>
+<p>Even the most skilled programmers make simple mistakes that in C can be fatal,
+especially on network connected systems. Currently, even the lowest-level
+firmware in our PCs, printers, and thermostats is network-connected. These
+programming mistakes are either impossible to make in Go or, if made, are
+detected at runtime and result in the program exiting.</p>
+<p>The case for using a high-level, safe language like Go in very low level
+embedded firmware might be stronger than for user programs, because exploits at
+the firmware level are nearly impossible to detect and mitigate.</p>
+<p>The challenge to using Go in a storage-constrained environment such as firmware
+is that advanced language features lead to big binaries. Even a date program is
+about 2 MiB. One Go binary, implementing one function, is twice as large as a
+BusyBox binary implementing many functions. Currently, a typical BIOS FLASH
+part is 16 MiB. Fitting many Go binaries into a single BIOS flash part is not
+practical. The Go compiler is very fast and its sheer speed suggests a solution
+of having programs compiled only when they are used. With this approach, you
+can build a root file system that has almost no binaries except the Go compiler
+itself. The compiled programs and packages can be saved to a RAM-based file
+system. Another solution is to compile everything together into one
+BusyBox-style program. There are also other solutions that involve fetching
+things over the network, but compiling dynamically with Go or creating a
+BusyBox program are the recommended solutions.</p>
 <h2 id="benefits-of-linuxboot-with-uefi-servers"><a class="header" href="#benefits-of-linuxboot-with-uefi-servers">Benefits of LinuxBoot with UEFI servers</a></h2>
-<p>Most server firmware is based on Intel’s Universal Extensible Firmware Interface (UEFI). LinuxBoot provides the following benefits over UEFI:</p>
+<p>Most server firmware is based on Intel’s Universal Extensible Firmware
+Interface (UEFI). LinuxBoot provides the following benefits over UEFI:</p>
 <p>Reliability</p>
 <ul>
-<li>Improves boot reliability by replacing lightly-tested firmware drivers with hardened Linux drivers</li>
-<li>Proven approach for almost 20 years in military, consumer electronics, and supercomputing systems – wherever reliability and performance are paramount</li>
-<li>Fault Tolerance - Linux isolates processes** **(for example, when Pxeboot fails catastrophically, diskboot still works afterwards)</li>
+<li>Improves boot reliability by replacing lightly-tested firmware drivers with
+hardened Linux drivers</li>
+<li>Proven approach for almost 20 years in military, consumer electronics, and
+supercomputing systems – wherever reliability and performance are paramount</li>
+<li>Fault Tolerance - Linux isolates processes** **(for example, when Pxeboot
+fails catastrophically, diskboot still works afterwards)</li>
 </ul>
 <p>Security</p>
 <ul>
@@ -220,8 +275,10 @@
 </ul>
 <p>Flexibility</p>
 <ul>
-<li>Can be used with coreboot, u-boot, OpenPOWER Abstraction Layer (OPAL), SlimBootLoader, ARM Trusted Firmware (ATF)</li>
-<li>Can boot multiple operating systems (Linux, Berkeley UNIX (BSD), XEN, Windows)</li>
+<li>Can be used with coreboot, u-boot, OpenPOWER Abstraction Layer (OPAL),
+SlimBootLoader, ARM Trusted Firmware (ATF)</li>
+<li>Can boot multiple operating systems (Linux, Berkeley UNIX (BSD), XEN,
+Windows)</li>
 <li>Supports the following server mainboards:
 <ul>
 <li>QEMU emulated Q35 systems</li>
@@ -236,29 +293,28 @@
 </ul>
 <p>Boot speed</p>
 <ul>
-<li>Improves boot time by removing unnecessary code; typically makes boot 20 times faster</li>
+<li>Improves boot time by removing unnecessary code; typically makes boot 20
+times faster</li>
 </ul>
 <p>Customization</p>
 <ul>
-<li>Allows customization of the initrd runtime to support site-specific needs (both device drivers as well as custom executables)</li>
+<li>Allows customization of the initrd runtime to support site-specific needs
+(both device drivers as well as custom executables)</li>
 </ul>
 <p>Engineering Productivity</p>
 <ul>
-<li>
-<p>Write a driver once, not twice</p>
+<li>Write a driver once, not twice
 <ul>
 <li>Linux is <strong>open, measurable, reproducible, updatable</strong></li>
 <li>Linux already has drivers for almost everything</li>
 </ul>
 </li>
-<li>
-<p>Kernel Engineers = Firmware Engineers</p>
+<li>Kernel Engineers = Firmware Engineers
 <ul>
 <li>Many more Engineers know Linux than know UEFI</li>
 </ul>
 </li>
-<li>
-<p>Reduced build time</p>
+<li>Reduced build time
 <ul>
 <li><strong>30s</strong> for initramfs</li>
 <li><strong>15s</strong> for kernel (incremental)</li>
@@ -266,12 +322,12 @@
 <li><strong>Total: ~1m</strong> for a new full bios image, ready to be tested</li>
 </ul>
 </li>
-<li>
-<p>Testing and debugging</p>
+<li>Testing and debugging
 <ul>
 <li>Diskboot, Pxeboot already have unit tests</li>
 <li>Easier to write tests using resources (like network) with Linux</li>
-<li>Open-source projects such as u-root follow excellent software practices such as running automated test on each submitted change</li>
+<li>Open-source projects such as u-root follow excellent software practices
+such as running automated test on each submitted change</li>
 <li>Much easier to debug Go userspace applications</li>
 <li>Test with a kernel in QEMU</li>
 </ul>
