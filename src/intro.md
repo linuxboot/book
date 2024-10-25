@@ -2,12 +2,11 @@
 
 This is the official “LinuxBoot Book” for the LinuxBoot project. The book:
 
-*   Describes the LinuxBoot project
-*   Explains why you would want to use LinuxBoot
-*   Describes the components that comprise LinuxBoot
-*   Highlights the differences between other boot processes and LinuxBoot
-*   Guides you through the steps needed to implement LinuxBoot
-
+* Describes the LinuxBoot project
+* Explains why you would want to use LinuxBoot
+* Describes the components that comprise LinuxBoot
+* Highlights the differences between other boot processes and LinuxBoot
+* Guides you through the steps needed to implement LinuxBoot
 
 ## What is LinuxBoot?
 
@@ -52,11 +51,7 @@ filesystem used for Linuxboot is based on u-root standard utilities written in
 Go. The following diagram shows the current state of the UEFI boot process and
 what is planned for the transition to LinuxBoot.
 
-
-##
-
 ![image](../images/UEFI-versus-LinuxBoot.svg)
-
 
 ## Benefits of using the Go userland environment and compiler
 
@@ -104,63 +99,62 @@ Interface (UEFI). LinuxBoot provides the following benefits over UEFI:
 
 Reliability
 
-*   Improves boot reliability by replacing lightly-tested firmware drivers with
-    hardened Linux drivers
-*   Proven approach for almost 20 years in military, consumer electronics, and
-    supercomputing systems – wherever reliability and performance are paramount
-*   Fault Tolerance - Linux isolates processes** **(for example, when Pxeboot
-    fails catastrophically, diskboot still works afterwards)
+* Improves boot reliability by replacing lightly-tested firmware drivers with
+  hardened Linux drivers
+* Proven approach for almost 20 years in military, consumer electronics, and
+  supercomputing systems – wherever reliability and performance are paramount
+* Fault Tolerance - Linux isolates processes** **(for example, when Pxeboot
+  fails catastrophically, diskboot still works afterwards)
 
 Security
 
-*   Move “Ring 0” bootloaders to “Ring 3”
-*   Pxeboot and diskboot do parsing and other logic in userspace
-*   Go provides memory safety and type safety
-    *   A buggy parser cannot easily affect other programs
-*   Kernel security patches can apply to firmware
+* Move “Ring 0” bootloaders to “Ring 3”
+* Pxeboot and diskboot do parsing and other logic in userspace
+* Go provides memory safety and type safety
+  * A buggy parser cannot easily affect other programs
+* Kernel security patches can apply to firmware
 
 Flexibility
 
-*   Can be used with coreboot, u-boot, OpenPOWER Abstraction Layer (OPAL),
-    SlimBootLoader, ARM Trusted Firmware (ATF)
-*   Can boot multiple operating systems (Linux, Berkeley UNIX (BSD), XEN,
-    Windows)
-*   Supports the following server mainboards:
-    *   QEMU emulated Q35 systems
-    *   [Intel S2600WF](https://trmm.net/S2600wf)
-    *   [Dell R630](https://trmm.net/NERF)
-    *   Winterfell Open Compute node
-    *   Leopard Open Compute node
-    *   Tioga Pass Open Compute node
-    *   Monolake Open Compute node (not tested)
+* Can be used with coreboot, u-boot, OpenPOWER Abstraction Layer (OPAL),
+  SlimBootLoader, ARM Trusted Firmware (ATF)
+* Can boot multiple operating systems (Linux, Berkeley UNIX (BSD), XEN,
+  Windows)
+* Supports the following server mainboards:
+  * QEMU emulated Q35 systems
+  * [Intel S2600WF](https://trmm.net/S2600wf)
+  * [Dell R630](https://trmm.net/NERF)
+  * Winterfell Open Compute node
+  * Leopard Open Compute node
+  * Tioga Pass Open Compute node
+  * Monolake Open Compute node (not tested)
 
 Boot speed
 
-*   Improves boot time by removing unnecessary code; typically makes boot 20
-    times faster
+* Improves boot time by removing unnecessary code; typically makes boot 20
+  times faster
 
 Customization
 
-*   Allows customization of the initrd runtime to support site-specific needs
-    (both device drivers as well as custom executables)
+* Allows customization of the initrd runtime to support site-specific needs
+  (both device drivers as well as custom executables)
 
 Engineering Productivity
 
-*   Write a driver once, not twice
-    *   Linux is **open, measurable, reproducible, updatable**
-    *   Linux already has drivers for almost everything
-*   Kernel Engineers = Firmware Engineers
-    *   Many more Engineers know Linux than know UEFI
-*   Reduced build time
-    *   **30s** for initramfs
-    *   **15s** for kernel (incremental)
-    *   **~15s** to repack the bios image (using fiano/utk)
-    *   **Total: ~1m** for a new full bios image, ready to be tested
-
-*   Testing and debugging
-    *   Diskboot, Pxeboot already have unit tests
-    *   Easier to write tests using resources (like network) with Linux
-    *   Open-source projects such as u-root follow excellent software practices
-        such as running automated test on each submitted change
-    *   Much easier to debug Go userspace applications
-    *   Test with a kernel in QEMU
+* Write a driver once, not twice
+  * Linux is **open, measurable, reproducible, updatable**
+  * Linux already has drivers for almost everything
+* Kernel Engineers = Firmware Engineers
+  * Many more Engineers know Linux than know UEFI
+* Reduced build time
+  * **30s** for initramfs
+  * **15s** for kernel (incremental)
+  * **~15s** to repack the bios image (using fiano/utk)
+  * **Total: ~1m** for a new full bios image, ready to be tested
+* Testing and debugging
+  * Diskboot, Pxeboot already have unit tests
+  * Easier to write tests using resources (like network) with Linux
+  * Open-source projects such as u-root follow excellent software practices
+    such as running automated test on each submitted change
+  * Much easier to debug Go userspace applications
+  * Test with a kernel in QEMU
