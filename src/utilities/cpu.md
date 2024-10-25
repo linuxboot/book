@@ -260,7 +260,7 @@ program ends with that first program.
 
 But what happens when `cpud` runs that first program? Here is where it gets
 interesting, and, depending on your point of view, either magical, confounding,
-or counterintuitive. We’ll go with magical.
+or counter-intuitive. We’ll go with magical.
 
 ## Starting that first program
 
@@ -589,12 +589,12 @@ system. One such case is with virtofs.
 Because virtiofs is purely from guest kernel vfs to host kernel vfs, via virtio
 transport, it has been measured to run at up to 100 times faster.
 
-We can use virtiofs by specifying virtiofs mounts. The cpud will look for an
-environemnt variable, CPU_FSTAB, which is in fstab(5) format. The client can
-specify an fstab in one of two ways:
-o via the -fstab switch, in which case the client will populate the CPU_FSTAB
-variable with the contents of the file
-o by passing the CPU_FSTAB environment variable, which happens by default
+We can use virtiofs by specifying virtiofs mounts. cpud will look for an
+environemnt variable, `CPU_FSTAB`, which is in `fstab(5)` format. The client
+can specify an fstab in one of two ways. Either via the `-fstab` switch, in
+which case the client will populate the `CPU_FSTAB` variable with the contents
+of the file or by passing the `CPU_FSTAB` environment variable, which happens
+by default.
 
 On the client side, the file specified via the -fstab takes precedence over any
 value of the CPU_FSTAB environment variable. On the server side, cpud does not
@@ -648,8 +648,4 @@ There are thus several choices for setting up the mounts
   mounts via fstab
 * if there are no 9p mounts, and no fstab mounts, cpu is equivalent to ssh.
 
-<!-- Footnotes themselves at the bottom. -->
-## Notes
-
 [^1]: For reference, the command we used: `cpu -dbg9p -d apu2 date`
-
