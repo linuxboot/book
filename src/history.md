@@ -19,14 +19,14 @@ not BIOS, just like LinuxBoot is not BIOS.
 
 ## LinuxBIOS
 
-`LinuxBIOS` is a project originated in 1999 from Ron Minnich, Stefan Reinauer
-and others. It is not much younger than UEFI, but they were already
-experimenting the idea of running Linux as firmware! Like many great ideas, it
-was way ahead of its time. At that time Linux was not mature enough for
-hardware initialization project, and while LinuxBIOS was successful in several
+The `LinuxBIOS` project was created in 1999 by Ron Minnich, Stefan Reinauer and
+others. It is not much younger than UEFI, but they were already experimenting
+the idea of running Linux as firmware! Like many great ideas, it was way ahead
+of its time. At that time Linux was not mature enough to be used in a hardware
+initialization project, and while LinuxBIOS was successful in several
 performance-and-reliability critical environments, it didn't see mass adoption.
 
-LinuxBIOS became [coreboot](https://www.coreboot.org/) in 2008.
+In 2008 LinuxBIOS became [coreboot](https://www.coreboot.org/).
 
 ## LinuxBoot
 
@@ -40,17 +40,17 @@ opinionated. While extensibility is nice and often desirable, too much
 extensibility and too many "yes" can make a complex project very hard to
 maintain and keep secure.
 
-NERF started from Ron Minnich (one of the coreboot founders) at Google, and is
-now developed by a few other folks that are now part of Google's "NERF team".
-This name, in my understanding, is mostly used within Google, while "LinuxBoot"
-is becoming a more common name for this effort.
+NERF was created by Ron Minnich while at Google in 2017. The project grew and
+was maintained by Google's "NERF team".
+
+NERF eventually became the [linuxboot](https://github.com/linuxboot/linuxboot/)
+build system.
 
 ### Heads
 
-[Heads](https://trmm.net/Heads) is an open source firmware for laptops and
-servers, aimed at strong platform security. Developed by [Trammell
-Hudson](https://twitter.com/qrs), this is based on stripped UEFI plus Linux,
-and BusyBox instead of u-root.
+[Heads](https://github.com/linuxboot/heads) is an open source firmware for
+laptops and servers created by  Trammell Hudson (a.k.a. osreasrch), aimed at
+strong platform security. It is currently maintained by Thierry Laurion.
 
 ## Open Platform Firmware
 
