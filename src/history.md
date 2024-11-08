@@ -52,21 +52,22 @@ servers, aimed at strong platform security. Developed by [Trammell
 Hudson](https://twitter.com/qrs), this is based on stripped UEFI plus Linux,
 and BusyBox instead of u-root.
 
-## Open System Firmware
+## Open Platform Firmware
 
-[Open System Firmware](https://www.opencompute.org/projects/open-system-firmware),
-or in short OSF, is an official subproject of the [Open Compute
-Project](https://www.opencompute.org) (OCP). OSF has been developed in the
-open, by various members of OCP that were interested in having open source
-**system firmware**. OSF defines a set of guidelines with contributions from
-Microsoft, Google, Facebook, Intel, 9elements, TwoSigma, and several other
+[Open Platform
+Firmware](https://www.opencompute.org/projects/open-system-firmware) (OPF),
+formerly Open System Firmware (OSF), is an official subproject of the [Open
+Compute Project](https://www.opencompute.org) (OCP). OPF has been developed in
+the open, by various members of OCP that were interested in having open source
+system firmware. OPF defines a set of guidelines with contributions from
+Microsoft, Google, Facebook, Intel, 9elements, Two Sigma, and several other
 companies.
 
-The important thing to keep in mind is that **Open System Firmware is a project
+The important thing to keep in mind is that **Open Platform Firmware is a project
 name**, not an implementation, nor an idea. An implementation (like LinuxBoot
-or OpenEDK2) can be OSF-compliant if it follows the aforementioned guidelines.
+or OpenEDK2) can be OPF-compliant if it follows the aforementioned guidelines.
 
-Currently, Open System Firmware has two work streams:
+Currently, Open Platform Firmware has two work streams:
 
 * LinuxBoot, led by Google, Facebook, 9elements, ITRenew, TwoSigma, and others
-* OpenEDK II, led by Microsoft and Intel.
+* OpenEDK II, led by Microsoft and Intel
