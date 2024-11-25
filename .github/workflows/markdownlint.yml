@@ -14,4 +14,4 @@ jobs:
 
       - name: Lint markdown
         continue-on-error: true
-        run: mdl $(find . -name *.md)
+        run: mdl $(find . -name "*.md")
