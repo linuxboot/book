@@ -253,7 +253,7 @@ Building on the success of LinuxBoot on Mt. Jade, future efforts should expand
 support to other Ampere platforms.  This would ensure broader adoption and
 usability across different hardware configurations.
 
-### Optimizing the Transistion Between UEFI and LinuxBoot
+### Optimizing the Transition Between UEFI and LinuxBoot
 
 Improving the efficiency of the handoff between UEFI and LinuxBoot could
 further reduce boot times.  This optimization would involve refining the
