@@ -159,4 +159,3 @@ does the following:
 The complete LinuxBoot solution is shown in the following diagram.
 
 <img src="../images/Case-study-step6.svg" width=600px>
-
