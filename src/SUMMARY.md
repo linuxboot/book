@@ -11,6 +11,7 @@
 - [Glossary](glossary.md)
 - [Naming](naming.md)
 - [Case Studies](case_studies/index.md)
+  - [Ampere study](case_studies/Ampere_study.md)
   - [Google study](case_studies/Google_study.md)
   - [OCP TiogaPass](case_studies/TiogaPass.md)
 - [Frequently Asked Questions](faq.md)
