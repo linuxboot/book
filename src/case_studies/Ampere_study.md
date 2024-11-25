@@ -104,7 +104,7 @@ ready for deployment on the Ampere Mt. Jade platform.
 When powered on, the system will boot into the u-root and automatically kexec
 to the target OS.
 
-```
+```text
 Run /init as init process
 1970/01/01 00:00:10 Welcome to u-root!
                               _
