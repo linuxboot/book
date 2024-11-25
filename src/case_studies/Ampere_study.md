@@ -37,7 +37,7 @@ the Github.
 * **EDK2**: The PEI and minimal (stripped-down) DXE drivers, including both
   common and platform code, are fully open source and resides in Tianocore
   edk2-platforms and edk2 repositories.
-* **LinuxBoot**: The LinuxBoot binary (flashkernel) for Mt. Jade is supported
+* **LinuxBoot**: The LinuxBoot binary ([flashkernel](../glossary.md)) for Mt. Jade is supported
   in the
   [linuxboot/linuxboot](https://github.com/linuxboot/linuxboot/tree/main/mainboards/ampere/jade)
   repository.
