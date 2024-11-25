@@ -122,11 +122,10 @@ The DXEs are delivered as binary blobs. There are three ways
    and other drivers, as well as network protocols and file
    systems. In fact we have resolved many system reliability
    and performance issues just by removing DXEs!
-
-1. The second way is to replace the DXE with an open source driver.
+2. The second way is to replace the DXE with an open source driver.
    This is less desirable, as the DXE environment is not as
    hardened as the Linux kernel environment.
-1. The final, least desired option, is to continue to use the DXE.
+3. The final, least desired option, is to continue to use the DXE.
    This is required if the DXE contains proprietary code that
    "tweaks" chipset settings, for example, memory timing or
    other controls, and there is no chance of ever bringing
