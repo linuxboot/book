@@ -32,6 +32,8 @@
   the components up, and hands them over to the operating system that is to be
   installed on the machine. The current x86 firmware is based on Intel’s
   Universal Extensible Firmware Interface (UEFI).
+- ___flashkernel___: A small Linux kernel that is stored in flash as part of firmware
+  (e.g. the kernel used in LinuxBoot)
 - [___Heads___](https://github.com/linuxboot/heads): An open source firmware
   for laptops and servers, aimed at strong platform security. Developed by
   Trammell Hudson, based on stripped UEFI plus Linux, and BusyBox instead of
