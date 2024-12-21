@@ -10,12 +10,40 @@ This is the official “LinuxBoot Book” for the LinuxBoot project. The book:
 
 ## What is LinuxBoot?
 
-LinuxBoot is a project that aims to replace specific [firmware](./glossary.md)
-functionality with a Linux kernel and runtime. Over the years this project has
-grown to include various initiatives with the overarching goal of moving from
-obscure, complex firmware to simpler, open source firmware.
+LinuxBoot is based on the idea of replacing proprietary or corporate-driven
+late-stage boot [firmware](./glossary.md) with the Linux kernel and a
+community-based userland. That idea grew into a project that over the years
+includes various initiatives with the overarching goal of moving from obscure
+and complex firmware to simpler and open source firmware.
 
-The goal of LinuxBoot is to reduce the role of firmware to a small,
+The LinuxBoot project provides two reference implementations; linuxboot and
+Heads. The [linuxboot](https://github.com/linuxboot/linuxboot) build system
+outputs a boot payload consisting of a Linux kernel and an
+[initramfs](https://de.wikipedia.org/wiki/Initramfs) that contains a minimal
+Golang userland built using [u-root](https://github.com/u-root/u-root).
+
+The Heads build system is more focused on local attestation, TPM DUK
+seal/unseal operations, GPG-based security measurement, reproducible builds and
+uses BusyBox to provide a much larger suite of Linux tools allowing it to also
+be used as a recovery environment.
+
+There are several other active projects based on the same idea:
+
+- [petitboot](https://github.com/open-power/petitboot) under the OpenPOWER
+  project originally targeting the PS3
+- [k-boot](https://github.com/BayLibre/k-boot) developed by BayLibre in 2023
+  using BusyBox
+- [nmbl](https://github.com/rhboot/nmbl-poc) developed by RedHat in 2024
+    - [Giving bootloaders the boot with nmbl](https://lwn.net/Articles/979789)
+
+And there is a long history of similar implementations including projects that
+are no longer maintained:
+
+- MILO on Alpha started before 2000 (see [What is
+  MILO?](https://tldp.org/HOWTO/MILO-HOWTO/what-section.html))
+- kboot developed by Werner Almesberger in 2005
+
+These projects all attempt to reduce the role of firmware to a small,
 fixed-function core whose only purpose is to get a flash-based Linux kernel
 started. This “bare essentials” firmware prepares the hardware and starts a
 Linux kernel and a userland environment will run on the machine. Go is the

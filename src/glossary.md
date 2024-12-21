@@ -80,6 +80,9 @@
   (prodkernel) on the machine. Kernel configuration files specific to LinuxBoot
   provide the needed Linux kernel capabilities without bloating the size of the
   BIOS with unnecessary drivers.
+- ___PureBoot___: A combination of disabling IME, coreboot, a TPM, Heads and
+  the Librem Key (see [Trusted Boot (Anti-Evil-Maid, Heads, and
+  PureBoot)](https://tech.michaelaltfield.net/2023/02/16/evil-maid-heads-pureboot/#pureboot))
 - ___QEMU___: An emulator that performs hardware virtualization. QEMU is a
   hosted virtual machine monitor.
 - ___Secure Boot Preverifier (SEC)___: In UEFI, the SEC stage initializes the
