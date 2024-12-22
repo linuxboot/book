@@ -149,9 +149,9 @@ development continues to provide an open-source solution that
 does the following:
 
 1. Brings up the Linux kernel as a DXE in flash ROM instead of the UEFI shell.
-1. Provides a Go based userland that can then bring up the kernel that you want
+2. Provides a Go based userland that can then bring up the kernel that you want
    to run on the machine.
-1. Enables writing traditional firmware applications such as bootloader,
+3. Enables writing traditional firmware applications such as bootloader,
    debugging, diagnosis, and error detection applications as cross-architecture
    and cross-platform portable Linux applications.
 
