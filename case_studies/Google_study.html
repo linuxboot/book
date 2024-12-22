@@ -267,25 +267,19 @@ can't remove anymore.</p>
 <p>The DXEs are delivered as binary blobs. There are three ways
 to handle them:</p>
 <ol>
-<li>
-<p>The most desirable is to remove them and let Linux drivers take
+<li>The most desirable is to remove them and let Linux drivers take
 over what they did. This works well for USB, network, disk,
 and other drivers, as well as network protocols and file
 systems. In fact we have resolved many system reliability
-and performance issues just by removing DXEs!</p>
-</li>
-<li>
-<p>The second way is to replace the DXE with an open source driver.
+and performance issues just by removing DXEs!</li>
+<li>The second way is to replace the DXE with an open source driver.
 This is less desirable, as the DXE environment is not as
-hardened as the Linux kernel environment.</p>
-</li>
-<li>
-<p>The final, least desired option, is to continue to use the DXE.
+hardened as the Linux kernel environment.</li>
+<li>The final, least desired option, is to continue to use the DXE.
 This is required if the DXE contains proprietary code that
 "tweaks" chipset settings, for example, memory timing or
 other controls, and there is no chance of ever bringing
-them to open source.</p>
-</li>
+them to open source.</li>
 </ol>
 <img src="../images/Case-study-step4.svg" width=600px>
 <p>Step 5. Replace closed source DXEs with open source</p>

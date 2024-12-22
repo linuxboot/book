@@ -2611,6 +2611,11 @@ on. It checks to see what hardware components the computing device has, wakes
 the components up, and hands them over to the operating system that is to be
 installed on the machine. The current x86 firmware is based on Intel’s
 Universal Extensible Firmware Interface (UEFI).</li>
+<li><em><strong>flashkernel</strong></em>: A small Linux kernel that is stored in flash and used as a
+boot stage (e.g. the kernel used in LinuxBoot). Debian and Ubuntu maintain a
+<code>flash-kernel</code> script to install the kernel and initramfs in a special
+location for embedded devices that can not boot the kernel and initramfs using
+the normal <code>/boot</code> mechanism</li>
 <li><a href="https://github.com/linuxboot/heads"><em><strong>Heads</strong></em></a>: An open source firmware
 for laptops and servers, aimed at strong platform security. Developed by
 Trammell Hudson, based on stripped UEFI plus Linux, and BusyBox instead of
@@ -2692,51 +2697,62 @@ interact with the kernel.</li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="linuxboot-on-ampere-mt-jade-platform"><a class="header" href="#linuxboot-on-ampere-mt-jade-platform">LinuxBoot on Ampere Mt. Jade Platform</a></h1>
 <p>The Ampere Altra Family processor based Mt. Jade platform is a high-performance
-ARM server platform, offering up to 256 processor cores in a dual socket configuration.
-The Tianocore EDK2 firmware for the Mt. Jade platform has been fully upstreamed to
-the tianocore/edk2-platforms repository, enabling the community to build and experiment
-with the platform's firmware using entirely open-source code. It also supports LinuxBoot,
-an open-source firmware framework that reduces boot time, enhances security,
-and increases flexibility compared to standard UEFI firmware.</p>
-<p>Mt. Jade has also achieved a significant milestone by becoming
-<a href="https://community.arm.com/arm-community-blogs/b/architectures-and-processors-blog/posts/arm-systemready-ls">the first server certified under the Arm SystemReady LS certification program</a>.
-SystemReady LS ensures compliance with standardized boot and runtime environments
-for Linux-based systems, enabling seamless deployment across diverse hardware.
-This certification further emphasizes Mt. Jade's readiness for enterprise and
-cloud-scale adoption by providing assurance of compatibility, performance, and reliability.</p>
-<p>This case study explores the LinuxBoot implementation on the Ampere Mt. Jade platform,
-inspired by the approach used in <a href="case_studies/Google_study.html">Google's LinuxBoot deployment</a>.</p>
+ARM server platform, offering up to 256 processor cores in a dual socket
+configuration. The Tianocore EDK2 firmware for the Mt. Jade platform has been
+fully upstreamed to the tianocore/edk2-platforms repository, enabling the
+community to build and experiment with the platform's firmware using entirely
+open-source code. It also supports LinuxBoot, an open-source firmware framework
+that reduces boot time, enhances security, and increases flexibility compared
+to standard UEFI firmware.</p>
+<p>Mt. Jade has also achieved a significant milestone by becoming <a href="https://community.arm.com/arm-community-blogs/b/architectures-and-processors-blog/posts/arm-systemready-ls">the first
+server certified under the Arm SystemReady LS certification
+program</a>.
+SystemReady LS ensures compliance with standardized boot and runtime
+environments for Linux-based systems, enabling seamless deployment across
+diverse hardware.  This certification further emphasizes Mt. Jade's readiness
+for enterprise and cloud-scale adoption by providing assurance of
+compatibility, performance, and reliability.</p>
+<p>This case study explores the LinuxBoot implementation on the Ampere Mt. Jade
+platform, inspired by the approach used in <a href="case_studies/Google_study.html">Google's LinuxBoot
+deployment</a>.</p>
 <h2 id="ampere-edk2-linuxboot-components"><a class="header" href="#ampere-edk2-linuxboot-components">Ampere EDK2-LinuxBoot Components</a></h2>
-<p>The Mt. Jade platform embraces a hybrid firmware architecture, combining UEFI/EDK2 for
-hardware initialization and LinuxBoot for advanced boot functionalities. The platform
-aligns closely with step 6 in the LinuxBoot adoption model.</p>
+<p>The Mt. Jade platform embraces a hybrid firmware architecture, combining
+UEFI/EDK2 for hardware initialization and LinuxBoot for advanced boot
+functionalities. The platform aligns closely with step 6 in the LinuxBoot
+adoption model.</p>
 <img src="case_studies/../images/Case-study-Ampere.svg">
-<p>The entire boot firmware stack for the Mt. Jade is open source and available in the Github.</p>
+<p>The entire boot firmware stack for the Mt. Jade is open source and available in
+the Github.</p>
 <ul>
-<li><strong>EDK2</strong>: The PEI and minimal (stripped-down) DXE drivers, including both common and
-platform code, are fully open source and resides in Tianocore edk2-platforms and edk2 repositories.</li>
-<li><strong>LinuxBoot</strong>: The LinuxBoot binary (flashkernel) for Mt. Jade is supported in the
-<a href="https://github.com/linuxboot/linuxboot/tree/main/mainboards/ampere/jade">linuxboot/linuxboot</a> repository.</li>
+<li><strong>EDK2</strong>: The PEI and minimal (stripped-down) DXE drivers, including both
+common and platform code, are fully open source and resides in Tianocore
+edk2-platforms and edk2 repositories.</li>
+<li><strong>LinuxBoot</strong>: The LinuxBoot binary (<a href="case_studies/../glossary.html">flashkernel</a>) for Mt. Jade is supported
+in the
+<a href="https://github.com/linuxboot/linuxboot/tree/main/mainboards/ampere/jade">linuxboot/linuxboot</a>
+repository.</li>
 </ul>
 <h2 id="ampere-solution-for-linuxboot-as-a-boot-device-selection"><a class="header" href="#ampere-solution-for-linuxboot-as-a-boot-device-selection">Ampere Solution for LinuxBoot as a Boot Device Selection</a></h2>
-<p>Ampere has implemented and successfully upstreamed a solution for integrating LinuxBoot
-as a Boot Device Selection (BDS) option into the TianoCore EDK2 framework, as seen in
-commit
-<a href="https://github.com/tianocore/edk2/commit/62540372230ecb5318a9c8a40580a14beeb9ded0">ArmPkg: Implement PlatformBootManagerLib for LinuxBoot</a>.
-This innovation simplifies the boot process for the Mt. Jade platform and aligns with
-LinuxBoot's goals of efficiency and flexibility.</p>
-<p>Unlike the earlier practice that replaced the UEFI Shell with a LinuxBoot flashkernel,
-Ampere's solution introduces a custom BDS implementation that directly boots into the
-LinuxBoot environment as the active boot option. This approach bypasses the need to load
-the UEFI Shell or UiApp (UEFI Setup Menu), which depend on numerous unnecessary DXE
-drivers.</p>
-<p>To further enhance flexibility, Ampere introduced a new GUID specifically for the
-LinuxBoot binary, ensuring clear separation from the UEFI Shell GUID. This distinction
-allows precise identification of LinuxBoot components in the firmware.</p>
+<p>Ampere has implemented and successfully upstreamed a solution for integrating
+LinuxBoot as a Boot Device Selection (BDS) option into the TianoCore EDK2
+framework, as seen in commit
+<a href="https://github.com/tianocore/edk2/commit/62540372230ecb5318a9c8a40580a14beeb9ded0">ArmPkg: Implement PlatformBootManagerLib for
+LinuxBoot</a>.
+This innovation simplifies the boot process for the Mt. Jade platform and
+aligns with LinuxBoot's goals of efficiency and flexibility.</p>
+<p>Unlike the earlier practice that replaced the UEFI Shell with a LinuxBoot
+flashkernel, Ampere's solution introduces a custom BDS implementation that
+directly boots into the LinuxBoot environment as the active boot option. This
+approach bypasses the need to load the UEFI Shell or UiApp (UEFI Setup Menu),
+which depend on numerous unnecessary DXE drivers.</p>
+<p>To further enhance flexibility, Ampere introduced a new GUID specifically for
+the LinuxBoot binary, ensuring clear separation from the UEFI Shell GUID. This
+distinction allows precise identification of LinuxBoot components in the
+firmware.</p>
 <h2 id="build-process"><a class="header" href="#build-process">Build Process</a></h2>
-<p>Building a flashable EDK2 firmware image with an integrated LinuxBoot flashkernel for the
-Ampere Mt. Jade platform involves two main steps: building the LinuxBoot flashkernel and
-integrating it into the EDK2 firmware build.</p>
+<p>Building a flashable EDK2 firmware image with an integrated LinuxBoot
+flashkernel for the Ampere Mt. Jade platform involves two main steps: building
+the LinuxBoot flashkernel and integrating it into the EDK2 firmware build.</p>
 <h3 id="step-1-build-the-linuxboot-flashkernel"><a class="header" href="#step-1-build-the-linuxboot-flashkernel">Step 1: Build the LinuxBoot Flashkernel</a></h3>
 <p>The LinuxBoot flash kernel is built as follows:</p>
 <pre><code class="language-bash">git clone https://github.com/linuxboot/linuxboot.git
@@ -2745,8 +2761,8 @@ cd linuxboot/mainboards/ampere/jade &amp;&amp; make fetch flashkernel
 <p>After the build process completes, the flash kernel will be located at:
 linuxboot/mainboards/ampere/jade/flashkernel</p>
 <h3 id="step-2-build-the-edk2-firmware-image-with-the-flash-kernel"><a class="header" href="#step-2-build-the-edk2-firmware-image-with-the-flash-kernel">Step 2: Build the EDK2 Firmware Image with the Flash Kernel</a></h3>
-<p>The EDK2 firmware image is built with the LinuxBoot flashkernel integrated into the flash
-image using the following steps:</p>
+<p>The EDK2 firmware image is built with the LinuxBoot flashkernel integrated into
+the flash image using the following steps:</p>
 <pre><code class="language-bash">git clone https://github.com/tianocore/edk2-platforms.git
 git clone https://github.com/tianocore/edk2.git
 git clone https://github.com/tianocore/edk2-non-osi.git
@@ -2754,11 +2770,12 @@ git clone https://github.com/tianocore/edk2-non-osi.git
 </code></pre>
 <p>The <code>buildfw.sh</code> script automatically integrates the LinuxBoot flash kernel
 (provided via the -l option) as part of the final EDK2 firmware image.</p>
-<p>This process generates a flashable EDK2 firmware image with embedded LinuxBoot, ready for
-deployment on the Ampere Mt. Jade platform.</p>
+<p>This process generates a flashable EDK2 firmware image with embedded LinuxBoot,
+ready for deployment on the Ampere Mt. Jade platform.</p>
 <h2 id="booting-with-linuxboot"><a class="header" href="#booting-with-linuxboot">Booting with LinuxBoot</a></h2>
-<p>When powered on, the system will boot into the u-root and automatically kexec to the target OS.</p>
-<pre><code>Run /init as init process
+<p>When powered on, the system will boot into the u-root and automatically kexec
+to the target OS.</p>
+<pre><code class="language-text">Run /init as init process
 1970/01/01 00:00:10 Welcome to u-root!
                               _
    _   _      _ __ ___   ___ | |_
@@ -2873,40 +2890,43 @@ Processor Information
 M-? toggle key help • C-d erase/stop • C-c clear/cancel • C-r search hist …
 </code></pre>
 <h2 id="future-work-1"><a class="header" href="#future-work-1">Future Work</a></h2>
-<p>While the LinuxBoot implementation on the Ampere Mt. Jade platform represents a significant
-milestone, several advanced features and improvements remain to be explored.
-These enhancements would extend the platform's capabilities, improve its usability,
-and reinforce its position as a leading open source firmware solution.
-Key areas for future development include:</p>
-<ul>
-<li><strong>Secure Boot with LinuxBoot</strong>: One of the critical areas for future development
-is enabling secure boot verification for the target operating system. In the LinuxBoot
-environment, the target OS is typically booted using kexec. However, it is unclear
-how Secure Boot operates in this context, as kexec bypasses traditional
-firmware-controlled secure boot mechanisms. Future work should investigate how to
-extend Secure Boot principles to kexec, ensuring that the OS kernel and its components
-are verified and authenticated before execution. This may involve implementing
-signature checks and utilizing trusted certificate chains directly within the
-LinuxBoot environment to mimic the functionality of UEFI Secure Boot during the
-kexec process.</li>
-<li><strong>TPM Support</strong>: The platform supports TPM, but its integration with LinuxBoot
-is yet to be defined. Future work could explore utilizing the TPM for secure boot
-measurements, and system integrity attestation.</li>
-<li><strong>Expanding Support for Additional Ampere Platforms</strong>: Building on the success
-of LinuxBoot on Mt. Jade, future efforts should expand support to other Ampere platforms.
-This would ensure broader adoption and usability across different hardware configurations.</li>
-<li><strong>Optimizing the Transistion Between UEFI and LinuxBoot</strong>: Improving the efficiency
-of the handoff between UEFI and LinuxBoot could further reduce boot times.
-This optimization would involve refining the initialization process and minimizing
-redundant operations during the handoff.</li>
-<li><strong>Advanced Diagnostics and Monitoring Tools</strong>: Adding more diagnostic and monitoring
-tools to the LinuxBoot u-root environment would enhance debugging and system management.
-These tools could provide deeper insights into system performance and potential issues,
-improving reliability and maintainability.</li>
-</ul>
+<p>While the LinuxBoot implementation on the Ampere Mt. Jade platform represents a
+significant milestone, several advanced features and improvements remain to be
+explored. These enhancements would extend the platform's capabilities, improve
+its usability, and reinforce its position as a leading open source firmware
+solution. Key areas for future development include:</p>
+<h3 id="secure-boot-with-linuxboot"><a class="header" href="#secure-boot-with-linuxboot">Secure Boot with LinuxBoot</a></h3>
+<p>One of the critical areas for future development is enabling secure boot
+verification for the target operating system. In the LinuxBoot environment, the
+target OS is typically booted using kexec. However, it is unclear how Secure
+Boot operates in this context, as kexec bypasses traditional
+firmware-controlled secure boot mechanisms. Future work should investigate how
+to extend Secure Boot principles to kexec, ensuring that the OS kernel and its
+components are verified and authenticated before execution. This may involve
+implementing signature checks and utilizing trusted certificate chains directly
+within the LinuxBoot environment to mimic the functionality of UEFI Secure Boot
+during the kexec process.</p>
+<h3 id="tpm-support-1"><a class="header" href="#tpm-support-1">TPM Support</a></h3>
+<p>The platform supports TPM, but its integration with LinuxBoot is yet to be
+defined. Future work could explore utilizing the TPM for secure boot
+measurements, and system integrity attestation.</p>
+<h3 id="expanding-support-for-additional-ampere-platforms"><a class="header" href="#expanding-support-for-additional-ampere-platforms">Expanding Support for Additional Ampere Platforms</a></h3>
+<p>Building on the success of LinuxBoot on Mt. Jade, future efforts should expand
+support to other Ampere platforms.  This would ensure broader adoption and
+usability across different hardware configurations.</p>
+<h3 id="optimizing-the-transition-between-uefi-and-linuxboot"><a class="header" href="#optimizing-the-transition-between-uefi-and-linuxboot">Optimizing the Transition Between UEFI and LinuxBoot</a></h3>
+<p>Improving the efficiency of the handoff between UEFI and LinuxBoot could
+further reduce boot times.  This optimization would involve refining the
+initialization process and minimizing redundant operations during the handoff.</p>
+<h3 id="advanced-diagnostics-and-monitoring-tools"><a class="header" href="#advanced-diagnostics-and-monitoring-tools">Advanced Diagnostics and Monitoring Tools</a></h3>
+<p>Adding more diagnostic and monitoring tools to the LinuxBoot u-root environment
+would enhance debugging and system management.  These tools could provide
+deeper insights into system performance and potential issues, improving
+reliability and maintainability.</p>
 <h2 id="see-also"><a class="header" href="#see-also">See Also</a></h2>
 <ul>
-<li><a href="https://amperecomputing.com/blogs/linuxboot-on-ampere-platforms--a-new-old-approach-to-firmware">LinuxBoot on Ampere Platforms: A new (old) approach to firmware</a></li>
+<li><a href="https://amperecomputing.com/blogs/linuxboot-on-ampere-platforms--a-new-old-approach-to-firmware">LinuxBoot on Ampere Platforms: A new (old) approach to
+firmware</a></li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-linuxboot-project-at-google"><a class="header" href="#the-linuxboot-project-at-google">The LinuxBoot project at Google</a></h1>
 <p>Google runs workloads across a number of clusters each with up to tens of
@@ -3002,25 +3022,19 @@ can't remove anymore.</p>
 <p>The DXEs are delivered as binary blobs. There are three ways
 to handle them:</p>
 <ol>
-<li>
-<p>The most desirable is to remove them and let Linux drivers take
+<li>The most desirable is to remove them and let Linux drivers take
 over what they did. This works well for USB, network, disk,
 and other drivers, as well as network protocols and file
 systems. In fact we have resolved many system reliability
-and performance issues just by removing DXEs!</p>
-</li>
-<li>
-<p>The second way is to replace the DXE with an open source driver.
+and performance issues just by removing DXEs!</li>
+<li>The second way is to replace the DXE with an open source driver.
 This is less desirable, as the DXE environment is not as
-hardened as the Linux kernel environment.</p>
-</li>
-<li>
-<p>The final, least desired option, is to continue to use the DXE.
+hardened as the Linux kernel environment.</li>
+<li>The final, least desired option, is to continue to use the DXE.
 This is required if the DXE contains proprietary code that
 "tweaks" chipset settings, for example, memory timing or
 other controls, and there is no chance of ever bringing
-them to open source.</p>
-</li>
+them to open source.</li>
 </ol>
 <img src="case_studies/../images/Case-study-step4.svg" width=600px>
 <p>Step 5. Replace closed source DXEs with open source</p>
