@@ -184,11 +184,40 @@
 <li>Guides you through the steps needed to implement LinuxBoot</li>
 </ul>
 <h2 id="what-is-linuxboot"><a class="header" href="#what-is-linuxboot">What is LinuxBoot?</a></h2>
-<p>LinuxBoot is a project that aims to replace specific <a href="./glossary.html">firmware</a>
-functionality with a Linux kernel and runtime. Over the years this project has
-grown to include various initiatives with the overarching goal of moving from
-obscure, complex firmware to simpler, open source firmware.</p>
-<p>The goal of LinuxBoot is to reduce the role of firmware to a small,
+<p>LinuxBoot is based on the idea of replacing proprietary or corporate-driven
+late-stage boot <a href="./glossary.html">firmware</a> with the Linux kernel and a
+community-based userland. That idea grew into a project that over the years
+includes various initiatives with the overarching goal of moving from obscure
+and complex firmware to simpler and open source firmware.</p>
+<p>The LinuxBoot project provides two reference implementations; linuxboot and
+Heads. The <a href="https://github.com/linuxboot/linuxboot">linuxboot</a> build system
+outputs a boot payload consisting of a Linux kernel and an
+<a href="https://de.wikipedia.org/wiki/Initramfs">initramfs</a> that contains a minimal
+Golang userland built using <a href="https://github.com/u-root/u-root">u-root</a>.</p>
+<p>The Heads build system is more focused on local attestation, TPM DUK
+seal/unseal operations, GPG-based security measurement, reproducible builds and
+uses BusyBox to provide a much larger suite of Linux tools allowing it to also
+be used as a recovery environment.</p>
+<p>There are several other active projects based on the same idea:</p>
+<ul>
+<li><a href="https://github.com/open-power/petitboot">petitboot</a> under the OpenPOWER
+project originally targeting the PS3</li>
+<li><a href="https://github.com/BayLibre/k-boot">k-boot</a> developed by BayLibre in 2023
+using BusyBox</li>
+<li><a href="https://github.com/rhboot/nmbl-poc">nmbl</a> developed by RedHat in 2024
+<ul>
+<li><a href="https://lwn.net/Articles/979789">Giving bootloaders the boot with nmbl</a></li>
+</ul>
+</li>
+</ul>
+<p>And there is a long history of similar implementations including projects that
+are no longer maintained:</p>
+<ul>
+<li>MILO on Alpha started before 2000 (see <a href="https://tldp.org/HOWTO/MILO-HOWTO/what-section.html">What is
+MILO?</a>)</li>
+<li>kboot developed by Werner Almesberger in 2005</li>
+</ul>
+<p>These projects all attempt to reduce the role of firmware to a small,
 fixed-function core whose only purpose is to get a flash-based Linux kernel
 started. This “bare essentials” firmware prepares the hardware and starts a
 Linux kernel and a userland environment will run on the machine. Go is the
@@ -2630,6 +2659,9 @@ Linux kernel capabilities and then boot the actual production kernel
 (prodkernel) on the machine. Kernel configuration files specific to LinuxBoot
 provide the needed Linux kernel capabilities without bloating the size of the
 BIOS with unnecessary drivers.</li>
+<li><em><strong>PureBoot</strong></em>: A combination of disabling IME, coreboot, a TPM, Heads and
+the Librem Key (see <a href="https://tech.michaelaltfield.net/2023/02/16/evil-maid-heads-pureboot/#pureboot">Trusted Boot (Anti-Evil-Maid, Heads, and
+PureBoot)</a>)</li>
 <li><em><strong>QEMU</strong></em>: An emulator that performs hardware virtualization. QEMU is a
 hosted virtual machine monitor.</li>
 <li><em><strong>Secure Boot Preverifier (SEC)</strong></em>: In UEFI, the SEC stage initializes the
@@ -2649,133 +2681,7 @@ implementations are.</li>
 <li><em><strong>userland/userspace</strong></em>: A set of programs and libraries that are used to
 interact with the kernel.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="coreboot-linuxboot-nerf-what"><a class="header" href="#coreboot-linuxboot-nerf-what">coreboot, LinuxBoot, NERF... What?</a></h1>
-<p>Naming is hard. You may have heard of <code>coreboot</code>, <code>NERF</code>, <code>u-root</code>,
-<code>systemboot</code>, etc. If you are confused, well, you're not alone.</p>
-<h2 id="linuxbios"><a class="header" href="#linuxbios">LinuxBIOS</a></h2>
-<p><code>LinuxBIOS</code> is a project originated in 1999 from Ron Minnich, Stefan Reinauer
-and others. It is not much younger than UEFI, but they were already
-experimenting the idea of running Linux as firmware! Like many great ideas, it
-was way ahead of its time. At that time Linux was not mature enough for
-hardware initialization project, and while LinuxBIOS was successful in several
-performance-and-reliability critical environments, it didn't see mass adoption.</p>
-<h2 id="coreboot"><a class="header" href="#coreboot">coreboot</a></h2>
-<p>LinuxBIOS became <code>coreboot</code> in 2008. It is effectively the same project that
-evolved over time. <code>coreboot</code> (spelled lowercase) is a complete open source
-system firmware package, aimed at replacing proprietary implementations. It's
-also one of the most mature and well-maintained open source firmware projects.</p>
-<p><code>coreboot</code> supports a <strong>wide varieties of platforms</strong>, and has a <strong>modular
-architecture</strong>. It provides <strong>platform initialization</strong> (CPU, DRAM, PCI, ACPI,
-SMBIOS, etc), <strong>a filesystem</strong> (CBFS) suitable for on-firmware storage,
-integration with <strong>vendor extensions and blobs</strong>, a friendly license, and a
-<strong>wide variety of payloads</strong>.</p>
-<p>This modular design also <strong>enables various bootloader scenarios</strong>, through
-coreboot payloads. Among the various options, there are:</p>
-<ul>
-<li><em>SeaBIOS</em>, a very popular open source BIOS implementation</li>
-<li><em>depthcharge</em>, the blazing-fast boot payload for ChromeOS/Chromebooks</li>
-<li><em>LinuxBoot</em>, of course! More details below</li>
-<li><em>UEFI</em>, via the open-source EDK II.</li>
-</ul>
-<h2 id="linuxboot"><a class="header" href="#linuxboot">LinuxBoot</a></h2>
-<p>LinuxBoot is not a product, but rather a <strong>concept</strong>. It's the idea of
-<strong>booting Linux (OS) with Linux (system firmware)</strong>. In a way, the same concept
-pioneered by LinuxBIOS.</p>
-<p>"LinuxBoot" is also often used as an umbrella name at Facebook to indicate how
-we do open source firmware, i.e. coreboot + Linux + u-root + systemboot.
-<strong>Imagine it like a Linux distribution, but for firmware</strong>. It is a collection
-of various open source components, glued together to work as a consistent
-firmware OS.</p>
-<p>Depending on who you are talking to, you may hear "LinuxBoot" used as a
-reference to "stripped UEFI, plus Linux". This is because LinuxBoot, when
-originally created, was meant to run a Linux kernel on top of a stripped UEFI
-firmware, not on coreboot. See also "NERF" below.</p>
-<h2 id="nerf"><a class="header" href="#nerf">NERF</a></h2>
-<p>This is the original name for the stripped UEFI, plus Linux, plus u-root. The
-name stands for Non-Extensible Reduced Firmware, as opposed to UEFI's Unified
-Extensible Firmware Interface. Basically, saying that NERF is an UEFI
-replacement that prefers to be more compact, less extensible, and a bit more
-opinionated. While extensibility is nice and often desirable, too much
-extensibility and too many "yes" can make a complex project very hard to
-maintain and keep secure.</p>
-<p>NERF started from Ron Minnich (one of the coreboot founders) at Google, and is
-now developed by a few other folks that are now part of Google's "NERF team".
-This name, in my understanding, is mostly used within Google, while "LinuxBoot"
-is becoming a more common name for this effort.</p>
-<h2 id="heads"><a class="header" href="#heads">Heads</a></h2>
-<p><a href="https://trmm.net/Heads">Heads</a> is an open source firmware for laptops and
-servers, aimed at strong platform security. Developed by <a href="https://twitter.com/qrs">Trammell
-Hudson</a>, this is based on stripped UEFI plus Linux,
-and BusyBox instead of u-root.</p>
-<h2 id="open-system-firmware"><a class="header" href="#open-system-firmware">Open System Firmware</a></h2>
-<p><a href="https://www.opencompute.org/projects/open-system-firmware">Open System Firmware</a>,
-or in short OSF, is an official subproject of the <a href="https://www.opencompute.org">Open Compute
-Project</a> (OCP). OSF has been developed in the
-open, by various members of OCP that were interested in having open source
-<strong>system firmware</strong>. OSF defines a set of guidelines with contributions from
-Microsoft, Google, Facebook, Intel, 9elements, TwoSigma, and several other
-companies.</p>
-<p>The important thing to keep in mind is that <strong>Open System Firmware is a project
-name</strong>, not an implementation, nor an idea. An implementation (like LinuxBoot
-or OpenEDK2) can be OSF-compliant if it follows the aforementioned guidelines.</p>
-<p>Currently, Open System Firmware has two work streams:</p>
-<ul>
-<li>LinuxBoot, led by Google, Facebook, 9elements, ITRenew, TwoSigma, and others</li>
-<li>OpenEDK II, led by Microsoft and Intel.</li>
-</ul>
-<h2 id="open-source-firmware"><a class="header" href="#open-source-firmware">Open Source Firmware</a></h2>
-<p>While this may sound obvious, it's worth noting that OSF can be used to refer
-to "Open Source Firmware" or "Open System Firmware" depending on the context.
-Confusing? I couldn't agree more.</p>
-<h2 id="bios-1"><a class="header" href="#bios-1">BIOS</a></h2>
-<p>BIOS is the good old, inscrutable, unstructured, non-standard way of
-initializing a hardware platform in the pre-UEFI days. In other words it's a
-binary blob with no standardized structure, that is responsible for
-initializing CPU and memory, and jumping to a hard-coded position on the MBR of
-the first disk drive.</p>
-<p>BIOS has been largely replaced by the (much better) UEFI over the past 20
-years. Many UEFI implementations still offer a "BIOS compatibility mode" which
-make it behave like an old BIOS, with its (lack of) features.</p>
-<p>BIOS is also a misused term for system firmware nowadays. You may still hear
-"BIOS" in reference to system firmware, either it's UEFI or even LinuxBoot.
-However, "BIOS" refers to a specific type of firmware, and UEFI is definitely
-not BIOS, just like LinuxBoot is not BIOS.</p>
-<h2 id="uefi"><a class="header" href="#uefi">UEFI</a></h2>
-<p>It's a complex specification of a standard for system firmware. It defines
-everything from the layout on the flash chip, to how to interface to
-peripherals, boot from disk or from network, how UEFI applications work, etc).
-<strong>It is not an implementation</strong>, it's a standard. EDK II and OpenEDK II are
-UEFI implementations.</p>
-<p>UEFI is not closed source per-se, but in practice most implementations are.
-Typically IBVs and ODMs would take a snapshot of the reference implementation
-EDK II, and base their work on that, with their patches and additional
-components.</p>
-<h2 id="edk-ii"><a class="header" href="#edk-ii">EDK II</a></h2>
-<p>It is the open source reference implementation of an UEFI-compliant firmware,
-originally developed by Intel (see <a href="https://github.com/tianocore/edk2">edk2 Github
-project</a>).</p>
-<h2 id="u-boot"><a class="header" href="#u-boot">u-boot</a></h2>
-<p>u-boot is another very popular open source firmware and bootloader.</p>
-<h2 id="u-root"><a class="header" href="#u-root">u-root</a></h2>
-<p>u-root is not u-boot! They are two completely different projects.</p>
-<p>u-root is modern, embedded userspace environment for Linux, with bootloader
-tools. u-root has several advantages:</p>
-<ul>
-<li>it is written in a memory-safe language, Go, and it's compiled to avoid
-native code (CGo is disabled). No segfaults at firmware space!</li>
-<li>it has a bb (busybox) mode: it's more space-efficient than compiling the
-programs individually, because it automatically merges the source code of the
-programs and libraries you need, into one.</li>
-<li>it has a source mode: you have the source code of your tools <strong>in the
-firmware image</strong>, so you can modify any tool in place and re-run it, instead
-of rebuilding the whole image and reflashing, rebooting, and re-running the
-tool</li>
-<li>it <strong>can run any unmodified Go program</strong>, it doesn't have to be written
-specifically for u-root (while with BusyBox it needs to be part of that
-source tree, using different libraries). This allows using any Go library or
-program written for non-embedded environments</li>
-<li>is <strong>blazing fast to build</strong>: seconds instead of minutes</li>
-</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="naming"><a class="header" href="#naming">Naming</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="case-studies"><a class="header" href="#case-studies">Case Studies</a></h1>
 <p>This chapter contains case studies for various solutions.</p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
