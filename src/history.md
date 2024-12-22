@@ -2,28 +2,30 @@
 
 ## BIOS
 
-BIOS is the good old, inscrutable, unstructured, non-standard way of
-initializing a hardware platform in the pre-UEFI days. In other words it's a
-binary blob with no standardized structure, that is responsible for
-initializing CPU and memory, and jumping to a hard-coded position on the MBR of
-the first disk drive.
+[BIOS](https://en.wikipedia.org/wiki/BIOS) is the good old, inscrutable way of
+initializing a hardware platform in the pre-UEFI days. It's a binary blob with
+no standardized structure, that is responsible for initializing CPU and memory,
+and jumping to a hard-coded position on the MBR of the first disk drive.
 
-BIOS has been largely replaced by the (much better) UEFI over the past 20
-years. Many UEFI implementations still offer a "BIOS compatibility mode" which
-make it behave like an old BIOS, with its (lack of) features.
+Starting around 2000, BIOS has been largely replaced by the standardized
+[UEFI](https://en.wikipedia.org/wiki/UEFI).
+Many UEFI implementations still offer a BIOS compatibility mode called CSM
+(Compatibility Support Module), which makes it behave like an old BIOS.
 
 BIOS is also a misused term for system firmware nowadays. You may still hear
-"BIOS" in reference to system firmware, either it's UEFI or even LinuxBoot.
-However, "BIOS" refers to a specific type of firmware, and UEFI is definitely
-not BIOS, just like LinuxBoot is not BIOS.
+"BIOS" in reference to system firmware, such as UEFI or even LinuxBoot. However,
+as "BIOS" refers to a specific type of firmware, UEFI is definitely _not_ BIOS,
+just like LinuxBoot is not BIOS in the original sense.
 
 ## LinuxBIOS
 
-The `LinuxBIOS` project was created in 1999 by Ron Minnich, Stefan Reinauer and
-others. It is not much younger than UEFI, but they were already experimenting
-the idea of running Linux as firmware! Like many great ideas, it was way ahead
-of its time. At that time Linux was not mature enough to be used in a hardware
-initialization project, and while LinuxBIOS was successful in several
+The [LinuxBIOS](
+https://web.archive.org/web/20070430170020/http://www.linuxbios.org/Welcome_to_LinuxBIOS)
+project was created in 1999 by Ron Minnich, Stefan Reinauer and others. It is
+not much younger than UEFI, but they were already experimenting the idea of
+running Linux as firmware. Like many great ideas, it was way ahead of its time.
+At that time Linux was not mature enough to be used in a hardware initialization
+project, and while LinuxBIOS was successful in several
 performance-and-reliability critical environments, it didn't see mass adoption.
 
 In 2008 LinuxBIOS became [coreboot](https://www.coreboot.org/).
