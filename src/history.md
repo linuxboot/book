@@ -12,10 +12,10 @@ Starting around 2000, BIOS has been largely replaced by the standardized
 Many UEFI implementations still offer a BIOS compatibility mode called CSM
 (Compatibility Support Module), which makes it behave like an old BIOS.
 
-BIOS is also a misused term for system firmware nowadays. You may still hear
-"BIOS" in reference to system firmware, such as UEFI or even LinuxBoot. However,
-as "BIOS" refers to a specific type of firmware, UEFI is definitely _not_ BIOS,
-just like LinuxBoot is not BIOS in the original sense.
+Note that the term "BIOS" is sometimes misused to refer to the general concept
+of _system firmware_, such as UEFI or even LinuxBoot. However, as "BIOS" refers
+to firmware with specific functionality, UEFI is definitely _not_ a BIOS, nor is
+LinuxBoot a BIOS in the original sense.
 
 ## LinuxBIOS
 
