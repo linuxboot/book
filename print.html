@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> LinuxBoot Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li></ol></li><li class="chapter-item expanded "><a href="components.html"><strong aria-hidden="true">2.</strong> LinuxBoot Components</a></li><li class="chapter-item expanded "><a href="u-root.html"><strong aria-hidden="true">3.</strong> All about u-root</a></li><li class="chapter-item expanded "><a href="utilities/index.html"><strong aria-hidden="true">4.</strong> LinuxBoot utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="utilities/UEFI_Tool_Kit.html"><strong aria-hidden="true">4.1.</strong> UEFI Tool Kit</a></li><li class="chapter-item expanded "><a href="utilities/cpu.html"><strong aria-hidden="true">4.2.</strong> The magical cpu command</a></li><li class="chapter-item expanded "><a href="utilities/dut.html"><strong aria-hidden="true">4.3.</strong> Device Under Test</a></li></ol></li><li class="chapter-item expanded "><a href="implementation.html"><strong aria-hidden="true">5.</strong> Implementing LinuxBoot</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="coreboot.u-root.systemboot/index.html"><strong aria-hidden="true">5.1.</strong> LinuxBoot using coreboot, u-root and systemboot</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="naming.html"><strong aria-hidden="true">7.</strong> Naming</a></li><li class="chapter-item expanded "><a href="case_studies/index.html"><strong aria-hidden="true">8.</strong> Case Studies</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="case_studies/Ampere_study.html"><strong aria-hidden="true">8.1.</strong> Ampere study</a></li><li class="chapter-item expanded "><a href="case_studies/Google_study.html"><strong aria-hidden="true">8.2.</strong> Google study</a></li><li class="chapter-item expanded "><a href="case_studies/TiogaPass.html"><strong aria-hidden="true">8.3.</strong> OCP TiogaPass</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">9.</strong> Frequently Asked Questions</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> LinuxBoot Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li></ol></li><li class="chapter-item expanded "><a href="components.html"><strong aria-hidden="true">2.</strong> LinuxBoot Components</a></li><li class="chapter-item expanded "><a href="u-root.html"><strong aria-hidden="true">3.</strong> All about u-root</a></li><li class="chapter-item expanded "><a href="utilities/index.html"><strong aria-hidden="true">4.</strong> LinuxBoot utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="utilities/UEFI_Tool_Kit.html"><strong aria-hidden="true">4.1.</strong> UEFI Tool Kit</a></li><li class="chapter-item expanded "><a href="utilities/cpu.html"><strong aria-hidden="true">4.2.</strong> The magical cpu command</a></li><li class="chapter-item expanded "><a href="utilities/dut.html"><strong aria-hidden="true">4.3.</strong> Device Under Test</a></li></ol></li><li class="chapter-item expanded "><a href="implementation.html"><strong aria-hidden="true">5.</strong> Implementing LinuxBoot</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="coreboot.u-root.systemboot/index.html"><strong aria-hidden="true">5.1.</strong> LinuxBoot using coreboot, u-root and systemboot</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="history.html"><strong aria-hidden="true">7.</strong> History</a></li><li class="chapter-item expanded "><a href="case_studies/index.html"><strong aria-hidden="true">8.</strong> Case Studies</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="case_studies/Ampere_study.html"><strong aria-hidden="true">8.1.</strong> Ampere study</a></li><li class="chapter-item expanded "><a href="case_studies/Google_study.html"><strong aria-hidden="true">8.2.</strong> Google study</a></li><li class="chapter-item expanded "><a href="case_studies/TiogaPass.html"><strong aria-hidden="true">8.3.</strong> OCP TiogaPass</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">9.</strong> Frequently Asked Questions</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -2686,7 +2686,63 @@ implementations are.</li>
 <li><em><strong>userland/userspace</strong></em>: A set of programs and libraries that are used to
 interact with the kernel.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="naming"><a class="header" href="#naming">Naming</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="history"><a class="header" href="#history">History</a></h1>
+<h2 id="bios-1"><a class="header" href="#bios-1">BIOS</a></h2>
+<p><a href="https://en.wikipedia.org/wiki/BIOS">BIOS</a> is the good old, inscrutable way of
+initializing a hardware platform in the pre-UEFI days. It's a binary blob with
+no standardized structure, that is responsible for initializing CPU and memory,
+and jumping to a hard-coded position on the MBR of the first disk drive.</p>
+<p>Starting around 2000, BIOS has been largely replaced by the standardized
+<a href="https://en.wikipedia.org/wiki/UEFI">UEFI</a>.
+Many UEFI implementations still offer a BIOS compatibility mode called CSM
+(Compatibility Support Module), which makes it behave like an old BIOS.</p>
+<p>Note that the term "BIOS" is sometimes misused to refer to the general concept
+of <em>system firmware</em>, such as UEFI or even LinuxBoot. However, as "BIOS" refers
+to firmware with specific functionality, UEFI is definitely <em>not</em> a BIOS, nor is
+LinuxBoot a BIOS in the original sense.</p>
+<h2 id="linuxbios"><a class="header" href="#linuxbios">LinuxBIOS</a></h2>
+<p>The <a href="https://web.archive.org/web/20070430170020/http://www.linuxbios.org/Welcome_to_LinuxBIOS">LinuxBIOS</a>
+project was created in 1999 by Ron Minnich, Stefan Reinauer and others. It is
+not much younger than UEFI, but they were already experimenting the idea of
+running Linux as firmware. Like many great ideas, it was way ahead of its time.
+At that time Linux was not mature enough to be used in a hardware initialization
+project, and while LinuxBIOS was successful in several
+performance-and-reliability critical environments, it didn't see mass adoption.</p>
+<p>In 2008 LinuxBIOS became <a href="https://www.coreboot.org/">coreboot</a>.</p>
+<h2 id="linuxboot"><a class="header" href="#linuxboot">LinuxBoot</a></h2>
+<h3 id="nerf"><a class="header" href="#nerf">NERF</a></h3>
+<p>This is the original name for the stripped UEFI, plus Linux, plus u-root. The
+name stands for Non-Extensible Reduced Firmware, as opposed to UEFI's Unified
+Extensible Firmware Interface. Basically, saying that NERF is an UEFI
+replacement that prefers to be more compact, less extensible, and a bit more
+opinionated. While extensibility is nice and often desirable, too much
+extensibility and too many "yes" can make a complex project very hard to
+maintain and keep secure.</p>
+<p>NERF was created by Ron Minnich while at Google in 2017. The project grew and
+was maintained by Google's "NERF team".</p>
+<p>NERF eventually became the <a href="https://github.com/linuxboot/linuxboot/">linuxboot</a>
+build system.</p>
+<h3 id="heads"><a class="header" href="#heads">Heads</a></h3>
+<p><a href="https://github.com/linuxboot/heads">Heads</a> is an open source firmware for
+laptops and servers created by  Trammell Hudson (a.k.a. osreasrch), aimed at
+strong platform security. It is currently maintained by Thierry Laurion.</p>
+<h2 id="open-platform-firmware"><a class="header" href="#open-platform-firmware">Open Platform Firmware</a></h2>
+<p><a href="https://www.opencompute.org/projects/open-system-firmware">Open Platform
+Firmware</a> (OPF),
+formerly Open System Firmware (OSF), is an official subproject of the <a href="https://www.opencompute.org">Open
+Compute Project</a> (OCP). OPF has been developed in
+the open, by various members of OCP that were interested in having open source
+system firmware. OPF defines a set of guidelines with contributions from
+Microsoft, Google, Facebook, Intel, 9elements, Two Sigma, and several other
+companies.</p>
+<p>The important thing to keep in mind is that <strong>Open Platform Firmware is a project
+name</strong>, not an implementation, nor an idea. An implementation (like LinuxBoot
+or OpenEDK2) can be OPF-compliant if it follows the aforementioned guidelines.</p>
+<p>Currently, Open Platform Firmware has two work streams:</p>
+<ul>
+<li>LinuxBoot, led by Google, Facebook, 9elements, ITRenew, TwoSigma, and others</li>
+<li>OpenEDK II, led by Microsoft and Intel</li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="case-studies"><a class="header" href="#case-studies">Case Studies</a></h1>
 <p>This chapter contains case studies for various solutions.</p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
