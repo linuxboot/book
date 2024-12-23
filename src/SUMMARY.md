@@ -9,7 +9,7 @@
 - [Implementing LinuxBoot](implementation.md)
   - [LinuxBoot using coreboot, u-root and systemboot](coreboot.u-root.systemboot/index.md)
 - [Glossary](glossary.md)
-- [Naming](naming.md)
+- [History](history.md)
 - [Case Studies](case_studies/index.md)
   - [Ampere study](case_studies/Ampere_study.md)
   - [Google study](case_studies/Google_study.md)
