@@ -1,5 +1,6 @@
 - [LinuxBoot Introduction](intro.md)
   - [Getting Started](getting_started.md)
+  - [Talks and news coverage](talks-news.md)
 - [LinuxBoot Components](components.md)
 - [All about u-root](u-root.md)
 - [LinuxBoot utilities](utilities/index.md)
