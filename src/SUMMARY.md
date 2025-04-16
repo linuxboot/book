@@ -1,4 +1,5 @@
 - [LinuxBoot Introduction](intro.md)
+  - [Use cases](use-cases.md)
   - [Talks and news coverage](talks-news.md)
 - [LinuxBoot Components](components.md)
 - [All about u-root](u-root.md)
