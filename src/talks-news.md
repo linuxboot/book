@@ -45,6 +45,8 @@
   ([video](https://video.fosdem.org/2019/K.4.401/open_source_firmware_at_facebook.mp4))
   ([slides](https://insomniac.slackware.it/static/2019_fosdem_linuxboot_at_facebook.pdf))
   (2019-02-03)
+* [Kexec Evolutions for LinuxBoot](https://www.osfc.io/2022/talks/kexec-evolutions-for-linuxboot/)
+  by David Hu at OSFC 2021
 * [No more boot loader: Please use the kernel instead](https://pretalx.com/devconf-cz-2024/talk/W3AVCT/)
   at 2024 DevConf
 
