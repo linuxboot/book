@@ -54,6 +54,12 @@ build system.
 laptops and servers created by  Trammell Hudson (a.k.a. osreasrch), aimed at
 strong platform security. It is currently maintained by Thierry Laurion.
 
+### See also
+
+* [osresearch.net](https://osresearch.net/)
+* [trmm.net/NERF](https://trmm.net/NERF/)
+* [NERF-Projekt statt UEFI](https://www.golem.de/news/freie-linux-firmware-google-will-server-ohne-intel-me-und-uefi-1710-130840-2.html)
+
 ## Open Platform Firmware
 
 [Open Platform
