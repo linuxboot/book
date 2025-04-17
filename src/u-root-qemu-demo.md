@@ -1,4 +1,4 @@
-# Getting Started
+# u-root demo with QEMU
 
 You can try out LinuxBoot without needing to build anything! You can try out LinuxBoot
 needing only 3 commands.
