@@ -10,6 +10,7 @@ shame_list=(
     [./src/intro.md]=1
     [./src/naming.md]=1
     [./src/SUMMARY.md]=1
+    [./src/talks-news.md]=1
     [./src/u-root.md]=1
     [./src/utilities/cpu.md]=1
     [./src/utilities/dut.md]=1
