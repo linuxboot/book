@@ -2,24 +2,13 @@
 
 ## Talks
 
-* [Trammell Hudson's LinuxBoot talk at 34c3](https://trmm.net/LinuxBoot_34c3)
-  (2017-12-29)
-* [Bringing Linux back to server boot ROMs with NERF and
-  Heads](https://media.ccc.de/v/34c3-9056-bringing_linux_back_to_server_boot_roms_with_nerf_and_heads)
-  at the 2017 CCC
-* Ron Minnich's talk "Replace your exploit-ridden firmware with a Linux kernel"
-  ([video](https://www.youtube.com/watch?v=iffTJ1vPCSo),
-  [slides](https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf))
-  (2017-10-27)
-* [Trammell Hudson's Heads talk at 33c3](https://trmm.net/Heads_33c3)
-  (2016-12-27)
-* [Open Source Firmware @ Facebook](https://osfc.io/talks/open-source-firmware-facebook)
-  by [David Hendricks](https://github.com/dhendrix) and
-  [Andrea Barberio](https://github.com/insomniacslk) at [OSFC Open Source Firmware
-  Conference](https://osfc.io)
-  ([slides](https://insomniac.slackware.it/static/2018_osfc_linuxboot_at_facebook.pdf),
-  [video](https://www.youtube.com/watch?v=eKVSBESoKUc))
-  (2018-09-1)
+| Date | Presenter | Title |
+|------|-----------|-------|
+| 12/27/2016 | Trammell Hudson | [Bootstraping a slightly more secure laptop](https://trmm.net/Heads_33c3)
+| 10/27/2017 | Ron Minnich | Replace your exploit-ridden firmware with a Linux kernel ([YouTube](https://www.youtube.com/watch?v=iffTJ1vPCSo), [slides](https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf))
+| 12/29/2017 | Trammell Hudson | [Bringing Linux back to the server BIOS with LinuxBoot](https://trmm.net/LinuxBoot_34c3)
+| 09/13/2018 | Andrea Barberio, David Hendricks | [Open Source Firmware @ Facebook](https://www.osfc.io/2018/talks/open-source-firmware-facebook/)
+
 * [Turning Linux Engineers into Firmware
   Engineers](https://2018ocpregionalsummit.sched.com/event/F8ax/turning-linux-engineers-into-firmware-engineers)
   by [David Hendricks](https://github.com/dhendrix) and
