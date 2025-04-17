@@ -6,7 +6,6 @@ shame_list=(
     [./src/components.md]=1
     [./src/coreboot.u-root.systemboot/index.md]=1
     [./src/faq.md]=1
-    [./src/getting_started.md]=1
     [./src/implementation.md]=1
     [./src/intro.md]=1
     [./src/naming.md]=1
