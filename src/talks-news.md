@@ -4,6 +4,9 @@
 
 * [Trammell Hudson's LinuxBoot talk at 34c3](https://trmm.net/LinuxBoot_34c3)
   (2017-12-29)
+* [Bringing Linux back to server boot ROMs with NERF and
+  Heads](https://media.ccc.de/v/34c3-9056-bringing_linux_back_to_server_boot_roms_with_nerf_and_heads)
+  at the 2017 CCC
 * Ron Minnich's talk "Replace your exploit-ridden firmware with a Linux kernel"
   ([video](https://www.youtube.com/watch?v=iffTJ1vPCSo),
   [slides](https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf))
@@ -42,6 +45,8 @@
   ([video](https://video.fosdem.org/2019/K.4.401/open_source_firmware_at_facebook.mp4))
   ([slides](https://insomniac.slackware.it/static/2019_fosdem_linuxboot_at_facebook.pdf))
   (2019-02-03)
+* [No more boot loader: Please use the kernel instead](https://pretalx.com/devconf-cz-2024/talk/W3AVCT/)
+  at 2024 DevConf
 
 ## News
 
