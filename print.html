@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> LinuxBoot Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="getting_started.html"><strong aria-hidden="true">1.1.</strong> Getting Started</a></li><li class="chapter-item expanded "><a href="talks-news.html"><strong aria-hidden="true">1.2.</strong> Talks and news coverage</a></li></ol></li><li class="chapter-item expanded "><a href="components.html"><strong aria-hidden="true">2.</strong> LinuxBoot Components</a></li><li class="chapter-item expanded "><a href="u-root.html"><strong aria-hidden="true">3.</strong> All about u-root</a></li><li class="chapter-item expanded "><a href="utilities/index.html"><strong aria-hidden="true">4.</strong> LinuxBoot utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="utilities/UEFI_Tool_Kit.html"><strong aria-hidden="true">4.1.</strong> UEFI Tool Kit</a></li><li class="chapter-item expanded "><a href="utilities/cpu.html"><strong aria-hidden="true">4.2.</strong> The magical cpu command</a></li><li class="chapter-item expanded "><a href="utilities/dut.html"><strong aria-hidden="true">4.3.</strong> Device Under Test</a></li></ol></li><li class="chapter-item expanded "><a href="implementation.html"><strong aria-hidden="true">5.</strong> Implementing LinuxBoot</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="coreboot.u-root.systemboot/index.html"><strong aria-hidden="true">5.1.</strong> LinuxBoot using coreboot, u-root and systemboot</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="history.html"><strong aria-hidden="true">7.</strong> History</a></li><li class="chapter-item expanded "><a href="case_studies/index.html"><strong aria-hidden="true">8.</strong> Case Studies</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="case_studies/Ampere_study.html"><strong aria-hidden="true">8.1.</strong> Ampere study</a></li><li class="chapter-item expanded "><a href="case_studies/Google_study.html"><strong aria-hidden="true">8.2.</strong> Google study</a></li><li class="chapter-item expanded "><a href="case_studies/TiogaPass.html"><strong aria-hidden="true">8.3.</strong> OCP TiogaPass</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">9.</strong> Frequently Asked Questions</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> LinuxBoot Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="talks-news.html"><strong aria-hidden="true">1.1.</strong> Talks and news coverage</a></li></ol></li><li class="chapter-item expanded "><a href="components.html"><strong aria-hidden="true">2.</strong> LinuxBoot Components</a></li><li class="chapter-item expanded "><a href="u-root.html"><strong aria-hidden="true">3.</strong> All about u-root</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="u-root-qemu-demo.html"><strong aria-hidden="true">3.1.</strong> u-root demo with QEMU</a></li></ol></li><li class="chapter-item expanded "><a href="utilities/index.html"><strong aria-hidden="true">4.</strong> LinuxBoot utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="utilities/UEFI_Tool_Kit.html"><strong aria-hidden="true">4.1.</strong> UEFI Tool Kit</a></li><li class="chapter-item expanded "><a href="utilities/cpu.html"><strong aria-hidden="true">4.2.</strong> The magical cpu command</a></li><li class="chapter-item expanded "><a href="utilities/dut.html"><strong aria-hidden="true">4.3.</strong> Device Under Test</a></li></ol></li><li class="chapter-item expanded "><a href="implementation.html"><strong aria-hidden="true">5.</strong> Implementing LinuxBoot</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="coreboot.u-root.systemboot/index.html"><strong aria-hidden="true">5.1.</strong> LinuxBoot using coreboot, u-root and systemboot</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="history.html"><strong aria-hidden="true">7.</strong> History</a></li><li class="chapter-item expanded "><a href="case_studies/index.html"><strong aria-hidden="true">8.</strong> Case Studies</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="case_studies/Ampere_study.html"><strong aria-hidden="true">8.1.</strong> Ampere study</a></li><li class="chapter-item expanded "><a href="case_studies/Google_study.html"><strong aria-hidden="true">8.2.</strong> Google study</a></li><li class="chapter-item expanded "><a href="case_studies/TiogaPass.html"><strong aria-hidden="true">8.3.</strong> OCP TiogaPass</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">9.</strong> Frequently Asked Questions</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -366,66 +366,16 @@ such as running automated test on each submitted change</li>
 </ul>
 </li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h1>
-<p>You can try out LinuxBoot without needing to build anything! You can try out LinuxBoot
-needing only 3 commands.</p>
-<p>We have made Initial Ram File System (initramfs) images available for four architectures:
-arm, aarch64, amd64 (a.k.a. x86_64), and riscv64.</p>
-<p>For now, we only have a kernel ready for x86_64, so the instructions below apply to that.</p>
-<p>First, you can get the initramfs image, which mainly contains Go programs from the u-root project.</p>
-<pre><code>curl -L -o u-root.cpio.xz https://github.com/linuxboot/u-root-builder/releases/download/v0.0.1/u-root_amd64_all.cpio.xz
-</code></pre>
-<p>Next, you will need to get a kernel. We use a pre-built kernel from Arch Linux.</p>
-<pre><code>curl -L -o linux.tar.zst https://archlinux.org/packages/core/x86_64/linux/download/
-tar -xf linux.tar.zst
-</code></pre>
-<p>Now you are ready to test LinuxBoot out.</p>
-<pre><code>qemu-system-x86_64 -enable-kvm -machine q35 -nographic -append "console=ttyS0" \
-  -kernel usr/lib/modules/*/vmlinuz -initrd u-root.cpio.xz
-</code></pre>
-<p>Or, for example, on Darwin:</p>
-<pre><code>qemu-system-x86_64 -machine q35 -nographic -append "console=ttyS0" \
-  -kernel usr/lib/modules/*/vmlinuz -initrd u-root.cpio.xz
-</code></pre>
-<p>You will see the following:</p>
-<pre><code>[... varying message or two depending on qemu version and OS]
-2023/12/12 22:37:52 Welcome to u-root!
-                              _
-   _   _      _ __ ___   ___ | |_
-  | | | |____| '__/ _ \ / _ \| __|
-  | |_| |____| | | (_) | (_) | |_
-   \__,_|    |_|  \___/ \___/ \__|
-
-/#
-</code></pre>
-<p>You can type uname:</p>
-<pre><code>/# uname
-Linux
-/#
-</code></pre>
-<p>To exit qemu, just run the poweroff command:</p>
-<pre><code>/# poweroff
-[   14.442914] reboot: Power down
-</code></pre>
-<p>You have just run your first LinuxBoot kernel.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="coverage"><a class="header" href="#coverage">Coverage</a></h1>
 <h2 id="talks"><a class="header" href="#talks">Talks</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Date</th><th>Presenter</th><th>Title</th></tr></thead><tbody>
+<tr><td>12/27/2016</td><td>Trammell Hudson</td><td><a href="https://trmm.net/Heads_33c3">Bootstraping a slightly more secure laptop</a></td></tr>
+<tr><td>10/27/2017</td><td>Ron Minnich</td><td>Replace your exploit-ridden firmware with a Linux kernel (<a href="https://www.youtube.com/watch?v=iffTJ1vPCSo">YouTube</a>, <a href="https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf">slides</a>)</td></tr>
+<tr><td>12/29/2017</td><td>Trammell Hudson</td><td><a href="https://trmm.net/LinuxBoot_34c3">Bringing Linux back to the server BIOS with LinuxBoot</a></td></tr>
+<tr><td>09/13/2018</td><td>Andrea Barberio, David Hendricks</td><td><a href="https://www.osfc.io/2018/talks/open-source-firmware-facebook/">Open Source Firmware @ Facebook</a></td></tr>
+</tbody></table>
+</div>
 <ul>
-<li><a href="https://trmm.net/LinuxBoot_34c3">Trammell Hudson's LinuxBoot talk at 34c3</a>
-(2017-12-29)</li>
-<li>Ron Minnich's talk "Replace your exploit-ridden firmware with a Linux kernel"
-(<a href="https://www.youtube.com/watch?v=iffTJ1vPCSo">video</a>,
-<a href="https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf">slides</a>)
-(2017-10-27)</li>
-<li><a href="https://trmm.net/Heads_33c3">Trammell Hudson's Heads talk at 33c3</a>
-(2016-12-27)</li>
-<li><a href="https://osfc.io/talks/open-source-firmware-facebook">Open Source Firmware @ Facebook</a>
-by <a href="https://github.com/dhendrix">David Hendricks</a> and
-<a href="https://github.com/insomniacslk">Andrea Barberio</a> at <a href="https://osfc.io">OSFC Open Source Firmware
-Conference</a>
-(<a href="https://insomniac.slackware.it/static/2018_osfc_linuxboot_at_facebook.pdf">slides</a>,
-<a href="https://www.youtube.com/watch?v=eKVSBESoKUc">video</a>)
-(2018-09-1)</li>
 <li><a href="https://2018ocpregionalsummit.sched.com/event/F8ax/turning-linux-engineers-into-firmware-engineers">Turning Linux Engineers into Firmware
 Engineers</a>
 by <a href="https://github.com/dhendrix">David Hendricks</a> and
@@ -451,6 +401,10 @@ at <a href="https://fosdem.org/2019/">FOSDEM 2019</a>
 (<a href="https://video.fosdem.org/2019/K.4.401/open_source_firmware_at_facebook.mp4">video</a>)
 (<a href="https://insomniac.slackware.it/static/2019_fosdem_linuxboot_at_facebook.pdf">slides</a>)
 (2019-02-03)</li>
+<li><a href="https://www.osfc.io/2022/talks/kexec-evolutions-for-linuxboot/">Kexec Evolutions for LinuxBoot</a>
+by David Hu at OSFC 2021</li>
+<li><a href="https://pretalx.com/devconf-cz-2024/talk/W3AVCT/">No more boot loader: Please use the kernel instead</a>
+at 2024 DevConf</li>
 </ul>
 <h2 id="news"><a class="header" href="#news">News</a></h2>
 <ul>
@@ -1115,6 +1069,50 @@ Seventh International Conference on (2004), IEEE, pp. 454–461.</p>
 <p>WINTERBOTTOM, P. Alef language reference manual. Plan 9 Programmer’s Man
 (1995).</p>
 </div>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="u-root-demo-with-qemu"><a class="header" href="#u-root-demo-with-qemu">u-root demo with QEMU</a></h1>
+<p>You can try out LinuxBoot without needing to build anything! You can try out
+LinuxBoot needing only 3 commands.</p>
+<p>We have made Initial Ram File System (initramfs) images available for four
+architectures: arm, aarch64, amd64 (a.k.a. x86_64), and riscv64.</p>
+<p>For now, we only have a kernel ready for x86_64, so the instructions below
+apply to that.</p>
+<p>First, you can get the initramfs image, which mainly contains Go programs from
+the u-root project.</p>
+<pre><code class="language-bash">curl -L -o u-root.cpio.xz https://github.com/linuxboot/u-root-builder/releases/download/v0.0.1/u-root_amd64_all.cpio.xz
+</code></pre>
+<p>Next, you will need to get a kernel. We use a pre-built kernel from Arch Linux.</p>
+<pre><code class="language-bash">curl -L -o linux.tar.zst https://archlinux.org/packages/core/x86_64/linux/download/
+tar -xf linux.tar.zst
+</code></pre>
+<p>Now you are ready to test LinuxBoot out.</p>
+<pre><code class="language-bash">qemu-system-x86_64 -enable-kvm -machine q35 -nographic -append "console=ttyS0" \
+  -kernel usr/lib/modules/*/vmlinuz -initrd u-root.cpio.xz
+</code></pre>
+<p>Or, for example, on Darwin:</p>
+<pre><code class="language-bash">qemu-system-x86_64 -machine q35 -nographic -append "console=ttyS0" \
+  -kernel usr/lib/modules/*/vmlinuz -initrd u-root.cpio.xz
+</code></pre>
+<p>You will see the following:</p>
+<pre><code class="language-text">[... varying message or two depending on qemu version and OS]
+2023/12/12 22:37:52 Welcome to u-root!
+                              _
+   _   _      _ __ ___   ___ | |_
+  | | | |____| '__/ _ \ / _ \| __|
+  | |_| |____| | | (_) | (_) | |_
+   \__,_|    |_|  \___/ \___/ \__|
+
+/#
+</code></pre>
+<p>You can type uname:</p>
+<pre><code class="language-text">/# uname
+Linux
+/#
+</code></pre>
+<p>To exit qemu, just run the poweroff command:</p>
+<pre><code class="language-text">/# poweroff
+[   14.442914] reboot: Power down
+</code></pre>
+<p>You have just run your first LinuxBoot kernel.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="linuxboot-utilities"><a class="header" href="#linuxboot-utilities">LinuxBoot Utilities</a></h1>
 <p>In order to bootstrap, build and maintain LinuxBoot projects, we provide a
 handful of utilities for extracting, reducing, reworking, and stitching firmware
@@ -2784,6 +2782,12 @@ build system.</p>
 <p><a href="https://github.com/linuxboot/heads">Heads</a> is an open source firmware for
 laptops and servers created by  Trammell Hudson (a.k.a. osreasrch), aimed at
 strong platform security. It is currently maintained by Thierry Laurion.</p>
+<h3 id="see-also"><a class="header" href="#see-also">See also</a></h3>
+<ul>
+<li><a href="https://osresearch.net/">osresearch.net</a></li>
+<li><a href="https://trmm.net/NERF/">trmm.net/NERF</a></li>
+<li><a href="https://www.golem.de/news/freie-linux-firmware-google-will-server-ohne-intel-me-und-uefi-1710-130840-2.html">NERF-Projekt statt UEFI</a></li>
+</ul>
 <h2 id="open-platform-firmware"><a class="header" href="#open-platform-firmware">Open Platform Firmware</a></h2>
 <p><a href="https://www.opencompute.org/projects/open-system-firmware">Open Platform
 Firmware</a> (OPF),
@@ -3037,7 +3041,7 @@ initialization process and minimizing redundant operations during the handoff.</
 would enhance debugging and system management.  These tools could provide
 deeper insights into system performance and potential issues, improving
 reliability and maintainability.</p>
-<h2 id="see-also"><a class="header" href="#see-also">See Also</a></h2>
+<h2 id="see-also-1"><a class="header" href="#see-also-1">See Also</a></h2>
 <ul>
 <li><a href="https://amperecomputing.com/blogs/linuxboot-on-ampere-platforms--a-new-old-approach-to-firmware">LinuxBoot on Ampere Platforms: A new (old) approach to
 firmware</a></li>
