@@ -35,11 +35,12 @@
 
 ## News
 
-* [LWN.net: LinuxBoot: Linux as firmware](https://lwn.net/Articles/748586/)
-  (2018-03-08)
-* [Linux Journal: FOSS Project Spotlight: LinuxBoot](https://www.linuxjournal.com/content/foss-project-spotlight-linuxboot/)
-  (2018-02-15)
-* [Linux Foundation: System Statup gets a Boost with new LinuxBoot project](https://www.linuxfoundation.org/blog/system-startup-gets-a-boost-with-new-linuxboot-project/)
-  (2018-01-25)
-* [Facebook's LinuxBoot-powered F-16 high-performance fabric network](https://code.fb.com/data-center-engineering/f16-minipack/)
-  (2019-03-14)
+| Date | Website | Title |
+|------|---------|-------|
+| 01/25/2018 | Linux Foundation | [System Statup gets a Boost with new LinuxBoot project](https://www.linuxfoundation.org/blog/system-startup-gets-a-boost-with-new-linuxboot-project/) |
+| 02/15/2018 | Linux Journal | [Linux Journal: FOSS Project Spotlight: LinuxBoot](https://www.linuxjournal.com/content/foss-project-spotlight-linuxboot/) |
+| 03/08/2018 | LWN | [LWN.net: LinuxBoot: Linux as firmware](https://lwn.net/Articles/748586/) |
+| 06/21/2018 | Phoronix | [Equus WHITEBOX OPEN: A Line Of Coreboot/LinuxBoot-Ready Xeon Scalable Servers](https://www.phoronix.com/news/Equus-WHITEBOX-OPEN) |
+| 02/06/2019 | Phoronix | [At Just Over One Year Old, LinuxBoot Continues Making Inroads At Facebook & Elsewhere](https://www.phoronix.com/news/LinuxBoot-2019) |
+| 03/14/2019 | Facebook | [Facebook's LinuxBoot-powered F-16 high-performance fabric network](https://code.fb.com/data-center-engineering/f16-minipack/) |
+| 03/10/2023 | Phoronix | [Lenovo Begins Supporting LinuxBoot Firmware With ByteDance](https://www.phoronix.com/news/Lenovo-LinuxBoot-ByteDance) |
