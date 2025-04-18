@@ -9,6 +9,7 @@
 | 12/29/2017 | Trammell Hudson | [Bringing Linux back to the server BIOS with LinuxBoot](https://trmm.net/LinuxBoot_34c3) |
 | 09/13/2018 | Andrea Barberio, David Hendricks | [Open Source Firmware @ Facebook](https://www.osfc.io/2018/talks/open-source-firmware-facebook/) |
 | 10/02/2018 | Andrea Barberio, David Hendricks | [Turning Linux Engineers into Firmware Engineers](https://2018ocpregionalsummit.sched.com/event/F8ax/turning-linux-engineers-into-firmware-engineers) ([slides](https://insomniac.slackware.it/static/2018_ocp_regional_summit_linuxboot_at_facebook.pdf), [YouTube](https://www.youtube.com/watch?v=i84df1z6mdI)) |
+| 06/15/2024 | Marta Lewandowska | [No more boot loader: Please use the kernel instead](https://pretalx.com/devconf-cz-2024/talk/W3AVCT/) |
 
 * [Make Your System Firmware Faster, More Flexible and Reliable with LinuxBoot](https://www.usenix.org/conference/lisa18/presentation/barberio)
   by [David Hendricks](https://github.com/dhendrix) and
@@ -44,3 +45,4 @@
 | 02/06/2019 | Phoronix | [At Just Over One Year Old, LinuxBoot Continues Making Inroads At Facebook & Elsewhere](https://www.phoronix.com/news/LinuxBoot-2019) |
 | 03/14/2019 | Facebook | [Facebook's LinuxBoot-powered F-16 high-performance fabric network](https://code.fb.com/data-center-engineering/f16-minipack/) |
 | 03/10/2023 | Phoronix | [Lenovo Begins Supporting LinuxBoot Firmware With ByteDance](https://www.phoronix.com/news/Lenovo-LinuxBoot-ByteDance) |
+| 07/08/2024 | LWN | [Giving bootloaders the boot with nmbl](https://lwn.net/Articles/979789) |

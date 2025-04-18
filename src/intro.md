@@ -34,7 +34,6 @@ There are several other active projects based on the same idea:
 - [k-boot](https://github.com/BayLibre/k-boot) developed by BayLibre in 2023
   using BusyBox
 - [nmbl](https://github.com/rhboot/nmbl-poc) developed by RedHat in 2024
-    - [Giving bootloaders the boot with nmbl](https://lwn.net/Articles/979789)
 
 And there is a long history of similar implementations including projects that
 are no longer maintained:
