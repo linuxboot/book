@@ -8,14 +8,8 @@
 | 10/27/2017 | Ron Minnich | Replace your exploit-ridden firmware with a Linux kernel ([YouTube](https://www.youtube.com/watch?v=iffTJ1vPCSo), [slides](https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf)) |
 | 12/29/2017 | Trammell Hudson | [Bringing Linux back to the server BIOS with LinuxBoot](https://trmm.net/LinuxBoot_34c3) |
 | 09/13/2018 | Andrea Barberio, David Hendricks | [Open Source Firmware @ Facebook](https://www.osfc.io/2018/talks/open-source-firmware-facebook/) |
+| 10/02/2018 | Andrea Barberio, David Hendricks | [Turning Linux Engineers into Firmware Engineers](https://2018ocpregionalsummit.sched.com/event/F8ax/turning-linux-engineers-into-firmware-engineers) ([slides](https://insomniac.slackware.it/static/2018_ocp_regional_summit_linuxboot_at_facebook.pdf), [YouTube](https://www.youtube.com/watch?v=i84df1z6mdI)) |
 
-* [Turning Linux Engineers into Firmware
-  Engineers](https://2018ocpregionalsummit.sched.com/event/F8ax/turning-linux-engineers-into-firmware-engineers)
-  by [David Hendricks](https://github.com/dhendrix) and
-  [Andrea Barberio](https://github.com/insomniacslk) at
-  [OCP Regional Summit](https://www.opencompute.org/summit/regional-summit-2018)
-  ([slides](https://insomniac.slackware.it/static/2018_ocp_regional_summit_linuxboot_at_facebook.pdf),
-  [video](https://www.youtube.com/watch?v=i84df1z6mdI)) (2018-10-02)
 * [Make Your System Firmware Faster, More Flexible and Reliable with LinuxBoot](https://www.usenix.org/conference/lisa18/presentation/barberio)
   by [David Hendricks](https://github.com/dhendrix) and
   [Andrea Barberio](https://github.com/insomniacslk) at
