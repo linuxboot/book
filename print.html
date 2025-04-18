@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> LinuxBoot Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="talks-news.html"><strong aria-hidden="true">1.1.</strong> Talks and news coverage</a></li></ol></li><li class="chapter-item expanded "><a href="components.html"><strong aria-hidden="true">2.</strong> LinuxBoot Components</a></li><li class="chapter-item expanded "><a href="u-root.html"><strong aria-hidden="true">3.</strong> All about u-root</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="u-root-qemu-demo.html"><strong aria-hidden="true">3.1.</strong> u-root demo with QEMU</a></li></ol></li><li class="chapter-item expanded "><a href="utilities/index.html"><strong aria-hidden="true">4.</strong> LinuxBoot utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="utilities/UEFI_Tool_Kit.html"><strong aria-hidden="true">4.1.</strong> UEFI Tool Kit</a></li><li class="chapter-item expanded "><a href="utilities/cpu.html"><strong aria-hidden="true">4.2.</strong> The magical cpu command</a></li><li class="chapter-item expanded "><a href="utilities/dut.html"><strong aria-hidden="true">4.3.</strong> Device Under Test</a></li></ol></li><li class="chapter-item expanded "><a href="implementation.html"><strong aria-hidden="true">5.</strong> Implementing LinuxBoot</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="coreboot.u-root.systemboot/index.html"><strong aria-hidden="true">5.1.</strong> LinuxBoot using coreboot, u-root and systemboot</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="history.html"><strong aria-hidden="true">7.</strong> History</a></li><li class="chapter-item expanded "><a href="case_studies/index.html"><strong aria-hidden="true">8.</strong> Case Studies</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="case_studies/Ampere_study.html"><strong aria-hidden="true">8.1.</strong> Ampere study</a></li><li class="chapter-item expanded "><a href="case_studies/Google_study.html"><strong aria-hidden="true">8.2.</strong> Google study</a></li><li class="chapter-item expanded "><a href="case_studies/TiogaPass.html"><strong aria-hidden="true">8.3.</strong> OCP TiogaPass</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">9.</strong> Frequently Asked Questions</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> LinuxBoot Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="use-cases.html"><strong aria-hidden="true">1.1.</strong> Use cases</a></li><li class="chapter-item expanded "><a href="talks-news.html"><strong aria-hidden="true">1.2.</strong> Talks and news coverage</a></li></ol></li><li class="chapter-item expanded "><a href="components.html"><strong aria-hidden="true">2.</strong> LinuxBoot Components</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tools-evaluation.html"><strong aria-hidden="true">2.1.</strong> Evaluation of tools</a></li></ol></li><li class="chapter-item expanded "><a href="u-root.html"><strong aria-hidden="true">3.</strong> All about u-root</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="u-root-qemu-demo.html"><strong aria-hidden="true">3.1.</strong> u-root demo with QEMU</a></li></ol></li><li class="chapter-item expanded "><a href="utilities/index.html"><strong aria-hidden="true">4.</strong> LinuxBoot utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="utilities/UEFI_Tool_Kit.html"><strong aria-hidden="true">4.1.</strong> UEFI Tool Kit</a></li><li class="chapter-item expanded "><a href="utilities/cpu.html"><strong aria-hidden="true">4.2.</strong> The magical cpu command</a></li><li class="chapter-item expanded "><a href="utilities/dut.html"><strong aria-hidden="true">4.3.</strong> Device Under Test</a></li></ol></li><li class="chapter-item expanded "><a href="implementation.html"><strong aria-hidden="true">5.</strong> Implementing LinuxBoot</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="coreboot.u-root.systemboot/index.html"><strong aria-hidden="true">5.1.</strong> LinuxBoot using coreboot, u-root and systemboot</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="history.html"><strong aria-hidden="true">7.</strong> History</a></li><li class="chapter-item expanded "><a href="case_studies/index.html"><strong aria-hidden="true">8.</strong> Case Studies</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="case_studies/Ampere_study.html"><strong aria-hidden="true">8.1.</strong> Ampere study</a></li><li class="chapter-item expanded "><a href="case_studies/Google_study.html"><strong aria-hidden="true">8.2.</strong> Google study</a></li><li class="chapter-item expanded "><a href="case_studies/TiogaPass.html"><strong aria-hidden="true">8.3.</strong> OCP TiogaPass</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">9.</strong> Frequently Asked Questions</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -366,6 +366,51 @@ such as running automated test on each submitted change</li>
 </ul>
 </li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="use-cases"><a class="header" href="#use-cases">Use cases</a></h1>
+<p>The general concept of using a Linux kernel to boot into an operating system
+sounds simple at first glance. The challenges in the details, in part not only
+limited to using Linux, are being discussed in this chapter, with ideas on
+solving specific problems in the domain of bootloaders.</p>
+<h2 id="constrained-environments"><a class="header" href="#constrained-environments">Constrained environments</a></h2>
+<p>Booting a system means dealing with constraints. Those can have either of two
+effects: spark creativity or keep you from pursuing a goal. On foot, you can
+only reach as far in a day, whereas a vehicle gets you much further. With
+LinuxBoot, we want to take the chance to reevaluate contemporary designs and go
+beyond.</p>
+<p>When it comes to hardware, the vendor would choose the parts for their product
+and consider them in their price calculation.</p>
+<p>One main constraint is the initial boot source. A System-on-Chip (SoC) typically
+starts off with a mask ROM and continues with a simple storage part, which may
+range from a SPI flash of a few megabytes up to eMMC or SD cards of hundreds of
+megabytes or even gigabytes.</p>
+<p>We neglect other storages here that are attached via NVMe, SATA or other
+high-speed buses, because those are commonly not supported by mask ROMs. They
+are, on the other hand, what a bootloader offers to boot from, as well as
+network sources.</p>
+<h2 id="embedded-devices"><a class="header" href="#embedded-devices">Embedded devices</a></h2>
+<p>Many devices, nowadays known as IoT (Internet of Things), appliances, or
+similar, have a narrow use case. They are meant to perform a specific set of
+tasks, and thus can be tailored for it. In hardware terms, that often means an
+SoC, a bit of storage, and peripherals. Debug interfaces are reduced or removed
+for the final product.</p>
+<h2 id="desktop-laptop-workstation-and-server-systems"><a class="header" href="#desktop-laptop-workstation-and-server-systems">Desktop, laptop, workstation and server systems</a></h2>
+<p>At this point, many systems are still based on x86 processors, coming with a SPI
+flash on the board. While laptops and desktops mostly have a mere 16 or 32
+megabytes to offer, high-end servers and workstations already have 64, and even
+a second whole system called the Board Management Controller (BMC), which has
+its own firmware and corresponding storage. Designs around those constraints
+vary among OEMs.</p>
+<p>Note that it need not be that way. Arm based, RISC-V based and other systems
+already show that you can expect more, such as booting off eMMC. Laptops and
+desktop boards in that range are available as of now, even some servers and
+workstations.</p>
+<h2 id="single-board-computers-sbcs"><a class="header" href="#single-board-computers-sbcs">Single Board Computers (SBCs)</a></h2>
+<p>The SBC market has grown to such a degree that credit card size boards nowadays
+comes with both small storage parts that can act as boot sources as well as PCIe
+connectors that can hold NVMes of gigabytes and terabytes of storage. This gives
+us the opportunity to work out a boot flow that provides the end user with a
+very rich environment already early on before the main operating system is
+loaded.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="coverage"><a class="header" href="#coverage">Coverage</a></h1>
 <h2 id="talks"><a class="header" href="#talks">Talks</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Date</th><th>Presenter</th><th>Title</th></tr></thead><tbody>
@@ -471,7 +516,35 @@ with different internal boot-related components, and kexec the next kernel.</p>
 <p>u-root is an open source project hosted on GitHub. Within the u-root
 repository, we have executable commands in <code>cmds</code> and the packages containing
 libraries and implementations in <code>pkg</code>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="all-about-u-root"><a class="header" href="#all-about-u-root">All about u-root</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="evaluation-of-tools"><a class="header" href="#evaluation-of-tools">Evaluation of tools</a></h1>
+<p>Three general questions guide all software projects:</p>
+<ul>
+<li>what exists already? (implementations, tools and build systems)</li>
+<li>what needs development? (UIs and such)</li>
+<li>what is a good environment? (build + runtime)</li>
+</ul>
+<p>Not only do we want to answer those questions. We also keep track of the options
+and decision process in this book in order for readers to make sense.</p>
+<p>There are many existing tools already that we can leverage to implement the idea
+of using Linux to boot into an operating system.</p>
+<h2 id="root-filesystem"><a class="header" href="#root-filesystem">Root filesystem</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>tool</th><th>language</th><th>license</th><th>usage</th></tr></thead><tbody>
+<tr><td><a href="https://busybox.net/">BusyBox</a></td><td>C</td><td>GPLv2</td><td>Heads</td></tr>
+<tr><td><a href="http://landley.net/toybox">toybox</a></td><td>C</td><td>0BSD</td><td>Android</td></tr>
+<tr><td><a href="https://www.gnu.org/software/coreutils/">GNU coreutils</a></td><td>C</td><td>GPLv3</td><td>not for LinuxBoot</td></tr>
+<tr><td><a href="https://u-root.org">u-root</a></td><td>Go</td><td>BSD 3-Clause</td><td>ByteDance, Google et al</td></tr>
+<tr><td><a href="http://uutils.github.io/">uutils/coreutils</a></td><td>Rust</td><td>MIT</td><td>not for LinuxBoot</td></tr>
+</tbody></table>
+</div>
+<h2 id="kexec-implementations"><a class="header" href="#kexec-implementations">kexec implementations</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>tool</th><th>language</th><th>license</th><th>usage</th></tr></thead><tbody>
+<tr><td><a href="https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git">kexec-tools</a> (<a href="https://github.com/horms/kexec-tools">GitHub mirror</a>)</td><td>C</td><td>GPLv2</td><td>Heads, Petitboot</td></tr>
+<tr><td><a href="https://systemd.io/">systemd</a> (wrapper)</td><td>C</td><td>LGPL-2.1+</td><td>systemd on UEFI</td></tr>
+<tr><td><a href="https://github.com/kexecboot/kexecboot">kexecboot</a></td><td>C</td><td>GPLv2</td><td>?</td></tr>
+<tr><td>u-root (CLI+mod)</td><td>Go</td><td>BSD 3-Clause</td><td>Google et al</td></tr>
+<tr><td><a href="https://github.com/im-0/kexlinux">kexlinux</a></td><td>Rust</td><td>LGPL-3.0+</td><td>?</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="all-about-u-root"><a class="header" href="#all-about-u-root">All about u-root</a></h1>
 <p>U-root is an embeddable root file system intended to be placed in a flash
 device as part of the firmware image, along with a Linux kernel. The program
 source code is installed in the root file system contained in the firmware
