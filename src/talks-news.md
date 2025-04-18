@@ -4,10 +4,10 @@
 
 | Date | Presenter | Title |
 |------|-----------|-------|
-| 12/27/2016 | Trammell Hudson | [Bootstraping a slightly more secure laptop](https://trmm.net/Heads_33c3)
-| 10/27/2017 | Ron Minnich | Replace your exploit-ridden firmware with a Linux kernel ([YouTube](https://www.youtube.com/watch?v=iffTJ1vPCSo), [slides](https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf))
-| 12/29/2017 | Trammell Hudson | [Bringing Linux back to the server BIOS with LinuxBoot](https://trmm.net/LinuxBoot_34c3)
-| 09/13/2018 | Andrea Barberio, David Hendricks | [Open Source Firmware @ Facebook](https://www.osfc.io/2018/talks/open-source-firmware-facebook/)
+| 12/27/2016 | Trammell Hudson | [Bootstraping a slightly more secure laptop](https://trmm.net/Heads_33c3) |
+| 10/27/2017 | Ron Minnich | Replace your exploit-ridden firmware with a Linux kernel ([YouTube](https://www.youtube.com/watch?v=iffTJ1vPCSo), [slides](https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf)) |
+| 12/29/2017 | Trammell Hudson | [Bringing Linux back to the server BIOS with LinuxBoot](https://trmm.net/LinuxBoot_34c3) |
+| 09/13/2018 | Andrea Barberio, David Hendricks | [Open Source Firmware @ Facebook](https://www.osfc.io/2018/talks/open-source-firmware-facebook/) |
 
 * [Turning Linux Engineers into Firmware
   Engineers](https://2018ocpregionalsummit.sched.com/event/F8ax/turning-linux-engineers-into-firmware-engineers)
