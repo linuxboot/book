@@ -1,12 +1,12 @@
 # The u-root `cpu` command
 
-Do you want to have all the tools on your linuxboot system that you have on your
+Do you want to have all the tools on your  system that you have on your
 desktop, but you can't get them to fit in your tiny flash part? Do you want all
-your desktop files visible on your linuxboot system, but just remembered there's
-no disk on your linuxboot system? Are you tired of using `scp` or `wget` to move
-files around? Do you want to run `emacs` or `vim` on the linuxboot machine, but
+your desktop files visible on your  system, but just remembered there's
+no disk on your  system? Are you tired of using `scp` or `wget` to move
+files around? Do you want to run `emacs` or `vim` on the  machine, but
 know they can't ever fit? What about `zsh`? How about being able to run commands
-on your linuxboot machine and have the output appear on your home file system?
+on your  machine and have the output appear on your home file system?
 You say you'd like to make this all work without having to fill out web forms in
 triplicate to get your organization to Do Magic to your desktop?
 
@@ -53,7 +53,7 @@ them into the archive as well. Further, the user can specify additional files to
 carry along in case they are needed.
 
 The problem here is that, if our user cares about binary size, this option is
-even worse. Deadcode removal won’t work; the whole shared library has to be
+even worse. Dead code removal won’t work; the whole shared library has to be
 carried along. Nevertheless, this can work, in some cases.
 
 So our user packages up their executable using `pox` or a similar tool, uses
@@ -91,18 +91,18 @@ Samba. While this was a common approach years ago, it comes with its own set of
 problems: all the remote systems are now hostage to the reliability of the NFS
 or Samba server. But there’s a bigger problem: there is still no guarantee that
 the remote system is using the same library versions and files that the user’s
-desktop is using. The NFS server might provide, e.g., Suse, to the remote
+desktop is using. The NFS server might provide, e.g. SUSE, to the remote
 system; the user’s desktop might be running Ubuntu. If the user compiles on
-their desktop, the binary might still not run on the remote system, as the Suse
+their desktop, the binary might still not run on the remote system, as the SUSE
 libraries might be different. This is a common problem.
 
 Still worse, with an NFS root, everyone can see everyone’s files. It’s like
 living in an apartment building with glass walls. Glass houses only look good in
 architecture magazines. People want privacy.
 
-### We know what ssh provides; but what else do we need?
+### What SSH does not provide
 
-`Ssh` solves the problem of safely getting logged in to a remote machine. While
+`ssh` solves the problem of safely getting logged in to a remote machine. While
 this is no small accomplishment, it is a lot like being parachuted into a
 foreign land, where the rules are changed. It’s a lot nicer, when going to a new
 place, to be able to bring along some survival gear, if not your whole house!
@@ -124,24 +124,24 @@ footprint. You can see the code at
 than 20 files, including tests.
 
 `cpu` runs as both a client (on your desktop) and an `ssh` server (on your
-linuxboot machine). On your desktop, it needs no special privilege. On the
-linuxboot system, there is only one binary needed: the `cpu` daemon (`cpud`). As
+ machine). On your desktop, it needs no special privilege. On the
+ system, there is only one binary needed: the `cpu` daemon (`cpud`). As
 part of setting up a session, in addition to normal `ssh` operations, `cpu` sets
 up private name space at important places like `/home/$USER`, `/bin, /usr,`and
 so on. Nobody gets to see what other people’s files are.
 
-`Ssh` provides remote access. `Cpu` goes one step further, providing what is
+`Ssh` provides remote access. `cpu` goes one step further, providing what is
 called _resource sharing_ -- resources, i.e., files from the client machine can
 be used directly on the remote machine, without needing to manually copy them.
-`Cpud` implements resource sharing by setting up a `file system`mount on the
+`cpud` implements resource sharing by setting up a `file system`mount on the
 remote machine and relaying file I/O requests back to the desktop `cpu` process.
 The desktop command services those requests; you don't need to run a special
 external server. One thing that is a bit confusing with `cpu`: the desktop
 client is a file server; the remote server’s Linux kernel is a file client.
-`Cpu` has to do a bit more work to accomplish its task.
+`cpu` has to do a bit more work to accomplish its task.
 
-`Cpu` will change your life. You can forget about moving files via `scp`: once
-you '`cpu` in', the `/home` directory on your linuxboot node is your home
+`cpu` will change your life. You can forget about moving files via `scp`: once
+you '`cpu` in', the `/home` directory on your  node is your home
 directory. You can `cd ~`and see all your files. You can pick any shell you
 want, since the shell binary comes from your desktop, not flash. You don't have
 to worry about fitting `zsh` into flash ever again!
@@ -160,13 +160,13 @@ appliance.”
 The `bash` is not on the `cpu` node; it will come from our desktop via the 9p
 mount.
 
-```
-    rminnich@xcpu:~/gopath/src/github.com/u-root/u-root$ cpu apu2
-    root@(none):/#
-    root@(none):/# ls ~
-    IDAPROPASSWORD  go      ida-7.2  projects
-    bin             gopath  papers   salishan2019random  snap
-    root@(none):/# exit
+```bash
+rminnich@xcpu:~/gopath/src/github.com/u-root/u-root$ cpu apu2
+root@(none):/#
+root@(none):/# ls ~
+IDAPROPASSWORD  go      ida-7.2  projects
+bin             gopath  papers   salishan2019random  snap
+root@(none):/# exit
 ```
 
 The `bash` and `ls` command, and the shared libraries they need, do not exist on
@@ -183,18 +183,18 @@ will come from the machine they are on, not their desktop.
 
 ## An easy overview of how `cpu` works
 
-`Cpu`, as mentioned, consists of a client and a server. The client is on your
+`cpu`, as mentioned, consists of a client and a server. The client is on your
 desktop (or laptop), and the server is on the remote system. Both client and
 server use an `ssh` transport, meaning that the “wire” protocol is `ssh`. In
 this way, `cpu` is just like `ssh`.
 
 As mentioned above, the situation for `cpu` is a bit more complicated than for
-`ssh`. `Cpu` provides resource sharing, but not from the server to the client,
+`ssh`. `cpu` provides resource sharing, but not from the server to the client,
 but rather from the client to the server. The `cpu` client is a file server; the
 `cpu` server connects the kernel on the server machine to the file server in the
 client, as shown below. Things to note:
 
-1. `Cpud`, on the remote or server machine, sets up a “private name space
+1. `cpud`, on the remote or server machine, sets up a “private name space
    mount” of `/tmp` for the program. “Private name space mount” just means that
    only that program, and its children, can see what is in its private `/tmp`.
    Other, external programs continue to use `/tmp`, but they are _different_
@@ -248,14 +248,13 @@ and the `cpu` file server support does the rest.
 
 Why do we only show one program instead of many? From the point of view of
 `cpud`, it only starts one program. From the point of view of users, there can
-be many. But if there is more than one program to start, <em>that is not the
-responsibility of <code>cpud</code></em>. If more than one program is run, they
-will be started by the program that <code>cpud</code> started, i.e., a command
-interpreter like the shell. Or it could be as simple as a one-off command like
-<code>date</code>. From the point of view of <code>cpud</code>, it’s all the
-same. <code>Cpud</code> will wait until the process it started, and all its
-children, have exited. But <code>cpud</code>’s responsibilities to start a
-program ends with that first program.
+be many. But if there is more than one program to start, _that is not the
+responsibility of `cpud`_. If more than one program is run, they will be
+started by the program that `cpud` started, i.e., a command interpreter like
+the shell. Or it could be as simple as a one-off command like `date`. From the
+point of view of `cpud`, it’s all the same. `cpud` will wait until the process
+it started, and all its children, have exited. But `cpud`’s responsibilities to
+start a program ends with that first program.
 
 But what happens when `cpud` runs that first program? Here is where it gets
 interesting, and, depending on your point of view, either magical, confounding,
@@ -275,7 +274,7 @@ The trace for running `date` starts right when the remote program has called
 `exec`, and the kernel is starting to find the program to run[^1]. The file
 opens look like this, on a user’s system:
 
-```
+```txt
 Open /bin/date
 Open /lib/x86_64-linux-gnu/ld-2.27.so
 Open /etc/ld.so.cache
@@ -289,7 +288,7 @@ it needed, and opened them as well.
 
 We can compare this with a local execution:
 
-```
+```txt
 execve "/bin/date"
 access "/etc/ld.so.nohwcap"
 access "/etc/ld.so.preload"
@@ -307,7 +306,7 @@ remote version opens `/usr/share/zoneinfo/America/Los_Angeles`.
 
 The reason is that `etc/localtime` is a symlink:
 
-```
+```bash
 lrwxrwxrwx 1 root root 39 May 29 12:47 /etc/localtime -> /usr/share/zoneinfo/America/Los_Angeles
 ```
 
@@ -321,7 +320,7 @@ We can set the local `cpu` up to talk to a remote `cpu` that needs different
 binaries. We might have an entire ARM file system tree in `~/arm`, for example.
 We would then invoke `cpu` as follows:
 
-```
+```bash
 cpu -root ~/arm date
 ```
 
@@ -365,7 +364,7 @@ uncompress to about 7GB. You can use the `TESTQEMU` script to try it out, or use
 Be careful how you use the keys; they're public. You should really only use them
 as part of the demo.
 
-The `cpukernel` was built using the `github.com:linuxboot/mainboards` repo. If
+The `cpukernel` was built using the `github.com:/mainboards` repo. If
 you clone this repo, the following commands will rebuild the kernel:
 
 * `cd mainboards/intel/generic`
@@ -377,7 +376,7 @@ you clone this repo, the following commands will rebuild the kernel:
 You’ll first need to start the server, and we show the entire sequence below,
 including unpacking the image:
 
-```
+```bash
 xz -d usbstick.xz
 ```
 
@@ -385,7 +384,7 @@ How you run `qemu` depends on whether you want graphics or not: if you are not
 in a windowing environment, add `-nographic` to the command below. In any event,
 at the `boot:` prompt, you can hit return or wait:
 
-```
+```bash
 bash QEMU -hda usbstick
 
 SeaBIOS (version 1.13.0-1)
@@ -403,37 +402,37 @@ Run /init as init process
 
 At this point, the `cpu` daemon is running, and you can try the `cpu` command:
 
-```
+```bash
 rminnich@minnich:/home/cpubinaries$ ./cpu -key cpu_rsa localhost date
 Fri 16 Oct 2020 04:21:04 PM PDT
 ```
 
 You can log in and notice that things are the same:
 
-**rminnich@minnich**:**/home/cpubinaries**$ ./cpu -key cpu_rsa localhost
+```bash
+rminnich@minnich:/home/cpubinaries$ ./cpu -key cpu_rsa localhost
 
 root@192:/home/cpubinaries# ls
-
-**cpu** cpukernel cpu_rsa.pub **extlinux.conf** **QEMU** usbstick
-
+cpu         cpukernel  cpu_rsa.pub  extlinux.conf  QEMU       usbstick
 cpu.config  cpu_rsa    EXAMPLE      LICENSE        README.md
 
 root@192:/home/cpubinaries#
+```
 
 Note that you end up in the same directory on the remote node that you are in on
 the host; all the files are there. We can run any program on the remote node
 that we have on the host:
 
-```
+```bash
 root@192:/home/cpubinaries# which date
 /usr/bin/date
 root@192:/home/cpubinaries# date
 Fri 16 Oct 2020 04:25:01 PM PDT
 root@192:/home/cpubinaries# ldd /usr/bin/date
 mount
-	linux-vdso.so.1 (0x00007ffd83784000)
-	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007efdb93db000)
-	/lib64/ld-linux-x86-64.so.2 (0x00007efdb95e4000)
+    linux-vdso.so.1 (0x00007ffd83784000)
+    libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007efdb93db000)
+    /lib64/ld-linux-x86-64.so.2 (0x00007efdb95e4000)
 root@192:/home/cpubinaries# mount
 ...
 cpu on /tmp type tmpfs (rw,relatime)
@@ -460,24 +459,24 @@ If you get tired of typing `-keys`, do the following: put your own `cpu_rsa` in
 `~/.ssh`; and copy the `cpu` binary to `bin` (or build a new one).
 
 Warning! The `cpu` keys we provide in the repo are only to be used for this
-demo. You should not use them for any other purpose, as they are in a github
+demo. You should not use them for any other purpose, as they are in a Github
 repo and hence open to the world.
 
-#### What if you don’t want all the name space?
+#### Using some of the namespace
 
 Sometimes, you don’t want all the `/usr` and `/bin` directories to be replaced
 with those from your machine. You might, for example, `cpu` into an ARM system,
 and hence only need a `/home`, but nothing else.
 
-The -namespace switch lets you control
-the namespace. It is structured somewhat like a path variable, with :-seperated
-components. The default value is ```/lib:/lib64:/usr:/bin:/etc:/home```. You can
-modify it or even force it to be empty: ```-namespace=""```, for example.
-If it is empty, cpud will only mount the 9p server on /tmp/cpu.
+The `-namespace` switch lets you control the namespace. It is structured
+somewhat like a path variable, with `:`-separated components. The default
+value is `/lib:/lib64:/usr:/bin:/etc:/home`. You can modify it or even force it
+to be empty: `-namespace=""`, for example. If it is empty, `cpud` will only
+mount the 9p server on `/tmp/cpu`.
 
 This following example will cpu to an ARM64 host, sharing /home, but nothing else.
 
-```
+```bash
 cpu arm -namespace=/home /bin/date
 ```
 
@@ -485,17 +484,17 @@ For an different architecture system, we might want to specify that the /bin, /l
 and other directories have a different path on the remote than they have locally.
 The -namespace switch allows this via an = sign:
 
-```
+```bash
 cpu -namespace /lib:/lib64:/usr:/bin:/etc:/home arm /bin/date
 ```
 
-In this case, /bin, /usr, and /lib on the remote system are supplied by /arm/bin,
-/arm/lib, and /arm/usr locally.
+In this case, `/bin`, `/usr`, and `/lib` on the remote system are supplied by
+`/arm/bin`, `/arm/lib`, and `/arm/usr` locally.
 
-If we need to test cpu without doing bind mounts, we can specify a PWD that requires
-no mounts and an empty namespace:
+If we need to test `cpu` without doing bind mounts, we can specify a `PWD` that
+requires no mounts and an empty namespace:
 
-```
+```txt
 PWD=/ cpu -namespace="" -9p=false h /bin/ls
 bbin
 bin
@@ -515,7 +514,7 @@ which we are still discussing: the -namespace value can override the -9p switch.
 If you set -9p=false but have a non-empty namespace variable, then 9p will be
 set to true. So in this example, the -9p switch has no effect:
 
-```
+```bash
 cpu -9p=false h ls
 ```
 
@@ -527,7 +526,7 @@ the latter approach.
 Another possible approach is to log conflicting settings of these two switches
 and exit:
 
-```
+```bash
 cpu -9p=false h ls
 error: 9p is false but the namespace is non-empty; to force an empty namespace use -namespace=""
 ```
@@ -536,18 +535,18 @@ We welcome comments on this issue.
 
 #### cpu and Docker
 
-Maintaining file system images is inconvenient.
-We can use Docker containers on remote hosts instead.
-We can take a standard Docker container and, with suitable options, use docker
-to start the container with cpu as the first program it runs.
+Maintaining file system images is inconvenient. We can use Docker containers
+on remote hosts instead. We can take a standard Docker container and, with
+suitable options, use docker to start the container with `cpu` as the first
+program it runs.
 
 That means we can use any Docker image, on any architecture, at any time; and
 we can even run more than one at a time, since the namespaces are private.
 
 In this example, we are starting a standard Ubuntu image:
 
-```
-docker run -v /home/rminnich:/home/rminnich -v /home/rminnich/.ssh:/root/.ssh -v /etc/hosts:/etc/hosts --entrypoint /home/rminnich/go/bin/cpu -it ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486 h
+```bash
+$ docker run -v /home/rminnich:/home/rminnich -v /home/rminnich/.ssh:/root/.ssh -v /etc/hosts:/etc/hosts --entrypoint /home/rminnich/go/bin/cpu -it ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486 h
 Unable to find image 'ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486' locally
 docker.io/library/ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486: Pulling from library/ubuntu
 a9ca93140713: Pull complete
@@ -555,18 +554,17 @@ Digest: sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486
 Status: Downloaded newer image for ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486
 WARNING: The requested image's platform (linux/arm64/v8) does not match the detected host platform (linux/amd64) and no specific platform was requested
 1970/01/01 21:37:32 CPUD:Warning: mounting /tmp/cpu/lib64 on /lib64 failed: no such file or directory
-# ls
-bbin  buildbin	env  go    init     lib    proc  tcz  ubin  var
-bin   dev	etc  home  key.pub  lib64  sys	 tmp  usr
-#
+$ ls
+bbin  buildbin  env  go    init     lib    proc  tcz  ubin  var
+bin   dev       etc  home  key.pub  lib64  sys   tmp  usr
 ```
 
-Note that the image was update and then started. The /lib64 mount fails,
-because there is no /lib64 directory in the image, but that is harmless.
+Note that the image was update and then started. The `/lib64` mount fails,
+because there is no `/lib64` directory in the image, but that is harmless.
 
-On the local host, on which we ran docker, this image will show up in docker ps:
+On the local host, on which we ran docker, this image will show up in docker `ps`:
 
-```
+```bash
 rminnich@a300:~$ docker ps
 CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
 b92a3576229b   ubuntu    "/home/rminnich/go/b…"   9 seconds ago   Up 9 seconds             inspiring_mcnulty
@@ -596,7 +594,7 @@ use the -fstab switch, only using the environment variable.
 
 Here is an example of using the CPU_FSTAB variable with one entry:
 
-```
+```txt
 CPU_FSTAB="myfs /mnt virtiofs rw 0 0" cpu v
 ```
 
@@ -605,13 +603,13 @@ virtiofs was mounted on /mnt.
 
 For the fstab case, the command looks like this:
 
-```
+```bash
 cpu -fstab fstab v
 ```
 
 The fstab in this case would be
 
-```
+```bash
 myfs /mnt virtiofs rw 0 0
 ```
 
@@ -619,7 +617,7 @@ Note that both the environment variable and the fstab can have more than one
 entry, but they entries must be separate by newlines. Hence, this will not
 work:
 
-```
+```txt
 CPU_FSTAB=`cat fstab` cpu v
 ```
 
