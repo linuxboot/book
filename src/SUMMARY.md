@@ -2,6 +2,7 @@
   - [Use cases](use-cases.md)
   - [Talks and news coverage](talks-news.md)
 - [LinuxBoot Components](components.md)
+  - [Evaluation of tools](tools-evaluation.md)
 - [All about u-root](u-root.md)
   - [u-root demo with QEMU](u-root-qemu-demo.md)
 - [LinuxBoot utilities](utilities/index.md)
