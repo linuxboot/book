@@ -12,7 +12,6 @@ shame_list=(
     [./src/SUMMARY.md]=1
     [./src/talks-news.md]=1
     [./src/u-root.md]=1
-    [./src/utilities/cpu.md]=1
     [./src/utilities/dut.md]=1
     [./src/utilities/UEFI_Tool_Kit.md]=1
 )
