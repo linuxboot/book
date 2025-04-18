@@ -10,11 +10,11 @@ This is the official “LinuxBoot Book” for the LinuxBoot project. The book:
 
 ## What is LinuxBoot?
 
-LinuxBoot is based on the idea of replacing proprietary or corporate-driven
-late-stage boot [firmware](./glossary.md) with the Linux kernel and a
-community-based userland. That idea grew into a project that over the years
-includes various initiatives with the overarching goal of moving from obscure
-and complex firmware to simpler and open source firmware.
+LinuxBoot is the idea of replacing proprietary or corporate-driven late-stage
+boot [firmware](./glossary.md) with the Linux kernel and a community-based
+userland. That idea grew into a project that over the years includes various
+initiatives with the overarching goal of moving from obscure and complex
+firmware to simpler and open source firmware.
 
 The LinuxBoot project provides two reference implementations; linuxboot and
 Heads. The [linuxboot](https://github.com/linuxboot/linuxboot) build system
