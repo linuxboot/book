@@ -8,7 +8,7 @@
   has been largely replaced by UEFI. Many UEFI implementations still offer a
   "BIOS compatibility mode" which makes it behave like an old BIOS, with its
   features.
-- ___busybox___: Busybox is a single userspace binary which includes versions
+- ___busybox___: Busybox is a single user-space binary which includes versions
   of a large number of system commands, including a shell. This package can be
   very useful for recovering from certain types of system failures,
   particularly those involving broken shared libraries. There are multiple
@@ -95,7 +95,7 @@
   assembly code (32-bit protected mode).
 - ___u-boot___: A very popular open source firmware and bootloader. Not to be
   confused with u-root.
-- ___u-root___: A modern, embedded userspace environment for Linux, with
+- ___u-root___: A modern, embedded user-space environment for Linux, with
   bootloader tools. See the section on u-root.
 - ___UEFI___: Unified Extensible Firmware Interface. It is Intel’s
   specification of a standard for system firmware. UEFI defines everything from
@@ -104,5 +104,3 @@
   It is not an implementation, it's a standard. EDK II and OpenEDK II are UEFI
   implementations. UEFI is not closed source per-se, but in practice most
   implementations are.
-- ___userland/userspace___: A set of programs and libraries that are used to
-  interact with the kernel.
