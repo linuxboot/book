@@ -59,6 +59,9 @@ strong platform security. It is currently maintained by Thierry Laurion.
 * [osresearch.net](https://osresearch.net/)
 * [trmm.net/NERF](https://trmm.net/NERF/)
 * [NERF-Projekt statt UEFI](https://www.golem.de/news/freie-linux-firmware-google-will-server-ohne-intel-me-und-uefi-1710-130840-2.html)
+* [Bringing Linux back to the Server BIOS with LinuxBoot](https://www.twosigma.com/articles/bringing-linux-back-to-the-server-bios-with-linuxboot/)
+* [LinuxBoot: A Fast, Reliable Open Source Firmware for Linux Servers](https://www.twosigma.com/articles/linuxboot-a-fast-reliable-open-source-firmware-for-linux-servers/)
+* [safeboot: Improving the Safety of Booting Linux on Normal Laptops](https://www.twosigma.com/articles/safeboot-improving-the-safety-of-booting-linux-on-normal-laptops/)
 
 ## Open Platform Firmware
 
