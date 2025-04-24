@@ -34,6 +34,7 @@ Many other implementations exist independently of the project:
 - [k-boot](https://github.com/BayLibre/k-boot) developed by BayLibre in 2023
   using BusyBox
 - [nmbl](https://github.com/rhboot/nmbl-poc) developed by RedHat in 2024
+- [ZFSBootMenu](https://docs.zfsbootmenu.org/en/latest)
 
 And there is a long history of similar implementations including projects that
 are no longer maintained:
