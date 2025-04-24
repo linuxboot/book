@@ -1,1 +1,8 @@
 book
+ci/vale/styles/alex/
+ci/vale/styles/Google/
+ci/vale/styles/Joblint/
+ci/vale/styles/Microsoft/
+ci/vale/styles/proselint/
+ci/vale/styles/RedHat/
+ci/vale/styles/write-good/
