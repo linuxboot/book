@@ -1,0 +1,18 @@
+name: Vale Action
+on: push
+
+jobs:
+  build:
+    name: Vale
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install vale
+        run: sudo snap install vale
+
+      - name: Lint prose
+        run: |
+          vale sync
+          vale src/intro.md
