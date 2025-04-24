@@ -1,0 +1,9 @@
+initramfs
+coreboot
+Monolake
+Winterfell
+Tioga
+nmbl
+kboot
+Almesberger
+petitboot
