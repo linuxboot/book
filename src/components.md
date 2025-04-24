@@ -48,7 +48,7 @@ it as `/` and runs `/init`.
 
 
 There are many types of initramfs, in this topic we focus on u-root.
-u-root is a Go userland (a set of programs and libraries written in Go that
+u-root is a Go user-space (a set of programs and libraries written in Go that
 are used to interact with the kernel). It contains a toolset of standard
 Linux applications and commands.
 

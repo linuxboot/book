@@ -12,7 +12,7 @@ This is the official “LinuxBoot Book” for the LinuxBoot project. The book:
 
 LinuxBoot is the idea of replacing proprietary or corporate-driven late-stage
 boot [firmware](./glossary.md) with the Linux kernel and a community-based
-userland. That idea grew into a project that over the years includes various
+user-space. That idea grew into a project that over the years includes various
 initiatives with the overarching goal of moving from obscure and complex
 firmware to simpler and open source firmware.
 
@@ -20,7 +20,7 @@ The LinuxBoot project provides two reference implementations; linuxboot and
 Heads. The [linuxboot](https://github.com/linuxboot/linuxboot) build system
 outputs a boot payload consisting of a Linux kernel and an
 [initramfs](https://de.wikipedia.org/wiki/Initramfs) that contains a minimal
-Golang userland built using [u-root](https://github.com/u-root/u-root).
+Golang user-space built using [u-root](https://github.com/u-root/u-root).
 
 The Heads build system is more focused on local attestation, TPM DUK
 seal/unseal operations, GPG-based security measurement, reproducible builds and
@@ -45,8 +45,8 @@ are no longer maintained:
 These projects all attempt to reduce the role of firmware to a small,
 fixed-function core whose only purpose is to get a flash-based Linux kernel
 started. This “bare essentials” firmware prepares the hardware and starts a
-Linux kernel and a userland environment will run on the machine. Go is the
-recommended userland environment, but is not required.
+Linux kernel and a user-space environment will run on the machine. Go is the
+recommended user-space environment, but is not required.
 
 ## Why LinuxBoot is needed
 
@@ -67,7 +67,7 @@ Unified Extensible Firmware Interface (UEFI) and other firmware, particularly
 the network stack and file system modules, with Linux applications.
 
 LinuxBoot brings up the Linux kernel as a DXE in flash ROM instead of the UEFI
-shell. The Linux kernel, with a provided Go based userland, can then bring up
+shell. The Linux kernel, with a provided Go based user-space, can then bring up
 the kernel that you want to run on the machine. The LinuxBoot firmware paradigm
 enables writing traditional firmware applications such as bootloader,
 debugging, diagnosis, and error detection applications as cross-architecture
@@ -80,7 +80,7 @@ what is planned for the transition to LinuxBoot.
 
 [![comparison of UEFI boot and LinuxBoot](../images/UEFI-versus-LinuxBoot.svg)](../images/UEFI-versus-LinuxBoot.svg)
 
-## Benefits of using the Go userland environment and compiler
+## Benefits of using the Go user-space environment and compiler
 
 Go is a systems programming language created by Google. Go has strong typing,
 language level support for concurrency, inter-process communication via
@@ -136,7 +136,7 @@ Reliability
 Security
 
 * Move “Ring 0” bootloaders to “Ring 3”
-* Pxeboot and diskboot do parsing and other logic in userspace
+* Pxeboot and diskboot do parsing and other logic in user-space
 * Go provides memory safety and type safety
   * A buggy parser cannot easily affect other programs
 * Kernel security patches can apply to firmware
@@ -183,5 +183,5 @@ Engineering Productivity
   * Easier to write tests using resources (like network) with Linux
   * Open-source projects such as u-root follow excellent software practices
     such as running automated test on each submitted change
-  * Much easier to debug Go userspace applications
+  * Much easier to debug Go user-space applications
   * Test with a kernel in QEMU

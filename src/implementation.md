@@ -1,7 +1,7 @@
 # Implementing LinuxBoot
 
 The aim of LinuxBoot is to reduce complexity and obscure firmware by moving
-that functionality into kernel and userspace.
+that functionality into kernel and user-space.
 
 This chapter describes the procedures from a [LinuxBoot
 workshop](https://docs.google.com/presentation/d/1s9ka4v7leKeJa3116AQoNb9cv3OqmnW6pgn0ov9WiHo/edit?ts=5e2b227b#slide=id.g7ceec54197_4_163)

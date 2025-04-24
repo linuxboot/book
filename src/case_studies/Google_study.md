@@ -67,7 +67,7 @@ of the boot process.
 ## Phases of the project
 
 Google's LinuxBoot project is focused on moving UEFI boot functionality
-into the kernel and userspace. That is, converting UEFI firmware
+into the kernel and user-space. That is, converting UEFI firmware
 to run LinuxBoot. The project has taken the standard UEFI boot process
 and converted it to LinuxBoot for production environments.
 The steps to reach this goal are described below.
@@ -149,8 +149,8 @@ development continues to provide an open-source solution that
 does the following:
 
 1. Brings up the Linux kernel as a DXE in flash ROM instead of the UEFI shell.
-2. Provides a Go based userland that can then bring up the kernel that you want
-   to run on the machine.
+2. Provides a Go based user-space that can then bring up the kernel that you
+   want to run on the machine.
 3. Enables writing traditional firmware applications such as bootloader,
    debugging, diagnosis, and error detection applications as cross-architecture
    and cross-platform portable Linux applications.
