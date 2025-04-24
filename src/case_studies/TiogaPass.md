@@ -51,9 +51,9 @@ Follow [Build Details](#Build-Details) for details on how to get the source
 code, and how to build.
 
 Boot flow of the current firmware solution is: Power on → minimized UEFI →
-Linuxboot → target OS.
+LinuxBoot → target OS.
 
-In near feature, the boot flow will be: power on → Coreboot → Linuxboot →
+In near feature, the boot flow will be: power on → Coreboot → LinuxBoot →
 target OS.
 
 #### Build Details
@@ -89,9 +89,9 @@ target OS.
 
 Follow **TBD section** for details on:
 
-* How to flash. The image can be flashed either out-of-band, or from Linuxboot
+* How to flash. The image can be flashed either out-of-band, or from LinuxBoot
   u-root shell, or from targetOS shell.
-* How to run Linuxboot u-root shell commands.
+* How to run LinuxBoot u-root shell commands.
 
 ### Platform info
 
@@ -114,8 +114,8 @@ Hardware support can be obtained from [Wiwynn Corporation](http://www.wiwynn.com
 is where industry collaborates on how to move forward with OSF. The OCP OSF
 project has regular recorded meetings and a mailing list.
 
-[Linuxboot open source community](https://www.linuxboot.org/) is the community
-you can ask any technical questions. Linuxboot community has a slack channel, a
+[LinuxBoot open source community](https://www.linuxboot.org/) is the community
+you can ask any technical questions. LinuxBoot community has a slack channel, a
 IRC channel, a mailing list and regular meetings.
 
 ### Professional support
