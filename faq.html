@@ -176,15 +176,14 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="faq"><a class="header" href="#faq">F.A.Q.</a></h1>
-<p>This chapter contains the Frequently Asked Questions</p>
+                        <h1 id="frequently-asked-questions"><a class="header" href="#frequently-asked-questions">Frequently asked questions</a></h1>
 <h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
-<h3 id="q-u-root-dhcp-client-take-ages-what-is-the-problem-"><a class="header" href="#q-u-root-dhcp-client-take-ages-what-is-the-problem-">Q: u-root dhcp client take ages, what is the problem ?</a></h3>
-<h3 id="a-the-problem-is-a-lack-of-early-entropy"><a class="header" href="#a-the-problem-is-a-lack-of-early-entropy">A: the problem is a lack of early entropy:</a></h3>
-<ol>
-<li>If your platform has a hwrng enable it with <code>CONFIG_ARCH_RANDOM</code> and trust it with <code>CONFIG_RANDOM_TRUST_CPU</code>.</li>
-<li>If your platform don't have hwrng, add <code>uroot.nohwrng</code> to your kernel command line so u-root use a non-blocking random implementation.</li>
-</ol>
+<p><strong>Why does the u-root DHCP client take ages?</strong></p>
+<p>The problem is a lack of early entropy. If your platform has a hardware
+random number generator then enable it with <code>CONFIG_ARCH_RANDOM</code> and trust it
+with <code>CONFIG_RANDOM_TRUST_CPU</code>. Otherwise, add <code>uroot.nohwrng</code> to your kernel
+command line so u-root use a non-blocking random number generator
+implementation.</p>
 
                     </main>
 
