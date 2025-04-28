@@ -5,6 +5,9 @@ multilingual = false
 src = "src"
 title = "LinuxBoot"
 
+[preprocessor.gettext]
+after = ["links"]
+
 [output.html]
 cname = "book.linuxboot.org"
 git-repository-url = "https://github.com/linuxboot/book"
