@@ -16,3 +16,4 @@ jobs:
         run: |
           vale sync
           vale src/intro.md
+          vale src/openpower.md
