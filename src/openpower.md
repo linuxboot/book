@@ -23,5 +23,10 @@ implementation, but a smaller implementation named
 [kexec-lite](https://github.com/antonblanchard/kexec-lite). It is claimed to be
 roughly 32 KB compared to kexec-tools, which is roughly 200 KB.[^2]
 
+## See also
+
+- [coreboot and Heads as an alternative firmware for OpenPOWER Talos
+  II](https://openpower.foundation/blog/coreboot-on-talos2/)
+
 [^1]: https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig
 [^2]: https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778
