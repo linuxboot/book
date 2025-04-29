@@ -7,3 +7,6 @@ nmbl
 kboot
 Almesberger
 petitboot
+skiboot
+skiroot
+hostboot
