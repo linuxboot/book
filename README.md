@@ -18,6 +18,9 @@ For more details, please refer to the mdBook documentation.
 Some pages render diagrams using [mermaid.js](https://mermaid.js.org/), which is
 preprocessed with [mdbook-mermaid](https://github.com/badboy/mdbook-mermaid).
 
+To check that all links are still available, [mdbook-linkcheck](
+https://github.com/Michael-F-Bryan/mdbook-linkcheck) also runs in CI.
+
 For convenience, the `Makefile` lets you set up and run the environment:
 
 ```sh
