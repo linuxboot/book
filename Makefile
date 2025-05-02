@@ -8,3 +8,4 @@ prepare:
 	cargo install mdbook
 	cargo install mdbook-mermaid
 	mdbook-mermaid install
+	cargo install mdbook-linkcheck

@@ -24,6 +24,8 @@ jobs:
           mdbook-version: "0.4.48"
           use-mermaid: true
           mermaid-version: "0.15.0"
+          use-linkcheck: true
+          linkcheck-version: "0.7.7"
 
       - name: Install mdbook-mermaid
         run: mdbook-mermaid install
