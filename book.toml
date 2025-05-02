@@ -10,6 +10,8 @@ cname = "book.linuxboot.org"
 git-repository-url = "https://github.com/linuxboot/book"
 additional-js = ["mermaid.min.js", "mermaid-init.js"]
 
+[output.linkcheck]
+
 [preprocessor]
 
 [preprocessor.mermaid]
