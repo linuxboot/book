@@ -15,6 +15,16 @@ This book is written with [mdBook](https://github.com/rust-lang/mdBook).
 When installed, run `mdbook serve` and you will get a local webserver.
 For more details, please refer to the mdBook documentation.
 
+Some pages render diagrams using [mermaid.js](https://mermaid.js.org/), which is
+preprocessed with [mdbook-mermaid](https://github.com/badboy/mdbook-mermaid).
+
+For convenience, the `Makefile` lets you set up and run the environment:
+
+```sh
+make prepare
+make run
+```
+
 The book is linted with markdownlint and Vale. Follow the official
 documentation to [install
 markdownlint](https://github.com/markdownlint/markdownlint?tab=readme-ov-file#installation)
