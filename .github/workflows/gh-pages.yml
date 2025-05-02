@@ -16,15 +16,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v2
+        # https://github.com/jontze/action-mdbook
+        uses: jontze/action-mdbook@v4
         with:
-          mdbook-version: '0.4.48'
+          token: ${{ secrets.GITHUB_TOKEN }}
           # mdbook-version: 'latest'
+          mdbook-version: "0.4.48"
+          use-mermaid: true
+          mermaid-version: "0.15.0"
 
       - name: Install mdbook-mermaid
-        run: |
-          cargo install mdbook-mermaid
-          mdbook-mermaid install
+        run: mdbook-mermaid install
 
       - name: Build
         run: mdbook build
