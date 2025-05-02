@@ -23,7 +23,7 @@ UEFI has three sections:
 DXE process is very complex; some systems have 750 DXEs.
 
 LinuxBoot replaces most of the UEFI software with Linux. LinuxBoot has an
-initramfs provided by [u-root](../u-root.md).
+initramfs provided by [u-root](./u-root.md).
 
 The above are stored inside a flash filesystem (FFS) inside a region of flash
 on your motherboard (the BIOS region). Another important region of flash is the
