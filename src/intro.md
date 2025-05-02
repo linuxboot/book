@@ -79,7 +79,7 @@ filesystem used for LinuxBoot is based on u-root standard utilities written in
 Go. The following diagram shows the current state of the UEFI boot process and
 what is planned for the transition to LinuxBoot.
 
-[![comparison of UEFI boot and LinuxBoot](../images/UEFI-versus-LinuxBoot.svg)](../images/UEFI-versus-LinuxBoot.svg)
+[![comparison of UEFI boot and LinuxBoot](./images/UEFI-versus-LinuxBoot.svg)](./images/UEFI-versus-LinuxBoot.svg)
 
 ## Benefits of using the Go user-space environment and compiler
 
