@@ -57,3 +57,37 @@ on kexec that have their own extra logic, such as FreeBSD's kload or petitboot.
 | [kexecboot](https://github.com/kexecboot/kexecboot)                                                                                      | C         | GPLv2        | ?                |
 | u-root (CLI+mod)                                                                                                                         | Go        | BSD 3-Clause | Google et al     |
 | [kexlinux](https://github.com/im-0/kexlinux)                                                                                             | Rust      | LGPL-3.0+    | ?                |
+
+## Boot configuration and menus
+
+There are multiple approaches to configuration and defining menus. Some boot
+loaders are using combined configuration files that have both, the options for
+the boot loader's appearance and behavior as well as the entries shown in the
+boot menu. For each of them, the boot loader itself will need a parser. At the
+same time, they are commonly managed from outside the boot loader itself. Note
+that those are design decisions and you may choose a different approach.
+The following subsections focus on the entries for booting operating systems.
+
+### SYSLINUX
+
+[Configuring SYSLINUX](https://wiki.syslinux.org/wiki/index.php?title=SYSLINUX#How_do_I_Configure_SYSLINUX.3F)
+is rather simple. A minimal entry only has a label and a path to a kernel image.
+
+### GRUB
+
+GRUB is very flexible and widely used in operating systems distributions, coming
+with its own tools to manage the [configuration file](https://www.gnu.org/software/grub/manual/grub/html_node/Simple-configuration.html).
+
+### BLS
+
+The [Boot Loader Specification (BLS)](https://uapi-group.org/specifications/specs/boot_loader_specification/)
+is a fresh approach to boot configuration. Type 1 BLS entries are defined via
+separate files in a drop-in directory. There are multiple libraries to handle
+them.
+
+| library                                                                               | language | license      | usage      |
+| ------------------------------------------------------------------------------------- | -------- | ------------ | ---------- |
+| u-root [`pkg/boot/bls`](https://github.com/u-root/u-root/tree/main/pkg/boot/bls)      | Go       | BSD 3-Clause |            |
+| [`bootctl`](https://www.freedesktop.org/software/systemd/man/latest/bootctl.html)     | C        | LGPL-2.1+    | systemd    |
+| [`boot_loader_spec` crate](https://docs.rs/boot-loader-spec/latest/boot_loader_spec/) | Rust     | MPL-2.0      | ?          |
+| [blsforme](https://github.com/AerynOS/blsforme)                                       | Rust     | MPL-2.0      | standalone |
