@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light" dir="ltr">
+<html lang="en" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -8,7 +8,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -25,26 +25,29 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -58,24 +61,22 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -83,45 +84,25 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="intro.html"><strong aria-hidden="true">1.</strong> LinuxBoot Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="use-cases.html"><strong aria-hidden="true">1.1.</strong> Use cases</a></li><li class="chapter-item expanded "><a href="talks-news.html"><strong aria-hidden="true">1.2.</strong> Talks and news coverage</a></li></ol></li><li class="chapter-item expanded "><a href="components.html"><strong aria-hidden="true">2.</strong> LinuxBoot Components</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tools-evaluation.html"><strong aria-hidden="true">2.1.</strong> Evaluation of tools</a></li></ol></li><li class="chapter-item expanded "><a href="u-root.html"><strong aria-hidden="true">3.</strong> All about u-root</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="u-root-qemu-demo.html"><strong aria-hidden="true">3.1.</strong> u-root demo with QEMU</a></li></ol></li><li class="chapter-item expanded "><a href="utilities/index.html"><strong aria-hidden="true">4.</strong> LinuxBoot utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="utilities/UEFI_Tool_Kit.html"><strong aria-hidden="true">4.1.</strong> UEFI Tool Kit</a></li><li class="chapter-item expanded "><a href="utilities/cpu.html"><strong aria-hidden="true">4.2.</strong> The magical cpu command</a></li><li class="chapter-item expanded "><a href="utilities/dut.html"><strong aria-hidden="true">4.3.</strong> Device Under Test</a></li></ol></li><li class="chapter-item expanded "><a href="implementation.html"><strong aria-hidden="true">5.</strong> Implementing LinuxBoot</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="coreboot.u-root.systemboot/index.html"><strong aria-hidden="true">5.1.</strong> LinuxBoot using coreboot, u-root and systemboot</a></li></ol></li><li class="chapter-item expanded "><a href="glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="history.html"><strong aria-hidden="true">7.</strong> History</a></li><li class="chapter-item expanded "><a href="case_studies/index.html"><strong aria-hidden="true">8.</strong> Case Studies</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="case_studies/Ampere_study.html"><strong aria-hidden="true">8.1.</strong> Ampere study</a></li><li class="chapter-item expanded "><a href="case_studies/Google_study.html"><strong aria-hidden="true">8.2.</strong> Google study</a></li><li class="chapter-item expanded "><a href="case_studies/TiogaPass.html"><strong aria-hidden="true">8.3.</strong> OCP TiogaPass</a></li></ol></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">9.</strong> Frequently Asked Questions</a></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -131,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -551,35 +533,35 @@ RAM-based file system. The first invocation of a program takes a fraction of a
 second, as it is compiled. Packages are only compiled once, so the slowest
 build is always the first one, on boot, which takes about 3 seconds. Subsequent
 invocations are very fast, usually a millisecond or so.</p>
-<p>U-root blurs the line between script-based distros such as Perl Linux<sup class="footnote-reference"><a href="#24">1</a></sup> and
-binary-based distros such as BusyBox<sup class="footnote-reference"><a href="#26">2</a></sup>. It has the flexibility of Perl Linux
+<p>U-root blurs the line between script-based distros such as Perl Linux<sup class="footnote-reference" id="fr-24-1"><a href="#footnote-24">1</a></sup> and
+binary-based distros such as BusyBox<sup class="footnote-reference" id="fr-26-1"><a href="#footnote-26">2</a></sup>. It has the flexibility of Perl Linux
 and the performance of BusyBox. Scripts and builtins are written in Go, not a
 shell scripting language. U-root is a new way to package and distribute file
 systems for embedded systems, and the use of Go promises a dramatic improvement
 in their security.</p>
 <h2 id="u-root-and-embedded-systems"><a class="header" href="#u-root-and-embedded-systems">U-root and embedded systems</a></h2>
 <p>Embedding kernels and root file systems in BIOS flash is a common technique for
-gaining boot time performance and platform customization[^25][^14]<sup class="footnote-reference"><a href="#23">3</a></sup>. Almost
+gaining boot time performance and platform customization[^25][^14]<sup class="footnote-reference" id="fr-23-1"><a href="#footnote-23">3</a></sup>. Almost
 all new firmware includes a multiprocess operating system with a full
 complement of file systems, network drivers, and protocol stacks, all contained
 in an embedded file system. In some cases, the kernel is only booted long
 enough to boot another kernel. In others, the kernel that is booted and the
 file system it contains constitute the operational environment of the
-device<sup class="footnote-reference"><a href="#15">4</a></sup>. These so-called “embedded root file systems” also contain a set of
+device<sup class="footnote-reference" id="fr-15-1"><a href="#footnote-15">4</a></sup>. These so-called “embedded root file systems” also contain a set of
 standard Unix-style programs used for both normal operation and maintenance.
 Space on the device is at a premium, so these programs are usually written in C
-using the BusyBox toolkit<sup class="footnote-reference"><a href="#26">2</a></sup>, or in an interpretive language such as Perl<sup class="footnote-reference"><a href="#24">1</a></sup>
+using the BusyBox toolkit<sup class="footnote-reference" id="fr-26-2"><a href="#footnote-26">2</a></sup>, or in an interpretive language such as Perl<sup class="footnote-reference" id="fr-24-2"><a href="#footnote-24">1</a></sup>
 or Forth. BusyBox in particular has found wide usage in embedded appliance
 environments, as the entire root file system can be contained in under one MiB.</p>
 <p>Embedded systems, which were once standalone, are now almost always network
 connected. Network connected systems face a far more challenging security
 environment than even a few years ago. In response to the many successful
-attacks against shell interpreters<sup class="footnote-reference"><a href="#11">5</a></sup> and C programs<sup class="footnote-reference"><a href="#8">6</a></sup>, we have started to
+attacks against shell interpreters<sup class="footnote-reference" id="fr-11-1"><a href="#footnote-11">5</a></sup> and C programs<sup class="footnote-reference" id="fr-8-1"><a href="#footnote-8">6</a></sup>, we have started to
 look at using a more secure, modern language in embedded root file systems,
-namely, Go[^21]<sup class="footnote-reference"><a href="#16">7</a></sup>.</p>
+namely, Go[^21]<sup class="footnote-reference" id="fr-16-1"><a href="#footnote-16">7</a></sup>.</p>
 <p>Go is a new systems programming language created by Google. Go has strong
 typing; language level support for concurrency; inter-process communication via
-channels, a la Occam<sup class="footnote-reference"><a href="#13">8</a></sup>, Limbo<sup class="footnote-reference"><a href="#17">9</a></sup>, and Alef<sup class="footnote-reference"><a href="#27">10</a></sup>; runtime type safety and
+channels, a la Occam<sup class="footnote-reference" id="fr-13-1"><a href="#footnote-13">8</a></sup>, Limbo<sup class="footnote-reference" id="fr-17-1"><a href="#footnote-17">9</a></sup>, and Alef<sup class="footnote-reference" id="fr-27-1"><a href="#footnote-27">10</a></sup>; runtime type safety and
 other protective measures; dynamic allocation and garbage collection; closures;
 and a package syntax, similar to Java, that makes it easy to determine what
 packages a given program needs. The modern language constructs make Go a much
@@ -592,17 +574,17 @@ attacks affecting C-based firmware code (among other things) in 2015 include
 GHOST and the so-called FSVariable.c bug in Intel’s UEFI firmware. Buffer
 overflows in Intel’s UEFI and Active Management Technology (AMT) have also been
 discovered in several versions in recent years.</p>
-<p>Both UEFI<sup class="footnote-reference"><a href="#12">11</a></sup> and AMT<sup class="footnote-reference"><a href="#4">12</a></sup> are embedded operating systems, loaded from flash that
+<p>Both UEFI<sup class="footnote-reference" id="fr-12-1"><a href="#footnote-12">11</a></sup> and AMT<sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">12</a></sup> are embedded operating systems, loaded from flash that
 run network-facing software. Attacks against UEFI have been extensively
-studied<sup class="footnote-reference"><a href="#9">13</a></sup>. Most printers are network-attached and are a very popular
-exploitation target<sup class="footnote-reference"><a href="#6">14</a></sup>. Firmware is not visible to most users and is updated
+studied<sup class="footnote-reference" id="fr-9-1"><a href="#footnote-9">13</a></sup>. Most printers are network-attached and are a very popular
+exploitation target<sup class="footnote-reference" id="fr-6-1"><a href="#footnote-6">14</a></sup>. Firmware is not visible to most users and is updated
 much less frequently (if at all) than programs. It is the first software to
 run, at power on reset. Exploits in firmware are extremely difficult to detect,
 because firmware is designed to be as invisible as possible. Firmware is
 extremely complex; UEFI is roughly equivalent in size and capability to a Unix
 kernel. Firmware is usually closed and proprietary, with nowhere near the level
 of testing of kernels. These properties make firmware an ideal place for
-so-called advanced persistent threats[^10][^18]<sup class="footnote-reference"><a href="#5">15</a></sup>. Once an exploit is installed,
+so-called advanced persistent threats[^10][^18]<sup class="footnote-reference" id="fr-5-1"><a href="#footnote-5">15</a></sup>. Once an exploit is installed,
 it is almost impossible to remove, since the exploit can inhibit its removal by
 corrupting the firmware update process. The only sure way to mitigate a
 firmware exploit is to destroy the hardware.</p>
@@ -800,8 +782,8 @@ redirection. At the same time, the shell defines no language of its own for
 scripting and builtins. Instead, the u-root shell uses the Go compiler. In that
 sense, the u-root shell reflects a break in important ways with the last few
 decades of shell development, which has seen shells and their language grow
-ever more complex and, partially as a result, ever more insecure<sup class="footnote-reference"><a href="#19">16</a></sup> and
-fragile<sup class="footnote-reference"><a href="#11">5</a></sup>.</p>
+ever more complex and, partially as a result, ever more insecure<sup class="footnote-reference" id="fr-19-1"><a href="#footnote-19">16</a></sup> and
+fragile<sup class="footnote-reference" id="fr-11-2"><a href="#footnote-11">5</a></sup>.</p>
 <p>The shell has several builtin commands, and you can extend it with builtin
 commands of your own. First, you need to understand the basic source structure
 of u-root shell builtins. Then, you will learn about user-defined builtins.</p>
@@ -905,7 +887,7 @@ the builtin command again and create a shell that further extends the new
 shell. Processes outside the new shell’s process hierarchy can not use this new
 shell or the builtin source. When the new shell exits, the builtins are no
 longer visible in any part of the file system. We use Linux mount name spaces
-to create this effect<sup class="footnote-reference"><a href="#22">17</a></sup>. Once the builtin command has verified that the Go
+to create this effect<sup class="footnote-reference" id="fr-22-1"><a href="#footnote-22">17</a></sup>. Once the builtin command has verified that the Go
 fragment is valid, it builds a new, private namespace with the shell source,
 including the new builtin source. From that point on, the new shell and its
 children will only use the new shell. The parent process and other processes
@@ -965,20 +947,20 @@ WIFI-attached laptop. U-root also provides a small web server, called
 testing. The entire server is 18 lines of Go.</p>
 <h2 id="on-demand-compilation"><a class="header" href="#on-demand-compilation">On-Demand Compilation</a></h2>
 <p>On-Demand compilation is one of the oldest ideas in computer science.
-Slimline Open Firmware (SLOF)<sup class="footnote-reference"><a href="#7">18</a></sup> is a FORTHbased implementation of Open
+Slimline Open Firmware (SLOF)<sup class="footnote-reference" id="fr-7-1"><a href="#footnote-7">18</a></sup> is a FORTHbased implementation of Open
 Firmware developed by IBM for some of its Power and Cell processors. SLOF is
 capable of storing all of Open Firmware as source in the flash memory and
-compiling components to indirect threading on demand<sup class="footnote-reference"><a href="#2">19</a></sup>.</p>
+compiling components to indirect threading on demand<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">19</a></sup>.</p>
 <p>In the last few decades, as our compiler infrastructure has gotten slower and
 more complex, true on-demand compilation has split into two different forms.
 First is the on-demand compilation of source into executable byte codes, as in
 Python. The byte codes are not native but are more efficient than source. If
 the python interpreter finds the byte code it will interpret that instead of
 source to provide improved performance. Java takes the process one step further
-with the Just In Time compilation of byte code to machine code<sup class="footnote-reference"><a href="#20">20</a></sup> to boost
+with the Just In Time compilation of byte code to machine code<sup class="footnote-reference" id="fr-20-1"><a href="#footnote-20">20</a></sup> to boost
 performance.</p>
 <h2 id="embedding-kernel-and-root-file-systems-in-flash"><a class="header" href="#embedding-kernel-and-root-file-systems-in-flash">Embedding kernel and root file systems in flash</a></h2>
-<p>The LinuxBIOS project[^14]<sup class="footnote-reference"><a href="#1">21</a></sup>, together with clustermatic<sup class="footnote-reference"><a href="#25">22</a></sup>, used an embedded
+<p>The LinuxBIOS project[^14]<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">21</a></sup>, together with clustermatic<sup class="footnote-reference" id="fr-25-1"><a href="#footnote-25">22</a></sup>, used an embedded
 kernel and simple root file system to manage supercomputing clusters. Due to
 space constraints of 1 MiB or less of flash, clusters embedded only a
 single-processor Linux kernel with a daemon. The daemon was a network
@@ -998,7 +980,7 @@ with a Linux-As-Bootloader for the iPaq.</p>
 <p>Car computers and other embedded ARM systems frequently contain a kernel and an
 ext2 formatted file system in NOR flash, that is, flash that can be treated as
 memory instead of a block device. Many of these kernels use the so-called
-eXecute In Place<sup class="footnote-reference"><a href="#3">23</a></sup> (XIP) patch, which allows the kernel to page binaries
+eXecute In Place<sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">23</a></sup> (XIP) patch, which allows the kernel to page binaries
 directly from the memory-addressable flash rather than copying it to RAM,
 providing a significant savings in system startup time. A downside of this
 approach is that the executables can not be compressed, which puts further
@@ -1006,10 +988,10 @@ pressure on the need to optimize binary size. NOR flash is very slow, and
 paging from it comes at a significant performance cost. Finally, an
 uncompressed binary image stored in NOR flash has a much higher monetary cost
 than the same image stored in RAM since the cost per bit is so much higher.</p>
-<p>UEFI<sup class="footnote-reference"><a href="#12">11</a></sup> contains a non-Linux kernel (the UEFI firmware binary) and a full set
+<p>UEFI<sup class="footnote-reference" id="fr-12-2"><a href="#footnote-12">11</a></sup> contains a non-Linux kernel (the UEFI firmware binary) and a full set
 of drivers, file systems, network protocol stacks, and command binaries in the
 firmware image. It is a full operating system environment realized as firmware.</p>
-<p>The ONIE project<sup class="footnote-reference"><a href="#23">3</a></sup> is a more recent realization of the Kernel-in-flash idea,
+<p>The ONIE project<sup class="footnote-reference" id="fr-23-2"><a href="#footnote-23">3</a></sup> is a more recent realization of the Kernel-in-flash idea,
 based on Linux. ONIE packs a Linux kernel and Busybox binaries into a very
 small package. Since the Linux build process allows an initial RAM file system
 (initramfs) to be built directly into the kernel binary, some companies are now
@@ -1018,123 +1000,108 @@ bzImage with a small Busybox packed into a 4M image. ONIE has brought new life
 to an old idea: packaging a kernel and small set of binaries in flash to create
 a fast, capable boot system.</p>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">21</sup>
-<p>AGNEW, A., SULMICKI, A., MINNICH, R., AND ARBAUGH, W. A. Flexibility in
-rom: A stackable open source bios. In USENIX Annual Technical Conference,
-FREENIX Track (2003), pp. 115–124.</p>
-</div>
-<div class="footnote-definition" id="2"><sup class="footnote-definition-label">19</sup>
-<p>(AUTHOR OF SLOF), S. B. Personal conversation.</p>
-</div>
-<div class="footnote-definition" id="3"><sup class="footnote-definition-label">23</sup>
-<p>BENAVIDES, T., TREON, J., HULBERT, J., AND CHANG, W. The enabling of an
-execute-in-place architecture to reduce the embedded system memory
-footprint and boot time. Journal of computers 3, 1 (2008), 79–89.</p>
-</div>
-<div class="footnote-definition" id="4"><sup class="footnote-definition-label">12</sup>
-<p>BOGOWITZ, B., AND SWINFORD, T. Intel⃝R active management technology
-reduces it costs with improved pc manageability. Technology@ Intel Magazine
-(2004).</p>
-</div>
-<div class="footnote-definition" id="5"><sup class="footnote-definition-label">15</sup>
-<p>CELEDA, P., KREJCI, R., VYKOPAL, J., AND DRASAR, M. Embedded malware-an
-analysis of the chuck norris botnet. In Computer Network Defense (EC2ND),
-2010 European Conference on (2010), IEEE, pp. 3–10.</p>
-</div>
-<div class="footnote-definition" id="6"><sup class="footnote-definition-label">14</sup>
-<p>CUI, A., COSTELLO, M., AND STOLFO, S. J. When firmware modifications
-attack: A case study of embedded exploitation. In NDSS (2013).</p>
-</div>
-<div class="footnote-definition" id="7"><sup class="footnote-definition-label">18</sup>
-<p>DALY, D., CHOI, J. H., MOREIRA, J. E., AND WATERLAND, A. Base operating
-system provisioning and bringup for a commercial supercomputer. In Parallel
-and Distributed Processing Symposium, 2007. IPDPS 2007. IEEE International
-(2007), IEEE, pp. 1–7.</p>
-</div>
-<div class="footnote-definition" id="8"><sup class="footnote-definition-label">6</sup>
+<hr>
+<ol class="footnote-definition"><li id="footnote-24">
+<p>VARIOUS. No papers were published; see perllinux.sourceforge.net. <a href="#fr-24-1">↩</a> <a href="#fr-24-2">↩2</a></p>
+</li>
+<li id="footnote-26">
+<p>WELLS, N. Busybox: A swiss army knife for linux. Linux J. 2000, 78es
+(Oct. 2000). <a href="#fr-26-1">↩</a> <a href="#fr-26-2">↩2</a></p>
+</li>
+<li id="footnote-23">
+<p>VARIOUS. No papers have been published on onie; see onie.org. <a href="#fr-23-1">↩</a> <a href="#fr-23-2">↩2</a></p>
+</li>
+<li id="footnote-15">
+<p>MOON, S.-P., KIM, J.-W., BAE, K.-H., LEE, J.-C., AND SEO, D.-W. Embedded
+linux implementation on a commercial digital tv system. Consumer
+Electronics, IEEE Transactions on 49, 4 (Nov 2003), 1402–1407. <a href="#fr-15-1">↩</a></p>
+</li>
+<li id="footnote-11">
+<p>KOZIOL, J., LITCHFIELD, D., AITEL, D., ANLEY, C., EREN, S., MEHTA, N.,
+AND HASSELL, R. The Shellcoder’s Handbook. Wiley Indianapolis, 2004. <a href="#fr-11-1">↩</a> <a href="#fr-11-2">↩2</a></p>
+</li>
+<li id="footnote-8">
 <p>DURUMERIC, Z., KASTEN, J., ADRIAN, D., HALDERMAN, J. A., BAILEY, M., LI,
 F., WEAVER, N., AMANN, J., BEEKMAN, J., PAYER, M., ET AL. The matter of
 heartbleed. In Proceedings of the 2014 Conference on Internet Measurement
-Conference (2014), ACM, pp. 475–488.</p>
-</div>
-<div class="footnote-definition" id="9"><sup class="footnote-definition-label">13</sup>
-<p>KALLENBERG, C., AND BULYGIN, Y. All your boot are belong to us intel,
-mitre. cansecwest 2014.</p>
-</div>
-<div class="footnote-definition" id="10"><sup class="footnote-definition-label">24</sup>
-<p>KALLENBERG, C., KOVAH, X., BUTTERWORTH, J., AND CORNWELL, S. Extreme
-privilege escalation on windows 8/uefi systems.</p>
-</div>
-<div class="footnote-definition" id="11"><sup class="footnote-definition-label">5</sup>
-<p>KOZIOL, J., LITCHFIELD, D., AITEL, D., ANLEY, C., EREN, S., MEHTA, N.,
-AND HASSELL, R. The Shellcoder’s Handbook. Wiley Indianapolis, 2004.</p>
-</div>
-<div class="footnote-definition" id="12"><sup class="footnote-definition-label">11</sup>
-<p>LEWIS, T. Uefi overview, 2007.</p>
-</div>
-<div class="footnote-definition" id="13"><sup class="footnote-definition-label">8</sup>
-<p>MAY,D.Occam.ACMSigplanNotices18,4(1983),69–79.</p>
-</div>
-<div class="footnote-definition" id="14"><sup class="footnote-definition-label">25</sup>
-<p>MINNICH, R. G. Linuxbios at four. Linux J. 2004, 118 (Feb. 2004), 8–.</p>
-</div>
-<div class="footnote-definition" id="15"><sup class="footnote-definition-label">4</sup>
-<p>MOON, S.-P., KIM, J.-W., BAE, K.-H., LEE, J.-C., AND SEO, D.-W. Embedded
-linux implementation on a commercial digital tv system. Consumer
-Electronics, IEEE Transactions on 49, 4 (Nov 2003), 1402–1407.</p>
-</div>
-<div class="footnote-definition" id="16"><sup class="footnote-definition-label">7</sup>
+Conference (2014), ACM, pp. 475–488. <a href="#fr-8-1">↩</a></p>
+</li>
+<li id="footnote-16">
 <p>PIKE, R. Another go at language design. Stanford University Computer
-Systems Laboratory Colloquium.</p>
-</div>
-<div class="footnote-definition" id="17"><sup class="footnote-definition-label">9</sup>
+Systems Laboratory Colloquium. <a href="#fr-16-1">↩</a></p>
+</li>
+<li id="footnote-13">
+<p>MAY,D.Occam.ACMSigplanNotices18,4(1983),69–79. <a href="#fr-13-1">↩</a></p>
+</li>
+<li id="footnote-17">
 <p>RITCHIE, D. M. The limbo programming language. Inferno Programmer’s
-Manual 2 (1997).</p>
-</div>
-<div class="footnote-definition" id="18"><sup class="footnote-definition-label">26</sup>
-<p>SACCO, A. L., AND ORTEGA, A. A. Persistent bios infection. In CanSecWest
-Applied Security Conference (2009).</p>
-</div>
-<div class="footnote-definition" id="19"><sup class="footnote-definition-label">16</sup>
+Manual 2 (1997). <a href="#fr-17-1">↩</a></p>
+</li>
+<li id="footnote-27">
+<p>WINTERBOTTOM, P. Alef language reference manual. Plan 9 Programmer’s Man
+(1995). <a href="#fr-27-1">↩</a></p>
+</li>
+<li id="footnote-12">
+<p>LEWIS, T. Uefi overview, 2007. <a href="#fr-12-1">↩</a> <a href="#fr-12-2">↩2</a></p>
+</li>
+<li id="footnote-4">
+<p>BOGOWITZ, B., AND SWINFORD, T. Intel⃝R active management technology
+reduces it costs with improved pc manageability. Technology@ Intel Magazine
+(2004). <a href="#fr-4-1">↩</a></p>
+</li>
+<li id="footnote-9">
+<p>KALLENBERG, C., AND BULYGIN, Y. All your boot are belong to us intel,
+mitre. cansecwest 2014. <a href="#fr-9-1">↩</a></p>
+</li>
+<li id="footnote-6">
+<p>CUI, A., COSTELLO, M., AND STOLFO, S. J. When firmware modifications
+attack: A case study of embedded exploitation. In NDSS (2013). <a href="#fr-6-1">↩</a></p>
+</li>
+<li id="footnote-5">
+<p>CELEDA, P., KREJCI, R., VYKOPAL, J., AND DRASAR, M. Embedded malware-an
+analysis of the chuck norris botnet. In Computer Network Defense (EC2ND),
+2010 European Conference on (2010), IEEE, pp. 3–10. <a href="#fr-5-1">↩</a></p>
+</li>
+<li id="footnote-19">
 <p>SAMPATHKUMAR, R. Vulnerability Management for Cloud Computing-2014: A
-Cloud Computing Security Essential. Rajakumar Sampathkumar, 2014.</p>
-</div>
-<div class="footnote-definition" id="20"><sup class="footnote-definition-label">20</sup>
-<p>SUGANUMA, T., OGASAWARA, T., TAKEUCHI, M., YASUE, T., KAWAHITO, M.,
-ISHIZAKI, K., KOMATSU, H., AND NAKATANI, T. Overview of the ibm java
-just-in-time compiler. IBM systems Journal 39, 1 (2000), 175–193.</p>
-</div>
-<div class="footnote-definition" id="21"><sup class="footnote-definition-label">27</sup>
-<p>TEAM, G. The go programming language specification. Tech. rep.,
-Technical Report <a href="http://golang/">http://golang</a>. org/doc/doc/go spec.
-html, Google Inc, 2009.</p>
-</div>
-<div class="footnote-definition" id="22"><sup class="footnote-definition-label">17</sup>
+Cloud Computing Security Essential. Rajakumar Sampathkumar, 2014. <a href="#fr-19-1">↩</a></p>
+</li>
+<li id="footnote-22">
 <p>VAN HENSBERGEN, E., AND MINNICH, R. Grave robbers from outer space:
 Using 9p2000 under linux. In USENIX Annual Technical Conference, FREENIX
-Track (2005), pp. 83–94.</p>
-</div>
-<div class="footnote-definition" id="23"><sup class="footnote-definition-label">3</sup>
-<p>VARIOUS. No papers have been published on onie; see onie.org.</p>
-</div>
-<div class="footnote-definition" id="24"><sup class="footnote-definition-label">1</sup>
-<p>VARIOUS. No papers were published; see perllinux.sourceforge.net.</p>
-</div>
-<div class="footnote-definition" id="25"><sup class="footnote-definition-label">22</sup>
+Track (2005), pp. 83–94. <a href="#fr-22-1">↩</a></p>
+</li>
+<li id="footnote-7">
+<p>DALY, D., CHOI, J. H., MOREIRA, J. E., AND WATERLAND, A. Base operating
+system provisioning and bringup for a commercial supercomputer. In Parallel
+and Distributed Processing Symposium, 2007. IPDPS 2007. IEEE International
+(2007), IEEE, pp. 1–7. <a href="#fr-7-1">↩</a></p>
+</li>
+<li id="footnote-2">
+<p>(AUTHOR OF SLOF), S. B. Personal conversation. <a href="#fr-2-1">↩</a></p>
+</li>
+<li id="footnote-20">
+<p>SUGANUMA, T., OGASAWARA, T., TAKEUCHI, M., YASUE, T., KAWAHITO, M.,
+ISHIZAKI, K., KOMATSU, H., AND NAKATANI, T. Overview of the ibm java
+just-in-time compiler. IBM systems Journal 39, 1 (2000), 175–193. <a href="#fr-20-1">↩</a></p>
+</li>
+<li id="footnote-1">
+<p>AGNEW, A., SULMICKI, A., MINNICH, R., AND ARBAUGH, W. A. Flexibility in
+rom: A stackable open source bios. In USENIX Annual Technical Conference,
+FREENIX Track (2003), pp. 115–124. <a href="#fr-1-1">↩</a></p>
+</li>
+<li id="footnote-25">
 <p>WATSON, G. R., SOTTILE, M. J., MINNICH, R. G., CHOI, S.-E., AND
 HERTDRIKS, E. Pink: A 1024-node single-system image linux cluster. In High
 Performance Computing and Grid in Asia Pacific Region, 2004. Proceedings.
-Seventh International Conference on (2004), IEEE, pp. 454–461.</p>
-</div>
-<div class="footnote-definition" id="26"><sup class="footnote-definition-label">2</sup>
-<p>WELLS, N. Busybox: A swiss army knife for linux. Linux J. 2000, 78es
-(Oct. 2000).</p>
-</div>
-<div class="footnote-definition" id="27"><sup class="footnote-definition-label">10</sup>
-<p>WINTERBOTTOM, P. Alef language reference manual. Plan 9 Programmer’s Man
-(1995).</p>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="u-root-demo-with-qemu"><a class="header" href="#u-root-demo-with-qemu">u-root demo with QEMU</a></h1>
+Seventh International Conference on (2004), IEEE, pp. 454–461. <a href="#fr-25-1">↩</a></p>
+</li>
+<li id="footnote-3">
+<p>BENAVIDES, T., TREON, J., HULBERT, J., AND CHANG, W. The enabling of an
+execute-in-place architecture to reduce the embedded system memory
+footprint and boot time. Journal of computers 3, 1 (2008), 79–89. <a href="#fr-3-1">↩</a></p>
+</li>
+</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="u-root-demo-with-qemu"><a class="header" href="#u-root-demo-with-qemu">u-root demo with QEMU</a></h1>
 <p>You can try out LinuxBoot without needing to build anything! You can try out
 LinuxBoot needing only 3 commands.</p>
 <p>We have made Initial Ram File System (initramfs) images available for four
@@ -1817,7 +1784,7 @@ protocol is called 9P2000. We are going to present a filtered version of the
 file I/O from running a remote <code>date</code>; in practice, you can watch all the opens,
 reads, writes, and closes the remote process performs.</p>
 <p>The trace for running <code>date</code> starts right when the remote program has called
-<code>exec</code>, and the kernel is starting to find the program to run<sup class="footnote-reference"><a href="#1">1</a></sup>. The file
+<code>exec</code>, and the kernel is starting to find the program to run<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>. The file
 opens look like this, on a user’s system:</p>
 <pre><code class="language-txt">Open /bin/date
 Open /lib/x86_64-linux-gnu/ld-2.27.so
@@ -2090,10 +2057,11 @@ mounts are provided</li>
 mounts via fstab</li>
 <li>if there are no 9p mounts, and no fstab mounts, cpu is equivalent to ssh.</li>
 </ul>
-<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
-<p>For reference, the command we used: <code>cpu -dbg9p -d apu2 date</code></p>
-</div>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="dut-a-simple-device-under-test-utility"><a class="header" href="#dut-a-simple-device-under-test-utility">DUT, a simple Device Under Test utility.</a></h1>
+<hr>
+<ol class="footnote-definition"><li id="footnote-1">
+<p>For reference, the command we used: <code>cpu -dbg9p -d apu2 date</code> <a href="#fr-1-1">↩</a></p>
+</li>
+</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="dut-a-simple-device-under-test-utility"><a class="header" href="#dut-a-simple-device-under-test-utility">DUT, a simple Device Under Test utility.</a></h1>
 <p>Points of contact: <a href="https://github.com/rminnich">Ron Minnich</a></p>
 <p>DUT is a simple Device Under Test program that gives you control of a node. It is intended to make
 very fast startup and control easy.</p>
@@ -3403,6 +3371,8 @@ implementation.</p>
         <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
+        <script src="mermaid.min.js"></script>
+        <script src="mermaid-init.js"></script>
 
         <script>
         window.addEventListener('load', function() {

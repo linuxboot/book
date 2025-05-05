@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light" dir="ltr">
+<html lang="en" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -24,26 +24,29 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
-        <!-- Provide site root to javascript -->
-        <script>
-            var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
-        </script>
 
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -57,24 +60,22 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -82,45 +83,25 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../intro.html"><strong aria-hidden="true">1.</strong> LinuxBoot Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../use-cases.html"><strong aria-hidden="true">1.1.</strong> Use cases</a></li><li class="chapter-item expanded "><a href="../talks-news.html"><strong aria-hidden="true">1.2.</strong> Talks and news coverage</a></li></ol></li><li class="chapter-item expanded "><a href="../components.html"><strong aria-hidden="true">2.</strong> LinuxBoot Components</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../tools-evaluation.html"><strong aria-hidden="true">2.1.</strong> Evaluation of tools</a></li></ol></li><li class="chapter-item expanded "><a href="../u-root.html"><strong aria-hidden="true">3.</strong> All about u-root</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../u-root-qemu-demo.html"><strong aria-hidden="true">3.1.</strong> u-root demo with QEMU</a></li></ol></li><li class="chapter-item expanded "><a href="../utilities/index.html"><strong aria-hidden="true">4.</strong> LinuxBoot utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../utilities/UEFI_Tool_Kit.html"><strong aria-hidden="true">4.1.</strong> UEFI Tool Kit</a></li><li class="chapter-item expanded "><a href="../utilities/cpu.html"><strong aria-hidden="true">4.2.</strong> The magical cpu command</a></li><li class="chapter-item expanded "><a href="../utilities/dut.html"><strong aria-hidden="true">4.3.</strong> Device Under Test</a></li></ol></li><li class="chapter-item expanded "><a href="../implementation.html"><strong aria-hidden="true">5.</strong> Implementing LinuxBoot</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../coreboot.u-root.systemboot/index.html"><strong aria-hidden="true">5.1.</strong> LinuxBoot using coreboot, u-root and systemboot</a></li></ol></li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">6.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="../history.html"><strong aria-hidden="true">7.</strong> History</a></li><li class="chapter-item expanded "><a href="../case_studies/index.html"><strong aria-hidden="true">8.</strong> Case Studies</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../case_studies/Ampere_study.html"><strong aria-hidden="true">8.1.</strong> Ampere study</a></li><li class="chapter-item expanded "><a href="../case_studies/Google_study.html" class="active"><strong aria-hidden="true">8.2.</strong> Google study</a></li><li class="chapter-item expanded "><a href="../case_studies/TiogaPass.html"><strong aria-hidden="true">8.3.</strong> OCP TiogaPass</a></li></ol></li><li class="chapter-item expanded "><a href="../faq.html"><strong aria-hidden="true">9.</strong> Frequently Asked Questions</a></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
-
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -130,6 +111,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -353,6 +335,8 @@ and cross-platform portable Linux applications.</li>
         <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
 
 
     </div>
