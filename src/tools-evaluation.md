@@ -37,6 +37,21 @@ terms of arguments and flags and possibly additional utilities they include.
 | [u-root](https://u-root.org)                             | Go       | BSD 3-Clause | ByteDance, Google et al |
 | [uutils/coreutils](http://uutils.github.io/)             | Rust     | MIT          | not for LinuxBoot       |
 
+### Boot menus
+
+There are multiple approaches to defining boot menus, such as GRUB's
+configuration files, EXTLINUX, and [Boot Loader Specification (BLS)](https://uapi-group.org/specifications/specs/boot_loader_specification/).
+For each of them, the boot loader will need a parser.
+
+#### BLS
+
+| library                                                                               | language | license      | usage      |
+| ------------------------------------------------------------------------------------- | -------- | ------------ | ---------- |
+| u-root [`pkg/boot/bls`](https://github.com/u-root/u-root/tree/main/pkg/boot/bls)      | Go       | BSD 3-Clause |            |
+| [`bootctl`](https://www.freedesktop.org/software/systemd/man/latest/bootctl.html)     | C        | LGPL-2.1+    | systemd    |
+| [`boot_loader_spec` crate](https://docs.rs/boot-loader-spec/latest/boot_loader_spec/) | Rust     | MPL-2.0      | ?          |
+| [blsforme](https://github.com/AerynOS/blsforme)                                       | Rust     | MPL-2.0      | standalone |
+
 ### kexec implementations
 
 While [kexec itself is a Linux syscall](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/uapi/linux/kexec.h),
