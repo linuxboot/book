@@ -31,7 +31,10 @@ jobs:
         run: mdbook-mermaid install
 
       - name: Build
-        run: mdbook build
+        # linkcheck causes ouput files to end up in html/, so move them to root
+        run: |
+          mdbook build
+          mv book/html/* book/
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
