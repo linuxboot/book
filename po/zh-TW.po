@@ -13,44 +13,37 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: src/SUMMARY.md:1 src/intro.md:1
-#, fuzzy
 msgid "LinuxBoot Introduction"
 msgstr "LinuxBoot介紹"
 
 #: src/SUMMARY.md:2 src/use-cases.md:1
-#, fuzzy
 msgid "Use cases"
-msgstr "用例"
+msgstr "使用情境"
 
 #: src/SUMMARY.md:3
-#, fuzzy
 msgid "Talks and news coverage"
-msgstr "演講和新聞報道"
+msgstr "演講和新聞報導"
 
 #: src/SUMMARY.md:4 src/components.md:1
-#, fuzzy
 msgid "LinuxBoot Components"
-msgstr "LinuxBoot 元件"
+msgstr "LinuxBoot 的組成"
 
 #: src/SUMMARY.md:5 src/tools-evaluation.md:1
-#, fuzzy
 msgid "Evaluation of tools"
 msgstr "工具評估"
 
 #: src/SUMMARY.md:6 src/u-root.md:1
-#, fuzzy
 msgid "All about u-root"
 msgstr "關於 u-root"
 
 #: src/SUMMARY.md:7 src/u-root-qemu-demo.md:1
-#, fuzzy
 msgid "u-root demo with QEMU"
-msgstr "使用 QEMU 的 u-root 演示"
+msgstr "使用 QEMU 的 u-root 示範"
 
 #: src/SUMMARY.md:8
 #, fuzzy
 msgid "LinuxBoot utilities"
-msgstr "Linux啟動實用程式"
+msgstr "Linux 啟動實用程式"
 
 #: src/SUMMARY.md:9 src/utilities/UEFI_Tool_Kit.md:1
 #, fuzzy
@@ -58,98 +51,79 @@ msgid "UEFI Tool Kit"
 msgstr "UEFI工具包"
 
 #: src/SUMMARY.md:10
-#, fuzzy
 msgid "The magical cpu command"
 msgstr "神奇的 CPU 指令"
 
 #: src/SUMMARY.md:11
-#, fuzzy
 msgid "Device Under Test"
-msgstr "被測設備"
+msgstr "被測試的設備"
 
 #: src/SUMMARY.md:12 src/implementation.md:1
-#, fuzzy
 msgid "Implementing LinuxBoot"
 msgstr "實作 LinuxBoot"
 
 #: src/SUMMARY.md:13 src/coreboot.u-root.systemboot/index.md:1
-#, fuzzy
 msgid "LinuxBoot using coreboot, u-root and systemboot"
 msgstr "使用 coreboot、u-root 和 systemboot 的 LinuxBoot"
 
 #: src/SUMMARY.md:14 src/glossary.md:1
-#, fuzzy
 msgid "Glossary"
 msgstr "詞彙表"
 
 #: src/SUMMARY.md:15 src/history.md:1
-#, fuzzy
 msgid "History"
 msgstr "歷史"
 
 #: src/SUMMARY.md:16 src/case_studies/index.md:1
-#, fuzzy
 msgid "Case Studies"
 msgstr "案例研究"
 
 #: src/SUMMARY.md:17
-#, fuzzy
 msgid "Ampere study"
-msgstr "安培研究"
+msgstr "Ampere 的案例研究"
 
 #: src/SUMMARY.md:18
-#, fuzzy
 msgid "Google study"
-msgstr "谷歌研究"
+msgstr "Google 的案例研究"
 
 #: src/SUMMARY.md:19
-#, fuzzy
 msgid "OCP TiogaPass"
-msgstr "OCP 泰奧加山口"
+msgstr "OCP TiogaPass 的案例研究"
 
 #: src/SUMMARY.md:20
-#, fuzzy
 msgid "Frequently Asked Questions"
 msgstr "常見問題"
 
 #: src/intro.md:3
-#, fuzzy
 msgid ""
 "This is the official “LinuxBoot Book” for the LinuxBoot project. The book:"
 msgstr "這是 LinuxBoot 專案的官方「LinuxBoot 書籍」。這本書："
 
 #: src/intro.md:5
-#, fuzzy
 msgid "Describes the LinuxBoot project"
 msgstr "描述 LinuxBoot 項目"
 
 #: src/intro.md:6
-#, fuzzy
 msgid "Explains why you would want to use LinuxBoot"
 msgstr "解釋為什麼要使用 LinuxBoot"
 
 #: src/intro.md:7
-#, fuzzy
 msgid "Describes the components that comprise LinuxBoot"
 msgstr "描述組成 LinuxBoot 的元件"
 
 #: src/intro.md:8
-#, fuzzy
 msgid "Highlights the differences between other boot processes and LinuxBoot"
-msgstr "重點介紹其他啟動過程與 LinuxBoot 之間的差異"
+msgstr "說明其他啟動系統（如 UEFI）與 LinuxBoot 的差異"
 
 #: src/intro.md:9
-#, fuzzy
 msgid "Guides you through the steps needed to implement LinuxBoot"
 msgstr "指導您完成實作 LinuxBoot 所需的步驟"
 
 #: src/intro.md:11
-#, fuzzy
 msgid "What is LinuxBoot?"
 msgstr "什麼是 LinuxBoot？"
 
 #: src/intro.md:13
-#, fuzzy
 msgid ""
 "LinuxBoot is the idea of replacing proprietary or corporate-driven "
 "late-stage boot [firmware](./glossary.md) with the Linux kernel and a "
@@ -157,8 +131,9 @@ msgid ""
 "years includes various initiatives with the overarching goal of moving from "
 "obscure and complex firmware to simpler and open source firmware."
 msgstr ""
-"LinuxBoot 的想法是用 Linux "
-"核心和基於社群的用戶空間取代專有或企業驅動的後期啟動[韌體](./glossary.md)。這個想法逐漸發展成為一個項目，多年來包括各種舉措，其總體目標是從晦澀複雜的韌體轉變為更簡單和開源的韌體。"
+"LinuxBoot 的想法是用 Linux 核心和基於社群的用戶空間（user-space） 取代專有或企業主導的後期"
+"啟動[韌體](./glossary.md)。這個想法逐漸發展成為一個項目，多年來包括各種舉措，其總體目標是"
+"從晦澀複雜的韌體轉變為更簡單和開源的韌體。"
 
 #: src/intro.md:19
 msgid ""
@@ -168,59 +143,58 @@ msgid ""
 "[initramfs](https://de.wikipedia.org/wiki/Initramfs) that contains a minimal "
 "Golang user-space built using [u-root](https://github.com/u-root/u-root)."
 msgstr ""
+"LinuxBoot 專案提供兩個參考實作；`linuxboot` 和 Heads。"
+"[`linuxboot`](https://github.com/linuxboot/linuxboot) "
+"建置系統輸出一個啟動載荷 (boot payload) ，包含一個 Linux 核心和一個 "
+"[initramfs](https://de.wikipedia.org/wiki/Initramfs)，其中包含使用 "
+"[u-root](https://github.com/u-root/u-root) 建置的最小 Golang 使用者空間（user-space）。"
 
 #: src/intro.md:25
-#, fuzzy
 msgid ""
 "The Heads build system is more focused on local attestation, TPM DUK "
 "seal/unseal operations, GPG-based security measurement, reproducible builds "
 "and uses BusyBox to provide a much larger suite of Linux tools allowing it "
 "to also be used as a recovery environment."
 msgstr ""
-"Heads 構建系統更側重於本地證明、TPM DUK 密封/解封操作、基於 GPG 的安全測量、可重現構建，並使用 BusyBox 提供更大的 "
-"Linux 工具套件，使其也可以用作恢復環境。"
+"Heads 構建系統更側重於本地證明（local attestation）、TPM DUK 密封/解封（seal/unseal）"
+"操作、基於 GPG 的安全措施、可重現構建（reproducible builds），並使用 BusyBox 提供更大的 "
+"Linux 工具套件，使其也可以用作修復環境（recovery environment）。"
 
 #: src/intro.md:30
-#, fuzzy
 msgid "Many other implementations exist independently of the project:"
 msgstr "許多其他實作獨立於專案而存在："
 
 #: src/intro.md:32
-#, fuzzy
 msgid ""
 "[petitboot](https://github.com/open-power/petitboot) under the OpenPOWER "
 "project originally targeting the PS3"
 msgstr ""
-"[petitboot](https://github.com/open-power/petitboot) 屬於 OpenPOWER 項目，最初針對的是 "
-"PS3"
+"[petitboot](https://github.com/open-power/petitboot) 屬於 OpenPOWER 項目，最初針"
+"對的是 PS3"
 
 #: src/intro.md:34
-#, fuzzy
 msgid ""
 "[k-boot](https://github.com/BayLibre/k-boot) developed by BayLibre in 2023 "
 "using BusyBox"
 msgstr ""
-"[k-boot](https://github.com/BayLibre/k-boot) 由 BayLibre 於 2023 年使用 BusyBox 開發"
+"[k-boot](https://github.com/BayLibre/k-boot) 由 BayLibre 於 2023 年使用 BusyBox "
+"開發"
 
 #: src/intro.md:36
-#, fuzzy
 msgid "[nmbl](https://github.com/rhboot/nmbl-poc) developed by RedHat in 2024"
 msgstr "[nmbl](https://github.com/rhboot/nmbl-poc) 由 RedHat 於 2024 年開發"
 
 #: src/intro.md:37
-#, fuzzy
 msgid "[ZFSBootMenu](https://docs.zfsbootmenu.org/en/latest)"
 msgstr "[ZFSBootMenu](https://docs.zfsbootmenu.org/en/latest)"
 
 #: src/intro.md:39
-#, fuzzy
 msgid ""
 "And there is a long history of similar implementations including projects "
 "that are no longer maintained:"
-msgstr "類似的實作由來已久，包括不再維護的專案："
+msgstr "此外，過去也曾有許多類似的實作，其中包含一些已不再維護的專案："
 
 #: src/intro.md:42
-#, fuzzy
 msgid ""
 "MILO on Alpha started before 2000 (see [What is "
 "MILO?](https://tldp.org/HOWTO/MILO-HOWTO/what-section.html))"
@@ -229,12 +203,10 @@ msgstr ""
 "MILO？](https://tldp.org/HOWTO/MILO-HOWTO/what-section.html)）"
 
 #: src/intro.md:44
-#, fuzzy
 msgid "kboot developed by Werner Almesberger in 2005"
 msgstr "kboot 由 Werner Almesberger 於 2005 年開發"
 
 #: src/intro.md:46
-#, fuzzy
 msgid ""
 "These projects all attempt to reduce the role of firmware to a small, "
 "fixed-function core whose only purpose is to get a flash-based Linux kernel "
@@ -242,16 +214,16 @@ msgid ""
 "Linux kernel and a user-space environment will run on the machine. Go is the "
 "recommended user-space environment, but is not required."
 msgstr ""
-"這些專案都試圖將韌體的作用簡化為一個小型的、固定功能的核心，其唯一目的是啟動基於快閃記憶體的 Linux 核心。這個「基本要素」韌體準備硬體並啟動 "
-"Linux 內核，並且用戶空間環境將在機器上運行。 Go 是建議的使用者空間環境，但不是必需的。"
+"這些專案都試圖將韌體的角色簡化為一個小型、固定功能的核心，其唯一目的是啟動一個儲存在快閃記憶體"
+"（flash）中的 Linux 核心（Linux kernel）。這個「最低必要」（bare essentials）的韌體會負"
+"責初始化硬體，接著啟動 Linux 核心，並讓使用者空間環境（user-space environment）在機器上"
+"運行。Go 是建議使用的使用者空間環境，但並非必須。"
 
 #: src/intro.md:52
-#, fuzzy
 msgid "Why LinuxBoot is needed"
 msgstr "為什麼需要 LinuxBoot"
 
 #: src/intro.md:54
-#, fuzzy
 msgid ""
 "Sometimes firmware contains drivers and utilities. They can have bugs, or be "
 "unmaintained, which can be a source of problems and security issues. "
@@ -264,29 +236,31 @@ msgid ""
 "drivers are currently being run around the clock at scale, they will have "
 "fewer bugs."
 msgstr ""
-"有時韌體包含驅動程式和實用程式。它們可能存在錯誤，或無人維護，這可能會成為問題和安全問題的根源。 LinuxBoot 以 Linux "
-"驅動程式取代了專有的、閉源的、供應商提供的韌體驅動程式。這使得編寫 Linux "
-"驅動程式的工程師和編寫韌體驅動程式的工程師能夠專注於一組驅動程式。因此，這些驅動程式將擁有更多的貢獻者和審查者，並且由於這些驅動程式是 Linux "
-"的一部分，因此可以使用標準產業編碼基礎架構來改進它們。最後，由於這些 Linux 驅動程式目前正在大規模全天候運行，因此它們的錯誤會更少。"
+"有時候，韌體會包含驅動程式和工具程式（utilities）。這些元件可能存在漏洞，或是已無人維護，進而"
+"成為問題或資安風險的來源。LinuxBoot 以 Linux 驅動程式取代了供應商提供的專有閉源韌體驅動"
+"（proprietary, closed-source firmware drivers），讓開發 Linux 驅動與韌體驅動的工程師"
+"能專注於同一套驅動程式。如此一來，這些驅動程式將擁有更多的貢獻者 (contributors) 與審閱者"
+"（reviewers），又因為它們是 Linux 的一部分，能夠運用業界標準的開發流程與工具"
+"（standard industry coding infrastructure）來持續改善。最終，由於這些 Linux 驅動目前"
+"已在大量系統上長時間穩定運作（run around the clock at scale），其錯誤率也會相對較低。"
 
 #: src/intro.md:64
-#, fuzzy
 msgid "What LinuxBoot does"
-msgstr "LinuxBoot 的作用"
+msgstr "LinuxBoot 的功能"
 
 #: src/intro.md:66
-#, fuzzy
 msgid ""
 "LinuxBoot replaces many Driver Execution Environment (DXE) modules used by "
 "Unified Extensible Firmware Interface (UEFI) and other firmware, "
 "particularly the network stack and file system modules, with Linux "
 "applications."
 msgstr ""
-"LinuxBoot 以 Linux 應用程式取代了統一可擴充韌體介面 (UEFI) 和其他韌體所使用的許多驅動程式執行環境 (DXE) "
-"模組，特別是網路堆疊和檔案系統模組。"
+"LinuxBoot 以 Linux 應用程式取代了統一可擴充韌體介面"
+"（Unified Extensible Firmware Interface，UEFI）與其他韌體中大量的驅動程式執行環境"
+"（Driver Execution Environment，DXE）模組，特別是網路協定堆疊（network stack）和檔案"
+"系統（file system）模組。"
 
 #: src/intro.md:70
-#, fuzzy
 msgid ""
 "LinuxBoot brings up the Linux kernel as a DXE in flash ROM instead of the "
 "UEFI shell. The Linux kernel, with a provided Go based user-space, can then "
@@ -295,37 +269,37 @@ msgid ""
 "detection applications as cross-architecture and cross-platform portable "
 "Linux applications."
 msgstr ""
-"LinuxBoot 將 Linux 核心作為快閃 ROM 中的 DXE 而不是 UEFI shell 啟動。然後，Linux 核心可以透過提供的基於 "
-"Go 的使用者空間來載入運行時核心。 LinuxBoot "
-"範例支援將傳統韌體應用程式（如開機載入程式、偵錯、診斷和錯誤檢測應用程式）編寫為跨架構和跨平台的可移植 Linux 應用程式。"
+"LinuxBoot 將 Linux 核心（Linux kernel）作為快閃記憶體（flash ROM）中的驅動程式執行環境"
+"（Driver Execution Environment, DXE）啟動，而非傳統的 UEFI shell。接著，Linux 核心"
+"可透過隨附的基於 Go 的使用者空間（user-space）來載入運行時核心（runtime kernel）。"
+"LinuxBoot 的架構（paradigm）使得傳統的韌體應用程式（例如開機載入器、偵錯工具、診斷與錯誤偵"
+"測應用程式）能夠以跨架構、跨平台的可攜式 Linux 應用程式形式實作。"
 
 #: src/intro.md:77
-#, fuzzy
 msgid ""
 "When Linux boots it needs a root file system with utilities. One such root "
 "filesystem used for LinuxBoot is based on u-root standard utilities written "
 "in Go. The following diagram shows the current state of the UEFI boot "
 "process and what is planned for the transition to LinuxBoot."
 msgstr ""
-"當 Linux 啟動時，它需要一個具有實用程式的根檔案系統。 LinuxBoot 使用的一個這樣的根檔案系統是基於用 Go 編寫的 u-root "
-"標準實用程式。下圖顯示了 UEFI 啟動過程的目前狀態以及向 LinuxBoot 過渡的計畫。"
+"當 Linux 啟動時，它需要一個包含工具程式（utilities）的根檔案系統（root file system）。"
+"LinuxBoot 使用的其中一種根檔案系統是基於使用 Go 語言編寫的 u-root 標準工具程式"
+"（standard utilities）。下圖顯示了目前 UEFI 啟動過程的狀況，以及計畫中的 LinuxBoot 過渡"
+"流程。"
 
 #: src/intro.md:82
-#, fuzzy
 msgid ""
 "[![comparison of UEFI boot and "
 "LinuxBoot](../images/UEFI-versus-LinuxBoot.svg)](../images/UEFI-versus-LinuxBoot.svg)"
 msgstr ""
-"[![UEFI 啟動與 LinuxBoot "
-"的比較](../images/UEFI-versus-LinuxBoot.svg)](../images/UEFI-versus-LinuxBoot.svg)"
+"[![UEFI 啟動與 LinuxBoot 的比較]"
+"(../images/UEFI-versus-LinuxBoot.svg)](../images/UEFI-versus-LinuxBoot.svg)"
 
 #: src/intro.md:84
-#, fuzzy
 msgid "Benefits of using the Go user-space environment and compiler"
-msgstr "使用 Go 使用者空間環境和編譯器的好處"
+msgstr "使用 Go 使用者空間(user-space)環境和編譯器的好處"
 
 #: src/intro.md:86
-#, fuzzy
 msgid ""
 "Go is a systems programming language created by Google. Go has strong "
 "typing, language level support for concurrency, inter-process communication "
@@ -334,12 +308,15 @@ msgid ""
 "notation similar to Java that makes it clear to determine what packages a "
 "given program needs."
 msgstr ""
-"Go 是由 Google 創建的系統程式語言。 Go "
-"具有強類型、語言級別的並發支援、透過通道進行進程間通訊、運行時類型安全性和其他保護措施、動態分配和垃圾收集以及閉包。 Go 具有與 Java "
-"類似的套件名稱符號，可以清楚地確定給定程式需要哪些套件。"
+"Go 是由 Google 創建的系統程式語言。"
+"Go 具有強類型（strong typing）、語言級別的並發支援（concurrency support）、"
+"透過通道（channels）進行進程間通訊（inter-process communication）、運行時類型安全性"
+"（runtime type safety）和其他保護措施、動態分配（dynamic allocation）和垃圾收集"
+"（garbage collection）以及閉包（closures）。"
+"Go 具有與 Java 類似的套件名稱符號（package name notation），"
+"使得可以清楚地確定給定程式需要哪些套件（packages）。"
 
 #: src/intro.md:92
-#, fuzzy
 msgid ""
 "The modern language constructs make Go a much safer language than C. This "
 "safety is critical for network-attached embedded systems, which usually have "
@@ -348,11 +325,12 @@ msgid ""
 "itself written in C. All are proving to be vulnerable to the attack-rich "
 "environment that the Internet has become."
 msgstr ""
-"現代語言結構使 Go 成為一種比 C 更安全的語言。這種安全性對於網路連接嵌入式系統至關重要，這些系統通常具有用 C 編寫的網路實用程序，包括 Web "
-"伺服器、包括「sshd」的網路伺服器以及提供對命令解釋器的存取的程式（本身以 C 編寫）。事實證明，所有這些都容易受到互聯網已成為攻擊頻繁的環境的影響。"
+"現代語言結構使 Go 成為比 C 更安全的語言。這種安全性對於網路連接的嵌入式系統至關重要，"
+"這些系統通常擁有用 C 編寫的網路工具程式，包括網頁伺服器、"
+"包含 sshd 的網路伺服器（network servers），以及提供命令解釋器存取的程式（本身以 C 編寫）。"
+"所有這些都證明容易受到互聯網成為攻擊頻繁環境的威脅。"
 
 #: src/intro.md:99
-#, fuzzy
 msgid ""
 "Even the most skilled programmers can make mistakes that in C can be "
 "unrecoverable, especially on network connected systems. Currently, even the "
@@ -360,20 +338,20 @@ msgid ""
 "network-connected. These programming mistakes are either impossible to make "
 "in Go or, if made, are detected at runtime and result in the program exiting."
 msgstr ""
-"即使是最熟練的程式設計師也會犯下 C "
-"語言中無法恢復的錯誤，尤其是在網路連線系統上。目前，即使我們個人電腦、印表機和恆溫器中最低等級的韌體也是連網的。這些程式錯誤要么在 Go "
-"中不可能犯，要么如果犯了，則會在運行時檢測到並導致程式退出。"
+"即使是最熟練的程式設計師也會犯下 C 語言中無法恢復的錯誤，"
+"尤其是在網路連線系統上。目前，即使我們個人電腦、印表機和恆溫器中最低等級的韌體也是連網的。"
+"這些程式錯誤要麼在 Go 中不可能犯，要麼如果犯了，則會在運行時檢測到並導致程式退出。"
 
 #: src/intro.md:105
-#, fuzzy
 msgid ""
 "The case for using a high-level, safe language like Go in low level embedded "
 "firmware might be stronger than for user programs, because exploits at the "
 "firmware level are nearly impossible to detect and mitigate."
-msgstr "在低階嵌入式韌體中使用像 Go 這樣的高級安全語言的情況可能比用戶程式更強烈，因為韌體層級的漏洞幾乎不可能被檢測和緩解。"
+msgstr ""
+"在低階嵌入式韌體中使用像 Go 這樣的高級安全語言的理由，"
+"可能比用戶程式更為充分，因為在韌體層級的漏洞幾乎不可能被檢測和緩解。"
 
 #: src/intro.md:109
-#, fuzzy
 msgid ""
 "The challenge to using Go in a storage-constrained environment such as "
 "firmware is that advanced language features lead to big binaries. Even a "
@@ -389,143 +367,127 @@ msgid ""
 "programs can be fetched over the network, but compiling dynamically with Go "
 "or creating a BusyBox program are the recommended solutions."
 msgstr ""
-"在韌體等儲存受限的環境中使用 Go 的挑戰在於高階語言特性會導致二進位檔案很大。即使是約會程序也大約有 2 MiB。一個實現一個功能的 Go "
-"二進位檔案的大小是實現多個功能的 BusyBox 二進位檔案的兩倍。目前，典型的 BIOS FLASH 部分為 16MiB。將許多 Go "
-"二進位檔案裝入單一 BIOS 快閃記憶體部分是不切實際的。 Go "
-"編譯器速度很快，其速度顯示只有在使用程式時才對其進行編譯的解決方案。透過這種方法，您可以建立一個除了 Go "
-"編譯器本身之外幾乎沒有二進位檔案的根檔案系統。編譯後的程式和套件可以儲存到基於 RAM 的檔案系統中。另一個解決方案是將所有內容編譯成一個 "
-"BusyBox 風格的程式。或者，可以透過網路取得程序，但使用 Go 動態編譯或建立 BusyBox 程式是建議的解決方案。"
+"在韌體等儲存受限的環境中使用 Go 的挑戰在於，高階語言特性會導致二進位檔案過大。即使是簡單的日"
+"期程式也約有 2 MiB。一個實現單一功能的 Go 二進位檔案大小是實現多個功能的 BusyBox 二進位檔"
+"案的兩倍。當前，典型的 BIOS 快閃記憶體（FLASH）大小為 16 MiB。"
+"將多個 Go 二進位檔案裝入單一 BIOS 快閃記憶體區塊是不切實際的。Go 編譯器速度非常快，且其速度"
+"顯示了只有在使用程式時進行編譯的解決方案。"
+"透過這種方式，您可以建立一個幾乎不含二進位檔案（除了 Go 編譯器本身）的根檔案系統。編譯後的程"
+"式和套件可儲存到基於 RAM 的檔案系統中。"
+"另一個解決方案是將所有程式編譯成一個 BusyBox 風格的程式。或者，程式可以透過網路獲取，但動態"
+"編譯 Go 或創建 BusyBox 程式是建議的解決方案。"
 
 #: src/intro.md:123
-#, fuzzy
 msgid "Benefits of LinuxBoot with UEFI servers"
-msgstr "LinuxBoot 與 UEFI 伺服器的優勢"
+msgstr "在 UEFI 伺服器上使用 LinuxBoot 的好處"
 
 #: src/intro.md:125
-#, fuzzy
 msgid ""
 "Most server firmware is based on Intel’s Universal Extensible Firmware "
 "Interface (UEFI). LinuxBoot provides the following benefits over UEFI:"
-msgstr "大多數伺服器韌體基於英特爾的通用可擴展韌體介面 (UEFI)。與 UEFI 相比，LinuxBoot 具有以下優點："
+msgstr "大多數伺服器韌體基於 Intel 的通用可擴展韌體介面 (UEFI)。與 UEFI 相比，LinuxBoot"
+" 具有以下優點："
 
 #: src/intro.md:128
-#, fuzzy
 msgid "Reliability"
 msgstr "可靠性"
 
 #: src/intro.md:130
-#, fuzzy
 msgid ""
 "Improves boot reliability by replacing lightly-tested firmware drivers with "
 "hardened Linux drivers"
 msgstr "透過使用強化的 Linux 驅動程式取代未經充分測試的韌體驅動程式來提高啟動可靠性"
 
 #: src/intro.md:132
-#, fuzzy
 msgid ""
 "Proven approach for almost 20 years in military, consumer electronics, and "
 "supercomputers – wherever reliability and performance are paramount"
-msgstr "近 20 年來，在軍事、消費性電子和超級電腦領域，可靠性和性能至關重要的領域，該方法已得到驗證"
+msgstr ""
+"近 20 年來，在軍事、消費性電子和超級電腦領域，可靠性和性能至關重要的領域，該實踐方法已得到驗證"
 
 #: src/intro.md:134
-#, fuzzy
 msgid ""
 "Fault Tolerance - Linux isolates processes\\*\\* \\*\\*(for example, when "
 "`pxeboot` fails catastrophically, `diskboot` still works afterwards)"
-msgstr "容錯 - Linux 隔離程序\\*\\* \\*\\*（例如，當「pxeboot」發生災難性故障時，「diskboot」仍然可以運作）"
+msgstr ""
+"容錯 - Linux 隔離程序\\*\\* \\*\\*（例如，當「pxeboot」發生災難性故障時，"
+"「diskboot」仍然可以運作）"
 
 #: src/intro.md:137
-#, fuzzy
 msgid "Security"
-msgstr "安全"
+msgstr "安全性"
 
 #: src/intro.md:139
-#, fuzzy
 msgid "Move “Ring 0” boot loaders to “Ring 3”"
-msgstr "將“Ring 0”引導程式移至“Ring 3”"
+msgstr "將“Ring 0”引導程式（bootloaders）移至“Ring 3”"
 
 #: src/intro.md:140
-#, fuzzy
 msgid "`pxeboot` and `diskboot` do parsing and other logic in user-space"
-msgstr "`pxeboot` 和 `diskboot` 在使用者空間進行解析和其他邏輯"
+msgstr "`pxeboot` 和 `diskboot` 在使用者空間（user-space）進行解析和其他邏輯處理"
 
 #: src/intro.md:141
-#, fuzzy
 msgid "Go provides memory safety and type safety"
-msgstr "Go 提供記憶體安全和類型安全"
+msgstr "Go 提供記憶體安全和類型安全（type safety）"
 
 #: src/intro.md:142
-#, fuzzy
 msgid "A buggy parser is much less likely to affect other programs"
-msgstr "有缺陷的解析器不太可能影響其他程式"
+msgstr "有缺陷的解析器（parser）不太可能影響其他程式"
 
 #: src/intro.md:143
-#, fuzzy
 msgid "Kernel security patches can apply to firmware"
-msgstr "核心安全性補丁可應用於韌體"
+msgstr "核心安全性補丁（patches）可應用於韌體"
 
 #: src/intro.md:145
-#, fuzzy
 msgid "Flexibility"
 msgstr "靈活性"
 
 #: src/intro.md:147
-#, fuzzy
 msgid ""
 "Can be used with coreboot, u-boot, OpenPOWER Abstraction Layer (OPAL), "
 "SlimBootLoader, ARM Trusted Firmware (ATF)"
 msgstr ""
-"可與 coreboot、u-boot、OpenPOWER 抽象層 (OPAL)、SlimBootLoader、ARM 可信任韌體 (ATF) 搭配"
+"可與 coreboot、u-boot、OpenPOWER 抽象層 (OpenPOWER Abstraction Layer, OPAL)、"
+"SlimBootLoader、ARM 可信任韌體 (Arm Trusted Firmware, ATF) 搭配"
 
 #: src/intro.md:149
-#, fuzzy
 msgid ""
 "Can boot multiple operating systems (Linux, Berkeley UNIX (BSD), XEN, "
 "Windows)"
 msgstr "可啟動多個作業系統（Linux、Berkeley UNIX（BSD）、XEN、Windows）"
 
 #: src/intro.md:151
-#, fuzzy
 msgid "Supports the following server mainboards:"
 msgstr "支援以下伺服器主機板："
 
 #: src/intro.md:152
-#, fuzzy
 msgid "QEMU emulated Q35 systems"
-msgstr "QEMU 模擬 Q35 系統"
+msgstr "QEMU 模擬的 Q35 系統"
 
 #: src/intro.md:153
-#, fuzzy
 msgid "[Intel S2600WF](https://trmm.net/S2600wf)"
-msgstr "[Intel S2600WF]（https://trmm.net/S2600wf）"
+msgstr "[Intel S2600WF](https://trmm.net/S2600wf)"
 
 #: src/intro.md:154
-#, fuzzy
 msgid "[Dell R630](https://trmm.net/NERF)"
-msgstr "戴爾 R630"
+msgstr "[Dell R630](https://trmm.net/NERF)"
 
 #: src/intro.md:155
-#, fuzzy
 msgid "Winterfell Open Compute node"
-msgstr "Winterfell 開放式運算節點"
+msgstr "Winterfell Open Compute node"
 
 #: src/intro.md:156
-#, fuzzy
 msgid "Leopard Open Compute node"
-msgstr "Leopard 開放式運算節點"
+msgstr "Leopard Open Compute node"
 
 #: src/intro.md:157
-#, fuzzy
 msgid "Tioga Pass Open Compute node"
-msgstr "Tioga Pass 開放運算節點"
+msgstr "Tioga Pass Open Compute node"
 
 #: src/intro.md:158
-#, fuzzy
 msgid "Monolake Open Compute node (not tested)"
-msgstr "Monolake Open Compute 節點（未經測試）"
+msgstr "Monolake Open Compute node（未經測試）"
 
 #: src/intro.md:160
-#, fuzzy
 msgid "Boot speed"
 msgstr "啟動速度"
 
@@ -533,105 +495,86 @@ msgstr "啟動速度"
 msgid ""
 "Improves boot time by removing unnecessary code; typically makes boot 20 "
 "times faster"
-msgstr ""
+msgstr "透過移除不必要的程式碼來提升啟動時間；通常能使啟動速度提高 20 倍"
 
 #: src/intro.md:165
-#, fuzzy
 msgid "Customization"
 msgstr "客製化"
 
 #: src/intro.md:167
-#, fuzzy
 msgid ""
 "Allows customization of the initramfs runtime to support site-specific needs "
 "(both device drivers as well as custom executables)"
-msgstr "允許自訂 initramfs 運行時以支援特定網站的需求（裝置驅動程式和自訂執行檔）"
+msgstr "允許自訂 initramfs 運行時，支援特定環境的需求（包括裝置驅動程式和自訂執行檔）"
 
 #: src/intro.md:170
-#, fuzzy
 msgid "Engineering Productivity"
 msgstr "工程生產力"
 
 #: src/intro.md:172
-#, fuzzy
 msgid "Write a driver once, not twice"
 msgstr "編寫一次驅動程序，無需編寫兩次"
 
 #: src/intro.md:173
-#, fuzzy
 msgid ""
 "Linux is **open, measurable, reproducible, and straightforward to update**"
-msgstr "Linux 是**開放的、可測量的、可複製的、並且易於更新**"
+msgstr "Linux 是 **開放、可衡量、可重現且易於更新的**"
 
 #: src/intro.md:174
-#, fuzzy
 msgid "Linux already has drivers for almost everything"
 msgstr "Linux 已經為幾乎所有東西提供了驅動程式"
 
 #: src/intro.md:175
-#, fuzzy
 msgid "Kernel Engineers = Firmware Engineers"
-msgstr "核心工程師=韌體工程師"
+msgstr "核心（kernel）工程師=韌體工程師"
 
 #: src/intro.md:176
-#, fuzzy
 msgid "Many more Engineers know Linux than know UEFI"
 msgstr "了解 Linux 的工程師比了解 UEFI 的工程師多得多"
 
 #: src/intro.md:177
-#, fuzzy
 msgid "Reduced build time"
 msgstr "減少建置時間"
 
 #: src/intro.md:178
-#, fuzzy
 msgid "**30s** for initramfs"
-msgstr "initramfs 需要 30 秒"
+msgstr "initramfs 需要 **30 秒**"
 
 #: src/intro.md:179
-#, fuzzy
 msgid "**15s** for kernel (incremental)"
-msgstr "核心需要 **15 秒**（增量）"
+msgstr "核心需要 **15 秒**（增量式）"
 
 #: src/intro.md:180
-#, fuzzy
 msgid "**~15s** to repack the bios image (using fiano/utk)"
-msgstr "大約 15 秒重新包裝 bios 映像（使用 fiano/utk）"
+msgstr "大約 **15 秒** 重新包裝 bios 映像檔（使用 fiano/utk）"
 
 #: src/intro.md:181
-#, fuzzy
 msgid "**Total: ~1m** for a new full bios image, ready to be tested"
-msgstr "**總計：約 1m** 用於新的完整 BIOS 映像，可供測試"
+msgstr "**總計：約 1 分鐘** 用於新的完整 BIOS 映像，可供測試"
 
 #: src/intro.md:182
-#, fuzzy
 msgid "Testing and debugging"
-msgstr "測試和調試"
+msgstr "測試和除錯"
 
 #: src/intro.md:183
-#, fuzzy
 msgid "`diskboot` and `pxeboot` already have unit tests"
-msgstr "`diskboot` 和 `pxeboot` 已經有單元測試"
+msgstr "`diskboot` 和 `pxeboot` 已經有單元測試 （unit tests）"
 
 #: src/intro.md:184
-#, fuzzy
 msgid "Easier to write tests using resources (like network) with Linux"
-msgstr "使用 Linux 資源（如網路）編寫測試更容易"
+msgstr "使用 Linux 資源（如網路）使編寫測試更容易"
 
 #: src/intro.md:185
-#, fuzzy
 msgid ""
 "Open-source projects such as u-root follow excellent software practices such "
 "as running automated test on each submitted change"
 msgstr "u-root 等開源專案遵循優秀的軟體實踐，例如對每個提交的變更執行自動化測試"
 
 #: src/intro.md:187
-#, fuzzy
 msgid "Much easier to debug Go user-space applications"
-msgstr "更容易調試 Go 用戶空間應用程式"
+msgstr "更容易除錯的 Go 用戶空間（user-space）應用程式"
 
 #: src/intro.md:188
-#, fuzzy
 msgid "Test with a kernel in QEMU"
 msgstr "使用 QEMU 中的核心進行測試"
 
