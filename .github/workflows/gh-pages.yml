@@ -6,6 +6,10 @@ on:
       - main
   pull_request:
 
+env:
+  # Update the language picker in theme/js/language-picker.js to link new languages.
+  LANGUAGES: zh-TW
+
 jobs:
   deploy:
     runs-on: ubuntu-24.04
@@ -30,11 +34,27 @@ jobs:
       - name: Install mdbook-mermaid
         run: mdbook-mermaid install
 
+      - name: Install mdbook-i18n-helpers
+        run: |
+          cargo install mdbook-i18n-helpers --locked --version 0.3.4
+
       - name: Build
         # linkcheck causes ouput files to end up in html/, so move them to root
         run: |
           mdbook build
           mv book/html/* book/
+
+      - name: Build all translations
+        run: |
+          for po_lang in ${{ env.LANGUAGES }}; do
+            echo "::group::Building $po_lang translation"
+            MDBOOK_BOOK__LANGUAGE=$po_lang \
+            MDBOOK_OUTPUT__HTML__SITE_URL=/linuxboot-book/$po_lang/ \
+            mdbook build -d book/$po_lang
+            rsync -a book/$po_lang/html/ book/$po_lang/
+            rm -r book/$po_lang/html/
+            echo "::endgroup::"
+          done
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
