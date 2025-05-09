@@ -20,7 +20,7 @@ The LinuxBoot project provides two reference implementations; `linuxboot` and
 Heads. The [`linuxboot`](https://github.com/linuxboot/linuxboot) build system
 outputs a boot payload consisting of a Linux kernel and an
 [initramfs](https://de.wikipedia.org/wiki/Initramfs) that contains a minimal
-Golang user-space built using [u-root](https://github.com/u-root/u-root).
+Go user-space built using [u-root](https://github.com/u-root/u-root).
 
 The Heads build system is more focused on local attestation, TPM DUK
 seal/unseal operations, GPG-based security measurement, reproducible builds and
@@ -79,7 +79,7 @@ filesystem used for LinuxBoot is based on u-root standard utilities written in
 Go. The following diagram shows the current state of the UEFI boot process and
 what is planned for the transition to LinuxBoot.
 
-[![comparison of UEFI boot and LinuxBoot](../images/UEFI-versus-LinuxBoot.svg)](../images/UEFI-versus-LinuxBoot.svg)
+[![comparison of UEFI boot and LinuxBoot](./images/UEFI-versus-LinuxBoot.svg)](./images/UEFI-versus-LinuxBoot.svg)
 
 ## Benefits of using the Go user-space environment and compiler
 

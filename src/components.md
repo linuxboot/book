@@ -1,6 +1,6 @@
 ## LinuxBoot Components
 
-![image](../images/LinuxBoot-components.svg)
+![image](./images/LinuxBoot-components.svg)
 
 LinuxBoot consists of the following components:
 
@@ -30,7 +30,7 @@ kernel and add some patches that are needed.
 #### Initial RAM filesystem  (initramfs)
 
 When Linux boots it needs a root file system that provides boot and startup
-utilities. LinuxBoot uses [u-root](../glossary) to create an
+utilities. LinuxBoot uses [u-root](./glossary.md) to create an
 initramfs for this purpose.
 
 

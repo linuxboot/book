@@ -12,15 +12,29 @@ jobs:
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v2
+        # https://github.com/jontze/action-mdbook
+        uses: jontze/action-mdbook@v4
         with:
-          mdbook-version: '0.4.40'
+          token: ${{ secrets.GITHUB_TOKEN }}
           # mdbook-version: 'latest'
+          mdbook-version: "0.4.48"
+          use-mermaid: true
+          mermaid-version: "0.15.0"
+          use-linkcheck: true
+          linkcheck-version: "0.7.7"
 
-      - run: mdbook build
+      - name: Install mdbook-mermaid
+        run: mdbook-mermaid install
+
+      - name: Build
+        # linkcheck causes ouput files to end up in html/, so move them to root
+        run: |
+          mdbook build
+          mv book/html/* book/
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

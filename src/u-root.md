@@ -26,8 +26,8 @@ in their security.
 ## U-root and embedded systems
 
 Embedding kernels and root file systems in BIOS flash is a common technique for
-gaining boot time performance and platform customization[^25][^14][^23]. Almost
-all new firmware includes a multiprocess operating system with a full
+gaining boot time performance and platform customization[^25] [^14] [^23].
+Almost all new firmware includes a multiprocess operating system with a full
 complement of file systems, network drivers, and protocol stacks, all contained
 in an embedded file system. In some cases, the kernel is only booted long
 enough to boot another kernel. In others, the kernel that is booted and the
@@ -44,7 +44,7 @@ connected. Network connected systems face a far more challenging security
 environment than even a few years ago. In response to the many successful
 attacks against shell interpreters[^11] and C programs[^8], we have started to
 look at using a more secure, modern language in embedded root file systems,
-namely, Go[^21][^16].
+namely, Go[^21] [^16].
 
 Go is a new systems programming language created by Google. Go has strong
 typing; language level support for concurrency; inter-process communication via
@@ -72,10 +72,10 @@ because firmware is designed to be as invisible as possible. Firmware is
 extremely complex; UEFI is roughly equivalent in size and capability to a Unix
 kernel. Firmware is usually closed and proprietary, with nowhere near the level
 of testing of kernels. These properties make firmware an ideal place for
-so-called advanced persistent threats[^10][^18][^5]. Once an exploit is installed,
-it is almost impossible to remove, since the exploit can inhibit its removal by
-corrupting the firmware update process. The only sure way to mitigate a
-firmware exploit is to destroy the hardware.
+so-called advanced persistent threats[^10] [^18] [^5]. Once an exploit is
+installed, it is almost impossible to remove, since the exploit can inhibit its
+removal by corrupting the firmware update process. The only sure way to mitigate
+a firmware exploit is to destroy the hardware.
 
 U-root is an excellent option for embedded systems. U-root contains only 5
 binaries, 4 of them from the Go toolchain, and the 5th is an init binary. The
@@ -157,7 +157,7 @@ complete set of symlinks. As a final step, init execs `sh`.
 
 There is no `/bin/sh` at this point; the first `sh` found in $PATH is
 `/buildbin/sh`. This is a symlink to `installcommand`. `Installcommand`, once
-started, examines argv[0], which is `sh`, and takes this as instruction to
+started, examines `argv[0]`, which is `sh`, and takes this as instruction to
 build `/src/cmds/sh/.go` into `/bin` and then exec `/bin/sh`. There is no
 difference between starting the first shell and any other program. Hence, part
 of the boot process involves the construction of an installation tool to build
@@ -502,7 +502,7 @@ performance.
 
 ## Embedding kernel and root file systems in flash
 
-The LinuxBIOS project[^14][^1], together with clustermatic[^25], used an embedded
+The LinuxBIOS project[^14] [^1], together with clustermatic[^25], used an embedded
 kernel and simple root file system to manage supercomputing clusters. Due to
 space constraints of 1 MiB or less of flash, clusters embedded only a
 single-processor Linux kernel with a daemon. The daemon was a network
