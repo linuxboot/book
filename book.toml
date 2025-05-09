@@ -1,17 +1,22 @@
 [book]
 authors = ["LinuxBoot authors"]
-language = "en"
-multilingual = false
 src = "src"
 title = "LinuxBoot"
-
-[preprocessor.gettext]
-after = ["links"]
 
 [output.html]
 cname = "book.linuxboot.org"
 git-repository-url = "https://github.com/linuxboot/book"
-additional-js = ["mermaid.min.js", "mermaid-init.js"]
+additional-css = [
+    "theme/css/language-picker.css",
+]
+additional-js = [
+    "mermaid.min.js",
+    "mermaid-init.js",
+    "theme/js/language-picker.js",
+]
+
+[build]
+extra-watch-dirs = ["po"]
 
 [output.linkcheck]
 
@@ -19,3 +24,6 @@ additional-js = ["mermaid.min.js", "mermaid-init.js"]
 
 [preprocessor.mermaid]
 command = "mdbook-mermaid"
+
+[preprocessor.gettext]
+after = ["links"]
