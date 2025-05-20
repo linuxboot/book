@@ -1,4 +1,11 @@
-build:
+build: book i18n
+	# linkcheck causes output files to end up in html/, so move them to root
+	mv book/html/* book/
+
+i18n:
+	bash i18n.sh
+
+book:
 	mdbook build
 
 run:
