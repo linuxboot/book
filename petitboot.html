@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Evaluation of tools - LinuxBoot</title>
+        <title>Petitboot - LinuxBoot</title>
 
 
         <!-- Custom HTML head -->
@@ -158,66 +158,26 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="evaluation-of-tools"><a class="header" href="#evaluation-of-tools">Evaluation of tools</a></h1>
-<p>Three general questions guide all software projects:</p>
-<ul>
-<li>what exists already? (implementations, tools and build systems)</li>
-<li>what needs development? (UIs and such)</li>
-<li>what is a good environment? (build + runtime)</li>
-</ul>
-<p>Not only do we want to answer those questions. We also keep track of the options
-and decision process in this book in order for readers to make sense.</p>
-<p>There are many existing tools already that we can leverage to implement the idea
-of using Linux to boot into an operating system.</p>
-<h2 id="root-filesystem"><a class="header" href="#root-filesystem">Root filesystem</a></h2>
-<p>Linux needs a root filesystem with at least one binary that is called
-<a href="https://docs.kernel.org/admin-guide/init.html"><code>init</code></a>. Since booting a system
-is a cumbersome task, additional tools aid in both development and investigating
-possible issues.</p>
-<h3 id="core-utilities"><a class="header" href="#core-utilities">Core utilities</a></h3>
-<p>Unix already came with lots of little utilities for the user of the system,
-which may be anyone from a system developer to an administrator of a shared or
-provided system, or an end user. Further tools have been created over the years,
-and the <a href="https://en.wikipedia.org/wiki/GNU_Core_Utilities">GNU core utilities</a>
-are essentially a collection of tools resulting from merging other collections.
-Note that there are still many other utilities that are not part of coreutils.
-At the same time, there are multiple other implementations now, which differ in
-terms of arguments and flags and possibly additional utilities they include.</p>
-<div class="table-wrapper"><table><thead><tr><th>tool</th><th>language</th><th>license</th><th>usage</th></tr></thead><tbody>
-<tr><td><a href="https://busybox.net/">BusyBox</a></td><td>C</td><td>GPLv2</td><td>Heads</td></tr>
-<tr><td><a href="http://landley.net/toybox">toybox</a></td><td>C</td><td>0BSD</td><td>Android</td></tr>
-<tr><td><a href="https://www.gnu.org/software/coreutils/">GNU coreutils</a></td><td>C</td><td>GPLv3</td><td>not for LinuxBoot</td></tr>
-<tr><td><a href="https://u-root.org">u-root</a></td><td>Go</td><td>BSD 3-Clause</td><td>ByteDance, Google et al</td></tr>
-<tr><td><a href="http://uutils.github.io/">uutils/coreutils</a></td><td>Rust</td><td>MIT</td><td>not for LinuxBoot</td></tr>
-</tbody></table>
-</div>
-<h3 id="kexec-implementations"><a class="header" href="#kexec-implementations">kexec implementations</a></h3>
-<p>While <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/uapi/linux/kexec.h">kexec itself is a Linux syscall</a>,
-it is not a one-shot operation. Loading multiple segments into memory,
-synchronizing and unmounting file systems, and the eventual syscall to
-<a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/uapi/linux/reboot.h">reboot</a>
-belong to the procedure. In addition, there are architecture specifics to take
-into account. Thus, there are multiple implementations of kexec, which are Linux
-programs that offer their own interfaces again to pass extra arguments. Besides
-those standalone implementations, there are also specialized boot loaders based
-on kexec that have their own extra logic, such as FreeBSD's kload or petitboot.</p>
-<div class="table-wrapper"><table><thead><tr><th>tool</th><th>language</th><th>license</th><th>usage</th></tr></thead><tbody>
-<tr><td><a href="https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git">kexec-tools</a> (<a href="https://github.com/horms/kexec-tools">GitHub mirror</a>)</td><td>C</td><td>GPLv2</td><td>Heads, Petitboot</td></tr>
-<tr><td><a href="https://systemd.io/">systemd</a> (wrapper)</td><td>C</td><td>LGPL-2.1+</td><td>systemd on UEFI</td></tr>
-<tr><td><a href="https://github.com/kexecboot/kexecboot">kexecboot</a></td><td>C</td><td>GPLv2</td><td>?</td></tr>
-<tr><td>u-root (CLI+mod)</td><td>Go</td><td>BSD 3-Clause</td><td>Google et al</td></tr>
-<tr><td><a href="https://github.com/im-0/kexlinux">kexlinux</a></td><td>Rust</td><td>LGPL-3.0+</td><td>?</td></tr>
-</tbody></table>
-</div>
+                        <h1 id="petitboot"><a class="header" href="#petitboot">Petitboot</a></h1>
+<p>petitboot is a Linux user-space application written in C that calls <code>kexec</code>.
+The <code>kexec</code> installed in the initramfs is not the mainline kexec-tools
+implementation, but a smaller implementation named
+<a href="https://github.com/antonblanchard/kexec-lite">kexec-lite</a>. It is claimed to be
+roughly 32 KB compared to kexec-tools, which is roughly 200 KB.<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
+<hr>
+<ol class="footnote-definition"><li id="footnote-1">
+<p><a href="https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778">https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778</a> <a href="#fr-1-1">↩</a></p>
+</li>
+</ol>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="components.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="tools-evaluation.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="petitboot.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="openpower.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -227,11 +187,11 @@ on kexec that have their own extra logic, such as FreeBSD's kload or petitboot.<
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="components.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="tools-evaluation.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="petitboot.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="openpower.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

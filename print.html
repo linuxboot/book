@@ -540,7 +540,17 @@ on kexec that have their own extra logic, such as FreeBSD's kload or petitboot.<
 <tr><td>u-root (CLI+mod)</td><td>Go</td><td>BSD 3-Clause</td><td>Google et al</td></tr>
 <tr><td><a href="https://github.com/im-0/kexlinux">kexlinux</a></td><td>Rust</td><td>LGPL-3.0+</td><td>?</td></tr>
 </tbody></table>
-</div><div style="break-before: page; page-break-before: always;"></div><h1 id="openpower-boot-chain"><a class="header" href="#openpower-boot-chain">OpenPOWER boot chain</a></h1>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="petitboot"><a class="header" href="#petitboot">Petitboot</a></h1>
+<p>petitboot is a Linux user-space application written in C that calls <code>kexec</code>.
+The <code>kexec</code> installed in the initramfs is not the mainline kexec-tools
+implementation, but a smaller implementation named
+<a href="https://github.com/antonblanchard/kexec-lite">kexec-lite</a>. It is claimed to be
+roughly 32 KB compared to kexec-tools, which is roughly 200 KB.<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
+<hr>
+<ol class="footnote-definition"><li id="footnote-1">
+<p><a href="https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778">https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778</a> <a href="#fr-1-1">↩</a></p>
+</li>
+</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="openpower-boot-chain"><a class="header" href="#openpower-boot-chain">OpenPOWER boot chain</a></h1>
 <pre class="mermaid">flowchart LR
     skiroot([&quot;skiroot (petitboot)&quot;])
     SBEs--&gt;hostboot--&gt;skiboot--&gt;skiroot--&gt;OS
@@ -556,11 +566,6 @@ runtime firmware for OpenPOWER that loads skiroot.</li>
 <p>skiroot is a term used to describe the LinuxBoot implementation for OpenPOWER.
 A skiroot repository or package does not exist. The term is only used in the
 kernel configuration, <code>skiroot_defconfig</code>.<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
-<p>petitboot is a Linux user-space application written in C that calls <code>kexec</code>.
-The <code>kexec</code> installed in the initramfs is not the mainline kexec-tools
-implementation, but a smaller implementation named
-<a href="https://github.com/antonblanchard/kexec-lite">kexec-lite</a>. It is claimed to be
-roughly 32 KB compared to kexec-tools, which is roughly 200 KB.<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup></p>
 <h2 id="see-also"><a class="header" href="#see-also">See also</a></h2>
 <ul>
 <li><a href="https://openpower.foundation/blog/coreboot-on-talos2/">coreboot and Heads as an alternative firmware for OpenPOWER Talos
@@ -570,8 +575,34 @@ II</a></li>
 <ol class="footnote-definition"><li id="footnote-1">
 <p><a href="https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig">https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig</a> <a href="#fr-1-1">↩</a></p>
 </li>
-<li id="footnote-2">
-<p><a href="https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778">https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778</a> <a href="#fr-2-1">↩</a></p>
+</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="odroid-boot-chain"><a class="header" href="#odroid-boot-chain">ODROID boot chain</a></h1>
+<p>The <a href="https://wiki.odroid.com/odroid-n2/hardware">ODROID-N2</a> comes with a SPI
+flash as well as a connector for an eMMC flash and an SD card slot. The SoC is
+an <a href="https://wiki.odroid.com/odroid-n2/software/boot_sequence">Amlogic S922X which can boot from all those storages</a>,
+depending on GPIO configuration and a fallback flow in the mask ROM.
+For booting from SPI flash, the ODROID-N2 board has a switch, and comes with
+<a href="./petitboot.html">Petitboot</a> preinstalled<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>.</p>
+<p>The SPI flash boot flows is as follows:</p>
+<pre class="mermaid">flowchart LR
+    maskrom[&quot;mask ROM&quot;]
+    spl[&quot;U-Boot SPL&quot;]
+    uboot[&quot;U-Boot main&quot;]
+    petitboot([&quot;petitboot&quot;])
+    maskrom--&gt;spl--&gt;uboot--&gt;petitboot--&gt;OS
+</pre>
+<ul>
+<li><a href="https://docs.u-boot.org/en/latest/usage/spl_boot.html">U-Boot SPL</a>
+initializes DRAM and loads U-Boot main ("proper")</li>
+<li>U-Boot main is set up to directly load Linux with Petitboot, which implements
+LinuxBoot</li>
+</ul>
+<h2 id="see-also-1"><a class="header" href="#see-also-1">See also</a></h2>
+<ul>
+<li><a href="https://forum.odroid.com/viewtopic.php?f=182&amp;t=33873">ODROID forum discussion on porting Petitboot to ODROID-N2</a></li>
+</ul>
+<hr>
+<ol class="footnote-definition"><li id="footnote-1">
+<p><a href="https://wiki.odroid.com/getting_started/petitboot/os_installation_using_otg">https://wiki.odroid.com/getting_started/petitboot/os_installation_using_otg</a> <a href="#fr-1-1">↩</a></p>
 </li>
 </ol><div style="break-before: page; page-break-before: always;"></div><h1 id="all-about-u-root"><a class="header" href="#all-about-u-root">All about u-root</a></h1>
 <p>U-root is an embeddable root file system intended to be placed in a flash
@@ -2885,7 +2916,7 @@ build system.</p>
 <p><a href="https://github.com/linuxboot/heads">Heads</a> is an open source firmware for
 laptops and servers created by  Trammell Hudson (a.k.a. osreasrch), aimed at
 strong platform security. It is currently maintained by Thierry Laurion.</p>
-<h3 id="see-also-1"><a class="header" href="#see-also-1">See also</a></h3>
+<h3 id="see-also-2"><a class="header" href="#see-also-2">See also</a></h3>
 <ul>
 <li><a href="https://osresearch.net/">osresearch.net</a></li>
 <li><a href="https://trmm.net/NERF/">trmm.net/NERF</a></li>
@@ -3147,7 +3178,7 @@ initialization process and minimizing redundant operations during the handoff.</
 would enhance debugging and system management.  These tools could provide
 deeper insights into system performance and potential issues, improving
 reliability and maintainability.</p>
-<h2 id="see-also-2"><a class="header" href="#see-also-2">See Also</a></h2>
+<h2 id="see-also-3"><a class="header" href="#see-also-3">See Also</a></h2>
 <ul>
 <li><a href="https://amperecomputing.com/blogs/linuxboot-on-ampere-platforms--a-new-old-approach-to-firmware">LinuxBoot on Ampere Platforms: A new (old) approach to
 firmware</a></li>
