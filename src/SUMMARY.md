@@ -5,7 +5,7 @@
   - [Evaluation of tools](tools-evaluation.md)
 - [Petitboot](petitboot.md)
   - [OpenPOWER](openpower.md)
-  - [Odroid](odroid.md)
+  - [ODROID](odroid.md)
 - [All about u-root](u-root.md)
   - [u-root demo with QEMU](u-root-qemu-demo.md)
 - [LinuxBoot utilities](utilities/index.md)
