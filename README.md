@@ -38,6 +38,16 @@ From the root directory of the repository run `mdl /src/example.md` and `vale
 src/example.md`. Add words that trigger false positive spelling errors to
 `ci/vale/styles/config/vocabularies/LinuxBoot/accept.txt`.
 
+## I18n
+
+Translations are in [`po/`](po/). They are built with [`i18n.sh`](i18n.sh).
+Until there is a native mdBook plugin, see the [`Makefile`](Makefile) for how
+the translations are integrated.
+
+Note that `make run` / `mdbook serve` do not integrate the translations at this
+point. The `make build` target will build everything into `book/`, which you
+can then statically serve.
+
 ## Acknowledgments
 
 In alphabetical order:
