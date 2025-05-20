@@ -7,7 +7,7 @@ depending on GPIO configuration and a fallback flow in the mask ROM.
 For booting from SPI flash, the ODROID-N2 board has a switch, and comes with
 [Petitboot](./petitboot.md) preinstalled[^1].
 
-The SPI flash boot flows is as follows:
+The SPI flash boot flow is as follows:
 
 ```mermaid
 flowchart LR
