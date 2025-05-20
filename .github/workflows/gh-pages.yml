@@ -35,8 +35,7 @@ jobs:
         run: mdbook-mermaid install
 
       - name: Install mdbook-i18n-helpers
-        run: |
-          cargo install mdbook-i18n-helpers --locked --version 0.3.4
+        run: make prepare_i18n
 
       - name: Build
         # linkcheck causes ouput files to end up in html/, so move them to root
