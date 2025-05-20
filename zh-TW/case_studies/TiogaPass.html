@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html lang="zh-TW" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>OCP TiogaPass 的案例研究 - LinuxBoot</title>
+
+
+        <!-- Custom HTML head -->
+        <script>
+            const mdbookPath = "case_studies/TiogaPass.md";
+            const mdbookPathToRoot = "../";
+        </script>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/language-picker.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">LinuxBoot</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/linuxboot/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="ocp-tiogapass-case-study"><a class="header" href="#ocp-tiogapass-case-study">OCP TiogaPass Case Study</a></h1>
+<p>Points of contact: <a href="https://github.com/jonzhang-fb">Jonathan Zhang</a>, <a href="https://github.com/insomniacslk">Andrea Barberio</a>, <a href="https://github.com/dhendrix">David Hendricks</a>, <a href="https://github.com/agangidi53">Adi</a>, <a href="https://github.com/morganjangwiwynn">Morgan Jang</a>, <a href="https://github.com/johnnylinwiwynn">Johnny Lin</a></p>
+<p>This case study describes information for firmware development community to use <a href="https://www.opencompute.org/">OCP</a> platform TiogaPass, made by <a href="http://www.wiwynn.com/english">Wiwynn Corporation</a>.</p>
+<p>It contains following sections:</p>
+<ul>
+<li><a href="#Quick-Start">Quick Start</a></li>
+<li><a href="#Details">Details</a>
+<ul>
+<li><a href="#How-to-build">How to build</a></li>
+<li><a href="#How-to-operate">How to operate</a></li>
+<li><a href="#Platform-info">Platform info</a></li>
+</ul>
+</li>
+<li><a href="#Support">Support</a>
+<ul>
+<li><a href="#Hardware-support">Hardware support</a></li>
+<li><a href="#Community-support">Community support</a></li>
+<li><a href="#Professional-support">Professional support</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="quick-start"><a class="header" href="#quick-start">Quick Start</a></h2>
+<ul>
+<li>
+<p><a href="http://www.wiwynn.com/english">Order the hardware</a> if you have not done so.</p>
+</li>
+<li>
+<p>Download or build the firmware binary. The current solution is to boot embedded Linux kernel and initramfs as UEFI payload. Please contact Wiwynn to get a UEFI binary after ordering.</p>
+</li>
+<li>
+<p>Flash the firmware.</p>
+<ul>
+<li>Copy the downloaded firmware to OpenBMC.</li>
+<li>From OpenBMC
+<pre><code>  fw-util mb --update bios --force ./&lt;firmware image name&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Boot and enjoy.</p>
+<ul>
+<li>From OpenBMC
+<pre><code>  power-util mb reset
+  sol-util mb
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="details"><a class="header" href="#details">Details</a></h2>
+<h3 id="how-to-build"><a class="header" href="#how-to-build">How to build</a></h3>
+<p>Follow <a href="#Build-Details">Build Details</a> for details on how to get the source code, and how to build.</p>
+<p>Boot flow of the current firmware solution is: Power on → minimized UEFI → LinuxBoot → target OS.</p>
+<p>In near feature, the boot flow will be: power on → Coreboot → LinuxBoot → target OS.</p>
+<h4 id="build-details"><a class="header" href="#build-details">Build Details</a></h4>
+<ul>
+<li>
+<p>Download the code from <a href="https://github.com/linuxboot/linuxboot">linuxboot github</a></p>
+<pre><code>  git clone https://github.com/linuxboot/linuxboot.git
+</code></pre>
+</li>
+<li>
+<p>You need to apply Wiwiynn's linuxboot patch for now</p>
+<pre><code>cd linuxboot
+wget -O TiogaPass.patch https://github.com/johnnylinwiwynn/linuxboot/commit/28ae8450b3b05c6e6b8c74e29d0974ccf711d5e6.patch
+git am TiogaPass.patch
+</code></pre>
+</li>
+<li>
+<p>Build the kernel bzImage (has embedded initramfs) for linuxboot, please reference <a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-u-root">Building u-root</a> and <a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-a-suitable-linux-kernel">Building a suitable Linux kernel</a> for how to build the bzImage. You can always customize your Linux kernel configuration to suit your needs, please reference Wiwynn's kernel configuration file as a sample <a href="linux_config">linux_config</a>.</p>
+</li>
+<li>
+<p>Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn after ordering, and also put your bzImage to the root folder of linuxboot, and then make</p>
+<pre><code>  cp path/to/tioga.rom linuxboot/boards/tioga
+  cp path/to/bzImage linuxboot
+  cd linuxboot
+  BOARD=tioga make
+</code></pre>
+</li>
+<li>
+<p>You should see the built image at build/tioga/linuxboot.rom.</p>
+</li>
+</ul>
+<h3 id="how-to-operate"><a class="header" href="#how-to-operate">How to operate</a></h3>
+<p>Follow <strong>TBD section</strong> for details on:</p>
+<ul>
+<li>How to flash. The image can be flashed either out-of-band, or from LinuxBoot u-root shell, or from targetOS shell.</li>
+<li>How to run LinuxBoot u-root shell commands.</li>
+</ul>
+<h3 id="platform-info"><a class="header" href="#platform-info">Platform info</a></h3>
+<p>The SKU contains TiogaPass board, a debug card, a VGA card, a power adapter. The details can be obtained from the <a href="http://www.wiwynn.com/english">Wiwynn Corporation</a>.</p>
+<p>Platform design details (including the design spec and schematics) can be found on the <a href="https://www.opencompute.org/products/108/wiwynn-tioga-pass-standard-sv7220g3-s-2u-ocp-server-up-to-768gb-8gb16gb32gb-ddr4-up-to-2666mts-12-dimm-slots">Open Compute Project UfiSpace product page</a>.</p>
+<h2 id="support"><a class="header" href="#support">Support</a></h2>
+<h3 id="hardware-support"><a class="header" href="#hardware-support">Hardware support</a></h3>
+<p>Hardware support can be obtained from <a href="http://www.wiwynn.com/english">Wiwynn Corporation</a>.</p>
+<h3 id="community-support"><a class="header" href="#community-support">Community support</a></h3>
+<p><a href="https://www.opencompute.org/projects/open-system-firmware">OCP Open System Firmware</a> is where industry collaborates on how to move forward with OSF. The OCP OSF project has regular recorded meetings and a mailing list.</p>
+<p><a href="https://www.linuxboot.org/">LinuxBoot open source community</a> is the community you can ask any technical questions. LinuxBoot community has a slack channel, a IRC channel, a mailing list and regular meetings.</p>
+<h3 id="professional-support"><a class="header" href="#professional-support">Professional support</a></h3>
+<p>Following companies provides professional support services:</p>
+<p>** TBD **</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../case_studies/Google_study.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../faq.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../case_studies/Google_study.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../faq.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+        <script src="../theme/js/language-picker.js"></script>
+
+
+    </div>
+    </body>
+</html>

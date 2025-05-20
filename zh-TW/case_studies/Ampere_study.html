@@ -1,0 +1,385 @@
+<!DOCTYPE HTML>
+<html lang="zh-TW" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Ampere 的案例研究 - LinuxBoot</title>
+
+
+        <!-- Custom HTML head -->
+        <script>
+            const mdbookPath = "case_studies/Ampere_study.md";
+            const mdbookPathToRoot = "../";
+        </script>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/language-picker.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">LinuxBoot</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/linuxboot/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="linuxboot-on-ampere-mt-jade-platform"><a class="header" href="#linuxboot-on-ampere-mt-jade-platform">LinuxBoot on Ampere Mt. Jade Platform</a></h1>
+<p>The Ampere Altra Family processor based Mt. Jade platform is a high-performance ARM server platform, offering up to 256 processor cores in a dual socket configuration. The Tianocore EDK2 firmware for the Mt. Jade platform has been fully upstreamed to the tianocore/edk2-platforms repository, enabling the community to build and experiment with the platform's firmware using entirely open-source code. It also supports LinuxBoot, an open-source firmware framework that reduces boot time, enhances security, and increases flexibility compared to standard UEFI firmware.</p>
+<p>Mt. Jade has also achieved a significant milestone by becoming <a href="https://community.arm.com/arm-community-blogs/b/architectures-and-processors-blog/posts/arm-systemready-ls">the first server certified under the Arm SystemReady LS certification program</a>. SystemReady LS ensures compliance with standardized boot and runtime environments for Linux-based systems, enabling seamless deployment across diverse hardware.  This certification further emphasizes Mt. Jade's readiness for enterprise and cloud-scale adoption by providing assurance of compatibility, performance, and reliability.</p>
+<p>This case study explores the LinuxBoot implementation on the Ampere Mt. Jade platform, inspired by the approach used in <a href="Google_study.html">Google's LinuxBoot deployment</a>.</p>
+<h2 id="ampere-edk2-linuxboot-components"><a class="header" href="#ampere-edk2-linuxboot-components">Ampere EDK2-LinuxBoot Components</a></h2>
+<p>The Mt. Jade platform embraces a hybrid firmware architecture, combining UEFI/EDK2 for hardware initialization and LinuxBoot for advanced boot functionalities. The platform aligns closely with step 6 in the LinuxBoot adoption model.</p>
+<img src="../images/Case-study-Ampere.svg">
+<p>The entire boot firmware stack for the Mt. Jade is open source and available in the Github.</p>
+<ul>
+<li><strong>EDK2</strong>: The PEI and minimal (stripped-down) DXE drivers, including both common and platform code, are fully open source and resides in Tianocore edk2-platforms and edk2 repositories.</li>
+<li><strong>LinuxBoot</strong>: The LinuxBoot binary (<a href="../glossary.html">flashkernel</a>) for Mt. Jade is supported in the <a href="https://github.com/linuxboot/linuxboot/tree/main/mainboards/ampere/jade">linuxboot/linuxboot</a> repository.</li>
+</ul>
+<h2 id="ampere-solution-for-linuxboot-as-a-boot-device-selection"><a class="header" href="#ampere-solution-for-linuxboot-as-a-boot-device-selection">Ampere Solution for LinuxBoot as a Boot Device Selection</a></h2>
+<p>Ampere has implemented and successfully upstreamed a solution for integrating LinuxBoot as a Boot Device Selection (BDS) option into the TianoCore EDK2 framework, as seen in commit <a href="https://github.com/tianocore/edk2/commit/62540372230ecb5318a9c8a40580a14beeb9ded0">ArmPkg: Implement PlatformBootManagerLib for LinuxBoot</a>. This innovation simplifies the boot process for the Mt. Jade platform and aligns with LinuxBoot's goals of efficiency and flexibility.</p>
+<p>Unlike the earlier practice that replaced the UEFI Shell with a LinuxBoot flashkernel, Ampere's solution introduces a custom BDS implementation that directly boots into the LinuxBoot environment as the active boot option. This approach bypasses the need to load the UEFI Shell or UiApp (UEFI Setup Menu), which depend on numerous unnecessary DXE drivers.</p>
+<p>To further enhance flexibility, Ampere introduced a new GUID specifically for the LinuxBoot binary, ensuring clear separation from the UEFI Shell GUID. This distinction allows precise identification of LinuxBoot components in the firmware.</p>
+<h2 id="build-process"><a class="header" href="#build-process">Build Process</a></h2>
+<p>Building a flashable EDK2 firmware image with an integrated LinuxBoot flashkernel for the Ampere Mt. Jade platform involves two main steps: building the LinuxBoot flashkernel and integrating it into the EDK2 firmware build.</p>
+<h3 id="step-1-build-the-linuxboot-flashkernel"><a class="header" href="#step-1-build-the-linuxboot-flashkernel">Step 1: Build the LinuxBoot Flashkernel</a></h3>
+<p>The LinuxBoot flash kernel is built as follows:</p>
+<pre><code class="language-bash">git clone https://github.com/linuxboot/linuxboot.git
+cd linuxboot/mainboards/ampere/jade &amp;&amp; make fetch flashkernel
+</code></pre>
+<p>After the build process completes, the flash kernel will be located at: linuxboot/mainboards/ampere/jade/flashkernel</p>
+<h3 id="step-2-build-the-edk2-firmware-image-with-the-flash-kernel"><a class="header" href="#step-2-build-the-edk2-firmware-image-with-the-flash-kernel">Step 2: Build the EDK2 Firmware Image with the Flash Kernel</a></h3>
+<p>The EDK2 firmware image is built with the LinuxBoot flashkernel integrated into the flash image using the following steps:</p>
+<pre><code class="language-bash">git clone https://github.com/tianocore/edk2-platforms.git
+git clone https://github.com/tianocore/edk2.git
+git clone https://github.com/tianocore/edk2-non-osi.git
+./edk2-platforms/Platform/Ampere/buildfw.sh -b RELEASE -t GCC -p Jade -l linuxboot/mainboards/ampere/jade/flashkernel
+</code></pre>
+<p>The <code>buildfw.sh</code> script automatically integrates the LinuxBoot flash kernel (provided via the -l option) as part of the final EDK2 firmware image.</p>
+<p>This process generates a flashable EDK2 firmware image with embedded LinuxBoot, ready for deployment on the Ampere Mt. Jade platform.</p>
+<h2 id="booting-with-linuxboot"><a class="header" href="#booting-with-linuxboot">Booting with LinuxBoot</a></h2>
+<p>When powered on, the system will boot into the u-root and automatically kexec to the target OS.</p>
+<pre><code class="language-text">Run /init as init process
+1970/01/01 00:00:10 Welcome to u-root!
+                              _
+   _   _      _ __ ___   ___ | |_
+  | | | |____| '__/ _ \ / _ \| __|
+  | |_| |____| | | (_) | (_) | |_
+   \__,_|    |_|  \___/ \___/ \__|
+
+cgroup: Unknown subsys name 'perf_event'
+init: 1970/01/01 00:00:10 Deprecation warning: use UROOT_NOHWRNG=1 on kernel cmdline instead of uroot.nohwrng
+1970/01/01 00:00:10 Booting from the following block devices: [BlockDevice(name=nvme0n1, fs_uuid=) BlockDevice(name=nvme0n1p1, fs_uuid=d6c6-6306) BlockDevice(name=nvme0n1p2, fs_uuid=63402158-6266-48fb-b602-5f83f26bd0b9) BlockDevice(name=nvme0n1p3, fs_uuid=) BlockDevice(name=nvme1n1, fs_uuid=) BlockDevice(name=nvme1n1p1, fs_uuid=525c-92fb)]
+1970/01/01 00:00:10 [grub] Got config file file:///tmp/u-root-mounts3457412855/nvme0n1p1/EFI/ubuntu/grub.cfg:
+search.fs_uuid 63402158-6266-48fb-b602-5f83f26bd0b9 root
+set prefix=($root)'/grub'
+configfile $prefix/grub.cfg
+
+1970/01/01 00:00:10 Warning: Grub parser could not parse ["search" "--fs-uuid" "63402158-6266-48fb-b602-5f83f26bd0b9" "root"]
+1970/01/01 00:00:10 [grub] Got config file file:///tmp/u-root-mounts3457412855/nvme0n1p2/grub/grub.cfg
+1970/01/01 00:00:10 Error: Expected 1 device with UUID "1334d6c5-c16f-46ba-9120-5127ae43bf63", found 0
+1970/01/01 00:00:10 Error: Expected 1 device with UUID "1334d6c5-c16f-46ba-9120-5127ae43bf63", found 0
+
+
+Welcome to LinuxBoot's Menu
+
+Enter a number to boot a kernel:
+
+1.  Ubuntu
+
+2.  Ubuntu, with Linux 6.8.0-49-generic
+
+3.  Ubuntu, with Linux 6.8.0-49-generic (recovery mode)
+
+4.  Ubuntu, with Linux 6.8.0-48-generic
+
+5.  Ubuntu, with Linux 6.8.0-48-generic (recovery mode)
+
+6.  Reboot
+
+7.  Enter a LinuxBoot shell
+
+
+Enter an option ('01' is the default, 'e' to edit kernel cmdline):
+ &gt; 07
+
+&gt; dmidecode -t 4
+# dmidecode-go
+Reading SMBIOS/DMI data from sysfs.
+SMBIOS 3.3.0 present.
+
+Handle 0x0003, DMI type 4, 51 bytes
+Processor Information
+        Socket Designation: CPU01
+        Type: Central Processor
+        Family: ARMv8
+        Manufacturer: Ampere(R)
+        ID: 01 00 16 0A A1 00 00 00
+        Signature: Implementor 0x0a, Variant 0x1, Architecture 6, Part 0x000, Revision 1
+        Version: Ampere(R) Altra(R) Processor
+        Voltage: 1.0 V
+        External Clock: 25 MHz
+        Max Speed: 3000 MHz
+        Current Speed: 3000 MHz
+        Status: Populated, Enabled
+        Upgrade: Unknown
+        L1 Cache Handle: 0x0001
+        L2 Cache Handle: 0x0002
+        L3 Cache Handle: Not Provided
+        Serial Number: 000000000000000002550904033865B4
+        Asset Tag: Not Set
+        Part Number: Q80-30
+        Core Count: 80
+        Core Enabled: 80
+        Thread Count: 80
+        Characteristics:
+                64-bit capable
+                Multi-Core
+                Execute Protection
+                Enhanced Virtualization
+                Power/Performance Control
+
+Handle 0x0007, DMI type 4, 51 bytes
+Processor Information
+        Socket Designation: CPU02
+        Type: Central Processor
+        Family: ARMv8
+        Manufacturer: Ampere(R)
+        ID: 01 00 16 0A A1 00 00 00
+        Signature: Implementor 0x0a, Variant 0x1, Architecture 6, Part 0x000, Revision 1
+        Version: Ampere(R) Altra(R) Processor
+        Voltage: 1.0 V
+        External Clock: 25 MHz
+        Max Speed: 3000 MHz
+        Current Speed: 3000 MHz
+        Status: Populated, Enabled
+        Upgrade: Unknown
+        L1 Cache Handle: 0x0005
+        L2 Cache Handle: 0x0006
+        L3 Cache Handle: Not Provided
+        Serial Number: 000000000000000002560909033865B4
+        Asset Tag: Not Set
+        Part Number: Q80-30
+        Core Count: 80
+        Core Enabled: 80
+        Thread Count: 80
+        Characteristics:
+                64-bit capable
+                Multi-Core
+                Execute Protection
+                Enhanced Virtualization
+                Power/Performance Control
+
+&gt;
+M-? toggle key help • C-d erase/stop • C-c clear/cancel • C-r search hist …
+</code></pre>
+<h2 id="future-work"><a class="header" href="#future-work">Future Work</a></h2>
+<p>While the LinuxBoot implementation on the Ampere Mt. Jade platform represents a significant milestone, several advanced features and improvements remain to be explored. These enhancements would extend the platform's capabilities, improve its usability, and reinforce its position as a leading open source firmware solution. Key areas for future development include:</p>
+<h3 id="secure-boot-with-linuxboot"><a class="header" href="#secure-boot-with-linuxboot">Secure Boot with LinuxBoot</a></h3>
+<p>One of the critical areas for future development is enabling secure boot verification for the target operating system. In the LinuxBoot environment, the target OS is typically booted using kexec. However, it is unclear how Secure Boot operates in this context, as kexec bypasses traditional firmware-controlled secure boot mechanisms. Future work should investigate how to extend Secure Boot principles to kexec, ensuring that the OS kernel and its components are verified and authenticated before execution. This may involve implementing signature checks and utilizing trusted certificate chains directly within the LinuxBoot environment to mimic the functionality of UEFI Secure Boot during the kexec process.</p>
+<h3 id="tpm-support"><a class="header" href="#tpm-support">TPM Support</a></h3>
+<p>The platform supports TPM, but its integration with LinuxBoot is yet to be defined. Future work could explore utilizing the TPM for secure boot measurements, and system integrity attestation.</p>
+<h3 id="expanding-support-for-additional-ampere-platforms"><a class="header" href="#expanding-support-for-additional-ampere-platforms">Expanding Support for Additional Ampere Platforms</a></h3>
+<p>Building on the success of LinuxBoot on Mt. Jade, future efforts should expand support to other Ampere platforms.  This would ensure broader adoption and usability across different hardware configurations.</p>
+<h3 id="optimizing-the-transition-between-uefi-and-linuxboot"><a class="header" href="#optimizing-the-transition-between-uefi-and-linuxboot">Optimizing the Transition Between UEFI and LinuxBoot</a></h3>
+<p>Improving the efficiency of the handoff between UEFI and LinuxBoot could further reduce boot times.  This optimization would involve refining the initialization process and minimizing redundant operations during the handoff.</p>
+<h3 id="advanced-diagnostics-and-monitoring-tools"><a class="header" href="#advanced-diagnostics-and-monitoring-tools">Advanced Diagnostics and Monitoring Tools</a></h3>
+<p>Adding more diagnostic and monitoring tools to the LinuxBoot u-root environment would enhance debugging and system management.  These tools could provide deeper insights into system performance and potential issues, improving reliability and maintainability.</p>
+<h2 id="see-also"><a class="header" href="#see-also">See Also</a></h2>
+<ul>
+<li><a href="https://amperecomputing.com/blogs/linuxboot-on-ampere-platforms--a-new-old-approach-to-firmware">LinuxBoot on Ampere Platforms: A new (old) approach to firmware</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../case_studies/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../case_studies/Google_study.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../case_studies/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../case_studies/Google_study.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+        <script src="../theme/js/language-picker.js"></script>
+
+
+    </div>
+    </body>
+</html>

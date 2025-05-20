@@ -1,0 +1,278 @@
+<!DOCTYPE HTML>
+<html lang="zh-TW" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Google 的案例研究 - LinuxBoot</title>
+
+
+        <!-- Custom HTML head -->
+        <script>
+            const mdbookPath = "case_studies/Google_study.md";
+            const mdbookPathToRoot = "../";
+        </script>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/language-picker.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">LinuxBoot</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/linuxboot/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="the-linuxboot-project-at-google"><a class="header" href="#the-linuxboot-project-at-google">The LinuxBoot project at Google</a></h1>
+<p>Google runs workloads across a number of clusters each with up to tens of thousands of machines. Firmware runs on these machines when they first start up. Google is pushing the state-of-the-art in many places including firmware. The discussion here about Google's implementation of LinuxBoot is limited to replacing specific UEFI <a href="../glossary.html">firmware</a> functionality with a Linux kernel and runtime. Over the years this project has grown to include various initiatives with the overarching goal of moving from obscure, complex firmware to simpler, open source firmware.</p>
+<h2 id="team"><a class="header" href="#team">Team</a></h2>
+<p>There have been a number of contributors to the Google LinuxBoot project including:</p>
+<ul>
+<li>Ron Minnich (technical lead)</li>
+<li>Gan-shun Lim</li>
+<li>Ryan O'Leary</li>
+<li>Prachi Laud</li>
+<li>Chris Koch</li>
+<li>Xuan Chen</li>
+<li>Andrew Sun</li>
+</ul>
+<p>Ryan O'Leary is one of the Open Compute Platform Foundation <a href="https://www.opencompute.org/projects/open-system-firmware">Open System Firmware project</a> volunteer leads and Ron Minnich is the Open Compute Platform Foundation Incubation Committee Representative.</p>
+<h2 id="goal"><a class="header" href="#goal">Goal</a></h2>
+<p>The primary goal of Google's LinuxBoot is to modernize the firmware by simplifying it to technologies engineers understand and trust. In UEFI systems, LinuxBoot consists of a "full stack" solution of stripped-down UEFI firmware, a Linux kernel, and an initramfs with tools written in Go. Although these components all make up one bundle stored in ROM, there are three parts: the closed-source EFI firmware, a Linux kernel, and <a href="../u-root.html">u-root</a>. The Linux kernel is an unmodified kernel.  The user-space initramfs image with Go tools for system booting is available as u-root. Due to this modularity, LinuxBoot can be used with a variety of systems. In many cases, for example, the same kernel and initramfs have been used, without recompilation, on both AMD and Intel x86 boards. The UEFI on these boards is always specific to the board, however.</p>
+<h2 id="converting-a-uefi-firmware-image-to-use-linuxboot"><a class="header" href="#converting-a-uefi-firmware-image-to-use-linuxboot">Converting a UEFI firmware image to use LinuxBoot</a></h2>
+<p>The conversion to LinuxBoot starts with generic UEFI. A UEFI computer boots in four main phases. The security phase (SEC) and the Pre-EFI Initialization Stage (PEI) are responsible for low-level operations to prepare the hardware and are usually specific to the hardware they are implemented for. After these two stages, the Driver Execution Environment (DXE) loads various drivers, and then the Boot Device Select (BDS) phase begins.</p>
+<p>It is not possible to modify the SEC and PEI stages, as their components are tightly coupled to the chips on the board; even small changes to the chips require new SEC and PEI stages. LinuxBoot starts during the DXE stage, resulting in most of the drivers (and their associated attack surface) not being loaded. Instead, a Linux kernel is loaded as if it were a driver. By loading during the DXE, LinuxBoot runs after the first two stages of the UEFI, but takes over after that point, replacing the UEFI drivers. It therefore completely replaces a large portion of the boot process.</p>
+<h2 id="phases-of-the-project"><a class="header" href="#phases-of-the-project">Phases of the project</a></h2>
+<p>Google's LinuxBoot project is focused on moving UEFI boot functionality into the kernel and user-space. That is, converting UEFI firmware to run LinuxBoot. The project has taken the standard UEFI boot process and converted it to LinuxBoot for production environments. The steps to reach this goal are described below.</p>
+<p>Step 1. Reduce or replace UEFI components</p>
+<p>UEFI contains proprietary, closed-source, vendor-supplied firmware drivers and firmware. LinuxBoot replaces many Driver Execution Environment (DXE) modules used by UEFI and other firmware, particularly the network stack and file system modules, with Linux applications.</p>
+<p>The following diagram shows the phases of the UEFI boot process. The items in <span style="color:red">red</span> are components that are either reduced or eliminated with LinuxBoot. The <span style="color:blue">dark blue</span> items on the left cannot be changed.</p>
+<img src="../images/Case-study-step1.svg" width=600px>
+<p>In the real FLASH part, the SEC and PEI are actually only 10% of total, so we reduce the size of those boxes in this and following diagrams.</p>
+<img src="../images/Case-study-step1a.svg" width=600px>
+<p>Another part of the conversion process was to modify the UEFI boot process to boot a LinuxBoot image as shown below.</p>
+<img src="../images/Case-study-step1b.svg" width=600px>
+<p>Step 2. Delete or replace as many proprietary DXEs as required to make step 3 work. In most cases, none need to be removed.</p>
+<img src="../images/Case-study-step2.svg" width=600px>
+<p>Step 3. Replace the UEFI shell with a Linux kernel + u-root</p>
+<img src="../images/Case-study-step3.svg" width=600px>
+<p>When Linux boots it needs a root file system with utilities. LinuxBoot provides a file system based on u-root standard utilities written in Go.</p>
+<p>Step 4. Through trial and error, continue to remove DXEs until you can't remove anymore.</p>
+<p>The DXEs are delivered as binary blobs. There are three ways to handle them:</p>
+<ol>
+<li>The most desirable is to remove them and let Linux drivers take over what they did. This works well for USB, network, disk, and other drivers, as well as network protocols and file systems. In fact we have resolved many system reliability and performance issues just by removing DXEs!</li>
+<li>The second way is to replace the DXE with an open source driver. This is less desirable, as the DXE environment is not as hardened as the Linux kernel environment.</li>
+<li>The final, least desired option, is to continue to use the DXE. This is required if the DXE contains proprietary code that "tweaks" chipset settings, for example, memory timing or other controls, and there is no chance of ever bringing them to open source.</li>
+</ol>
+<img src="../images/Case-study-step4.svg" width=600px>
+<p>Step 5. Replace closed source DXEs with open source</p>
+<p>If we can build a DXE from source, we can use <code>utk</code> to:</p>
+<ul>
+<li>Remove the proprietary one</li>
+<li>Replace it with one built from source</li>
+</ul>
+<img src="../images/Case-study-step5.svg" width=600px>
+<p>Step 6. Next steps: complete LinuxBoot</p>
+<p>LinuxBoot is currently in production, but the LinuxBoot project development continues to provide an open-source solution that does the following:</p>
+<ol>
+<li>Brings up the Linux kernel as a DXE in flash ROM instead of the UEFI shell.</li>
+<li>Provides a Go based user-space that can then bring up the kernel that you want to run on the machine.</li>
+<li>Enables writing traditional firmware applications such as bootloader, debugging, diagnosis, and error detection applications as cross-architecture and cross-platform portable Linux applications.</li>
+</ol>
+<p>The complete LinuxBoot solution is shown in the following diagram.</p>
+<img src="../images/Case-study-step6.svg" width=600px>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../case_studies/Ampere_study.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../case_studies/TiogaPass.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../case_studies/Ampere_study.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../case_studies/TiogaPass.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+        <script src="../theme/js/language-picker.js"></script>
+
+
+    </div>
+    </body>
+</html>
