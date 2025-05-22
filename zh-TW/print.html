@@ -175,7 +175,7 @@
 </ul>
 <h2 id="什麼是-linuxboot"><a class="header" href="#什麼是-linuxboot">什麼是 LinuxBoot？</a></h2>
 <p>LinuxBoot 的想法是用 Linux 核心和基於社群的用戶空間（user-space） 取代專有或企業主導的後期啟動<a href="./glossary.html">韌體</a>。這個想法逐漸發展成為一個項目，多年來包括各種舉措，其總體目標是從晦澀複雜的韌體轉變為更簡單和開源的韌體。</p>
-<p>LinuxBoot 專案提供兩個參考實作；<code>linuxboot</code> 和 Heads。<a href="https://github.com/linuxboot/linuxboot"><code>linuxboot</code></a> 建置系統輸出一個啟動載荷 (boot payload) ，包含一個 Linux 核心和一個 <a href="https://de.wikipedia.org/wiki/Initramfs">initramfs</a>，其中包含使用 <a href="https://github.com/u-root/u-root">u-root</a> 建置的最小 Go 使用者空間（user-space）。</p>
+<p>The LinuxBoot project provides two reference implementations; <code>linuxboot</code> and Heads. The <a href="https://github.com/linuxboot/linuxboot"><code>linuxboot</code></a> build system outputs a boot payload consisting of a Linux kernel and an <a href="https://de.wikipedia.org/wiki/Initramfs">initramfs</a> that contains a minimal Go user-space built using <a href="https://github.com/u-root/u-root">u-root</a>.</p>
 <p>Heads 構建系統更側重於本地證明（local attestation）、TPM DUK 密封/解封（seal/unseal）操作、基於 GPG 的安全措施、可重現構建（reproducible builds），並使用 BusyBox 提供更大的 Linux 工具套件，使其也可以用作修復環境（recovery environment）。</p>
 <p>許多其他實作獨立於專案而存在：</p>
 <ul>
@@ -196,7 +196,7 @@
 <p>LinuxBoot 以 Linux 應用程式取代了統一可擴充韌體介面（Unified Extensible Firmware Interface，UEFI）與其他韌體中大量的驅動程式執行環境（Driver Execution Environment，DXE）模組，特別是網路協定堆疊（network stack）和檔案系統（file system）模組。</p>
 <p>LinuxBoot 將 Linux 核心（Linux kernel）作為快閃記憶體（flash ROM）中的驅動程式執行環境（Driver Execution Environment, DXE）啟動，而非傳統的 UEFI shell。接著，Linux 核心可透過隨附的基於 Go 的使用者空間（user-space）來載入運行時核心（runtime kernel）。LinuxBoot 的架構（paradigm）使得傳統的韌體應用程式（例如開機載入器、偵錯工具、診斷與錯誤偵測應用程式）能夠以跨架構、跨平台的可攜式 Linux 應用程式形式實作。</p>
 <p>當 Linux 啟動時，它需要一個包含工具程式（utilities）的根檔案系統（root file system）。LinuxBoot 使用的其中一種根檔案系統是基於使用 Go 語言編寫的 u-root 標準工具程式（standard utilities）。下圖顯示了目前 UEFI 啟動過程的狀況，以及計畫中的 LinuxBoot 過渡流程。</p>
-<p><a href="./images/UEFI-versus-LinuxBoot.svg"><img src="./images/UEFI-versus-LinuxBoot.svg" alt="UEFI 啟動與 LinuxBoot 的比較" /></a></p>
+<p><a href="./images/UEFI-versus-LinuxBoot.svg"><img src="./images/UEFI-versus-LinuxBoot.svg" alt="comparison of UEFI boot and LinuxBoot" /></a></p>
 <h2 id="使用-go-使用者空間user-space環境和編譯器的好處"><a class="header" href="#使用-go-使用者空間user-space環境和編譯器的好處">使用 Go 使用者空間(user-space)環境和編譯器的好處</a></h2>
 <p>Go 是由 Google 創建的系統程式語言。Go 具有強類型（strong typing）、語言級別的並發支援（concurrency support）、透過通道（channels）進行進程間通訊（inter-process communication）、運行時類型安全性（runtime type safety）和其他保護措施、動態分配（dynamic allocation）和垃圾收集（garbage collection）以及閉包（closures）。Go 具有與 Java 類似的套件名稱符號（package name notation），使得可以清楚地確定給定程式需要哪些套件（packages）。</p>
 <p>現代語言結構使 Go 成為比 C 更安全的語言。這種安全性對於網路連接的嵌入式系統至關重要，這些系統通常擁有用 C 編寫的網路工具程式，包括網頁伺服器、包含 sshd 的網路伺服器（network servers），以及提供命令解釋器存取的程式（本身以 C 編寫）。所有這些都證明容易受到互聯網成為攻擊頻繁環境的威脅。</p>
@@ -278,47 +278,47 @@
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="使用情境"><a class="header" href="#使用情境">使用情境</a></h1>
-<p>乍看之下，用 Linux 核心啟動作業系統很簡單。不過細節上的挑戰，不只限於 Linux。本章討論這些細節，並提出解決引導程式問題的想法。</p>
-<h2 id="受限環境"><a class="header" href="#受限環境">受限環境</a></h2>
-<p>啟動系統代表要面對各種約束。這些限制可能激發創意，也可能讓人卻步。步行一天可達有限距離，而搭車則能走得更遠。透過 LinuxBoot，我們想藉機重新審視現有設計，並追求突破。</p>
-<p>在硬體方面，廠商會選擇產品的零件，並將其納入價格考量。</p>
-<p>其中一個主要限制，是初始啟動來源（boot source）。系統單晶片（SoC）通常先從遮罩唯讀記憶體（mask ROM）開始，接著使用簡單的儲存元件，範圍可能從幾 MB 的 SPI 快閃記憶體（flash），到數百 MB 或甚至 GB 的 eMMC 或 SD 卡。</p>
-<p>我們在此不討論透過 NVMe、SATA 或其他高速匯流排（bus）連接的其他儲存裝置，因為這些通常不受遮罩 ROM 支援。相對地，引導程式（bootloader）則可以提供從這些裝置或網路來源啟動的功能。</p>
-<h2 id="嵌入式裝置"><a class="header" href="#嵌入式裝置">嵌入式裝置</a></h2>
-<p>現今許多設備，像是 IoT（物聯網，Internet of Things）、家電（appliances）等，使用場景都很狹窄。它們只需執行特定任務，因此可針對需求做客製化。硬體上，通常只需要一顆 SoC、一點儲存空間和周邊裝置（peripherals）。最終產品的除錯介面（debug interface）則會被精簡甚至移除。</p>
-<h2 id="桌上型電腦筆記型電腦工作站和伺服器"><a class="header" href="#桌上型電腦筆記型電腦工作站和伺服器">桌上型電腦、筆記型電腦、工作站和伺服器</a></h2>
-<p>目前許多系統仍以 x86 處理器為基礎，主機板上設有 SPI 快閃記憶體（SPI flash）。筆電和桌機通常僅有 16 或 32 MB 的容量，高階伺服器與工作站則可達 64 MB，甚至還有一套稱為主機板管理控制器（BMC, Board Management Controller）的完整系統，擁有獨立韌體和儲存空間。這些限制下的設計會因 OEM 廠商而異。</p>
-<p>請注意，實際情況未必如此。以 Arm、RISC-V 為基礎的系統（Arm-based, RISC-V based systems）已證明我們可以有更多選擇，像是從 eMMC 啟動。這類筆記型電腦、桌上型主機板甚至部分伺服器與工作站，目前都已經有現成產品。</p>
-<h2 id="單板電腦single-board-computers-sbcs"><a class="header" href="#單板電腦single-board-computers-sbcs">單板電腦（Single Board Computers, SBCs）</a></h2>
+<p>The general concept of using a Linux kernel to boot into an operating system sounds simple at first glance. The challenges in the details, in part not only limited to using Linux, are being discussed in this chapter, with ideas on solving specific problems in the domain of bootloaders.</p>
+<h2 id="constrained-environments"><a class="header" href="#constrained-environments">Constrained environments</a></h2>
+<p>Booting a system means dealing with constraints. Those can have either of two effects: spark creativity or keep you from pursuing a goal. On foot, you can only reach as far in a day, whereas a vehicle gets you much further. With LinuxBoot, we want to take the chance to reevaluate contemporary designs and go beyond.</p>
+<p>When it comes to hardware, the vendor would choose the parts for their product and consider them in their price calculation.</p>
+<p>One main constraint is the initial boot source. A System-on-Chip (SoC) typically starts off with a mask ROM and continues with a simple storage part, which may range from a SPI flash of a few megabytes up to eMMC or SD cards of hundreds of megabytes or even gigabytes.</p>
+<p>We neglect other storages here that are attached via NVMe, SATA or other high-speed buses, because those are commonly not supported by mask ROMs. They are, on the other hand, what a bootloader offers to boot from, as well as network sources.</p>
+<h2 id="embedded-devices"><a class="header" href="#embedded-devices">Embedded devices</a></h2>
+<p>Many devices, nowadays known as IoT (Internet of Things), appliances, or similar, have a narrow use case. They are meant to perform a specific set of tasks, and thus can be tailored for it. In hardware terms, that often means an SoC, a bit of storage, and peripherals. Debug interfaces are reduced or removed for the final product.</p>
+<h2 id="desktop-laptop-workstation-and-server-systems"><a class="header" href="#desktop-laptop-workstation-and-server-systems">Desktop, laptop, workstation and server systems</a></h2>
+<p>At this point, many systems are still based on x86 processors, coming with a SPI flash on the board. While laptops and desktops mostly have a mere 16 or 32 megabytes to offer, high-end servers and workstations already have 64, and even a second whole system called the Board Management Controller (BMC), which has its own firmware and corresponding storage. Designs around those constraints vary among OEMs.</p>
+<p>Note that it need not be that way. Arm based, RISC-V based and other systems already show that you can expect more, such as booting off eMMC. Laptops and desktop boards in that range are available as of now, even some servers and workstations.</p>
+<h2 id="single-board-computers-sbcs"><a class="header" href="#single-board-computers-sbcs">Single Board Computers (SBCs)</a></h2>
 <p>The SBC market has grown to such a degree that credit card size boards nowadays comes with both small storage parts that can act as boot sources as well as PCIe connectors that can hold NVMes of gigabytes and terabytes of storage. This gives us the opportunity to work out a boot flow that provides the end user with a very rich environment already early on before the main operating system is loaded.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="涵蓋主題"><a class="header" href="#涵蓋主題">涵蓋主題</a></h1>
-<h2 id="演講"><a class="header" href="#演講">演講</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>日期</th><th>講者</th><th>標題</th></tr></thead><tbody>
-<tr><td>2016年12月27日</td><td>Trammell Hudson</td><td><a href="https://trmm.net/Heads_33c3">啟動一台更加安全的筆記型電腦</a></td></tr>
-<tr><td>2017年10月27日</td><td>Ron Minnich</td><td>用 Linux 核心取代你漏洞百出的韌體 (<a href="https://www.youtube.com/watch?v=iffTJ1vPCSo">YouTube</a>、<a href="https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf">投影片</a>)</td></tr>
-<tr><td>2017年12月29日</td><td>Trammell Hudson</td><td><a href="https://trmm.net/LinuxBoot_34c3">使用 LinuxBoot 將 Linux 重新引入伺服器 BIOS</a></td></tr>
-<tr><td>2018年9月13日</td><td>Andrea Barberio, David Hendricks</td><td>[開源韌體@Facebook]（https://www.osfc.io/2018/talks/open-source-firmware-facebook/）</td></tr>
-<tr><td>2018年10月2日</td><td>Andrea Barberio, David Hendricks</td><td>將 Linux 工程師轉變為韌體工程師</td></tr>
-<tr><td>2024年6月15日</td><td>Marta Lewandowska</td><td>[不再使用引導程式：請使用內核取代（No more boot loader: Please use the kernel instead）]（https://pretalx.com/devconf-cz-2024/talk/W3AVCT/）</td></tr>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="coverage"><a class="header" href="#coverage">Coverage</a></h1>
+<h2 id="talks"><a class="header" href="#talks">Talks</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Date</th><th>Presenter</th><th>Title</th></tr></thead><tbody>
+<tr><td>12/27/2016</td><td>Trammell Hudson</td><td><a href="https://trmm.net/Heads_33c3">Bootstraping a slightly more secure laptop</a></td></tr>
+<tr><td>10/27/2017</td><td>Ron Minnich</td><td>Replace your exploit-ridden firmware with a Linux kernel (<a href="https://www.youtube.com/watch?v=iffTJ1vPCSo">YouTube</a>, <a href="https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf">slides</a>)</td></tr>
+<tr><td>12/29/2017</td><td>Trammell Hudson</td><td><a href="https://trmm.net/LinuxBoot_34c3">Bringing Linux back to the server BIOS with LinuxBoot</a></td></tr>
+<tr><td>09/13/2018</td><td>Andrea Barberio, David Hendricks</td><td><a href="https://www.osfc.io/2018/talks/open-source-firmware-facebook/">Open Source Firmware @ Facebook</a></td></tr>
+<tr><td>10/02/2018</td><td>Andrea Barberio, David Hendricks</td><td><a href="https://2018ocpregionalsummit.sched.com/event/F8ax/turning-linux-engineers-into-firmware-engineers">Turning Linux Engineers into Firmware Engineers</a> (<a href="https://insomniac.slackware.it/static/2018_ocp_regional_summit_linuxboot_at_facebook.pdf">slides</a>, <a href="https://www.youtube.com/watch?v=i84df1z6mdI">YouTube</a>)</td></tr>
+<tr><td>06/15/2024</td><td>Marta Lewandowska</td><td><a href="https://pretalx.com/devconf-cz-2024/talk/W3AVCT/">No more boot loader: Please use the kernel instead</a></td></tr>
 </tbody></table>
 </div>
 <ul>
-<li><a href="https://www.usenix.org/conference/lisa18/presentation/barberio">使用 LinuxBoot 讓您的系統韌體更快、更靈活、更可靠（Make Your System Firmware Faster, More Flexible and Reliable with LinuxBoot）</a>，講者：<a href="https://github.com/dhendrix">David Hendricks</a> 和 [Andrea Barberio](https://github.com/insniaub.com 2018](https://www.usenix.org/conference/lisa18) (<a href="https://insomniac.slackware.it/static/2018_lisa_linuxboot_at_facebook.pdf">投影片</a>) (2018-10-31)</li>
-<li><a href="https://www.youtube.com/watch?v=xfqKm190dbU">開源韌體 - 一個愛情故事（Open Source Firmware - A love story）</a>，講者：<a href="https://cybersecurity.9elements.com">Philipp Deppenwiese</a>，於 <a href="https://events.ccc.de/congress/2018">35c3</a> (<a href="https://cdn.media.ccc.de/congress/2018/slides-h264-hd/35c3-9778-deu-eng-Open_Source_Firmware_hd-slides.mp4">投影片</a>) 發表 (2018-12-27)</li>
-<li><a href="https://fosdem.org/2019/schedule/event/open_source_firmware_at_facebook/">Facebook 上的開源韌體（Open Source Firmware at Facebook）</a>，主講人：<a href="https://github.com/dhendrix">David Hendricks</a> 與 <a href="https://github.com/insomniacslk">Andrea Barberio</a>，於 <a href="https://fosdem.org/2019/">FOSDEM 2019</a> 發表（<a href="https://video.fosdem.org/2019/K.4.401/open_source_firmware_at_facebook.mp4">影片</a>，<a href="https://insomniac.slackware.it/static/2019_fosdem_linuxboot_at_facebook.pdf">投影片</a>）(2019-02-03)</li>
-<li><a href="https://www.osfc.io/2022/talks/kexec-evolutions-for-linuxboot/">Kexec 在 LinuxBoot 上的演進（Kexec Evolutions for LinuxBoot）</a>，由 David Hu 於 OSFC 2021 主講</li>
-<li><a href="https://pretalx.com/devconf-cz-2024/talk/W3AVCT/">不再使用開機載入程式：請直接使用核心（No more boot loader: Please use the kernel instead）</a>，於 2024 DevConf 發表</li>
+<li><a href="https://www.usenix.org/conference/lisa18/presentation/barberio">Make Your System Firmware Faster, More Flexible and Reliable with LinuxBoot</a> by <a href="https://github.com/dhendrix">David Hendricks</a> and <a href="https://github.com/insomniacslk">Andrea Barberio</a> at <a href="https://www.usenix.org/conference/lisa18">LISA 2018</a> (<a href="https://insomniac.slackware.it/static/2018_lisa_linuxboot_at_facebook.pdf">slides</a>) (2018-10-31)</li>
+<li><a href="https://www.youtube.com/watch?v=xfqKm190dbU">Open Source Firmware - A love story</a> by <a href="https://cybersecurity.9elements.com">Philipp Deppenwiese</a> at <a href="https://events.ccc.de/congress/2018">35c3</a> (<a href="https://cdn.media.ccc.de/congress/2018/slides-h264-hd/35c3-9778-deu-eng-Open_Source_Firmware_hd-slides.mp4">slides</a>) (2018-12-27)</li>
+<li><a href="https://fosdem.org/2019/schedule/event/open_source_firmware_at_facebook/">Open Source Firmware at Facebook</a> by <a href="https://github.com/dhendrix">David Hendricks</a> and <a href="https://github.com/insomniacslk">Andrea Barberio</a> at <a href="https://fosdem.org/2019/">FOSDEM 2019</a> (<a href="https://video.fosdem.org/2019/K.4.401/open_source_firmware_at_facebook.mp4">video</a>) (<a href="https://insomniac.slackware.it/static/2019_fosdem_linuxboot_at_facebook.pdf">slides</a>) (2019-02-03)</li>
+<li><a href="https://www.osfc.io/2022/talks/kexec-evolutions-for-linuxboot/">Kexec Evolutions for LinuxBoot</a> by David Hu at OSFC 2021</li>
+<li><a href="https://pretalx.com/devconf-cz-2024/talk/W3AVCT/">No more boot loader: Please use the kernel instead</a> at 2024 DevConf</li>
 </ul>
-<h2 id="新聞"><a class="header" href="#新聞">新聞</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>日期</th><th>網站</th><th>標題</th></tr></thead><tbody>
-<tr><td>2018年1月25日</td><td>Linux 基金會（Linux Foundation）</td><td><a href="https://www.linuxfoundation.org/blog/system-startup-gets-a-boost-with-new-linuxboot-project/">新的 LinuxBoot 專案讓系統啟動加速（System Startup gets a Boost with new LinuxBoot project）</a></td></tr>
-<tr><td>2018年2月15日</td><td>Linux 雜誌（Linux Journal）</td><td><a href="https://www.linuxjournal.com/content/foss-project-spotlight-linuxboot/">Linux 期刊：FOSS 專案聚焦：LinuxBoot（Linux Journal: FOSS Project Spotlight: LinuxBoot）</a></td></tr>
-<tr><td>2018年3月8日</td><td>LWN</td><td><a href="https://lwn.net/Articles/748586/">LWN.net: LinuxBoot：Linux 作為韌體（LWN.net: LinuxBoot: Linux as firmware）</a></td></tr>
-<tr><td>2018年6月21日</td><td>Phoronix</td><td><a href="https://www.phoronix.com/news/Equus-WHITEBOX-OPEN">Equus WHITEBOX OPEN：一系列支援 Coreboot/LinuxBoot 的 Xeon 可擴充伺服器（A Line Of Coreboot/LinuxBoot-Ready Xeon Scalable Servers）</a></td></tr>
-<tr><td>2019年2月6日</td><td>Phoronix</td><td><a href="https://www.phoronix.com/news/LinuxBoot-2019">LinuxBoot 推出僅一年多，已持續在 Facebook 及其他領域取得進展（At Just Over One Year Old, LinuxBoot Continues Making Inroads At Facebook &amp; Elsewhere）</a></td></tr>
-<tr><td>2019年3月14日</td><td>Facebook</td><td><a href="https://code.fb.com/data-center-engineering/f16-minipack/">Facebook 基於 LinuxBoot 的 F-16 高效能結構網路（LinuxBoot-powered F-16 high-performance fabric network）</a></td></tr>
-<tr><td>2023年3月10日</td><td>Phoronix</td><td><a href="https://www.phoronix.com/news/Lenovo-LinuxBoot-ByteDance">聯想攜手字節跳動支援 LinuxBoot 韌體（Lenovo Begins Supporting LinuxBoot Firmware With ByteDance）</a></td></tr>
-<tr><td>2024年7月8日</td><td>LWN</td><td><a href="https://lwn.net/Articles/979789">用 nmbl 取代 bootloader（Giving bootloaders the boot with nmbl）</a></td></tr>
+<h2 id="news"><a class="header" href="#news">News</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Date</th><th>Website</th><th>Title</th></tr></thead><tbody>
+<tr><td>01/25/2018</td><td>Linux Foundation</td><td><a href="https://www.linuxfoundation.org/blog/system-startup-gets-a-boost-with-new-linuxboot-project/">System Statup gets a Boost with new LinuxBoot project</a></td></tr>
+<tr><td>02/15/2018</td><td>Linux Journal</td><td><a href="https://www.linuxjournal.com/content/foss-project-spotlight-linuxboot/">Linux Journal: FOSS Project Spotlight: LinuxBoot</a></td></tr>
+<tr><td>03/08/2018</td><td>LWN</td><td><a href="https://lwn.net/Articles/748586/">LWN.net: LinuxBoot: Linux as firmware</a></td></tr>
+<tr><td>06/21/2018</td><td>Phoronix</td><td><a href="https://www.phoronix.com/news/Equus-WHITEBOX-OPEN">Equus WHITEBOX OPEN: A Line Of Coreboot/LinuxBoot-Ready Xeon Scalable Servers</a></td></tr>
+<tr><td>02/06/2019</td><td>Phoronix</td><td><a href="https://www.phoronix.com/news/LinuxBoot-2019">At Just Over One Year Old, LinuxBoot Continues Making Inroads At Facebook &amp; Elsewhere</a></td></tr>
+<tr><td>03/14/2019</td><td>Facebook</td><td><a href="https://code.fb.com/data-center-engineering/f16-minipack/">Facebook's LinuxBoot-powered F-16 high-performance fabric network</a></td></tr>
+<tr><td>03/10/2023</td><td>Phoronix</td><td><a href="https://www.phoronix.com/news/Lenovo-LinuxBoot-ByteDance">Lenovo Begins Supporting LinuxBoot Firmware With ByteDance</a></td></tr>
+<tr><td>07/08/2024</td><td>LWN</td><td><a href="https://lwn.net/Articles/979789">Giving bootloaders the boot with nmbl</a></td></tr>
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><h2 id="linuxboot-的組成"><a class="header" href="#linuxboot-的組成">LinuxBoot 的組成</a></h2>
 <p><img src="./images/LinuxBoot-components.svg" alt="image" /></p>
@@ -706,7 +706,7 @@ Linux
 <p>You have just run your first LinuxBoot kernel.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="linuxboot-utilities"><a class="header" href="#linuxboot-utilities">LinuxBoot Utilities</a></h1>
 <p>In order to bootstrap, build and maintain LinuxBoot projects, we provide a handful of utilities for extracting, reducing, reworking, and stitching firmware images.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="uefi-工具包"><a class="header" href="#uefi-工具包">UEFI 工具包</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="uefi工具包"><a class="header" href="#uefi工具包">UEFI工具包</a></h1>
 <p>Authors: Ryan O'Leary, Gan Shun Lim and Andrea Barberio</p>
 <p>In previous chapters, you learned how to read a raw ROM image from a flash part. If you've been following along, you know the next step is to insert a Linux kernel.</p>
 <p>Inspecting and modifying ROM images is tricky and can involve a fair amount of tinkering. These images typically contain a number of file systems, drivers, tables, data structures and opaque blobs. They also differ significantly from the UNIX model of a file systems, thus cannot be reasonably mounted in Linux.</p>

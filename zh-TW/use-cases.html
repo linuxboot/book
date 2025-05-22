@@ -164,18 +164,18 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="使用情境"><a class="header" href="#使用情境">使用情境</a></h1>
-<p>乍看之下，用 Linux 核心啟動作業系統很簡單。不過細節上的挑戰，不只限於 Linux。本章討論這些細節，並提出解決引導程式問題的想法。</p>
-<h2 id="受限環境"><a class="header" href="#受限環境">受限環境</a></h2>
-<p>啟動系統代表要面對各種約束。這些限制可能激發創意，也可能讓人卻步。步行一天可達有限距離，而搭車則能走得更遠。透過 LinuxBoot，我們想藉機重新審視現有設計，並追求突破。</p>
-<p>在硬體方面，廠商會選擇產品的零件，並將其納入價格考量。</p>
-<p>其中一個主要限制，是初始啟動來源（boot source）。系統單晶片（SoC）通常先從遮罩唯讀記憶體（mask ROM）開始，接著使用簡單的儲存元件，範圍可能從幾 MB 的 SPI 快閃記憶體（flash），到數百 MB 或甚至 GB 的 eMMC 或 SD 卡。</p>
-<p>我們在此不討論透過 NVMe、SATA 或其他高速匯流排（bus）連接的其他儲存裝置，因為這些通常不受遮罩 ROM 支援。相對地，引導程式（bootloader）則可以提供從這些裝置或網路來源啟動的功能。</p>
-<h2 id="嵌入式裝置"><a class="header" href="#嵌入式裝置">嵌入式裝置</a></h2>
-<p>現今許多設備，像是 IoT（物聯網，Internet of Things）、家電（appliances）等，使用場景都很狹窄。它們只需執行特定任務，因此可針對需求做客製化。硬體上，通常只需要一顆 SoC、一點儲存空間和周邊裝置（peripherals）。最終產品的除錯介面（debug interface）則會被精簡甚至移除。</p>
-<h2 id="桌上型電腦筆記型電腦工作站和伺服器"><a class="header" href="#桌上型電腦筆記型電腦工作站和伺服器">桌上型電腦、筆記型電腦、工作站和伺服器</a></h2>
-<p>目前許多系統仍以 x86 處理器為基礎，主機板上設有 SPI 快閃記憶體（SPI flash）。筆電和桌機通常僅有 16 或 32 MB 的容量，高階伺服器與工作站則可達 64 MB，甚至還有一套稱為主機板管理控制器（BMC, Board Management Controller）的完整系統，擁有獨立韌體和儲存空間。這些限制下的設計會因 OEM 廠商而異。</p>
-<p>請注意，實際情況未必如此。以 Arm、RISC-V 為基礎的系統（Arm-based, RISC-V based systems）已證明我們可以有更多選擇，像是從 eMMC 啟動。這類筆記型電腦、桌上型主機板甚至部分伺服器與工作站，目前都已經有現成產品。</p>
-<h2 id="單板電腦single-board-computers-sbcs"><a class="header" href="#單板電腦single-board-computers-sbcs">單板電腦（Single Board Computers, SBCs）</a></h2>
+<p>The general concept of using a Linux kernel to boot into an operating system sounds simple at first glance. The challenges in the details, in part not only limited to using Linux, are being discussed in this chapter, with ideas on solving specific problems in the domain of bootloaders.</p>
+<h2 id="constrained-environments"><a class="header" href="#constrained-environments">Constrained environments</a></h2>
+<p>Booting a system means dealing with constraints. Those can have either of two effects: spark creativity or keep you from pursuing a goal. On foot, you can only reach as far in a day, whereas a vehicle gets you much further. With LinuxBoot, we want to take the chance to reevaluate contemporary designs and go beyond.</p>
+<p>When it comes to hardware, the vendor would choose the parts for their product and consider them in their price calculation.</p>
+<p>One main constraint is the initial boot source. A System-on-Chip (SoC) typically starts off with a mask ROM and continues with a simple storage part, which may range from a SPI flash of a few megabytes up to eMMC or SD cards of hundreds of megabytes or even gigabytes.</p>
+<p>We neglect other storages here that are attached via NVMe, SATA or other high-speed buses, because those are commonly not supported by mask ROMs. They are, on the other hand, what a bootloader offers to boot from, as well as network sources.</p>
+<h2 id="embedded-devices"><a class="header" href="#embedded-devices">Embedded devices</a></h2>
+<p>Many devices, nowadays known as IoT (Internet of Things), appliances, or similar, have a narrow use case. They are meant to perform a specific set of tasks, and thus can be tailored for it. In hardware terms, that often means an SoC, a bit of storage, and peripherals. Debug interfaces are reduced or removed for the final product.</p>
+<h2 id="desktop-laptop-workstation-and-server-systems"><a class="header" href="#desktop-laptop-workstation-and-server-systems">Desktop, laptop, workstation and server systems</a></h2>
+<p>At this point, many systems are still based on x86 processors, coming with a SPI flash on the board. While laptops and desktops mostly have a mere 16 or 32 megabytes to offer, high-end servers and workstations already have 64, and even a second whole system called the Board Management Controller (BMC), which has its own firmware and corresponding storage. Designs around those constraints vary among OEMs.</p>
+<p>Note that it need not be that way. Arm based, RISC-V based and other systems already show that you can expect more, such as booting off eMMC. Laptops and desktop boards in that range are available as of now, even some servers and workstations.</p>
+<h2 id="single-board-computers-sbcs"><a class="header" href="#single-board-computers-sbcs">Single Board Computers (SBCs)</a></h2>
 <p>The SBC market has grown to such a degree that credit card size boards nowadays comes with both small storage parts that can act as boot sources as well as PCIe connectors that can hold NVMes of gigabytes and terabytes of storage. This gives us the opportunity to work out a boot flow that provides the end user with a very rich environment already early on before the main operating system is loaded.</p>
 
                     </main>
