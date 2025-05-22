@@ -597,23 +597,20 @@ msgid "Test with a kernel in QEMU"
 msgstr "使用 QEMU 中的核心進行測試"
 
 #: src/use-cases.md:3
-#, fuzzy
 msgid ""
 "The general concept of using a Linux kernel to boot into an operating system "
 "sounds simple at first glance. The challenges in the details, in part not "
 "only limited to using Linux, are being discussed in this chapter, with ideas "
 "on solving specific problems in the domain of bootloaders."
 msgstr ""
-"使用 Linux 核心啟動作業系統的一般概念乍看之下很簡單。本章討論了細節中的挑戰，"
-"部分挑戰不僅限於使用 Linux，還提出了解決引導程式領域中特定問題的想法。"
+"乍看之下，用 Linux 核心啟動作業系統很簡單。不過細節上的挑戰，不只限於 Linux。本章討論這些細"
+"節，並提出解決引導程式問題的想法。"
 
 #: src/use-cases.md:8
-#, fuzzy
 msgid "Constrained environments"
 msgstr "受限環境"
 
 #: src/use-cases.md:10
-#, fuzzy
 msgid ""
 "Booting a system means dealing with constraints. Those can have either of "
 "two effects: spark creativity or keep you from pursuing a goal. On foot, you "
@@ -621,47 +618,41 @@ msgid ""
 "With LinuxBoot, we want to take the chance to reevaluate contemporary "
 "designs and go beyond."
 msgstr ""
-"啟動系統意味著要處理約束。這些可能會產生兩種影響：激發創造力或阻止你追求目"
-"標。步行一天只能到達這麼遠，而乘車可以到達更遠的地方。借助 LinuxBoot，我們希"
-"望藉此機會重新評估當代設計並超越。"
+"啟動系統代表要面對各種約束。這些限制可能激發創意，也可能讓人卻步。步行一天可達有限距離，而搭車"
+"則能走得更遠。透過 LinuxBoot，我們想藉機重新審視現有設計，並追求突破。"
 
 #: src/use-cases.md:16
-#, fuzzy
 msgid ""
 "When it comes to hardware, the vendor would choose the parts for their "
 "product and consider them in their price calculation."
-msgstr "當涉及硬體時，供應商會選擇其產品的零件並在價格計算中考慮它們。"
+msgstr "在硬體方面，廠商會選擇產品的零件，並將其納入價格考量。"
 
 #: src/use-cases.md:19
-#, fuzzy
 msgid ""
 "One main constraint is the initial boot source. A System-on-Chip (SoC) "
 "typically starts off with a mask ROM and continues with a simple storage "
 "part, which may range from a SPI flash of a few megabytes up to eMMC or SD "
 "cards of hundreds of megabytes or even gigabytes."
 msgstr ""
-"一個主要的限制是初始啟動來源。系統單晶片 (SoC) 通常從掩模 ROM 開始，然後是簡"
-"單的儲存部分，其範圍可能從幾兆位元組的 SPI 快閃記憶體到數百兆位元組甚至千兆位"
-"元組的 eMMC 或 SD 卡。"
+"其中一個主要限制，是初始啟動來源（boot source）。系統單晶片（SoC）通常先從遮罩唯讀記憶體"
+"（mask ROM）開始，接著使用簡單的儲存元件，範圍可能從幾 MB 的 SPI 快閃記憶體（flash），到數"
+"百 MB 或甚至 GB 的 eMMC 或 SD 卡。"
 
 #: src/use-cases.md:24
-#, fuzzy
 msgid ""
 "We neglect other storages here that are attached via NVMe, SATA or other "
 "high-speed buses, because those are commonly not supported by mask ROMs. "
 "They are, on the other hand, what a bootloader offers to boot from, as well "
 "as network sources."
 msgstr ""
-"我們忽略了透過 NVMe、SATA 或其他高速匯流排連接的其他存儲，因為這些儲存通常不"
-"受遮罩 ROM 支援。另一方面，它們是引導程式提供的引導來源以及網路來源。"
+"我們在此不討論透過 NVMe、SATA 或其他高速匯流排（bus）連接的其他儲存裝置，因為這些通常不受遮"
+"罩 ROM 支援。相對地，引導程式（bootloader）則可以提供從這些裝置或網路來源啟動的功能。"
 
 #: src/use-cases.md:29
-#, fuzzy
 msgid "Embedded devices"
 msgstr "嵌入式裝置"
 
 #: src/use-cases.md:31
-#, fuzzy
 msgid ""
 "Many devices, nowadays known as IoT (Internet of Things), appliances, or "
 "similar, have a narrow use case. They are meant to perform a specific set of "
@@ -669,17 +660,15 @@ msgid ""
 "an SoC, a bit of storage, and peripherals. Debug interfaces are reduced or "
 "removed for the final product."
 msgstr ""
-"如今，許多設備（稱為 IoT（物聯網）、家用電器或類似設備）的用途都很狹窄。它們"
-"旨在執行一組特定的任務，因此可以進行客製化。從硬體角度來說，這通常意味著 "
-"SoC、一些儲存空間和周邊設備。最終產品的調試介面被減少或刪除。"
+"現今許多設備，像是 IoT（物聯網，Internet of Things）、家電（appliances）等，使用場景都很"
+"狹窄。它們只需執行特定任務，因此可針對需求做客製化。硬體上，通常只需要一顆 SoC、一點儲存空間"
+"和周邊裝置（peripherals）。最終產品的除錯介面（debug interface）則會被精簡甚至移除。"
 
 #: src/use-cases.md:37
-#, fuzzy
 msgid "Desktop, laptop, workstation and server systems"
-msgstr "桌上型電腦、筆記型電腦、工作站和伺服器系統"
+msgstr "桌上型電腦、筆記型電腦、工作站和伺服器"
 
 #: src/use-cases.md:39
-#, fuzzy
 msgid ""
 "At this point, many systems are still based on x86 processors, coming with a "
 "SPI flash on the board. While laptops and desktops mostly have a mere 16 or "
@@ -688,27 +677,25 @@ msgid ""
 "which has its own firmware and corresponding storage. Designs around those "
 "constraints vary among OEMs."
 msgstr ""
-"目前，許多系統仍基於 x86 處理器，主機板上配有 SPI 快閃記憶體。雖然筆記型電腦"
-"和桌上型電腦大多只有 16 或 32 MB 的儲存空間，但高階伺服器和工作站已經擁有 64 "
-"MB 的儲存空間，甚至還有第二個完整的系統，稱為主機板管理控制器 (BMC)，它有自己"
-"的韌體和相應的儲存空間。針對這些限制的設計因 OEM 而異。"
+"目前許多系統仍以 x86 處理器為基礎，主機板上設有 SPI 快閃記憶體（SPI flash）。筆電和桌機通常"
+"僅有 16 或 32 MB 的容量，高階伺服器與工作站則可達 64 MB，甚至還有一套稱為主機板管理控制器"
+"（BMC, Board Management Controller）的完整系統，擁有獨立韌體和儲存空間。這些限制下的設"
+"計會因 OEM 廠商而異。"
 
 #: src/use-cases.md:46
-#, fuzzy
 msgid ""
 "Note that it need not be that way. Arm based, RISC-V based and other systems "
 "already show that you can expect more, such as booting off eMMC. Laptops and "
 "desktop boards in that range are available as of now, even some servers and "
 "workstations."
 msgstr ""
-"請注意，事實並非必須如此。基於 Arm、基於 RISC-V 和其他系統已經表明您可以期待"
-"更多，例如從 eMMC 啟動。目前，該範圍內的筆記型電腦和桌上型電腦主機板已經上"
-"市，甚至一些伺服器和工作站也已上市。"
+"請注意，實際情況未必如此。以 Arm、RISC-V 為基礎的系統"
+"（Arm-based, RISC-V based systems）已證明我們可以有更多選擇，像是從 eMMC 啟動。這類筆"
+"記型電腦、桌上型主機板甚至部分伺服器與工作站，目前都已經有現成產品。"
 
 #: src/use-cases.md:51
-#, fuzzy
 msgid "Single Board Computers (SBCs)"
-msgstr "單板計算機 (SBC)"
+msgstr "單板電腦（Single Board Computers, SBCs）"
 
 #: src/use-cases.md:53
 #, fuzzy
@@ -720,80 +707,67 @@ msgid ""
 "the end user with a very rich environment already early on before the main "
 "operating system is loaded."
 msgstr ""
-"SBC 市場已經發展到如此程度，以至於如今信用卡大小的主機板既配備了可以作為啟動"
-"來源的小型儲存零件，也配備了可以容納 GB 和 TB 級儲存的 NVMe 的 PCIe 連接器。"
-"這使我們有機會制定一個啟動流程，在主作業系統載入之前儘早為最終用戶提供非常豐"
-"富的環境。"
+"SBC 市場發展迅速，現今的信用卡大小主機板（board）不僅配有可作為啟動來源的小型儲存零件，還有"
+" PCIe 連接器，能支援容量達 GB 或 TB 的 NVMe 裝置。"
+"這讓我們有機會設計一套啟動流程（boot flow），在主要作業系統載入前，就能為最終用戶提供相當豐富"
+"的環境。"
 
 #: src/talks-news.md:1
-#, fuzzy
 msgid "Coverage"
-msgstr "覆蓋範圍"
+msgstr "涵蓋主題"
 
 #: src/talks-news.md:3
-#, fuzzy
 msgid "Talks"
-msgstr "會談"
+msgstr "演講"
 
 #: src/talks-news.md:5 src/talks-news.md:39
-#, fuzzy
 msgid "Date"
 msgstr "日期"
 
 #: src/talks-news.md:5
-#, fuzzy
 msgid "Presenter"
-msgstr "主持人"
+msgstr "講者"
 
 #: src/talks-news.md:5 src/talks-news.md:39
-#, fuzzy
 msgid "Title"
 msgstr "標題"
 
 #: src/talks-news.md:7
-#, fuzzy
 msgid "12/27/2016"
 msgstr "2016年12月27日"
 
 #: src/talks-news.md:7 src/talks-news.md:9
-#, fuzzy
 msgid "Trammell Hudson"
-msgstr "特拉梅爾·哈德森"
+msgstr "Trammell Hudson"
 
 #: src/talks-news.md:7
-#, fuzzy
 msgid ""
 "[Bootstraping a slightly more secure laptop](https://trmm.net/Heads_33c3)"
-msgstr "[引導一台更安全的筆記型電腦](https://trmm.net/Heads_33c3)"
+msgstr "[啟動一台更加安全的筆記型電腦](https://trmm.net/Heads_33c3)"
 
 #: src/talks-news.md:8
-#, fuzzy
 msgid "10/27/2017"
 msgstr "2017年10月27日"
 
 #: src/talks-news.md:8
-#, fuzzy
 msgid "Ron Minnich"
-msgstr "羅恩·明尼奇"
+msgstr "Ron Minnich"
 
 #: src/talks-news.md:8
-#, fuzzy
 msgid ""
 "Replace your exploit-ridden firmware with a Linux kernel ([YouTube](https://"
 "www.youtube.com/watch?v=iffTJ1vPCSo), [slides](https://schd.ws/hosted_files/"
 "osseu17/84/Replace%20UEFI%20with%20Linux.pdf))"
 msgstr ""
-"以 Linux 核心取代漏洞利用的韌體 ([YouTube](https://www.youtube.com/watch?"
+"用 Linux 核心取代你漏洞百出的韌體 ([YouTube](https://www.youtube.com/watch?"
 "v=iffTJ1vPCSo)、[投影片](https://schd.ws/hosted_files/osseu17/84/"
 "Replace%20UEFI%20with%20Linux.pdf))"
 
 #: src/talks-news.md:9
-#, fuzzy
 msgid "12/29/2017"
 msgstr "2017年12月29日"
 
 #: src/talks-news.md:9
-#, fuzzy
 msgid ""
 "[Bringing Linux back to the server BIOS with LinuxBoot](https://trmm.net/"
 "LinuxBoot_34c3)"
@@ -802,17 +776,14 @@ msgstr ""
 "LinuxBoot_34c3)"
 
 #: src/talks-news.md:10
-#, fuzzy
 msgid "09/13/2018"
 msgstr "2018年9月13日"
 
 #: src/talks-news.md:10 src/talks-news.md:11
-#, fuzzy
 msgid "Andrea Barberio, David Hendricks"
-msgstr "安德里亞·巴貝裡奧，大衛·亨德里克斯"
+msgstr "Andrea Barberio, David Hendricks"
 
 #: src/talks-news.md:10
-#, fuzzy
 msgid ""
 "[Open Source Firmware @ Facebook](https://www.osfc.io/2018/talks/open-source-"
 "firmware-facebook/)"
@@ -821,12 +792,10 @@ msgstr ""
 "facebook/）"
 
 #: src/talks-news.md:11
-#, fuzzy
 msgid "10/02/2018"
 msgstr "2018年10月2日"
 
 #: src/talks-news.md:11
-#, fuzzy
 msgid ""
 "[Turning Linux Engineers into Firmware Engineers](https://"
 "2018ocpregionalsummit.sched.com/event/F8ax/turning-linux-engineers-into-"
@@ -836,26 +805,22 @@ msgid ""
 msgstr "將 Linux 工程師轉變為韌體工程師"
 
 #: src/talks-news.md:12
-#, fuzzy
 msgid "06/15/2024"
 msgstr "2024年6月15日"
 
 #: src/talks-news.md:12
-#, fuzzy
 msgid "Marta Lewandowska"
-msgstr "瑪塔·萊萬多夫斯卡"
+msgstr "Marta Lewandowska"
 
 #: src/talks-news.md:12
-#, fuzzy
 msgid ""
 "[No more boot loader: Please use the kernel instead](https://pretalx.com/"
 "devconf-cz-2024/talk/W3AVCT/)"
 msgstr ""
-"[不再使用引導程式：請使用內核取代]（https://pretalx.com/devconf-cz-2024/talk/"
-"W3AVCT/）"
+"[不再使用引導程式：請使用內核取代（No more boot loader: Please use the kernel "
+"instead）]（https://pretalx.com/devconf-cz-2024/talk/W3AVCT/）"
 
 #: src/talks-news.md:14
-#, fuzzy
 msgid ""
 "[Make Your System Firmware Faster, More Flexible and Reliable with LinuxBoot]"
 "(https://www.usenix.org/conference/lisa18/presentation/barberio) by [David "
@@ -864,15 +829,15 @@ msgid ""
 "lisa18) ([slides](https://insomniac.slackware.it/static/"
 "2018_lisa_linuxboot_at_facebook.pdf)) (2018-10-31)"
 msgstr ""
-"[使用 LinuxBoot 讓您的系統韌體更快、更靈活、更可靠](https://www.usenix.org/"
-"conference/lisa18/presentation/barberio)，作者：[David Hendricks](https://"
+"[使用 LinuxBoot 讓您的系統韌體更快、更靈活、更可靠（Make Your System Firmware Faster, "
+"More Flexible and Reliable with LinuxBoot）](https://www.usenix.org/"
+"conference/lisa18/presentation/barberio)，講者：[David Hendricks](https://"
 "github.com/dhendrix) 和 [Andrea Barberio](https://github.com/insniaub.com "
 "2018](https://www.usenix.org/conference/lisa18) ([投影片](https://"
 "insomniac.slackware.it/static/2018_lisa_linuxboot_at_facebook.pdf)) "
 "(2018-10-31)"
 
 #: src/talks-news.md:20
-#, fuzzy
 msgid ""
 "[Open Source Firmware - A love story](https://www.youtube.com/watch?"
 "v=xfqKm190dbU) by [Philipp Deppenwiese](https://cybersecurity.9elements.com) "
@@ -880,14 +845,14 @@ msgid ""
 "cdn.media.ccc.de/congress/2018/slides-h264-hd/35c3-9778-deu-eng-"
 "Open_Source_Firmware_hd-slides.mp4)) (2018-12-27)"
 msgstr ""
-"[開源韌體 - 一個愛情故事](https://www.youtube.com/watch?v=xfqKm190dbU)，作"
-"者：[Philipp Deppenwiese](https://cybersecurity.9elements.com)，發佈於 [35c3]"
-"(https://events.ccc.de/congress/2018) ([幻燈片](https://cdn.media.ccc.de/"
+"[開源韌體 - 一個愛情故事（Open Source Firmware - A love story）]"
+"(https://www.youtube.com/watch?v=xfqKm190dbU)，講者：[Philipp Deppenwiese]"
+"(https://cybersecurity.9elements.com)，於 [35c3]"
+"(https://events.ccc.de/congress/2018) ([投影片](https://cdn.media.ccc.de/"
 "congress/2018/slides-h264-hd/35c3-9778-deu-eng-Open_Source_Firmware_hd-"
-"slides.mp4)) (2018-12-27)"
+"slides.mp4)) 發表 (2018-12-27)"
 
 #: src/talks-news.md:25
-#, fuzzy
 msgid ""
 "[Open Source Firmware at Facebook](https://fosdem.org/2019/schedule/event/"
 "open_source_firmware_at_facebook/) by [David Hendricks](https://github.com/"
@@ -897,168 +862,160 @@ msgid ""
 "insomniac.slackware.it/static/2019_fosdem_linuxboot_at_facebook.pdf)) "
 "(2019-02-03)"
 msgstr ""
-"[Facebook 上的開源韌體](https://fosdem.org/2019/schedule/event/"
-"open_source_firmware_at_facebook/)，作者：[David Hendricks](https://"
-"github.com/dhendrix) 和 [Andrea Barberio](https://github.com/insomniacslk)，"
-"發佈於 [FFOm2020202020202020202020202020202020)(FF45535959003(F)/30599003())/"
-"3059003())/3059590)(FF)555959559595959)話]。 ([影片](https://"
-"video.fosdem.org/2019/K.4.401/open_source_firmware_at_facebook.mp4)) ([投影"
-"片](https://insomniac.slackware.it/static/2019_fosdem_linuxboot_at__L.pdf)) "
-"(2019-facebook.pdf"
+"[Facebook 上的開源韌體（Open Source Firmware at Facebook）](https://fosdem.org/"
+"2019/schedule/event/open_source_firmware_at_facebook/)，主講人："
+"[David Hendricks](https://github.com/dhendrix) 與 [Andrea Barberio]"
+"(https://github.com/insomniacslk)，於 [FOSDEM 2019](https://fosdem.org/2019/)"
+" 發表（[影片](https://video.fosdem.org/2019/K.4.401/"
+"open_source_firmware_at_facebook.mp4)，[投影片](https://insomniac.slackware.it/"
+"static/2019_fosdem_linuxboot_at_facebook.pdf)）(2019-02-03)"
 
 #: src/talks-news.md:32
-#, fuzzy
 msgid ""
 "[Kexec Evolutions for LinuxBoot](https://www.osfc.io/2022/talks/kexec-"
 "evolutions-for-linuxboot/) by David Hu at OSFC 2021"
-msgstr "David Hu 在 OSFC 2021 上發表的 Kexec 在 LinuxBoot 上的演進"
+msgstr ""
+"[Kexec 在 LinuxBoot 上的演進（Kexec Evolutions for LinuxBoot）]"
+"(https://www.osfc.io/2022/talks/kexec-evolutions-for-linuxboot/)，由 David Hu "
+"於 OSFC 2021 主講"
 
 #: src/talks-news.md:34
-#, fuzzy
 msgid ""
 "[No more boot loader: Please use the kernel instead](https://pretalx.com/"
 "devconf-cz-2024/talk/W3AVCT/) at 2024 DevConf"
 msgstr ""
-"[不再使用開機載入程式：請使用核心](https://pretalx.com/devconf-cz-2024/talk/"
-"W3AVCT/) at 2024 DevConf"
+"[不再使用開機載入程式：請直接使用核心（No more boot loader: Please use the kernel "
+"instead）](https://pretalx.com/devconf-cz-2024/talk/W3AVCT/)，於 2024 DevConf 發表"
+
 
 #: src/talks-news.md:37
-#, fuzzy
 msgid "News"
-msgstr "訊息"
+msgstr "新聞"
 
 #: src/talks-news.md:39
-#, fuzzy
 msgid "Website"
 msgstr "網站"
 
 #: src/talks-news.md:41
-#, fuzzy
 msgid "01/25/2018"
 msgstr "2018年1月25日"
 
 #: src/talks-news.md:41
-#, fuzzy
 msgid "Linux Foundation"
-msgstr "Linux基金會"
+msgstr "Linux 基金會（Linux Foundation）"
 
 #: src/talks-news.md:41
-#, fuzzy
 msgid ""
 "[System Statup gets a Boost with new LinuxBoot project](https://"
 "www.linuxfoundation.org/blog/system-startup-gets-a-boost-with-new-linuxboot-"
 "project/)"
 msgstr ""
-"[新的 LinuxBoot 專案輔助系統啟動](https://www.linuxfoundation.org/blog/"
-"system-startup-gets-a-boost-with-new-linuxboot-project/)"
+"[新的 LinuxBoot 專案讓系統啟動加速（System Startup gets a Boost with new LinuxBoot"
+" project）](https://www.linuxfoundation.org/blog/system-startup-gets-a-boost-"
+"with-new-linuxboot-project/)"
+
 
 #: src/talks-news.md:42
-#, fuzzy
 msgid "02/15/2018"
 msgstr "2018年2月15日"
 
 #: src/talks-news.md:42
-#, fuzzy
 msgid "Linux Journal"
-msgstr "Linux 雜誌"
+msgstr "Linux 雜誌（Linux Journal）"
 
 #: src/talks-news.md:42
-#, fuzzy
 msgid ""
 "[Linux Journal: FOSS Project Spotlight: LinuxBoot](https://"
 "www.linuxjournal.com/content/foss-project-spotlight-linuxboot/)"
 msgstr ""
-"[Linux 期刊：FOSS 專案聚焦：LinuxBoot](https://www.linuxjournal.com/content/"
+"[Linux 期刊：FOSS 專案聚焦：LinuxBoot（Linux Journal: FOSS Project Spotlight: "
+"LinuxBoot）](https://www.linuxjournal.com/content/"
 "foss-project-spotlight-linuxboot/)"
 
 #: src/talks-news.md:43
-#, fuzzy
 msgid "03/08/2018"
 msgstr "2018年3月8日"
 
 #: src/talks-news.md:43 src/talks-news.md:48
-#, fuzzy
 msgid "LWN"
-msgstr "低週"
+msgstr "LWN"
 
 #: src/talks-news.md:43
-#, fuzzy
 msgid ""
 "[LWN.net: LinuxBoot: Linux as firmware](https://lwn.net/Articles/748586/)"
-msgstr "[LWN.net: LinuxBoot：Linux 作為韌體](https://lwn.net/Articles/748586/)"
+msgstr ""
+"[LWN.net: LinuxBoot：Linux 作為韌體（LWN.net: LinuxBoot: Linux as firmware）]"
+"(https://lwn.net/Articles/748586/)"
 
 #: src/talks-news.md:44
-#, fuzzy
 msgid "06/21/2018"
 msgstr "2018年6月21日"
 
 #: src/talks-news.md:44 src/talks-news.md:45 src/talks-news.md:47
-#, fuzzy
 msgid "Phoronix"
-msgstr "福羅尼克斯"
+msgstr "Phoronix"
 
 #: src/talks-news.md:44
-#, fuzzy
 msgid ""
 "[Equus WHITEBOX OPEN: A Line Of Coreboot/LinuxBoot-Ready Xeon Scalable "
 "Servers](https://www.phoronix.com/news/Equus-WHITEBOX-OPEN)"
 msgstr ""
-"[Equus WHITEBOX OPEN：一系列支援 Coreboot/LinuxBoot 的 Xeon 可擴充伺服器]"
+"[Equus WHITEBOX OPEN：一系列支援 Coreboot/LinuxBoot 的 Xeon 可擴充伺服器（A Line Of"
+" Coreboot/LinuxBoot-Ready Xeon Scalable Servers）]"
 "(https://www.phoronix.com/news/Equus-WHITEBOX-OPEN)"
 
 #: src/talks-news.md:45
-#, fuzzy
 msgid "02/06/2019"
 msgstr "2019年2月6日"
 
 #: src/talks-news.md:45
-#, fuzzy
 msgid ""
 "[At Just Over One Year Old, LinuxBoot Continues Making Inroads At Facebook & "
 "Elsewhere](https://www.phoronix.com/news/LinuxBoot-2019)"
-msgstr "LinuxBoot 推出僅一年多，持續在 Facebook 及其他領域取得進展"
+msgstr ""
+"[LinuxBoot 推出僅一年多，已持續在 Facebook 及其他領域取得進展（At Just Over One Year "
+"Old, LinuxBoot Continues Making Inroads At Facebook & Elsewhere）]"
+"(https://www.phoronix.com/news/LinuxBoot-2019)"
 
 #: src/talks-news.md:46
-#, fuzzy
 msgid "03/14/2019"
 msgstr "2019年3月14日"
 
 #: src/talks-news.md:46
-#, fuzzy
 msgid "Facebook"
 msgstr "Facebook"
 
 #: src/talks-news.md:46
-#, fuzzy
 msgid ""
 "[Facebook's LinuxBoot-powered F-16 high-performance fabric network](https://"
 "code.fb.com/data-center-engineering/f16-minipack/)"
-msgstr "Facebook 基於 LinuxBoot 的 F-16 高效能結構網絡"
+msgstr ""
+"[Facebook 基於 LinuxBoot 的 F-16 高效能結構網路（LinuxBoot-powered F-16 high-"
+"performance fabric network）]"
+"(https://code.fb.com/data-center-engineering/f16-minipack/)"
 
 #: src/talks-news.md:47
-#, fuzzy
 msgid "03/10/2023"
 msgstr "2023年3月10日"
 
 #: src/talks-news.md:47
-#, fuzzy
 msgid ""
 "[Lenovo Begins Supporting LinuxBoot Firmware With ByteDance](https://"
 "www.phoronix.com/news/Lenovo-LinuxBoot-ByteDance)"
 msgstr ""
-"[聯想開始與位元組跳動合作支援 LinuxBoot 韌體](https://www.phoronix.com/news/"
-"Lenovo-LinuxBoot-ByteDance)"
+"[聯想攜手字節跳動支援 LinuxBoot 韌體（Lenovo Begins Supporting LinuxBoot Firmware "
+"With ByteDance）](https://www.phoronix.com/news/Lenovo-LinuxBoot-ByteDance)"
 
 #: src/talks-news.md:48
-#, fuzzy
 msgid "07/08/2024"
 msgstr "2024年7月8日"
 
 #: src/talks-news.md:48
-#, fuzzy
 msgid ""
 "[Giving bootloaders the boot with nmbl](https://lwn.net/Articles/979789)"
-msgstr "使用 nmbl 啟動引導程式"
+msgstr ""
+"[用 nmbl 取代 bootloader（Giving bootloaders the boot with nmbl）]"
+"(https://lwn.net/Articles/979789)"
 
 #: src/components.md:3
 #, fuzzy
