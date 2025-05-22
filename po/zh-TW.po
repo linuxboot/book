@@ -32,16 +32,17 @@ msgid "Evaluation of tools"
 msgstr "工具評估"
 
 #: src/SUMMARY.md:6 src/petitboot.md:1
+#, fuzzy
 msgid "Petitboot"
-msgstr "Petitboot"
+msgstr "頭，小靴子"
 
 #: src/SUMMARY.md:7
 msgid "OpenPOWER"
-msgstr "OpenPOWER"
+msgstr ""
 
 #: src/SUMMARY.md:8
 msgid "ODROID"
-msgstr "ODROID"
+msgstr ""
 
 #: src/SUMMARY.md:9 src/u-root.md:1
 msgid "All about u-root"
@@ -52,12 +53,14 @@ msgid "u-root demo with QEMU"
 msgstr "使用 QEMU 的 u-root 示範"
 
 #: src/SUMMARY.md:11
+#, fuzzy
 msgid "LinuxBoot utilities"
-msgstr "Linux 工具"
+msgstr "Linux 啟動實用程式"
 
 #: src/SUMMARY.md:12 src/utilities/UEFI_Tool_Kit.md:1
+#, fuzzy
 msgid "UEFI Tool Kit"
-msgstr "UEFI 工具包"
+msgstr "UEFI工具包"
 
 #: src/SUMMARY.md:13
 msgid "The magical cpu command"
@@ -145,6 +148,7 @@ msgstr ""
 "包括各種舉措，其總體目標是從晦澀複雜的韌體轉變為更簡單和開源的韌體。"
 
 #: src/intro.md:19
+#, fuzzy
 msgid ""
 "The LinuxBoot project provides two reference implementations; `linuxboot` "
 "and Heads. The [`linuxboot`](https://github.com/linuxboot/linuxboot) build "
@@ -156,7 +160,7 @@ msgstr ""
 "github.com/linuxboot/linuxboot) 建置系統輸出一個啟動載荷 (boot payload) ，包"
 "含一個 Linux 核心和一個 [initramfs](https://de.wikipedia.org/wiki/"
 "Initramfs)，其中包含使用 [u-root](https://github.com/u-root/u-root) 建置的最"
-"小 Go 使用者空間（user-space）。"
+"小 Golang 使用者空間（user-space）。"
 
 #: src/intro.md:25
 msgid ""
@@ -301,11 +305,12 @@ msgstr ""
 "計畫中的 LinuxBoot 過渡流程。"
 
 #: src/intro.md:82
+#, fuzzy
 msgid ""
 "[![comparison of UEFI boot and LinuxBoot](./images/UEFI-versus-"
 "LinuxBoot.svg)](./images/UEFI-versus-LinuxBoot.svg)"
 msgstr ""
-"[![UEFI 啟動與 LinuxBoot 的比較](./images/UEFI-versus-LinuxBoot.svg)](./"
+"[![UEFI 啟動與 LinuxBoot 的比較](../images/UEFI-versus-LinuxBoot.svg)](../"
 "images/UEFI-versus-LinuxBoot.svg)"
 
 #: src/intro.md:84
