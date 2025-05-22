@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: LinuxBoot\n"
-"POT-Creation-Date: 2025-05-22T11:08:57+08:00\n"
+"POT-Creation-Date: 2025-04-28T16:48:12+08:00\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -32,75 +32,63 @@ msgstr ""
 msgid "Evaluation of tools"
 msgstr ""
 
-#: src/SUMMARY.md:6 src/petitboot.md:1
-msgid "Petitboot"
-msgstr ""
-
-#: src/SUMMARY.md:7
-msgid "OpenPOWER"
-msgstr ""
-
-#: src/SUMMARY.md:8
-msgid "ODROID"
-msgstr ""
-
-#: src/SUMMARY.md:9 src/u-root.md:1
+#: src/SUMMARY.md:6 src/u-root.md:1
 msgid "All about u-root"
 msgstr ""
 
-#: src/SUMMARY.md:10 src/u-root-qemu-demo.md:1
+#: src/SUMMARY.md:7 src/u-root-qemu-demo.md:1
 msgid "u-root demo with QEMU"
 msgstr ""
 
-#: src/SUMMARY.md:11
+#: src/SUMMARY.md:8
 msgid "LinuxBoot utilities"
 msgstr ""
 
-#: src/SUMMARY.md:12 src/utilities/UEFI_Tool_Kit.md:1
+#: src/SUMMARY.md:9 src/utilities/UEFI_Tool_Kit.md:1
 msgid "UEFI Tool Kit"
 msgstr ""
 
-#: src/SUMMARY.md:13
+#: src/SUMMARY.md:10
 msgid "The magical cpu command"
 msgstr ""
 
-#: src/SUMMARY.md:14
+#: src/SUMMARY.md:11
 msgid "Device Under Test"
 msgstr ""
 
-#: src/SUMMARY.md:15 src/implementation.md:1
+#: src/SUMMARY.md:12 src/implementation.md:1
 msgid "Implementing LinuxBoot"
 msgstr ""
 
-#: src/SUMMARY.md:16 src/coreboot.u-root.systemboot/index.md:1
+#: src/SUMMARY.md:13 src/coreboot.u-root.systemboot/index.md:1
 msgid "LinuxBoot using coreboot, u-root and systemboot"
 msgstr ""
 
-#: src/SUMMARY.md:17 src/glossary.md:1
+#: src/SUMMARY.md:14 src/glossary.md:1
 msgid "Glossary"
 msgstr ""
 
-#: src/SUMMARY.md:18 src/history.md:1
+#: src/SUMMARY.md:15 src/history.md:1
 msgid "History"
 msgstr ""
 
-#: src/SUMMARY.md:19 src/case_studies/index.md:1
+#: src/SUMMARY.md:16 src/case_studies/index.md:1
 msgid "Case Studies"
 msgstr ""
 
-#: src/SUMMARY.md:20
+#: src/SUMMARY.md:17
 msgid "Ampere study"
 msgstr ""
 
-#: src/SUMMARY.md:21
+#: src/SUMMARY.md:18
 msgid "Google study"
 msgstr ""
 
-#: src/SUMMARY.md:22
+#: src/SUMMARY.md:19
 msgid "OCP TiogaPass"
 msgstr ""
 
-#: src/SUMMARY.md:23
+#: src/SUMMARY.md:20
 msgid "Frequently Asked Questions"
 msgstr ""
 
@@ -148,7 +136,7 @@ msgid ""
 "and Heads. The [`linuxboot`](https://github.com/linuxboot/linuxboot) build "
 "system outputs a boot payload consisting of a Linux kernel and an "
 "[initramfs](https://de.wikipedia.org/wiki/Initramfs) that contains a minimal "
-"Go user-space built using [u-root](https://github.com/u-root/u-root)."
+"Golang user-space built using [u-root](https://github.com/u-root/u-root)."
 msgstr ""
 
 #: src/intro.md:25
@@ -259,7 +247,7 @@ msgstr ""
 #: src/intro.md:82
 msgid ""
 "[![comparison of UEFI boot and "
-"LinuxBoot](./images/UEFI-versus-LinuxBoot.svg)](./images/UEFI-versus-LinuxBoot.svg)"
+"LinuxBoot](../images/UEFI-versus-LinuxBoot.svg)](../images/UEFI-versus-LinuxBoot.svg)"
 msgstr ""
 
 #: src/intro.md:84
@@ -854,7 +842,7 @@ msgid "[Giving bootloaders the boot with nmbl](https://lwn.net/Articles/979789)"
 msgstr ""
 
 #: src/components.md:3
-msgid "![image](./images/LinuxBoot-components.svg)"
+msgid "![image](../images/LinuxBoot-components.svg)"
 msgstr ""
 
 #: src/components.md:5
@@ -901,7 +889,7 @@ msgstr ""
 #: src/components.md:32
 msgid ""
 "When Linux boots it needs a root file system that provides boot and startup "
-"utilities. LinuxBoot uses [u-root](./glossary.md) to create an initramfs for "
+"utilities. LinuxBoot uses [u-root](../glossary) to create an initramfs for "
 "this purpose."
 msgstr ""
 
@@ -1006,302 +994,141 @@ msgstr ""
 msgid "Root filesystem"
 msgstr ""
 
-#: src/tools-evaluation.md:17
-msgid ""
-"Linux needs a root filesystem with at least one binary that is called "
-"[`init`](https://docs.kernel.org/admin-guide/init.html). Since booting a "
-"system is a cumbersome task, additional tools aid in both development and "
-"investigating possible issues."
-msgstr ""
-
-#: src/tools-evaluation.md:22
-msgid "Core utilities"
-msgstr ""
-
-#: src/tools-evaluation.md:24
-msgid ""
-"Unix already came with lots of little utilities for the user of the system, "
-"which may be anyone from a system developer to an administrator of a shared "
-"or provided system, or an end user. Further tools have been created over the "
-"years, and the [GNU core "
-"utilities](https://en.wikipedia.org/wiki/GNU_Core_Utilities) are essentially "
-"a collection of tools resulting from merging other collections. Note that "
-"there are still many other utilities that are not part of coreutils. At the "
-"same time, there are multiple other implementations now, which differ in "
-"terms of arguments and flags and possibly additional utilities they include."
-msgstr ""
-
-#: src/tools-evaluation.md:33 src/tools-evaluation.md:53
+#: src/tools-evaluation.md:17 src/tools-evaluation.md:27
 msgid "tool"
 msgstr ""
 
-#: src/tools-evaluation.md:33 src/tools-evaluation.md:53
+#: src/tools-evaluation.md:17 src/tools-evaluation.md:27
 msgid "language"
 msgstr ""
 
-#: src/tools-evaluation.md:33 src/tools-evaluation.md:53
+#: src/tools-evaluation.md:17 src/tools-evaluation.md:27
 msgid "license"
 msgstr ""
 
-#: src/tools-evaluation.md:33 src/tools-evaluation.md:53
+#: src/tools-evaluation.md:17 src/tools-evaluation.md:27
 msgid "usage"
 msgstr ""
 
-#: src/tools-evaluation.md:35
+#: src/tools-evaluation.md:19
 msgid "[BusyBox](https://busybox.net/)"
 msgstr ""
 
-#: src/tools-evaluation.md:35 src/tools-evaluation.md:36
-#: src/tools-evaluation.md:37 src/tools-evaluation.md:55
-#: src/tools-evaluation.md:56 src/tools-evaluation.md:57
+#: src/tools-evaluation.md:19 src/tools-evaluation.md:20
+#: src/tools-evaluation.md:21 src/tools-evaluation.md:29
+#: src/tools-evaluation.md:30 src/tools-evaluation.md:31
 msgid "C"
 msgstr ""
 
-#: src/tools-evaluation.md:35 src/tools-evaluation.md:55
-#: src/tools-evaluation.md:57
+#: src/tools-evaluation.md:19 src/tools-evaluation.md:29
+#: src/tools-evaluation.md:31
 msgid "GPLv2"
 msgstr ""
 
-#: src/tools-evaluation.md:35 src/history.md:51
+#: src/tools-evaluation.md:19 src/history.md:51
 msgid "Heads"
 msgstr ""
 
-#: src/tools-evaluation.md:36
+#: src/tools-evaluation.md:20
 msgid "[toybox](http://landley.net/toybox)"
 msgstr ""
 
-#: src/tools-evaluation.md:36
+#: src/tools-evaluation.md:20
 msgid "0BSD"
 msgstr ""
 
-#: src/tools-evaluation.md:36
+#: src/tools-evaluation.md:20
 msgid "Android"
 msgstr ""
 
-#: src/tools-evaluation.md:37
+#: src/tools-evaluation.md:21
 msgid "[GNU coreutils](https://www.gnu.org/software/coreutils/)"
 msgstr ""
 
-#: src/tools-evaluation.md:37
+#: src/tools-evaluation.md:21
 msgid "GPLv3"
 msgstr ""
 
-#: src/tools-evaluation.md:37 src/tools-evaluation.md:39
+#: src/tools-evaluation.md:21 src/tools-evaluation.md:23
 msgid "not for LinuxBoot"
 msgstr ""
 
-#: src/tools-evaluation.md:38
+#: src/tools-evaluation.md:22
 msgid "[u-root](https://u-root.org)"
 msgstr ""
 
-#: src/tools-evaluation.md:38 src/tools-evaluation.md:58
+#: src/tools-evaluation.md:22 src/tools-evaluation.md:32
 msgid "Go"
 msgstr ""
 
-#: src/tools-evaluation.md:38 src/tools-evaluation.md:58
+#: src/tools-evaluation.md:22 src/tools-evaluation.md:32
 msgid "BSD 3-Clause"
 msgstr ""
 
-#: src/tools-evaluation.md:38
+#: src/tools-evaluation.md:22
 msgid "ByteDance, Google et al"
 msgstr ""
 
-#: src/tools-evaluation.md:39
+#: src/tools-evaluation.md:23
 msgid "[uutils/coreutils](http://uutils.github.io/)"
 msgstr ""
 
-#: src/tools-evaluation.md:39 src/tools-evaluation.md:59
+#: src/tools-evaluation.md:23 src/tools-evaluation.md:33
 msgid "Rust"
 msgstr ""
 
-#: src/tools-evaluation.md:39
+#: src/tools-evaluation.md:23
 msgid "MIT"
 msgstr ""
 
-#: src/tools-evaluation.md:41
+#: src/tools-evaluation.md:25
 msgid "kexec implementations"
 msgstr ""
 
-#: src/tools-evaluation.md:43
-msgid ""
-"While [kexec itself is a Linux "
-"syscall](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/uapi/linux/kexec.h), "
-"it is not a one-shot operation. Loading multiple segments into memory, "
-"synchronizing and unmounting file systems, and the eventual syscall to "
-"[reboot](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/uapi/linux/reboot.h) "
-"belong to the procedure. In addition, there are architecture specifics to "
-"take into account. Thus, there are multiple implementations of kexec, which "
-"are Linux programs that offer their own interfaces again to pass extra "
-"arguments. Besides those standalone implementations, there are also "
-"specialized boot loaders based on kexec that have their own extra logic, "
-"such as FreeBSD's kload or petitboot."
-msgstr ""
-
-#: src/tools-evaluation.md:55
+#: src/tools-evaluation.md:29
 msgid ""
 "[kexec-tools](https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git) "
 "([GitHub mirror](https://github.com/horms/kexec-tools))"
 msgstr ""
 
-#: src/tools-evaluation.md:55
+#: src/tools-evaluation.md:29
 msgid "Heads, Petitboot"
 msgstr ""
 
-#: src/tools-evaluation.md:56
+#: src/tools-evaluation.md:30
 msgid "[systemd](https://systemd.io/) (wrapper)"
 msgstr ""
 
-#: src/tools-evaluation.md:56
+#: src/tools-evaluation.md:30
 msgid "LGPL-2.1+"
 msgstr ""
 
-#: src/tools-evaluation.md:56
+#: src/tools-evaluation.md:30
 msgid "systemd on UEFI"
 msgstr ""
 
-#: src/tools-evaluation.md:57
+#: src/tools-evaluation.md:31
 msgid "[kexecboot](https://github.com/kexecboot/kexecboot)"
 msgstr ""
 
-#: src/tools-evaluation.md:57 src/tools-evaluation.md:59
+#: src/tools-evaluation.md:31 src/tools-evaluation.md:33
 msgid "?"
 msgstr ""
 
-#: src/tools-evaluation.md:58
+#: src/tools-evaluation.md:32
 msgid "u-root (CLI+mod)"
 msgstr ""
 
-#: src/tools-evaluation.md:58
+#: src/tools-evaluation.md:32
 msgid "Google et al"
 msgstr ""
 
-#: src/tools-evaluation.md:59
+#: src/tools-evaluation.md:33
 msgid "[kexlinux](https://github.com/im-0/kexlinux)"
 msgstr ""
 
-#: src/tools-evaluation.md:59
+#: src/tools-evaluation.md:33
 msgid "LGPL-3.0+"
-msgstr ""
-
-#: src/petitboot.md:3
-msgid ""
-"petitboot is a Linux user-space application written in C that calls `kexec`. "
-"The `kexec` installed in the initramfs is not the mainline kexec-tools "
-"implementation, but a smaller implementation named "
-"[kexec-lite](https://github.com/antonblanchard/kexec-lite). It is claimed to "
-"be roughly 32 KB compared to kexec-tools, which is roughly 200 KB.[^1]"
-msgstr ""
-
-#: src/petitboot.md:9
-msgid ""
-"<https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778>"
-msgstr ""
-
-#: src/openpower.md:1
-msgid "OpenPOWER boot chain"
-msgstr ""
-
-#: src/openpower.md:3
-msgid ""
-"```mermaid\n"
-"flowchart LR\n"
-"    skiroot([\"skiroot (petitboot)\"])\n"
-"    SBEs-->hostboot-->skiboot-->skiroot-->OS\n"
-"```"
-msgstr ""
-
-#: src/openpower.md:9
-msgid ""
-"[Self-boot engines](https://github.com/open-power/sbe) (SBE) are split "
-"between an on-chip ROM and an external EEPROM"
-msgstr ""
-
-#: src/openpower.md:11
-msgid ""
-"[hostboot](https://github.com/open-power/hostboot) is a C++ boot loader that "
-"does DRAM initialization provides runtime services to skiboot or a hypervisor"
-msgstr ""
-
-#: src/openpower.md:13
-msgid ""
-"[skiboot](https://github.com/open-power/skiboot) is a C boot loader and "
-"runtime firmware for OpenPOWER that loads skiroot."
-msgstr ""
-
-#: src/openpower.md:16
-msgid ""
-"skiroot is a term used to describe the LinuxBoot implementation for "
-"OpenPOWER. A skiroot repository or package does not exist. The term is only "
-"used in the kernel configuration, `skiroot_defconfig`.[^1]"
-msgstr ""
-
-#: src/openpower.md:20 src/odroid.md:26 src/history.md:57
-msgid "See also"
-msgstr ""
-
-#: src/openpower.md:22
-msgid ""
-"[coreboot and Heads as an alternative firmware for OpenPOWER Talos "
-"II](https://openpower.foundation/blog/coreboot-on-talos2/)"
-msgstr ""
-
-#: src/openpower.md:25
-msgid ""
-"<https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig>"
-msgstr ""
-
-#: src/odroid.md:1
-msgid "ODROID boot chain"
-msgstr ""
-
-#: src/odroid.md:3
-msgid ""
-"The [ODROID-N2](https://wiki.odroid.com/odroid-n2/hardware) comes with a SPI "
-"flash as well as a connector for an eMMC flash and an SD card slot. The SoC "
-"is an [Amlogic S922X which can boot from all those "
-"storages](https://wiki.odroid.com/odroid-n2/software/boot_sequence), "
-"depending on GPIO configuration and a fallback flow in the mask ROM. For "
-"booting from SPI flash, the ODROID-N2 board has a switch, and comes with "
-"[Petitboot](./petitboot.md) preinstalled[^1]."
-msgstr ""
-
-#: src/odroid.md:10
-msgid "The SPI flash boot flow is as follows:"
-msgstr ""
-
-#: src/odroid.md:12
-msgid ""
-"```mermaid\n"
-"flowchart LR\n"
-"    maskrom[\"mask ROM\"]\n"
-"    spl[\"U-Boot SPL\"]\n"
-"    uboot[\"U-Boot main\"]\n"
-"    petitboot([\"petitboot\"])\n"
-"    maskrom-->spl-->uboot-->petitboot-->OS\n"
-"```"
-msgstr ""
-
-#: src/odroid.md:21
-msgid ""
-"[U-Boot SPL](https://docs.u-boot.org/en/latest/usage/spl_boot.html) "
-"initializes DRAM and loads U-Boot main (\"proper\")"
-msgstr ""
-
-#: src/odroid.md:23
-msgid ""
-"U-Boot main is set up to directly load Linux with Petitboot, which "
-"implements LinuxBoot"
-msgstr ""
-
-#: src/odroid.md:28
-msgid ""
-"[ODROID forum discussion on porting Petitboot to "
-"ODROID-N2](https://forum.odroid.com/viewtopic.php?f=182&t=33873)"
-msgstr ""
-
-#: src/odroid.md:31
-msgid ""
-"<https://wiki.odroid.com/getting_started/petitboot/os_installation_using_otg>"
 msgstr ""
 
 #: src/u-root.md:3
@@ -1343,9 +1170,9 @@ msgstr ""
 #: src/u-root.md:28
 msgid ""
 "Embedding kernels and root file systems in BIOS flash is a common technique "
-"for gaining boot time performance and platform customization[^25] [^14] "
-"[^23]. Almost all new firmware includes a multiprocess operating system with "
-"a full complement of file systems, network drivers, and protocol stacks, all "
+"for gaining boot time performance and platform customization[^25][^14][^23]. "
+"Almost all new firmware includes a multiprocess operating system with a full "
+"complement of file systems, network drivers, and protocol stacks, all "
 "contained in an embedded file system. In some cases, the kernel is only "
 "booted long enough to boot another kernel. In others, the kernel that is "
 "booted and the file system it contains constitute the operational "
@@ -1365,7 +1192,7 @@ msgid ""
 "environment than even a few years ago. In response to the many successful "
 "attacks against shell interpreters[^11] and C programs[^8], we have started "
 "to look at using a more secure, modern language in embedded root file "
-"systems, namely, Go[^21] [^16]."
+"systems, namely, Go[^21][^16]."
 msgstr ""
 
 #: src/u-root.md:49
@@ -1400,11 +1227,11 @@ msgid ""
 "possible. Firmware is extremely complex; UEFI is roughly equivalent in size "
 "and capability to a Unix kernel. Firmware is usually closed and proprietary, "
 "with nowhere near the level of testing of kernels. These properties make "
-"firmware an ideal place for so-called advanced persistent threats[^10] [^18] "
-"[^5]. Once an exploit is installed, it is almost impossible to remove, since "
-"the exploit can inhibit its removal by corrupting the firmware update "
-"process. The only sure way to mitigate a firmware exploit is to destroy the "
-"hardware."
+"firmware an ideal place for so-called advanced persistent "
+"threats[^10][^18][^5]. Once an exploit is installed, it is almost impossible "
+"to remove, since the exploit can inhibit its removal by corrupting the "
+"firmware update process. The only sure way to mitigate a firmware exploit is "
+"to destroy the hardware."
 msgstr ""
 
 #: src/u-root.md:80
@@ -1541,7 +1368,7 @@ msgstr ""
 msgid ""
 "There is no `/bin/sh` at this point; the first `sh` found in $PATH is "
 "`/buildbin/sh`. This is a symlink to `installcommand`. `Installcommand`, "
-"once started, examines `argv[0]`, which is `sh`, and takes this as "
+"once started, examines argv\\[0\\], which is `sh`, and takes this as "
 "instruction to build `/src/cmds/sh/.go` into `/bin` and then exec `/bin/sh`. "
 "There is no difference between starting the first shell and any other "
 "program. Hence, part of the boot process involves the construction of an "
@@ -2118,7 +1945,7 @@ msgstr ""
 
 #: src/u-root.md:505
 msgid ""
-"The LinuxBIOS project[^14] [^1], together with clustermatic[^25], used an "
+"The LinuxBIOS project[^14][^1], together with clustermatic[^25], used an "
 "embedded kernel and simple root file system to manage supercomputing "
 "clusters. Due to space constraints of 1 MiB or less of flash, clusters "
 "embedded only a single-processor Linux kernel with a daemon. The daemon was "
@@ -2190,56 +2017,163 @@ msgstr ""
 msgid ""
 "AGNEW, A., SULMICKI, A., MINNICH, R., AND ARBAUGH, W. A. Flexibility in rom: "
 "A stackable open source bios. In USENIX Annual Technical Conference, FREENIX "
-"Track (2003), pp. 115–124. [^2]: (AUTHOR OF SLOF), S. B. Personal "
-"conversation. [^3]: BENAVIDES, T., TREON, J., HULBERT, J., AND CHANG, W. The "
-"enabling of an execute-in-place architecture to reduce the embedded system "
-"memory footprint and boot time. Journal of computers 3, 1 (2008), 79–89. "
-"[^4]: BOGOWITZ, B., AND SWINFORD, T. Intel⃝R active management technology "
-"reduces it costs with improved pc manageability. Technology@ Intel Magazine "
-"(2004). [^5]: CELEDA, P., KREJCI, R., VYKOPAL, J., AND DRASAR, M. Embedded "
-"malware-an analysis of the chuck norris botnet. In Computer Network Defense "
-"(EC2ND), 2010 European Conference on (2010), IEEE, pp. 3–10. [^6]: CUI, A., "
-"COSTELLO, M., AND STOLFO, S. J. When firmware modifications attack: A case "
-"study of embedded exploitation. In NDSS (2013). [^7]: DALY, D., CHOI, J. H., "
-"MOREIRA, J. E., AND WATERLAND, A. Base operating system provisioning and "
-"bringup for a commercial supercomputer. In Parallel and Distributed "
-"Processing Symposium, 2007. IPDPS 2007. IEEE International (2007), IEEE, pp. "
-"1–7. [^8]: DURUMERIC, Z., KASTEN, J., ADRIAN, D., HALDERMAN, J. A., BAILEY, "
-"M., LI, F., WEAVER, N., AMANN, J., BEEKMAN, J., PAYER, M., ET AL. The matter "
-"of heartbleed. In Proceedings of the 2014 Conference on Internet Measurement "
-"Conference (2014), ACM, pp. 475–488. [^9]: KALLENBERG, C., AND BULYGIN, Y. "
-"All your boot are belong to us intel, mitre. cansecwest 2014. [^10]: "
+"Track (2003), pp. 115–124."
+msgstr ""
+
+#: src/u-root.md:555
+msgid "(AUTHOR OF SLOF), S. B. Personal conversation."
+msgstr ""
+
+#: src/u-root.md:556
+msgid ""
+"BENAVIDES, T., TREON, J., HULBERT, J., AND CHANG, W. The enabling of an "
+"execute-in-place architecture to reduce the embedded system memory footprint "
+"and boot time. Journal of computers 3, 1 (2008), 79–89."
+msgstr ""
+
+#: src/u-root.md:559
+msgid ""
+"BOGOWITZ, B., AND SWINFORD, T. Intel⃝R active management technology reduces "
+"it costs with improved pc manageability. Technology@ Intel Magazine (2004)."
+msgstr ""
+
+#: src/u-root.md:562
+msgid ""
+"CELEDA, P., KREJCI, R., VYKOPAL, J., AND DRASAR, M. Embedded malware-an "
+"analysis of the chuck norris botnet. In Computer Network Defense (EC2ND), "
+"2010 European Conference on (2010), IEEE, pp. 3–10."
+msgstr ""
+
+#: src/u-root.md:565
+msgid ""
+"CUI, A., COSTELLO, M., AND STOLFO, S. J. When firmware modifications attack: "
+"A case study of embedded exploitation. In NDSS (2013)."
+msgstr ""
+
+#: src/u-root.md:567
+msgid ""
+"DALY, D., CHOI, J. H., MOREIRA, J. E., AND WATERLAND, A. Base operating "
+"system provisioning and bringup for a commercial supercomputer. In Parallel "
+"and Distributed Processing Symposium, 2007. IPDPS 2007. IEEE International "
+"(2007), IEEE, pp. 1–7."
+msgstr ""
+
+#: src/u-root.md:571
+msgid ""
+"DURUMERIC, Z., KASTEN, J., ADRIAN, D., HALDERMAN, J. A., BAILEY, M., LI, F., "
+"WEAVER, N., AMANN, J., BEEKMAN, J., PAYER, M., ET AL. The matter of "
+"heartbleed. In Proceedings of the 2014 Conference on Internet Measurement "
+"Conference (2014), ACM, pp. 475–488."
+msgstr ""
+
+#: src/u-root.md:575
+msgid ""
+"KALLENBERG, C., AND BULYGIN, Y. All your boot are belong to us intel, mitre. "
+"cansecwest 2014."
+msgstr ""
+
+#: src/u-root.md:577
+msgid ""
 "KALLENBERG, C., KOVAH, X., BUTTERWORTH, J., AND CORNWELL, S. Extreme "
-"privilege escalation on windows 8/uefi systems. [^11]: KOZIOL, J., "
-"LITCHFIELD, D., AITEL, D., ANLEY, C., EREN, S., MEHTA, N., AND HASSELL, R. "
-"The Shellcoder’s Handbook. Wiley Indianapolis, 2004. [^12]: LEWIS, T. Uefi "
-"overview, 2007. [^13]: MAY,D.Occam.ACMSigplanNotices18,4(1983),69–79. [^14]: "
-"MINNICH, R. G. Linuxbios at four. Linux J. 2004, 118 (Feb. 2004), 8–. [^15]: "
+"privilege escalation on windows 8/uefi systems."
+msgstr ""
+
+#: src/u-root.md:579
+msgid ""
+"KOZIOL, J., LITCHFIELD, D., AITEL, D., ANLEY, C., EREN, S., MEHTA, N., AND "
+"HASSELL, R. The Shellcoder’s Handbook. Wiley Indianapolis, 2004."
+msgstr ""
+
+#: src/u-root.md:581
+msgid "LEWIS, T. Uefi overview, 2007."
+msgstr ""
+
+#: src/u-root.md:582
+msgid "MAY,D.Occam.ACMSigplanNotices18,4(1983),69–79."
+msgstr ""
+
+#: src/u-root.md:583
+msgid "MINNICH, R. G. Linuxbios at four. Linux J. 2004, 118 (Feb. 2004), 8–."
+msgstr ""
+
+#: src/u-root.md:584
+msgid ""
 "MOON, S.-P., KIM, J.-W., BAE, K.-H., LEE, J.-C., AND SEO, D.-W. Embedded "
 "linux implementation on a commercial digital tv system. Consumer "
-"Electronics, IEEE Transactions on 49, 4 (Nov 2003), 1402–1407. [^16]: PIKE, "
-"R. Another go at language design. Stanford University Computer Systems "
-"Laboratory Colloquium. [^17]: RITCHIE, D. M. The limbo programming language. "
-"Inferno Programmer’s Manual 2 (1997). [^18]: SACCO, A. L., AND ORTEGA, A. A. "
-"Persistent bios infection. In CanSecWest Applied Security Conference (2009). "
-"[^19]: SAMPATHKUMAR, R. Vulnerability Management for Cloud Computing-2014: A "
-"Cloud Computing Security Essential. Rajakumar Sampathkumar, 2014. [^20]: "
+"Electronics, IEEE Transactions on 49, 4 (Nov 2003), 1402–1407."
+msgstr ""
+
+#: src/u-root.md:587
+msgid ""
+"PIKE, R. Another go at language design. Stanford University Computer Systems "
+"Laboratory Colloquium."
+msgstr ""
+
+#: src/u-root.md:589
+msgid ""
+"RITCHIE, D. M. The limbo programming language. Inferno Programmer’s Manual 2 "
+"(1997)."
+msgstr ""
+
+#: src/u-root.md:591
+msgid ""
+"SACCO, A. L., AND ORTEGA, A. A. Persistent bios infection. In CanSecWest "
+"Applied Security Conference (2009)."
+msgstr ""
+
+#: src/u-root.md:593
+msgid ""
+"SAMPATHKUMAR, R. Vulnerability Management for Cloud Computing-2014: A Cloud "
+"Computing Security Essential. Rajakumar Sampathkumar, 2014."
+msgstr ""
+
+#: src/u-root.md:595
+msgid ""
 "SUGANUMA, T., OGASAWARA, T., TAKEUCHI, M., YASUE, T., KAWAHITO, M., "
 "ISHIZAKI, K., KOMATSU, H., AND NAKATANI, T. Overview of the ibm java "
-"just-in-time compiler. IBM systems Journal 39, 1 (2000), 175–193. [^21]: "
+"just-in-time compiler. IBM systems Journal 39, 1 (2000), 175–193."
+msgstr ""
+
+#: src/u-root.md:598
+msgid ""
 "TEAM, G. The go programming language specification. Tech. rep., Technical "
 "Report [http://golang](http://golang/). org/doc/doc/go spec. html, Google "
-"Inc, 2009. [^22]: VAN HENSBERGEN, E., AND MINNICH, R. Grave robbers from "
-"outer space: Using 9p2000 under linux. In USENIX Annual Technical "
-"Conference, FREENIX Track (2005), pp. 83–94. [^23]: VARIOUS. No papers have "
-"been published on onie; see onie.org. [^24]: VARIOUS. No papers were "
-"published; see perllinux.sourceforge.net. [^25]: WATSON, G. R., SOTTILE, M. "
-"J., MINNICH, R. G., CHOI, S.-E., AND HERTDRIKS, E. Pink: A 1024-node "
-"single-system image linux cluster. In High Performance Computing and Grid in "
-"Asia Pacific Region, 2004. Proceedings. Seventh International Conference on "
-"(2004), IEEE, pp. 454–461. [^26]: WELLS, N. Busybox: A swiss army knife for "
-"linux. Linux J. 2000, 78es (Oct. 2000). [^27]: WINTERBOTTOM, P. Alef "
-"language reference manual. Plan 9 Programmer’s Man (1995)."
+"Inc, 2009."
+msgstr ""
+
+#: src/u-root.md:601
+msgid ""
+"VAN HENSBERGEN, E., AND MINNICH, R. Grave robbers from outer space: Using "
+"9p2000 under linux. In USENIX Annual Technical Conference, FREENIX Track "
+"(2005), pp. 83–94."
+msgstr ""
+
+#: src/u-root.md:604
+msgid "VARIOUS. No papers have been published on onie; see onie.org."
+msgstr ""
+
+#: src/u-root.md:605
+msgid "VARIOUS. No papers were published; see perllinux.sourceforge.net."
+msgstr ""
+
+#: src/u-root.md:606
+msgid ""
+"WATSON, G. R., SOTTILE, M. J., MINNICH, R. G., CHOI, S.-E., AND HERTDRIKS, "
+"E. Pink: A 1024-node single-system image linux cluster. In High Performance "
+"Computing and Grid in Asia Pacific Region, 2004. Proceedings. Seventh "
+"International Conference on (2004), IEEE, pp. 454–461."
+msgstr ""
+
+#: src/u-root.md:610
+msgid ""
+"WELLS, N. Busybox: A swiss army knife for linux. Linux J. 2000, 78es (Oct. "
+"2000)."
+msgstr ""
+
+#: src/u-root.md:612
+msgid ""
+"WINTERBOTTOM, P. Alef language reference manual. Plan 9 Programmer’s Man "
+"(1995)."
 msgstr ""
 
 #: src/u-root-qemu-demo.md:3
@@ -4068,7 +4002,7 @@ msgstr ""
 #: src/implementation.md:25
 msgid ""
 "LinuxBoot replaces most of the UEFI software with Linux. LinuxBoot has an "
-"initramfs provided by [u-root](./u-root.md)."
+"initramfs provided by [u-root](../u-root.md)."
 msgstr ""
 
 #: src/implementation.md:28
@@ -5561,6 +5495,10 @@ msgid ""
 "[Heads](https://github.com/linuxboot/heads) is an open source firmware for "
 "laptops and servers created by  Trammell Hudson (a.k.a. osreasrch), aimed at "
 "strong platform security. It is currently maintained by Thierry Laurion."
+msgstr ""
+
+#: src/history.md:57
+msgid "See also"
 msgstr ""
 
 #: src/history.md:59
