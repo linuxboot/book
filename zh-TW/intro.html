@@ -174,7 +174,7 @@
 </ul>
 <h2 id="什麼是-linuxboot"><a class="header" href="#什麼是-linuxboot">什麼是 LinuxBoot？</a></h2>
 <p>LinuxBoot 的想法是用 Linux 核心和基於社群的用戶空間（user-space） 取代專有或企業主導的後期啟動<a href="./glossary.html">韌體</a>。這個想法逐漸發展成為一個項目，多年來包括各種舉措，其總體目標是從晦澀複雜的韌體轉變為更簡單和開源的韌體。</p>
-<p>The LinuxBoot project provides two reference implementations; <code>linuxboot</code> and Heads. The <a href="https://github.com/linuxboot/linuxboot"><code>linuxboot</code></a> build system outputs a boot payload consisting of a Linux kernel and an <a href="https://de.wikipedia.org/wiki/Initramfs">initramfs</a> that contains a minimal Go user-space built using <a href="https://github.com/u-root/u-root">u-root</a>.</p>
+<p>LinuxBoot 專案提供兩個參考實作；<code>linuxboot</code> 和 Heads。<a href="https://github.com/linuxboot/linuxboot"><code>linuxboot</code></a> 建置系統輸出一個啟動載荷 (boot payload) ，包含一個 Linux 核心和一個 <a href="https://de.wikipedia.org/wiki/Initramfs">initramfs</a>，其中包含使用 <a href="https://github.com/u-root/u-root">u-root</a> 建置的最小 Go 使用者空間（user-space）。</p>
 <p>Heads 構建系統更側重於本地證明（local attestation）、TPM DUK 密封/解封（seal/unseal）操作、基於 GPG 的安全措施、可重現構建（reproducible builds），並使用 BusyBox 提供更大的 Linux 工具套件，使其也可以用作修復環境（recovery environment）。</p>
 <p>許多其他實作獨立於專案而存在：</p>
 <ul>
@@ -195,7 +195,7 @@
 <p>LinuxBoot 以 Linux 應用程式取代了統一可擴充韌體介面（Unified Extensible Firmware Interface，UEFI）與其他韌體中大量的驅動程式執行環境（Driver Execution Environment，DXE）模組，特別是網路協定堆疊（network stack）和檔案系統（file system）模組。</p>
 <p>LinuxBoot 將 Linux 核心（Linux kernel）作為快閃記憶體（flash ROM）中的驅動程式執行環境（Driver Execution Environment, DXE）啟動，而非傳統的 UEFI shell。接著，Linux 核心可透過隨附的基於 Go 的使用者空間（user-space）來載入運行時核心（runtime kernel）。LinuxBoot 的架構（paradigm）使得傳統的韌體應用程式（例如開機載入器、偵錯工具、診斷與錯誤偵測應用程式）能夠以跨架構、跨平台的可攜式 Linux 應用程式形式實作。</p>
 <p>當 Linux 啟動時，它需要一個包含工具程式（utilities）的根檔案系統（root file system）。LinuxBoot 使用的其中一種根檔案系統是基於使用 Go 語言編寫的 u-root 標準工具程式（standard utilities）。下圖顯示了目前 UEFI 啟動過程的狀況，以及計畫中的 LinuxBoot 過渡流程。</p>
-<p><a href="./images/UEFI-versus-LinuxBoot.svg"><img src="./images/UEFI-versus-LinuxBoot.svg" alt="comparison of UEFI boot and LinuxBoot" /></a></p>
+<p><a href="./images/UEFI-versus-LinuxBoot.svg"><img src="./images/UEFI-versus-LinuxBoot.svg" alt="UEFI 啟動與 LinuxBoot 的比較" /></a></p>
 <h2 id="使用-go-使用者空間user-space環境和編譯器的好處"><a class="header" href="#使用-go-使用者空間user-space環境和編譯器的好處">使用 Go 使用者空間(user-space)環境和編譯器的好處</a></h2>
 <p>Go 是由 Google 創建的系統程式語言。Go 具有強類型（strong typing）、語言級別的並發支援（concurrency support）、透過通道（channels）進行進程間通訊（inter-process communication）、運行時類型安全性（runtime type safety）和其他保護措施、動態分配（dynamic allocation）和垃圾收集（garbage collection）以及閉包（closures）。Go 具有與 Java 類似的套件名稱符號（package name notation），使得可以清楚地確定給定程式需要哪些套件（packages）。</p>
 <p>現代語言結構使 Go 成為比 C 更安全的語言。這種安全性對於網路連接的嵌入式系統至關重要，這些系統通常擁有用 C 編寫的網路工具程式，包括網頁伺服器、包含 sshd 的網路伺服器（network servers），以及提供命令解釋器存取的程式（本身以 C 編寫）。所有這些都證明容易受到互聯網成為攻擊頻繁環境的威脅。</p>
