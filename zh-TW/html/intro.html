@@ -1,0 +1,327 @@
+<!DOCTYPE HTML>
+<html lang="zh-TW" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>LinuxBoot介紹 - LinuxBoot</title>
+
+
+        <!-- Custom HTML head -->
+        <script>
+            const mdbookPath = "intro.md";
+            const mdbookPathToRoot = "";
+        </script>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/css/language-picker.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">LinuxBoot</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/linuxboot/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="linuxboot介紹"><a class="header" href="#linuxboot介紹">LinuxBoot介紹</a></h1>
+<p>這是 LinuxBoot 專案的官方「LinuxBoot 書籍」。這本書：</p>
+<ul>
+<li>描述 LinuxBoot 項目</li>
+<li>解釋為什麼要使用 LinuxBoot</li>
+<li>描述組成 LinuxBoot 的元件</li>
+<li>說明其他啟動系統（如 UEFI）與 LinuxBoot 的差異</li>
+<li>指導您完成實作 LinuxBoot 所需的步驟</li>
+</ul>
+<h2 id="什麼是-linuxboot"><a class="header" href="#什麼是-linuxboot">什麼是 LinuxBoot？</a></h2>
+<p>LinuxBoot 的想法是用 Linux 核心和基於社群的用戶空間（user-space） 取代專有或企業主導的後期啟動<a href="./glossary.html">韌體</a>。這個想法逐漸發展成為一個項目，多年來包括各種舉措，其總體目標是從晦澀複雜的韌體轉變為更簡單和開源的韌體。</p>
+<p>The LinuxBoot project provides two reference implementations; <code>linuxboot</code> and Heads. The <a href="https://github.com/linuxboot/linuxboot"><code>linuxboot</code></a> build system outputs a boot payload consisting of a Linux kernel and an <a href="https://de.wikipedia.org/wiki/Initramfs">initramfs</a> that contains a minimal Go user-space built using <a href="https://github.com/u-root/u-root">u-root</a>.</p>
+<p>Heads 構建系統更側重於本地證明（local attestation）、TPM DUK 密封/解封（seal/unseal）操作、基於 GPG 的安全措施、可重現構建（reproducible builds），並使用 BusyBox 提供更大的 Linux 工具套件，使其也可以用作修復環境（recovery environment）。</p>
+<p>許多其他實作獨立於專案而存在：</p>
+<ul>
+<li><a href="https://github.com/open-power/petitboot">petitboot</a> 屬於 OpenPOWER 項目，最初針對的是 PS3</li>
+<li><a href="https://github.com/BayLibre/k-boot">k-boot</a> 由 BayLibre 於 2023 年使用 BusyBox 開發</li>
+<li><a href="https://github.com/rhboot/nmbl-poc">nmbl</a> 由 RedHat 於 2024 年開發</li>
+<li><a href="https://docs.zfsbootmenu.org/en/latest">ZFSBootMenu</a></li>
+</ul>
+<p>此外，過去也曾有許多類似的實作，其中包含一些已不再維護的專案：</p>
+<ul>
+<li>Alpha 版 MILO 於 2000 年之前就已啟動（請參閱<a href="https://tldp.org/HOWTO/MILO-HOWTO/what-section.html">什麼是 MILO？</a>）</li>
+<li>kboot 由 Werner Almesberger 於 2005 年開發</li>
+</ul>
+<p>這些專案都試圖將韌體的角色簡化為一個小型、固定功能的核心，其唯一目的是啟動一個儲存在快閃記憶體（flash）中的 Linux 核心（Linux kernel）。這個「最低必要」（bare essentials）的韌體會負責初始化硬體，接著啟動 Linux 核心，並讓使用者空間環境（user-space environment）在機器上運行。Go 是建議使用的使用者空間環境，但並非必須。</p>
+<h2 id="為什麼需要-linuxboot"><a class="header" href="#為什麼需要-linuxboot">為什麼需要 LinuxBoot</a></h2>
+<p>有時候，韌體會包含驅動程式和工具程式（utilities）。這些元件可能存在漏洞，或是已無人維護，進而成為問題或資安風險的來源。LinuxBoot 以 Linux 驅動程式取代了供應商提供的專有閉源韌體驅動（proprietary, closed-source firmware drivers），讓開發 Linux 驅動與韌體驅動的工程師能專注於同一套驅動程式。如此一來，這些驅動程式將擁有更多的貢獻者 (contributors) 與審閱者（reviewers），又因為它們是 Linux 的一部分，能夠運用業界標準的開發流程與工具（standard industry coding infrastructure）來持續改善。最終，由於這些 Linux 驅動目前已在大量系統上長時間穩定運作（run around the clock at scale），其錯誤率也會相對較低。</p>
+<h2 id="linuxboot-的功能"><a class="header" href="#linuxboot-的功能">LinuxBoot 的功能</a></h2>
+<p>LinuxBoot 以 Linux 應用程式取代了統一可擴充韌體介面（Unified Extensible Firmware Interface，UEFI）與其他韌體中大量的驅動程式執行環境（Driver Execution Environment，DXE）模組，特別是網路協定堆疊（network stack）和檔案系統（file system）模組。</p>
+<p>LinuxBoot 將 Linux 核心（Linux kernel）作為快閃記憶體（flash ROM）中的驅動程式執行環境（Driver Execution Environment, DXE）啟動，而非傳統的 UEFI shell。接著，Linux 核心可透過隨附的基於 Go 的使用者空間（user-space）來載入運行時核心（runtime kernel）。LinuxBoot 的架構（paradigm）使得傳統的韌體應用程式（例如開機載入器、偵錯工具、診斷與錯誤偵測應用程式）能夠以跨架構、跨平台的可攜式 Linux 應用程式形式實作。</p>
+<p>當 Linux 啟動時，它需要一個包含工具程式（utilities）的根檔案系統（root file system）。LinuxBoot 使用的其中一種根檔案系統是基於使用 Go 語言編寫的 u-root 標準工具程式（standard utilities）。下圖顯示了目前 UEFI 啟動過程的狀況，以及計畫中的 LinuxBoot 過渡流程。</p>
+<p><a href="./images/UEFI-versus-LinuxBoot.svg"><img src="./images/UEFI-versus-LinuxBoot.svg" alt="comparison of UEFI boot and LinuxBoot" /></a></p>
+<h2 id="使用-go-使用者空間user-space環境和編譯器的好處"><a class="header" href="#使用-go-使用者空間user-space環境和編譯器的好處">使用 Go 使用者空間(user-space)環境和編譯器的好處</a></h2>
+<p>Go 是由 Google 創建的系統程式語言。Go 具有強類型（strong typing）、語言級別的並發支援（concurrency support）、透過通道（channels）進行進程間通訊（inter-process communication）、運行時類型安全性（runtime type safety）和其他保護措施、動態分配（dynamic allocation）和垃圾收集（garbage collection）以及閉包（closures）。Go 具有與 Java 類似的套件名稱符號（package name notation），使得可以清楚地確定給定程式需要哪些套件（packages）。</p>
+<p>現代語言結構使 Go 成為比 C 更安全的語言。這種安全性對於網路連接的嵌入式系統至關重要，這些系統通常擁有用 C 編寫的網路工具程式，包括網頁伺服器、包含 sshd 的網路伺服器（network servers），以及提供命令解釋器存取的程式（本身以 C 編寫）。所有這些都證明容易受到互聯網成為攻擊頻繁環境的威脅。</p>
+<p>即使是最熟練的程式設計師也會犯下 C 語言中無法恢復的錯誤，尤其是在網路連線系統上。目前，即使我們個人電腦、印表機和恆溫器中最低等級的韌體也是連網的。這些程式錯誤要麼在 Go 中不可能犯，要麼如果犯了，則會在運行時檢測到並導致程式退出。</p>
+<p>在低階嵌入式韌體中使用像 Go 這樣的高級安全語言的理由，可能比用戶程式更為充分，因為在韌體層級的漏洞幾乎不可能被檢測和緩解。</p>
+<p>在韌體等儲存受限的環境中使用 Go 的挑戰在於，高階語言特性會導致二進位檔案過大。即使是簡單的日期程式也約有 2 MiB。一個實現單一功能的 Go 二進位檔案大小是實現多個功能的 BusyBox 二進位檔案的兩倍。當前，典型的 BIOS 快閃記憶體（FLASH）大小為 16 MiB。將多個 Go 二進位檔案裝入單一 BIOS 快閃記憶體區塊是不切實際的。Go 編譯器速度非常快，且其速度顯示了只有在使用程式時進行編譯的解決方案。透過這種方式，您可以建立一個幾乎不含二進位檔案（除了 Go 編譯器本身）的根檔案系統。編譯後的程式和套件可儲存到基於 RAM 的檔案系統中。另一個解決方案是將所有程式編譯成一個 BusyBox 風格的程式。或者，程式可以透過網路獲取，但動態編譯 Go 或創建 BusyBox 程式是建議的解決方案。</p>
+<h2 id="在-uefi-伺服器上使用-linuxboot-的好處"><a class="header" href="#在-uefi-伺服器上使用-linuxboot-的好處">在 UEFI 伺服器上使用 LinuxBoot 的好處</a></h2>
+<p>大多數伺服器韌體基於 Intel 的通用可擴展韌體介面 (UEFI)。與 UEFI 相比，LinuxBoot 具有以下優點：</p>
+<p>可靠性</p>
+<ul>
+<li>透過使用強化的 Linux 驅動程式取代未經充分測試的韌體驅動程式來提高啟動可靠性</li>
+<li>近 20 年來，在軍事、消費性電子和超級電腦領域，可靠性和性能至關重要的領域，該實踐方法已得到驗證</li>
+<li>容錯 - Linux 隔離程序** **（例如，當「pxeboot」發生災難性故障時，「diskboot」仍然可以運作）</li>
+</ul>
+<p>安全性</p>
+<ul>
+<li>將“Ring 0”引導程式（bootloaders）移至“Ring 3”</li>
+<li><code>pxeboot</code> 和 <code>diskboot</code> 在使用者空間（user-space）進行解析和其他邏輯處理</li>
+<li>Go 提供記憶體安全和類型安全（type safety）
+<ul>
+<li>有缺陷的解析器（parser）不太可能影響其他程式</li>
+</ul>
+</li>
+<li>核心安全性補丁（patches）可應用於韌體</li>
+</ul>
+<p>靈活性</p>
+<ul>
+<li>可與 coreboot、u-boot、OpenPOWER 抽象層 (OpenPOWER Abstraction Layer, OPAL)、SlimBootLoader、ARM 可信任韌體 (Arm Trusted Firmware, ATF) 搭配</li>
+<li>可啟動多個作業系統（Linux、Berkeley UNIX（BSD）、XEN、Windows）</li>
+<li>支援以下伺服器主機板：
+<ul>
+<li>QEMU 模擬的 Q35 系統</li>
+<li><a href="https://trmm.net/S2600wf">Intel S2600WF</a></li>
+<li><a href="https://trmm.net/NERF">Dell R630</a></li>
+<li>Winterfell Open Compute node</li>
+<li>Leopard Open Compute node</li>
+<li>Tioga Pass Open Compute node</li>
+<li>Monolake Open Compute node（未經測試）</li>
+</ul>
+</li>
+</ul>
+<p>啟動速度</p>
+<ul>
+<li>透過移除不必要的程式碼來提升啟動時間；通常能使啟動速度提高 20 倍</li>
+</ul>
+<p>客製化</p>
+<ul>
+<li>允許自訂 initramfs 運行時，支援特定環境的需求（包括裝置驅動程式和自訂執行檔）</li>
+</ul>
+<p>工程生產力</p>
+<ul>
+<li>編寫一次驅動程序，無需編寫兩次
+<ul>
+<li>Linux 是 <strong>開放、可衡量、可重現且易於更新的</strong></li>
+<li>Linux 已經為幾乎所有東西提供了驅動程式</li>
+</ul>
+</li>
+<li>核心（kernel）工程師=韌體工程師
+<ul>
+<li>了解 Linux 的工程師比了解 UEFI 的工程師多得多</li>
+</ul>
+</li>
+<li>減少建置時間
+<ul>
+<li>initramfs 需要 <strong>30 秒</strong></li>
+<li>核心需要 <strong>15 秒</strong>（增量式）</li>
+<li>大約 <strong>15 秒</strong> 重新包裝 bios 映像檔（使用 fiano/utk）</li>
+<li><strong>總計：約 1 分鐘</strong> 用於新的完整 BIOS 映像，可供測試</li>
+</ul>
+</li>
+<li>測試和除錯
+<ul>
+<li><code>diskboot</code> 和 <code>pxeboot</code> 已經有單元測試 （unit tests）</li>
+<li>使用 Linux 資源（如網路）使編寫測試更容易</li>
+<li>u-root 等開源專案遵循優秀的軟體實踐，例如對每個提交的變更執行自動化測試</li>
+<li>更容易除錯的 Go 用戶空間（user-space）應用程式</li>
+<li>使用 QEMU 中的核心進行測試</li>
+</ul>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next prefetch" href="use-cases.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next prefetch" href="use-cases.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="mermaid.min.js"></script>
+        <script src="mermaid-init.js"></script>
+        <script src="theme/js/language-picker.js"></script>
+
+
+    </div>
+    </body>
+</html>

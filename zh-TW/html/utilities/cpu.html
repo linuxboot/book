@@ -1,0 +1,479 @@
+<!DOCTYPE HTML>
+<html lang="zh-TW" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>神奇的 CPU 指令 - LinuxBoot</title>
+
+
+        <!-- Custom HTML head -->
+        <script>
+            const mdbookPath = "utilities/cpu.md";
+            const mdbookPathToRoot = "../";
+        </script>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/language-picker.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">LinuxBoot</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/linuxboot/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="the-u-root-cpu-command"><a class="header" href="#the-u-root-cpu-command">The u-root <code>cpu</code> command</a></h1>
+<p>Do you want to have all the tools on your  system that you have on your desktop, but you can't get them to fit in your tiny flash part? Do you want all your desktop files visible on your  system, but just remembered there's no disk on your  system? Are you tired of using <code>scp</code> or <code>wget</code> to move files around? Do you want to run <code>emacs</code> or <code>vim</code> on the  machine, but know they can't ever fit? What about <code>zsh</code>? How about being able to run commands on your  machine and have the output appear on your home file system? You say you'd like to make this all work without having to fill out web forms in triplicate to get your organization to Do Magic to your desktop?</p>
+<p><strong>Your search is over: <code>cpu</code> is here to answer all your usability needs.</strong></p>
+<h2 id="the-problem-running-your-program-on-some-other-system"><a class="header" href="#the-problem-running-your-program-on-some-other-system">The problem: running your program on some other system</a></h2>
+<p>People often need to run a command on a remote system. That is easy when the remote system is the same as the system you are on, e.g., both systems are Ubuntu 16.04; and all the libraries, packages, and files are roughly the same. But what if the systems are different, say, Ubuntu 16.04 and Ubuntu 18.10? What if one is Centos, the other Debian? What if a required package is missing on the remote system, even though in all other ways they are the same?</p>
+<p>While these systems are both Linux, and hence can provide Application Binary Interface (ABI) stability at the system call boundary, above that boundary stability vanishes. Even small variations between Ubuntu versions matter: symbol versions in C libraries differ, files are moved, and so on.</p>
+<p>What is a user to do if they want to build a binary on one system, and run it on another system?</p>
+<p>The simplest approach is to copy the source to that other system and compile it. That works sometimes. But there are limits: copying the source might not be allowed; the code might not even compile on the remote system; some support code might not be available, as for a library; and for embedded systems, there might not be a compiler on the remote system. Copy and compile is not always an option. In fact it rarely works nowadays, when even different Linux distributions are incompatible.</p>
+<p>The next option is to use static linking. Static linking is the oldest form of binary on Linux systems. While it has the downside of creating larger binaries, in an age of efficient compilers that remove dead code, 100 gigabit networks, and giant disks and memory, that penalty is not the problem it once was. The growth in size of static binaries is nothing like the growth in efficiency and scale of our resources. Nevertheless, static linking is frowned upon nowadays and many libraries are only made available for dynamic linking.</p>
+<p>Our user might use one of the many tools that package a binary and all its libraries into a single file, to be executed elsewhere. The u-root project even offers one such tool, called <code>pox</code>, for portable executables. <code>Pox</code> uses the dynamic loader to figure out all the shared libraries a program uses, and place them into the archive as well. Further, the user can specify additional files to carry along in case they are needed.</p>
+<p>The problem here is that, if our user cares about binary size, this option is even worse. Dead code removal won’t work; the whole shared library has to be carried along. Nevertheless, this can work, in some cases.</p>
+<p>So our user packages up their executable using <code>pox</code> or a similar tool, uses <code>scp</code> to get it to the remote machine, logs in via <code>ssh</code>, and all seems to be well, until at some point there is another message about a missing shared library! How can this be? The program that packaged it up checked for all possible shared libraries.</p>
+<p>Unfortunately, shared libraries are now in the habit of loading other shared libraries, as determined by reading text files. It’s no longer possible to know what shared libraries are used; they can even change from one run of the program to the next. One can not find them all just by reading the shared library itself. A good example is the name service switch library, which uses <code>/etc/nsswitch.conf</code> to find other shared libraries. If <code>nsswitch.conf</code> is missing, or a library is missing, some versions of the name service switch library will core dump.</p>
+<p>Not only must our user remember to bring along <code>/etc/nsswitch.conf</code>, they must also remember to bring along all the libraries it might use. This is also true of other services such as Pluggable Authentication Modules (PAM). And, further, the program they bring along might run other programs, with their own dependencies. At some point, as the set of files grows, frustrated users might decide to gather up all of <code>/etc/</code>, <code>/bin</code>, and other directories, in the hope that a wide enough net might bring along all that’s needed. The remote system will need lots of spare disk or memory! We’re right back where we started, with too many files for too little space.</p>
+<p>In the worst case, to properly run a binary from one system, on another system, one must copy everything in the local file system to the remote system. That is obviously difficult, and might be impossible if the remote system has no disk, only memory.</p>
+<p>One might propose having the remote system mount the local system via NFS or Samba. While this was a common approach years ago, it comes with its own set of problems: all the remote systems are now hostage to the reliability of the NFS or Samba server. But there’s a bigger problem: there is still no guarantee that the remote system is using the same library versions and files that the user’s desktop is using. The NFS server might provide, e.g. SUSE, to the remote system; the user’s desktop might be running Ubuntu. If the user compiles on their desktop, the binary might still not run on the remote system, as the SUSE libraries might be different. This is a common problem.</p>
+<p>Still worse, with an NFS root, everyone can see everyone’s files. It’s like living in an apartment building with glass walls. Glass houses only look good in architecture magazines. People want privacy.</p>
+<h3 id="what-ssh-does-not-provide"><a class="header" href="#what-ssh-does-not-provide">What SSH does not provide</a></h3>
+<p><code>ssh</code> solves the problem of safely getting logged in to a remote machine. While this is no small accomplishment, it is a lot like being parachuted into a foreign land, where the rules are changed. It’s a lot nicer, when going to a new place, to be able to bring along some survival gear, if not your whole house!</p>
+<p>Users need a way to log in to a machine, in a way similar to <code>ssh</code>, but they need to bring their environment with them. They need their login directory; their standard commands; their configuration files; and they need some privacy. Other users on the machine should not be able to see any of the things they bring with them. After all, everyone who goes camping wants to believe they are the only people at that campground!</p>
+<h3 id="how-cpu-provides-what-we-need"><a class="header" href="#how-cpu-provides-what-we-need">How <code>cpu</code> provides what we need</a></h3>
+<p><code>cpu</code> is a Go-based implementation of Plan 9's <code>cpu</code> command. It uses the go <code>ssh</code> package, so all your communications are as secure as <code>ssh</code>. It can be started from <code>/sbin/init</code> or even replace <code>/sbin/init</code>, so you have a tiny flash footprint. You can see the code at <a href="https://github.com/u-root/cpu">github.com:u-root/cpu</a>. It's also small: less than 20 files, including tests.</p>
+<p><code>cpu</code> runs as both a client (on your desktop) and an <code>ssh</code> server (on your machine). On your desktop, it needs no special privilege. On the system, there is only one binary needed: the <code>cpu</code> daemon (<code>cpud</code>). As part of setting up a session, in addition to normal <code>ssh</code> operations, <code>cpu</code> sets up private name space at important places like <code>/home/$USER</code>, <code>/bin, /usr,</code>and so on. Nobody gets to see what other people’s files are.</p>
+<p><code>Ssh</code> provides remote access. <code>cpu</code> goes one step further, providing what is called <em>resource sharing</em> -- resources, i.e., files from the client machine can be used directly on the remote machine, without needing to manually copy them. <code>cpud</code> implements resource sharing by setting up a <code>file system</code>mount on the remote machine and relaying file I/O requests back to the desktop <code>cpu</code> process. The desktop command services those requests; you don't need to run a special external server. One thing that is a bit confusing with <code>cpu</code>: the desktop client is a file server; the remote server’s Linux kernel is a file client. <code>cpu</code> has to do a bit more work to accomplish its task.</p>
+<p><code>cpu</code> will change your life. You can forget about moving files via <code>scp</code>: once you '<code>cpu</code> in', the <code>/home</code> directory on your  node is your home directory. You can <code>cd ~</code>and see all your files. You can pick any shell you want, since the shell binary comes from your desktop, not flash. You don't have to worry about fitting <code>zsh</code> into flash ever again!</p>
+<p>At Google we can now run <code>chipsec</code>, which imports 20M of Python libraries, because we have <code>cpu</code> and we can redirect <code>chipsec</code> output to files in our home directory.</p>
+<p>Here is an example session:</p>
+<p>In this command, we <code>cpu</code> to a PC Engines APU2. We have built a kernel and u-root initramfs containing just one daemon -- the <code>cpu</code> daemon -- into the flash image. The APU2 does not even need a disk; it starts running as a “<code>cpu</code> appliance.”</p>
+<p>The <code>bash</code> is not on the <code>cpu</code> node; it will come from our desktop via the 9p mount.</p>
+<pre><code class="language-bash">rminnich@xcpu:~/gopath/src/github.com/u-root/u-root$ cpu apu2
+root@(none):/#
+root@(none):/# ls ~
+IDAPROPASSWORD  go      ida-7.2  projects
+bin             gopath  papers   salishan2019random  snap
+root@(none):/# exit
+</code></pre>
+<p>The <code>bash</code> and <code>ls</code> command, and the shared libraries they need, do not exist on the apu2; <code>cpu</code> makes sure that the client provides them to the <code>cpu</code> server. The home directory is, similarly, made available to the remote machine from the local machine.</p>
+<p>A big benefit of <code>cpu</code> is that, as long as the network works, users can create very minimal flash images, containing just the <code>cpu</code> daemon, just enough to get the network going. Once the network is up, users can <code>'cpu</code> in', and everything they need is there. It actually looks like they are still logged in to their desktop, except, of course, truly local file systems such as <code>/proc</code> and <code>/sys</code> will come from the machine they are on, not their desktop.</p>
+<h2 id="an-easy-overview-of-how-cpu-works"><a class="header" href="#an-easy-overview-of-how-cpu-works">An easy overview of how <code>cpu</code> works</a></h2>
+<p><code>cpu</code>, as mentioned, consists of a client and a server. The client is on your desktop (or laptop), and the server is on the remote system. Both client and server use an <code>ssh</code> transport, meaning that the “wire” protocol is <code>ssh</code>. In this way, <code>cpu</code> is just like <code>ssh</code>.</p>
+<p>As mentioned above, the situation for <code>cpu</code> is a bit more complicated than for <code>ssh</code>. <code>cpu</code> provides resource sharing, but not from the server to the client, but rather from the client to the server. The <code>cpu</code> client is a file server; the <code>cpu</code> server connects the kernel on the server machine to the file server in the client, as shown below. Things to note:</p>
+<ol>
+<li><code>cpud</code>, on the remote or server machine, sets up a “private name space mount” of <code>/tmp</code> for the program. “Private name space mount” just means that only that program, and its children, can see what is in its private <code>/tmp</code>. Other, external programs continue to use <code>/tmp</code>, but they are <em>different</em> instantiations of <code>/tmp</code>.</li>
+<li>The private name space mount of <code>/tmp</code> is on a filesystem in RAM. The data stored in <code>/tmp</code> is not visible to other processes, and not persistent.</li>
+<li><code>cpud</code> creates a directory, <code>cpu</code>, in the private <code>/tmp</code>; and mounts the server on it. This mount point is also invisible outside the process and its children.</li>
+<li>To make sure that names like <code>/bin/bash</code>, and <code>/usr/lib/libc.so</code> work, <code>cpud</code> sets up <em>bind mounts</em> from, e.g., <code>/tmp/cpu/bin</code> to <code>/bin</code>. These are also private mounts, and do not affect any program outside the one <code>cpud</code> starts. Anytime the program and its children access files in <code>/bin</code>, <code>/lib</code>, <code>/usr</code>, <code>/home/$USER</code>, and so on, they are accessing files from the client machine via the built-in client file server.</li>
+<li>The client <code>cpu</code> program passes the full environment from the client machine to <code>cpud</code>. When the client program requests that, e.g., <code>bash</code> be run, the <code>cpud</code> uses the PATH environment variable to locate <code>bash</code>. Because of the private name space mounts and binds, <code>bash</code> will be found in <code>/bin/bash</code>, and its libraries will be found in their usual place. This is an essential property of <code>cpu</code>, that the names used on the user’s machine work the same way on the remote machine. An overview of the process is shown below.</li>
+</ol>
+<img src="../images/cpu_overview.svg" width=600px>
+<h2 id="cpu-startup"><a class="header" href="#cpu-startup"><code>cpu</code> startup</a></h2>
+<p>The startup proceeds in several steps. Every session begins with an initial contact from the <code>cpu</code> client to the <code>cpu</code> server.</p>
+<img src="../images/cpu_startup.svg" width=600px>
+<p>The first step the <code>cpud</code> does is set up the mounts back to the client. It then sets up the bind mounts such as <code>/bin</code> to <code>/tmp/cpu/bin</code>. In the following figure, we compress the Linux kernel mount and bind mounts shown above into a smaller box called “name space.”</p>
+<img src="../images/cpu_first_step.svg" width=600px>
+<p>Next, <code>cpu</code> and the <code>cpud</code> set up the terminal management.</p>
+<img src="../images/cpu_second_step.svg" width=600px>
+<p>Finally, <code>cpud</code> sets up the program to run. Because the PATH variable has been transferred to <code>cpud</code>, and the name space includes <code>/bin</code> and <code>/lib</code>, the <code>cpud</code> can do a standard Linux <code>exec</code> system call without having to locate where everything is. Native kernel mechanisms create requests as files are referenced, and the <code>cpu</code> file server support does the rest.</p>
+<img src="../images/cpu_third_step.svg" width=600px>
+<p>Why do we only show one program instead of many? From the point of view of <code>cpud</code>, it only starts one program. From the point of view of users, there can be many. But if there is more than one program to start, <em>that is not the responsibility of <code>cpud</code></em>. If more than one program is run, they will be started by the program that <code>cpud</code> started, i.e., a command interpreter like the shell. Or it could be as simple as a one-off command like <code>date</code>. From the point of view of <code>cpud</code>, it’s all the same. <code>cpud</code> will wait until the process it started, and all its children, have exited. But <code>cpud</code>’s responsibilities to start a program ends with that first program.</p>
+<p>But what happens when <code>cpud</code> runs that first program? Here is where it gets interesting, and, depending on your point of view, either magical, confounding, or counter-intuitive. We’ll go with magical.</p>
+<h3 id="starting-that-first-program"><a class="header" href="#starting-that-first-program">Starting that first program</a></h3>
+<p>As mentioned above, <code>cpud</code> sets up mounts for a name space, and calls the Linux <code>exec()</code> call to start the program.</p>
+<p>We can actually watch all the <code>cpu</code> file server operations. The file server protocol is called 9P2000. We are going to present a filtered version of the file I/O from running a remote <code>date</code>; in practice, you can watch all the opens, reads, writes, and closes the remote process performs.</p>
+<p>The trace for running <code>date</code> starts right when the remote program has called <code>exec</code>, and the kernel is starting to find the program to run<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>. The file opens look like this, on a user’s system:</p>
+<pre><code class="language-txt">Open /bin/date
+Open /lib/x86_64-linux-gnu/ld-2.27.so
+Open /etc/ld.so.cache
+Open /lib/x86_64-linux-gnu/libc-2.27.so
+Open /usr/lib/locale/locale-archive
+Open /usr/share/zoneinfo/America/Los_Angeles
+</code></pre>
+<p>The kernel opened <code>/bin/date</code>, determined what libraries (files ending in <code>.so</code>) it needed, and opened them as well.</p>
+<p>We can compare this with a local execution:</p>
+<pre><code class="language-txt">execve "/bin/date"
+access "/etc/ld.so.nohwcap"
+access "/etc/ld.so.preload"
+openat "/etc/ld.so.cache"
+access "/etc/ld.so.nohwcap"
+openat "/lib/x86_64-linux-gnu/libc.so.6"
+openat "/usr/lib/locale/locale-archive"
+openat "/etc/localtime"
+</code></pre>
+<p>Note that several files do not show up in our trace; they are in <code>/etc</code>, and the <code>cpud</code> does not set up a bind mount over <code>/etc</code>. But the other files look very similar. You might wonder why the local version opens <code>/etc/localtime</code>, and the remote version opens <code>/usr/share/zoneinfo/America/Los_Angeles</code>.</p>
+<p>The reason is that <code>etc/localtime</code> is a symlink:</p>
+<pre><code class="language-bash">lrwxrwxrwx 1 root root 39 May 29 12:47 /etc/localtime -&gt; /usr/share/zoneinfo/America/Los_Angeles
+</code></pre>
+<p>The access to <code>/etc/localtime</code> does not get handled by the server; but the access to <code>/usr/share/zoneinfo/America/Los_Angeles</code>does.</p>
+<p>What about different architectures? What if we are using an x86 but want to <code>cpu</code> to an ARM processor?</p>
+<p>We can set the local <code>cpu</code> up to talk to a remote <code>cpu</code> that needs different binaries. We might have an entire ARM file system tree in <code>~/arm</code>, for example. We would then invoke <code>cpu</code> as follows:</p>
+<pre><code class="language-bash">cpu -root ~/arm date
+</code></pre>
+<p>And the remote <code>cpud</code>, running on an ARM, would be provided with ARM binaries.</p>
+<h3 id="learning-how-to-use-cpu"><a class="header" href="#learning-how-to-use-cpu">Learning how to use <code>cpu</code></a></h3>
+<p><code>Cpu</code> can be a hard thing to learn, not because it is difficult, but because it is different. To paraphrase Yoda, you have to unlearn what you have learned. Forget about copying files from here to there; when you <code>cpu</code> there, it looks like your files are waiting for you.</p>
+<p>You can start experimenting and learning about <code>cpu</code> by just running it locally.</p>
+<h4 id="a-set-of-binaries-for-you-to-try"><a class="header" href="#a-set-of-binaries-for-you-to-try">A set of binaries for you to try</a></h4>
+<p>In order for you to try it out, start by working with the set of <code>cpu</code> binaries at <a href="https://github.com/u-root/cpubinaries">https://github.com/u-root/cpubinaries</a>. With them, you can create a bootable, mountable USB image that you can download. The image contains a <code>cpu</code> client that runs on Linux, a private key, and, when booted, it starts a <code>cpu</code> daemon and waits to serve <code>cpu</code> clients. The <code>cpu</code> client is statically linked and hence should run on any Linux from the last 10 years or so.</p>
+<p>The binaries include:</p>
+<ul>
+<li>A kernel (<code>cpukernel</code>) with a built-in initramfs containing <code>cpud</code>, as well as a public key. Also included, should you want to build your own, is the config file (<code>cpu.config</code>).</li>
+<li>A binary client program, <code>cpu</code>, as well as the private key to use. You can place this key in <code>~/.ssh</code> or specify it via the <code>-key</code> option to <code>cpu</code>.</li>
+<li>A script to run the USB stick via <code>qemu</code> (<code>TESTQEMU</code>); and a script to run a <code>cpu</code> command (<code>EXAMPLE</code>).</li>
+<li>The <code>extlinux.conf</code> used for the USB stick.</li>
+</ul>
+<p><code>usbstick.xz</code> is a compressed USB stick image that is bootable. It will uncompress to about 7GB. You can use the <code>TESTQEMU</code> script to try it out, or use <code>dd</code> to write it to a USB stick and boot that stick on an x86 system.</p>
+<p>Be careful how you use the keys; they're public. You should really only use them as part of the demo.</p>
+<p>The <code>cpukernel</code> was built using the <code>github.com:/mainboards</code> repo. If you clone this repo, the following commands will rebuild the kernel:</p>
+<ul>
+<li><code>cd mainboards/intel/generic</code></li>
+<li><code>make fetch</code></li>
+<li><code>make cpukernel</code></li>
+</ul>
+<h4 id="how-to-use-the-cpu-binaries"><a class="header" href="#how-to-use-the-cpu-binaries">How to use the cpu binaries</a></h4>
+<p>You’ll first need to start the server, and we show the entire sequence below, including unpacking the image:</p>
+<pre><code class="language-bash">xz -d usbstick.xz
+</code></pre>
+<p>How you run <code>qemu</code> depends on whether you want graphics or not: if you are not in a windowing environment, add <code>-nographic</code> to the command below. In any event, at the <code>boot:</code> prompt, you can hit return or wait:</p>
+<pre><code class="language-bash">bash QEMU -hda usbstick
+
+SeaBIOS (version 1.13.0-1)
+iPXE (http://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+3FF90750+3FED0750 CA00
+Booting from Hard Disk...
+SYSLINUX 6.03 EDD 20171017 Copyright (C) 1994-2014 H. Peter Anvin et al
+boot:
+.
+.
+.
+Freeing unused kernel image (rodata/data gap) memory: 568K
+rodata_test: all tests were successful
+Run /init as init process
+</code></pre>
+<p>At this point, the <code>cpu</code> daemon is running, and you can try the <code>cpu</code> command:</p>
+<pre><code class="language-bash">rminnich@minnich:/home/cpubinaries$ ./cpu -key cpu_rsa localhost date
+Fri 16 Oct 2020 04:21:04 PM PDT
+</code></pre>
+<p>You can log in and notice that things are the same:</p>
+<pre><code class="language-bash">rminnich@minnich:/home/cpubinaries$ ./cpu -key cpu_rsa localhost
+
+root@192:/home/cpubinaries# ls
+cpu         cpukernel  cpu_rsa.pub  extlinux.conf  QEMU       usbstick
+cpu.config  cpu_rsa    EXAMPLE      LICENSE        README.md
+
+root@192:/home/cpubinaries#
+</code></pre>
+<p>Note that you end up in the same directory on the remote node that you are in on the host; all the files are there. We can run any program on the remote node that we have on the host:</p>
+<pre><code class="language-bash">root@192:/home/cpubinaries# which date
+/usr/bin/date
+root@192:/home/cpubinaries# date
+Fri 16 Oct 2020 04:25:01 PM PDT
+root@192:/home/cpubinaries# ldd /usr/bin/date
+mount
+    linux-vdso.so.1 (0x00007ffd83784000)
+    libc.so.6 =&gt; /lib/x86_64-linux-gnu/libc.so.6 (0x00007efdb93db000)
+    /lib64/ld-linux-x86-64.so.2 (0x00007efdb95e4000)
+root@192:/home/cpubinaries# mount
+...
+cpu on /tmp type tmpfs (rw,relatime)
+127.0.0.1 on /tmp/cpu type 9p (rw,nosuid,nodev,relatime,sync,dirsync,uname=rminnich,access=client,msize=65536,trans=fd,rfd=9,wfd=9)
+rootfs on /tmp/local type rootfs (rw,size=506712k,nr_inodes=126678)
+127.0.0.1 on /lib type 9p (rw,nosuid,nodev,relatime,sync,dirsync,uname=rminnich,access=client,msize=65536,trans=fd,rfd=9,wfd=9)
+127.0.0.1 on /lib64 type 9p (rw,nosuid,nodev,relatime,sync,dirsync,uname=rminnich,access=client,msize=65536,trans=fd,rfd=9,wfd=9)
+127.0.0.1 on /usr type 9p (rw,nosuid,nodev,relatime,sync,dirsync,uname=rminnich,access=client,msize=65536,trans=fd,rfd=9,wfd=9)
+127.0.0.1 on /bin type 9p (rw,nosuid,nodev,relatime,sync,dirsync,uname=rminnich,access=client,msize=65536,trans=fd,rfd=9,wfd=9)
+127.0.0.1 on /etc type 9p (rw,nosuid,nodev,relatime,sync,dirsync,uname=rminnich,access=client,msize=65536,trans=fd,rfd=9,wfd=9)
+127.0.0.1 on /home type 9p (rw,nosuid,nodev,relatime,sync,dirsync,uname=rminnich,access=client,msize=65536,trans=fd,rfd=9,wfd=9)
+root@192:/home/cpubinaries#
+</code></pre>
+<p>As you can see, <code>/tmp/cpu</code> is mounted via 9p back to the <code>cpu</code> client (recall that the <code>cpu</code> client is a 9p server, so your files are visible on the remote node). Further, you can see mounts on <code>/usr</code>, <code>/bin</code>, <code>/etc</code>, and so on. For this reason, we can run <code>date</code> and it will find its needed libraries in <code>/usr</code>, as the <code>ldd</code> command demonstrates.</p>
+<h4 id="making-cpu-easier-to-use"><a class="header" href="#making-cpu-easier-to-use">Making cpu easier to use</a></h4>
+<p>If you get tired of typing <code>-keys</code>, do the following: put your own <code>cpu_rsa</code> in <code>~/.ssh</code>; and copy the <code>cpu</code> binary to <code>bin</code> (or build a new one).</p>
+<p>Warning! The <code>cpu</code> keys we provide in the repo are only to be used for this demo. You should not use them for any other purpose, as they are in a Github repo and hence open to the world.</p>
+<h4 id="using-some-of-the-namespace"><a class="header" href="#using-some-of-the-namespace">Using some of the namespace</a></h4>
+<p>Sometimes, you don’t want all the <code>/usr</code> and <code>/bin</code> directories to be replaced with those from your machine. You might, for example, <code>cpu</code> into an ARM system, and hence only need a <code>/home</code>, but nothing else.</p>
+<p>The <code>-namespace</code> switch lets you control the namespace. It is structured somewhat like a path variable, with <code>:</code>-separated components. The default value is <code>/lib:/lib64:/usr:/bin:/etc:/home</code>. You can modify it or even force it to be empty: <code>-namespace=""</code>, for example. If it is empty, <code>cpud</code> will only mount the 9p server on <code>/tmp/cpu</code>.</p>
+<p>This following example will cpu to an ARM64 host, sharing /home, but nothing else.</p>
+<pre><code class="language-bash">cpu arm -namespace=/home /bin/date
+</code></pre>
+<p>For an different architecture system, we might want to specify that the /bin, /lib, and other directories have a different path on the remote than they have locally. The -namespace switch allows this via an = sign:</p>
+<pre><code class="language-bash">cpu -namespace /lib:/lib64:/usr:/bin:/etc:/home arm /bin/date
+</code></pre>
+<p>In this case, <code>/bin</code>, <code>/usr</code>, and <code>/lib</code> on the remote system are supplied by <code>/arm/bin</code>, <code>/arm/lib</code>, and <code>/arm/usr</code> locally.</p>
+<p>If we need to test <code>cpu</code> without doing bind mounts, we can specify a <code>PWD</code> that requires no mounts and an empty namespace:</p>
+<pre><code class="language-txt">PWD=/ cpu -namespace="" -9p=false h /bin/ls
+bbin
+bin
+buildbin
+dev
+env
+etc
+go
+home
+init
+...
+</code></pre>
+<p>There is a bit of a subtlety about the interaction of the namespace and 9p switches, which we are still discussing: the -namespace value can override the -9p switch.</p>
+<p>If you set -9p=false but have a non-empty namespace variable, then 9p will be set to true. So in this example, the -9p switch has no effect:</p>
+<pre><code class="language-bash">cpu -9p=false h ls
+</code></pre>
+<p>Why is this? Because the default value of -namespace is non-empty. The open question: should -9p=false force the namespace to be empty; or should a none-empty namespace for -9p to be true? For now, we have chosen the latter approach.</p>
+<p>Another possible approach is to log conflicting settings of these two switches and exit:</p>
+<pre><code class="language-bash">cpu -9p=false h ls
+error: 9p is false but the namespace is non-empty; to force an empty namespace use -namespace=""
+</code></pre>
+<p>We welcome comments on this issue.</p>
+<h4 id="cpu-and-docker"><a class="header" href="#cpu-and-docker">cpu and Docker</a></h4>
+<p>Maintaining file system images is inconvenient. We can use Docker containers on remote hosts instead. We can take a standard Docker container and, with suitable options, use docker to start the container with <code>cpu</code> as the first program it runs.</p>
+<p>That means we can use any Docker image, on any architecture, at any time; and we can even run more than one at a time, since the namespaces are private.</p>
+<p>In this example, we are starting a standard Ubuntu image:</p>
+<pre><code class="language-bash">$ docker run -v /home/rminnich:/home/rminnich -v /home/rminnich/.ssh:/root/.ssh -v /etc/hosts:/etc/hosts --entrypoint /home/rminnich/go/bin/cpu -it ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486 h
+Unable to find image 'ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486' locally
+docker.io/library/ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486: Pulling from library/ubuntu
+a9ca93140713: Pull complete
+Digest: sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486
+Status: Downloaded newer image for ubuntu@sha256:073e060cec31fed4a86fcd45ad6f80b1f135109ac2c0b57272f01909c9626486
+WARNING: The requested image's platform (linux/arm64/v8) does not match the detected host platform (linux/amd64) and no specific platform was requested
+1970/01/01 21:37:32 CPUD:Warning: mounting /tmp/cpu/lib64 on /lib64 failed: no such file or directory
+$ ls
+bbin  buildbin  env  go    init     lib    proc  tcz  ubin  var
+bin   dev       etc  home  key.pub  lib64  sys   tmp  usr
+</code></pre>
+<p>Note that the image was update and then started. The <code>/lib64</code> mount fails, because there is no <code>/lib64</code> directory in the image, but that is harmless.</p>
+<p>On the local host, on which we ran docker, this image will show up in docker <code>ps</code>:</p>
+<pre><code class="language-bash">rminnich@a300:~$ docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS     NAMES
+b92a3576229b   ubuntu    "/home/rminnich/go/b…"   9 seconds ago   Up 9 seconds             inspiring_mcnulty
+</code></pre>
+<p>Even though the binaries themselves are running on the remote ARM system.</p>
+<h4 id="cpu-and-virtiofs"><a class="header" href="#cpu-and-virtiofs">cpu and virtiofs</a></h4>
+<p>While 9p is very general, because it is <em>transport-independent</em>, there are cases where we can get much better performance by using a less general file system. One such case is with virtofs.</p>
+<p>Because virtiofs is purely from guest kernel vfs to host kernel vfs, via virtio transport, it has been measured to run at up to 100 times faster.</p>
+<p>We can use virtiofs by specifying virtiofs mounts. cpud will look for an environemnt variable, <code>CPU_FSTAB</code>, which is in <code>fstab(5)</code> format. The client can specify an fstab in one of two ways. Either via the <code>-fstab</code> switch, in which case the client will populate the <code>CPU_FSTAB</code> variable with the contents of the file or by passing the <code>CPU_FSTAB</code> environment variable, which happens by default.</p>
+<p>On the client side, the file specified via the -fstab takes precedence over any value of the CPU_FSTAB environment variable. On the server side, cpud does not use the -fstab switch, only using the environment variable.</p>
+<p>Here is an example of using the CPU_FSTAB variable with one entry:</p>
+<pre><code class="language-txt">CPU_FSTAB="myfs /mnt virtiofs rw 0 0" cpu v
+</code></pre>
+<p>In this case, the virtiofs server had the name myfs, and on the remote side, virtiofs was mounted on /mnt.</p>
+<p>For the fstab case, the command looks like this:</p>
+<pre><code class="language-bash">cpu -fstab fstab v
+</code></pre>
+<p>The fstab in this case would be</p>
+<pre><code class="language-bash">myfs /mnt virtiofs rw 0 0
+</code></pre>
+<p>Note that both the environment variable and the fstab can have more than one entry, but they entries must be separate by newlines. Hence, this will not work:</p>
+<pre><code class="language-txt">CPU_FSTAB=`cat fstab` cpu v
+</code></pre>
+<p>as shells insist on converting newlines to spaces.</p>
+<p>The fstab can specify any file system. If there is a mount path to, e.g., Google drive, and it can be specified in fstab format, then cpu clients can use Google Drive files. Note, again, that these alternative mounts do not use the 9p server built in to the cpu client; they use the file systems provided on the cpu server machine.</p>
+<p>There are thus several choices for setting up the mounts</p>
+<ul>
+<li>9p support by the cpu client</li>
+<li>9p supported by the cpu client, with additional mounts via -fstab or -namespace</li>
+<li>9p <em>without</em> any bind mounts, i.e. -9p=false -namespace "", in which case, on the remote machine, files from the client are visible in /tmp/cpu, but no bind mounts are done; with additional mounts provided by fstab mounts are provided</li>
+<li>no 9p mounts at all, when -namespace="" -9p=false; with optional additional mounts via fstab</li>
+<li>if there are no 9p mounts, and no fstab mounts, cpu is equivalent to ssh.</li>
+</ul>
+<hr>
+<ol class="footnote-definition"><li id="footnote-1">
+<p>For reference, the command we used: <code>cpu -dbg9p -d apu2 date</code> <a href="#fr-1-1">↩</a></p>
+</li>
+</ol>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../utilities/UEFI_Tool_Kit.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../utilities/dut.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../utilities/UEFI_Tool_Kit.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../utilities/dut.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+        <script src="../theme/js/language-picker.js"></script>
+
+
+    </div>
+    </body>
+</html>

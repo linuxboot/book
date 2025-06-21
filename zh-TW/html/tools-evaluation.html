@@ -1,0 +1,250 @@
+<!DOCTYPE HTML>
+<html lang="zh-TW" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>工具評估 - LinuxBoot</title>
+
+
+        <!-- Custom HTML head -->
+        <script>
+            const mdbookPath = "tools-evaluation.md";
+            const mdbookPathToRoot = "";
+        </script>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/css/language-picker.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">LinuxBoot</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/linuxboot/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="工具評估"><a class="header" href="#工具評估">工具評估</a></h1>
+<p>Three general questions guide all software projects:</p>
+<ul>
+<li>what exists already? (implementations, tools and build systems)</li>
+<li>what needs development? (UIs and such)</li>
+<li>what is a good environment? (build + runtime)</li>
+</ul>
+<p>Not only do we want to answer those questions. We also keep track of the options and decision process in this book in order for readers to make sense.</p>
+<p>There are many existing tools already that we can leverage to implement the idea of using Linux to boot into an operating system.</p>
+<h2 id="root-filesystem"><a class="header" href="#root-filesystem">Root filesystem</a></h2>
+<p>Linux needs a root filesystem with at least one binary that is called <a href="https://docs.kernel.org/admin-guide/init.html"><code>init</code></a>. Since booting a system is a cumbersome task, additional tools aid in both development and investigating possible issues.</p>
+<h3 id="core-utilities"><a class="header" href="#core-utilities">Core utilities</a></h3>
+<p>Unix already came with lots of little utilities for the user of the system, which may be anyone from a system developer to an administrator of a shared or provided system, or an end user. Further tools have been created over the years, and the <a href="https://en.wikipedia.org/wiki/GNU_Core_Utilities">GNU core utilities</a> are essentially a collection of tools resulting from merging other collections. Note that there are still many other utilities that are not part of coreutils. At the same time, there are multiple other implementations now, which differ in terms of arguments and flags and possibly additional utilities they include.</p>
+<div class="table-wrapper"><table><thead><tr><th>tool</th><th>language</th><th>license</th><th>usage</th></tr></thead><tbody>
+<tr><td><a href="https://busybox.net/">BusyBox</a></td><td>C</td><td>GPLv2</td><td>Heads</td></tr>
+<tr><td><a href="http://landley.net/toybox">toybox</a></td><td>C</td><td>0BSD</td><td>Android</td></tr>
+<tr><td><a href="https://www.gnu.org/software/coreutils/">GNU coreutils</a></td><td>C</td><td>GPLv3</td><td>not for LinuxBoot</td></tr>
+<tr><td><a href="https://u-root.org">u-root</a></td><td>Go</td><td>BSD 3-Clause</td><td>ByteDance, Google et al</td></tr>
+<tr><td><a href="http://uutils.github.io/">uutils/coreutils</a></td><td>Rust</td><td>MIT</td><td>not for LinuxBoot</td></tr>
+</tbody></table>
+</div>
+<h3 id="kexec-implementations"><a class="header" href="#kexec-implementations">kexec implementations</a></h3>
+<p>While <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/uapi/linux/kexec.h">kexec itself is a Linux syscall</a>, it is not a one-shot operation. Loading multiple segments into memory, synchronizing and unmounting file systems, and the eventual syscall to <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/uapi/linux/reboot.h">reboot</a> belong to the procedure. In addition, there are architecture specifics to take into account. Thus, there are multiple implementations of kexec, which are Linux programs that offer their own interfaces again to pass extra arguments. Besides those standalone implementations, there are also specialized boot loaders based on kexec that have their own extra logic, such as FreeBSD's kload or petitboot.</p>
+<div class="table-wrapper"><table><thead><tr><th>tool</th><th>language</th><th>license</th><th>usage</th></tr></thead><tbody>
+<tr><td><a href="https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git">kexec-tools</a> (<a href="https://github.com/horms/kexec-tools">GitHub mirror</a>)</td><td>C</td><td>GPLv2</td><td>Heads, Petitboot</td></tr>
+<tr><td><a href="https://systemd.io/">systemd</a> (wrapper)</td><td>C</td><td>LGPL-2.1+</td><td>systemd on UEFI</td></tr>
+<tr><td><a href="https://github.com/kexecboot/kexecboot">kexecboot</a></td><td>C</td><td>GPLv2</td><td>?</td></tr>
+<tr><td>u-root (CLI+mod)</td><td>Go</td><td>BSD 3-Clause</td><td>Google et al</td></tr>
+<tr><td><a href="https://github.com/im-0/kexlinux">kexlinux</a></td><td>Rust</td><td>LGPL-3.0+</td><td>?</td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="components.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="petitboot.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="components.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="petitboot.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="mermaid.min.js"></script>
+        <script src="mermaid-init.js"></script>
+        <script src="theme/js/language-picker.js"></script>
+
+
+    </div>
+    </body>
+</html>

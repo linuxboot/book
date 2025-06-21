@@ -1,0 +1,553 @@
+<!DOCTYPE HTML>
+<html lang="zh-TW" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>UEFI工具包 - LinuxBoot</title>
+
+
+        <!-- Custom HTML head -->
+        <script>
+            const mdbookPath = "utilities/UEFI_Tool_Kit.md";
+            const mdbookPathToRoot = "../";
+        </script>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/css/language-picker.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">LinuxBoot</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/linuxboot/book" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="uefi工具包"><a class="header" href="#uefi工具包">UEFI工具包</a></h1>
+<p>Authors: Ryan O'Leary, Gan Shun Lim and Andrea Barberio</p>
+<p>In previous chapters, you learned how to read a raw ROM image from a flash part. If you've been following along, you know the next step is to insert a Linux kernel.</p>
+<p>Inspecting and modifying ROM images is tricky and can involve a fair amount of tinkering. These images typically contain a number of file systems, drivers, tables, data structures and opaque blobs. They also differ significantly from the UNIX model of a file systems, thus cannot be reasonably mounted in Linux.</p>
+<p>UEFI Tool Kit (UTK) is intended to be a one-stop-shop for reading, writing and modifying UEFI images -- the most common type of firmware image for x86 systems. UTK can parse a number of data structures including UEFI firmware volumes, Intel firmware descriptors and FIT.</p>
+<p>In this chapter, we'll go over how to:</p>
+<ol>
+<li>Install UTK</li>
+<li>Inspect ROMs</li>
+<li>Modify ROMs</li>
+<li>Common pitfalls</li>
+<li>Extend UTK with additional commands</li>
+</ol>
+<h2 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h2>
+<pre><code>make bzImage
+sudo flashrom -r /tmp/ROM.bin
+utk /tmp/ROM.bin replace_pe32 Shell arch/86/boot/bzImage save /tmp/NEWROM.bin
+sudo flashrom -w /tmp/NEWROM.bin
+</code></pre>
+<h2 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h2>
+<p>We assume you have a way to read and write the FLASH into a file.</p>
+<p>Let's assume you have read FLASH into an image called ROM.bin and you have a kernel, called bzImage, which you want to insert into ROM.bin. Be sure the kernel is buildable as an EFI driver (DXE); see the pitfalls section. The easiest option is to replace the UEFI shell. This is a quick and easy way to get started. In the long term, you want to remove as much of UEFI as possible, but replacing the shell is always our first step on a new board.</p>
+<p>Get the tool:</p>
+<pre><code>go get -u github.com/linuxboot/fiano/cmds/utk
+</code></pre>
+<p>Replace the shell:</p>
+<pre><code>utk ROM.bin replace_pe32 Shell bzImage save NEWROM.bin
+</code></pre>
+<p>After that, you can flash NEWROM.bin and test. If anything goes wrong, such as not enough space, you will need to refer to the more detailed instructions below.</p>
+<h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
+<p>At the time of writing, you must clone and build UTK from source -- binary distributions are not officially available. The source code resides in the <a href="https://github.com/linuxboot/fiano/">Fiano Github project</a>.</p>
+<p>Aside: what is the difference between Fiano and UTK? The Fiano project contains a few more tools besides UTK, but UTK is a big element.</p>
+<p>We'll assume you already have Go installed. Check your installation with:</p>
+<pre><code>$ go version
+go version go1.11 linux/amd64
+</code></pre>
+<p>Linux and the latest stable version of Go are recommended. Either download the official binary distributions of Go or install from source. See <a href="https://golang.org/">https://golang.org/</a> for details.</p>
+<p>With Go, download and install UTK:</p>
+<pre><code>go get -u github.com/linuxboot/fiano/cmds/utk
+</code></pre>
+<p>Running the above line installs <code>utk</code> to your <code>$GOPATH/bin</code> directory (or <code>$HOME/go/bin</code> if the <code>GOPATH</code> environment variable is not set). Adding this directory to your <code>$PATH</code> is recommended.</p>
+<p>Make sure it works with:</p>
+<pre><code>$ utk -h
+Usage: utk [flags] &lt;file name&gt; [0 or more operations]
+
+Operations:
+  cat                   : cat a file with a regexp that matches a GUID
+  comment               : Print one arg
+  count                 : count the number of each firmware type
+  dump                  : dump a firmware file
+  dxecleaner            : automates removal of UEFI drivers
+  dxecleaner_blacklist  : automates removal of UEFI drivers with a blacklist file
+  extract               : extract the files to a directory
+  find                  : find a file by GUID or Name
+  flatten               : prints a JSON list of nodes
+  insert_after          : insert a file after another file
+  insert_before         : insert a file before another file
+  insert_end            : insert a file at the end of a firmware volume
+  insert_front          : insert a file at the beginning of a firmware volume
+  json                  : produce JSON for the full firmware volume
+  remove                : remove a file from the volume
+  remove_pad            : remove a file from the volume and replace it with a pad file of the same size
+  repack                : repack a per file compressed fv to a nested compressed fv
+  replace_pe32          : replace a pe32 given a GUID and new file
+  save                  : assemble a firmware volume from a directory tree
+  table                 : print out important information in a pretty table
+  validate              : perform extra validation checks
+</code></pre>
+<p>Don't fret if your list of operations differs. UTK is an evolving project!</p>
+<h2 id="inspecting-roms"><a class="header" href="#inspecting-roms">Inspecting ROMs</a></h2>
+<p>Throughout this section, we'll demonstrate commands for inspecting a UEFI image. When confronted with a new image, run these commands to get a "lay of the land".</p>
+<p>Start by downloading the UEFI image used in these examples:</p>
+<pre><code>wget https://github.com/linuxboot/fiano/raw/master/integration/roms/OVMF.rom
+</code></pre>
+<p>Aside: alternatively, all UTK operations should work with your own UEFI images. Simply substitute "OVMF.rom" with your own UEFI image in all the examples below. If you encounter any problems, please file an issue at <a href="https://github.com/linuxboot/fiano/issues">https://github.com/linuxboot/fiano/issues</a>.</p>
+<p>First, it is advisable to print a count of each firmware element:</p>
+<pre><code>$ utk OVMF.rom count
+{
+        "FirmwareTypeCount": {
+                "BIOSRegion": 1,
+                "File": 118,
+                "FirmwareVolume": 5,
+                "Section": 365
+        },
+        "FileTypeCount": {
+                "EFI_FV_FILETYPE_APPLICATION": 2,
+                "EFI_FV_FILETYPE_DRIVER": 94,
+                "EFI_FV_FILETYPE_DXE_CORE": 1,
+                "EFI_FV_FILETYPE_FFS_PAD": 7,
+                "EFI_FV_FILETYPE_FIRMWARE_VOLUME_IMAGE": 1,
+                "EFI_FV_FILETYPE_FREEFORM": 3,
+                "EFI_FV_FILETYPE_PEIM": 7,
+                "EFI_FV_FILETYPE_PEI_CORE": 1,
+                "EFI_FV_FILETYPE_RAW": 1,
+                "EFI_FV_FILETYPE_SECURITY_CORE": 1
+        },
+        "SectionTypeCount": {
+                "EFI_SECTION_DXE_DEPEX": 44,
+                "EFI_SECTION_FIRMWARE_VOLUME_IMAGE": 2,
+                "EFI_SECTION_GUID_DEFINED": 1,
+                "EFI_SECTION_PE32": 99,
+                "EFI_SECTION_RAW": 21,
+                "EFI_SECTION_USER_INTERFACE": 99,
+                "EFI_SECTION_VERSION": 99
+        }
+}
+</code></pre>
+<p>The definition of a "Firmware Element" is in order. Firmware images are hierarchical and can be represented as a tree. Each node in the tree is a "Firmware Element". Each element has a type such as "BIOSRegion", "FirmwareVolume", "File" and "Section" as seen above. Files (and sections) themselves have an additional type dictated by the UEFI spec. There are three major file types you should be aware of:</p>
+<ul>
+<li><code>EFI_FV_FILETYPE_DRIVER</code>: This is the most numerous file type and is often called a "DXE". They persist in memory even after their main function exits.</li>
+<li><code>EFI_FV_FILETYPE_APPLICATION</code>: Applications do not persist in memory after exiting. For example, the EFI Shell is an EFI Application.</li>
+<li><code>EFI_FV_FILETYPE_FIRMWARE_VOLUME_IMAGE</code>: These file types allow nesting firmware volumes. You will see this when an entire firmware volume is compressed.</li>
+</ul>
+<p>TODO: Diagram showing a tree of these firmware elements.</p>
+<p>To view a human-readable tree of all the firmware elements, types and sizes, run:</p>
+<pre><code>$ utk OVMF.rom table | less
+Node        GUID/Name                             Type                                   Size
+BIOS                                                                                     0x400000
+ FV         FFF12B8D-7696-4C8B-A985-2747075B4F50                                          0x84000
+  Free                                                                                        0x0
+ FV         8C8CE578-8A3D-4F1C-9935-896185C32DD3                                         0x348000
+  File      9E21FD93-9C72-4C15-8C4B-E77F1DB2D792  EFI_FV_FILETYPE_FIRMWARE_VOLUME_IMAGE  0x1256a7
+   Sec                                            EFI_SECTION_GUID_DEFINED               0x12568f
+    Sec                                           EFI_SECTION_RAW                            0x7c
+    Sec                                           EFI_SECTION_FIRMWARE_VOLUME_IMAGE       0xe0004
+     FV     8C8CE578-8A3D-4F1C-9935-896185C32DD3                                          0xe0000
+      File  1B45CC0A-156A-428A-AF62-49864DA0E6E6  EFI_FV_FILETYPE_FREEFORM                   0x2c
+       Sec                                        EFI_SECTION_RAW                            0x14
+      File  FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF  EFI_FV_FILETYPE_FFS_PAD                    0x40
+      File  52C05B14-0B98-496C-BC3B-04B50211D680  EFI_FV_FILETYPE_PEI_CORE                 0xc4fa
+       Sec                                        EFI_SECTION_RAW                            0x3c
+       Sec                                        EFI_SECTION_PE32                         0xc484
+       Sec  PeiCore                               EFI_SECTION_USER_INTERFACE                 0x14
+       Sec                                        EFI_SECTION_VERSION                         0xe
+...
+</code></pre>
+<p>This format is compact and easy for humans reading, but not ideal for machine consumption. Use the <code>json</code> command to print everything (including much more metadata) as JSON:</p>
+<pre><code>utk OVMF.rom json | less
+</code></pre>
+<p>Combine <code>utk</code> with the JSON query command, <code>jq</code> (<code>sudo apt-get install jq</code>), and other UNIX commands to quickly write powerful queries. For example, the following lists all the GUIDs, sorted and without duplicates:</p>
+<pre><code>$ utk OVMF.rom json | jq -r '..|.GUID?|select(type=="string")' | sort -u
+00000000-0000-0000-0000-000000000000
+0167CCC4-D0F7-4F21-A3EF-9E64B7CDCE8B
+0170F60C-1D40-4651-956D-F0BD9879D527
+021722D8-522B-4079-852A-FE44C2C13F49
+025BBFC7-E6A9-4B8B-82AD-6815A1AEAF4A
+...
+</code></pre>
+<p>To only print the JSON for specific files, use the find command:</p>
+<pre><code># The find command uses a regex to match on the name or GUID.
+# These three examples find and print the JSON for the same file:
+$ utk OVMF.rom find 'Sh.*'
+$ utk OVMF.rom find 'Shell'
+$ utk OVMF.rom find 7C04A583-9E3E-4F1C-AD65-E05268D0B4D1
+{
+        "Header": {
+                "UUID": {
+                        "UUID": "7C04A583-9E3E-4F1C-AD65-E05268D0B4D1"
+                },
+                "Type": 9,
+                "Attributes": 0
+        },
+        "Type": "EFI_FV_FILETYPE_APPLICATION",
+        "Sections": [
+                {
+                        "Header": {
+                                "Type": 21
+                        },
+                        "Type": "EFI_SECTION_USER_INTERFACE",
+                        "ExtractPath": "",
+                        "Name": "Shell"
+                },
+                ...
+        ],
+        "ExtractPath": "",
+        "DataOffset": 24
+}
+</code></pre>
+<p>Note that UEFI uses GUIDs to identify files. Some files also have a name which is stored within the file's UI section. Like <code>find</code>, most of UTKs commands let you match a file by its name or GUID.</p>
+<p>The examples up until now have only dealt with file metadata and not the file's contents. The <code>extract &lt;DIR&gt;</code> command extracts all the files from the image and saves them to <code>&lt;DIR&gt;</code>. <code>&lt;DIR&gt;/summary.json</code> lists all the paths to the extracted files along with their metadata.</p>
+<pre><code>utk OVMF.rom extract OVMF/
+</code></pre>
+<p>After modifying the files, they can be reassembled with:</p>
+<pre><code>utk OVMF/ save OVMF2.rom
+</code></pre>
+<h2 id="modifying-roms"><a class="header" href="#modifying-roms">Modifying ROMs</a></h2>
+<p>First, let's verify the image works by running it inside QEMU. This step is not absolutely necessary, but gives us confidence the image works before and after each change we make.</p>
+<pre><code>qemu-system-x86_64 -bios OVMF.rom -nographic -net none
+</code></pre>
+<p>For the provided OVMF.rom image, this should boot to the EDK2 shell.</p>
+<p>TODO: include screenshot of the EDK2 shell</p>
+<p>Multiple commands can be used together to form a pipeline. The first argument always loads the image into memory and the last argument typically writes the output. The commands in between operate on the image in memory and are reminiscent of a UNIX pipeline. The general syntax is:</p>
+<pre><code>utk &lt;IMAGE or DIR&gt;                 \
+  &lt;COMMAND0&gt; &lt;ARG0_0&gt; &lt;ARG0_1&gt; ... \
+  &lt;COMMAND1&gt; &lt;ARG1_0&gt; &lt;ARG1_1&gt; ... \
+  ...
+</code></pre>
+<p>To see the pipeline in action, we introduce two new commands:</p>
+<ul>
+<li><code>remove &lt;file GUID or NAME regex&gt;</code>: Remove a file from a firmware volume. The search has the same semantics as <code>find</code>.</li>
+<li><code>replace_pe32 &lt;file GUID or NAME regex&gt; &lt;FILE&gt;</code>: Replace the pe32 section of a file with the given file. The search has the same semantics as <code>find</code>. The file must be a valid pe32 binary.</li>
+<li><code>save &lt;FILE&gt;</code>: Save the firmware image to the given file. Usually, this is the last command in a pipeline.</li>
+</ul>
+<p>The following pipeline removes some unnecessary drivers (anything that starts with Usb and the Legacy8259 driver which has the GUID 79ca4208-bba1-4a9a-8456-e1e66a81484e) and replaces the Shell with Linux. Often you need to remove drivers to make room for Linux which makes the pipeline convenient. This is the essence of LinuxBoot:</p>
+<pre><code>$ stat linux.efi
+linux.efi: Linux kernel x86 boot executable bzImage, version 4.17.0
+$ utk OVMF.rom \
+  remove 'Usb.*' \
+  remove 79ca4208-bba1-4a9a-8456-e1e66a81484e \
+  replace_pe32 Shell linux.efi \
+  save OVMF2.rom
+</code></pre>
+<p>That's all there to it! Try experimenting with the other commands such as insert.</p>
+<h2 id="common-pitfalls"><a class="header" href="#common-pitfalls">Common Pitfalls</a></h2>
+<h3 id="kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode"><a class="header" href="#kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode">Kernel is not built as a DXE or has not enabled UEFI stub mode</a></h3>
+<p>In order to be properly bootable as a DXE, kernels must have the following enabled:</p>
+<pre><code>CONFIG_EFI=y
+CONFIG_EFI_STUB=y
+</code></pre>
+<h3 id="files-are-missing-from-the-firmware-volume"><a class="header" href="#files-are-missing-from-the-firmware-volume">Files are missing from the Firmware Volume</a></h3>
+<p>When UTK does not recognize the compression format used by the particular image, the files within it are not listed.</p>
+<p>In the wild, three compression schemes are common:</p>
+<div class="table-wrapper"><table><thead><tr><th>Compression</th><th>GUID</th><th>UTK Support</th></tr></thead><tbody>
+<tr><td>Uncompressed</td><td></td><td>Fully supported</td></tr>
+<tr><td>LZMA</td><td>EE4E5898-3914-4259-9D6E-DC7BD79403CF</td><td>Fully supported</td></tr>
+<tr><td>LZMA + x86</td><td>D42AE6BD-1352-4BFB-909A-CA72A6EAE889</td><td>Supported, but not tested</td></tr>
+<tr><td>Tianocore</td><td>A31280AD-481E-41B6-95E8-127F4C984779</td><td>Not supported, see <a href="https://github.com/linuxboot/fiano/issues/226">#226</a></td></tr>
+</tbody></table>
+</div>
+<p>To determine which compression scheme you are using, search for the respective GUID in the json summary.</p>
+<h3 id="file-size-too-big"><a class="header" href="#file-size-too-big">File size too big</a></h3>
+<pre><code>File size too big! File with GUID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX has length 543210, but is only 123450 bytes big
+</code></pre>
+<p>When saving a UEFI image, files are added successively to each firmware volume. The first file which overflows the volume's size causes this error.</p>
+<p>If you were inserting files, you will need to delete existing files to make room.</p>
+<p>There is a special cases where this error is generated without any operations:</p>
+<pre><code>utk OVMF.rom save OVMF2.rom
+</code></pre>
+<p>How can this be? No changes should be made to the image!</p>
+<p>Not quite (and the complete list of differences can be found in the "binary equality section") -- compressed volumes are recompressed.</p>
+<p>By default, UTK uses the Go compressor, which is generally worse than the compression found in most UEFI images. Pass <code>--systemXZ=xz</code> as the first argument to UTK to use a better compressor.</p>
+<h3 id="todo-for-everything-after-this-point-arbitrary-data-before-or-after-the-image"><a class="header" href="#todo-for-everything-after-this-point-arbitrary-data-before-or-after-the-image">(TODO for everything after this point) Arbitrary data before or after the image</a></h3>
+<p>Find a general solution which works for all images is a topic of research: <a href="https://github.com/linuxboot/fiano/issues/200">#200</a>.</p>
+<h3 id="hard-coded-addresses"><a class="header" href="#hard-coded-addresses">Hard-coded addresses</a></h3>
+<h3 id="binary-equality"><a class="header" href="#binary-equality">Binary equality</a></h3>
+<p>TODO</p>
+<h2 id="extending-utk"><a class="header" href="#extending-utk">Extending UTK</a></h2>
+<p>Visitor pattern means decoupling the structure from the operations.</p>
+<ul>
+<li>pkg/uefi: structure</li>
+<li>pkg/visitors: operations</li>
+</ul>
+<p>Good resources:</p>
+<ol>
+<li>https://sourcemaking.com/design_patterns/visitor</li>
+<li>https://en.wikipedia.org/wiki/Visitor_pattern</li>
+</ol>
+<p>A good visitor still works when new Firmware are introduced. A good Firmware still works when a new visitor is introduced.</p>
+<h3 id="ast"><a class="header" href="#ast">AST</a></h3>
+<p>Abstract Syntax Tree -- this is a concept borrowed from compilers. When you're extracting the DXE to create a tree of structs containing a simplified model, you're essentially creating an AST. Then think about how patterns used in compiler architecture might apply to UTK.</p>
+<h3 id="visitor-interface"><a class="header" href="#visitor-interface">Visitor Interface</a></h3>
+<p>Each visitor implements the following:</p>
+<pre><code class="language-go">type Visitor interface {
+    VisitFV(*FV) error
+    VisitFile(*File) error
+    VisitSection(*FileSection) error
+    // ...
+}
+</code></pre>
+<p>Think of a visitor as an "action" or a "transformation" being applied on the AST.</p>
+<h3 id="visitor"><a class="header" href="#visitor">Visitor</a></h3>
+<p>A struct implementing Visitor performs a transformation on the AST, for example:</p>
+<pre><code class="language-go">type RenameDXE struct {
+    before, after string
+}
+func (v *RenameDXE) VisitFV(fv *FV) error {
+    // Recursively apply on files in the FV.
+    for i := range fv.Files {
+        fv.Files[i].Apply(v)
+    }
+    return nil
+}
+func (v *RenameDXE) VisitFile(f *File) error {
+    if f.Type == FILETYPE_DXE &amp;&amp; f.Name == v.before {
+        f.Name = after
+    }
+    return nil
+}
+func (v *RenameDXE) VisitSection(s *FileSection) error {
+    return nil
+}
+</code></pre>
+<p>You can imagine visitors being implemented for other actions, such as:</p>
+<ul>
+<li>Remove a DXE with the given GUID from the AST</li>
+<li>Replace a GUID with a file</li>
+<li>Validate that all the nodes in the tree are valid</li>
+<li>Find compressed files in the tree and decompress them</li>
+<li>Assemble the AST back into an image.</li>
+<li>Recursively write the AST to the filesystem (what you currently do with extract)</li>
+<li>Print an overview of the files to the terminal for debugging</li>
+<li>...</li>
+</ul>
+<p>It is easy to add more visitors without modifying existing code. Each action can be in a separate file.</p>
+<h3 id="applying"><a class="header" href="#applying">Applying</a></h3>
+<p>Visitors are applied to the AST. Each node in the AST has an "Apply" method, for example:</p>
+<pre><code class="language-go">func (f *File) Apply(v *visitor) error {
+    return v.VisitFile(f)
+}
+</code></pre>
+<p>This is so the visitors can be applied recursively over the AST.</p>
+<p>To apply the above RenameDXE visitor, you'd run:</p>
+<pre><code class="language-go">v := &amp;RenameDXE{"Shell", "NotShell"}
+fv.Apply(v)
+</code></pre>
+<h3 id="chaining-visitors-together"><a class="header" href="#chaining-visitors-together">Chaining Visitors Together</a></h3>
+<p>It would be exciting/useful to be able to chain these small actions together through the command line. For example:</p>
+<pre><code>utk extract bios.rom \
+    remove a2dad2a-adadad-a2d2-ad23a3 \
+    remove 9d8cd98-d9c8d9-d9c8-9d8c8c \
+    replaceDXEWithFile bab8a98-a9ba89a-9aba-a98a9 linux.efi \
+    validate \
+    save new_bios.rom
+</code></pre>
+<p>Again, it is easy to write new actions in Go which modify nodes in the AST. Create a new file, new struct, and implement the visitFV/visitFile/visitSection methods to modify the AST.</p>
+<p>TODO: reference the UEFI spec.</p>
+<p>TODO: mention alternatives</p>
+<ul>
+<li>binwalk</li>
+<li>fresh0r/romdump</li>
+<li>UEFITool</li>
+<li>uefi-firmware-parser</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../utilities/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../utilities/cpu.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../utilities/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../utilities/cpu.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+        <script src="../theme/js/language-picker.js"></script>
+
+
+    </div>
+    </body>
+</html>
