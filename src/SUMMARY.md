@@ -8,6 +8,7 @@
   - [ODROID](odroid.md)
 - [All about u-root](u-root.md)
   - [u-root demo with QEMU](u-root-qemu-demo.md)
+  - [Benefits of using Go](u-root-golang.md)
 - [LinuxBoot utilities](utilities/index.md)
   - [UEFI Tool Kit](utilities/UEFI_Tool_Kit.md)
   - [The magical cpu command](utilities/cpu.md)
