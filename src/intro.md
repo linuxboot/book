@@ -46,8 +46,7 @@ are no longer maintained:
 These projects all attempt to reduce the role of firmware to a small,
 fixed-function core whose only purpose is to get a flash-based Linux kernel
 started. This “bare essentials” firmware prepares the hardware and starts a
-Linux kernel and a user-space environment will run on the machine. Go is the
-recommended user-space environment, but is not required.
+Linux kernel and a user-space environment will run on the machine.
 
 ## Why LinuxBoot is needed
 
