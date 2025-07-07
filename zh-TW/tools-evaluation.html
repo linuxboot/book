@@ -194,6 +194,21 @@
 <tr><td><a href="https://github.com/im-0/kexlinux">kexlinux</a></td><td>Rust</td><td>LGPL-3.0+</td><td>?</td></tr>
 </tbody></table>
 </div>
+<h2 id="boot-configuration-and-menus"><a class="header" href="#boot-configuration-and-menus">Boot configuration and menus</a></h2>
+<p>There are multiple approaches to configuration and defining menus. Some boot loaders are using combined configuration files that have both, the options for the boot loader's appearance and behavior as well as the entries shown in the boot menu. For each of them, the boot loader itself will need a parser. At the same time, they are commonly managed from outside the boot loader itself. Note that those are design decisions and you may choose a different approach. The following subsections focus on the entries for booting operating systems.</p>
+<h3 id="syslinux"><a class="header" href="#syslinux">SYSLINUX</a></h3>
+<p><a href="https://wiki.syslinux.org/wiki/index.php?title=SYSLINUX#How_do_I_Configure_SYSLINUX.3F">Configuring SYSLINUX</a> is rather simple. A minimal entry only has a label and a path to a kernel image.</p>
+<h3 id="grub"><a class="header" href="#grub">GRUB</a></h3>
+<p>GRUB is very flexible and widely used in operating systems distributions, coming with its own tools to manage the <a href="https://www.gnu.org/software/grub/manual/grub/html_node/Simple-configuration.html">configuration file</a>.</p>
+<h3 id="bls"><a class="header" href="#bls">BLS</a></h3>
+<p>The <a href="https://uapi-group.org/specifications/specs/boot_loader_specification/">Boot Loader Specification (BLS)</a> is a fresh approach to boot configuration. Type 1 BLS entries are defined via separate files in a drop-in directory. There are multiple libraries to handle them.</p>
+<div class="table-wrapper"><table><thead><tr><th>library</th><th>language</th><th>license</th><th>usage</th></tr></thead><tbody>
+<tr><td>u-root <a href="https://github.com/u-root/u-root/tree/main/pkg/boot/bls"><code>pkg/boot/bls</code></a></td><td>Go</td><td>BSD 3-Clause</td><td></td></tr>
+<tr><td><a href="https://www.freedesktop.org/software/systemd/man/latest/bootctl.html"><code>bootctl</code></a></td><td>C</td><td>LGPL-2.1+</td><td>systemd</td></tr>
+<tr><td><a href="https://docs.rs/boot-loader-spec/latest/boot_loader_spec/"><code>boot_loader_spec</code> crate</a></td><td>Rust</td><td>MPL-2.0</td><td>?</td></tr>
+<tr><td><a href="https://github.com/AerynOS/blsforme">blsforme</a></td><td>Rust</td><td>MPL-2.0</td><td>standalone</td></tr>
+</tbody></table>
+</div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
