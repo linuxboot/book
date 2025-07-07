@@ -1,12 +1,12 @@
-# LinuxBoot Introduction
+# Introduction
 
 This is the official “LinuxBoot Book” for the LinuxBoot project. The book:
 
-* Describes the LinuxBoot project
-* Explains why you would want to use LinuxBoot
-* Describes the components that comprise LinuxBoot
-* Highlights the differences between other boot processes and LinuxBoot
-* Guides you through the steps needed to implement LinuxBoot
+* Describes the LinuxBoot concept and various implementations
+* Explains why you would want to use a LinuxBoot boot loader
+* Describes the components that can comprise a LinuxBoot boot loader and how to
+  combine them
+* Highlights the differences between LinuxBoot and other designs
 
 ## What is LinuxBoot?
 
