@@ -163,14 +163,13 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="linuxboot介紹"><a class="header" href="#linuxboot介紹">LinuxBoot介紹</a></h1>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <p>這是 LinuxBoot 專案的官方「LinuxBoot 書籍」。這本書：</p>
 <ul>
-<li>描述 LinuxBoot 項目</li>
-<li>解釋為什麼要使用 LinuxBoot</li>
-<li>描述組成 LinuxBoot 的元件</li>
-<li>說明其他啟動系統（如 UEFI）與 LinuxBoot 的差異</li>
-<li>指導您完成實作 LinuxBoot 所需的步驟</li>
+<li>Describes the LinuxBoot concept and various implementations</li>
+<li>Explains why you would want to use a LinuxBoot boot loader</li>
+<li>Describes the components that can comprise a LinuxBoot boot loader and how to combine them</li>
+<li>Highlights the differences between LinuxBoot and other designs</li>
 </ul>
 <h2 id="什麼是-linuxboot"><a class="header" href="#什麼是-linuxboot">什麼是 LinuxBoot？</a></h2>
 <p>LinuxBoot 的想法是用 Linux 核心和基於社群的用戶空間（user-space） 取代專有或企業主導的後期啟動<a href="./glossary.html">韌體</a>。這個想法逐漸發展成為一個項目，多年來包括各種舉措，其總體目標是從晦澀複雜的韌體轉變為更簡單和開源的韌體。</p>
@@ -188,7 +187,7 @@
 <li>Alpha 版 MILO 於 2000 年之前就已啟動（請參閱<a href="https://tldp.org/HOWTO/MILO-HOWTO/what-section.html">什麼是 MILO？</a>）</li>
 <li>kboot 由 Werner Almesberger 於 2005 年開發</li>
 </ul>
-<p>這些專案都試圖將韌體的角色簡化為一個小型、固定功能的核心，其唯一目的是啟動一個儲存在快閃記憶體（flash）中的 Linux 核心（Linux kernel）。這個「最低必要」（bare essentials）的韌體會負責初始化硬體，接著啟動 Linux 核心，並讓使用者空間環境（user-space environment）在機器上運行。Go 是建議使用的使用者空間環境，但並非必須。</p>
+<p>These projects all attempt to reduce the role of firmware to a small, fixed-function core whose only purpose is to get a flash-based Linux kernel started. This “bare essentials” firmware prepares the hardware and starts a Linux kernel and a user-space environment will run on the machine.</p>
 <h2 id="為什麼需要-linuxboot"><a class="header" href="#為什麼需要-linuxboot">為什麼需要 LinuxBoot</a></h2>
 <p>有時候，韌體會包含驅動程式和工具程式（utilities）。這些元件可能存在漏洞，或是已無人維護，進而成為問題或資安風險的來源。LinuxBoot 以 Linux 驅動程式取代了供應商提供的專有閉源韌體驅動（proprietary, closed-source firmware drivers），讓開發 Linux 驅動與韌體驅動的工程師能專注於同一套驅動程式。如此一來，這些驅動程式將擁有更多的貢獻者 (contributors) 與審閱者（reviewers），又因為它們是 Linux 的一部分，能夠運用業界標準的開發流程與工具（standard industry coding infrastructure）來持續改善。最終，由於這些 Linux 驅動目前已在大量系統上長時間穩定運作（run around the clock at scale），其錯誤率也會相對較低。</p>
 <h2 id="linuxboot-的功能"><a class="header" href="#linuxboot-的功能">LinuxBoot 的功能</a></h2>
@@ -196,12 +195,6 @@
 <p>LinuxBoot 將 Linux 核心（Linux kernel）作為快閃記憶體（flash ROM）中的驅動程式執行環境（Driver Execution Environment, DXE）啟動，而非傳統的 UEFI shell。接著，Linux 核心可透過隨附的基於 Go 的使用者空間（user-space）來載入運行時核心（runtime kernel）。LinuxBoot 的架構（paradigm）使得傳統的韌體應用程式（例如開機載入器、偵錯工具、診斷與錯誤偵測應用程式）能夠以跨架構、跨平台的可攜式 Linux 應用程式形式實作。</p>
 <p>當 Linux 啟動時，它需要一個包含工具程式（utilities）的根檔案系統（root file system）。LinuxBoot 使用的其中一種根檔案系統是基於使用 Go 語言編寫的 u-root 標準工具程式（standard utilities）。下圖顯示了目前 UEFI 啟動過程的狀況，以及計畫中的 LinuxBoot 過渡流程。</p>
 <p><a href="./images/UEFI-versus-LinuxBoot.svg"><img src="./images/UEFI-versus-LinuxBoot.svg" alt="comparison of UEFI boot and LinuxBoot" /></a></p>
-<h2 id="使用-go-使用者空間user-space環境和編譯器的好處"><a class="header" href="#使用-go-使用者空間user-space環境和編譯器的好處">使用 Go 使用者空間(user-space)環境和編譯器的好處</a></h2>
-<p>Go 是由 Google 創建的系統程式語言。Go 具有強類型（strong typing）、語言級別的並發支援（concurrency support）、透過通道（channels）進行進程間通訊（inter-process communication）、運行時類型安全性（runtime type safety）和其他保護措施、動態分配（dynamic allocation）和垃圾收集（garbage collection）以及閉包（closures）。Go 具有與 Java 類似的套件名稱符號（package name notation），使得可以清楚地確定給定程式需要哪些套件（packages）。</p>
-<p>現代語言結構使 Go 成為比 C 更安全的語言。這種安全性對於網路連接的嵌入式系統至關重要，這些系統通常擁有用 C 編寫的網路工具程式，包括網頁伺服器、包含 sshd 的網路伺服器（network servers），以及提供命令解釋器存取的程式（本身以 C 編寫）。所有這些都證明容易受到互聯網成為攻擊頻繁環境的威脅。</p>
-<p>即使是最熟練的程式設計師也會犯下 C 語言中無法恢復的錯誤，尤其是在網路連線系統上。目前，即使我們個人電腦、印表機和恆溫器中最低等級的韌體也是連網的。這些程式錯誤要麼在 Go 中不可能犯，要麼如果犯了，則會在運行時檢測到並導致程式退出。</p>
-<p>在低階嵌入式韌體中使用像 Go 這樣的高級安全語言的理由，可能比用戶程式更為充分，因為在韌體層級的漏洞幾乎不可能被檢測和緩解。</p>
-<p>在韌體等儲存受限的環境中使用 Go 的挑戰在於，高階語言特性會導致二進位檔案過大。即使是簡單的日期程式也約有 2 MiB。一個實現單一功能的 Go 二進位檔案大小是實現多個功能的 BusyBox 二進位檔案的兩倍。當前，典型的 BIOS 快閃記憶體（FLASH）大小為 16 MiB。將多個 Go 二進位檔案裝入單一 BIOS 快閃記憶體區塊是不切實際的。Go 編譯器速度非常快，且其速度顯示了只有在使用程式時進行編譯的解決方案。透過這種方式，您可以建立一個幾乎不含二進位檔案（除了 Go 編譯器本身）的根檔案系統。編譯後的程式和套件可儲存到基於 RAM 的檔案系統中。另一個解決方案是將所有程式編譯成一個 BusyBox 風格的程式。或者，程式可以透過網路獲取，但動態編譯 Go 或創建 BusyBox 程式是建議的解決方案。</p>
 <h2 id="在-uefi-伺服器上使用-linuxboot-的好處"><a class="header" href="#在-uefi-伺服器上使用-linuxboot-的好處">在 UEFI 伺服器上使用 LinuxBoot 的好處</a></h2>
 <p>大多數伺服器韌體基於 Intel 的通用可擴展韌體介面 (UEFI)。與 UEFI 相比，LinuxBoot 具有以下優點：</p>
 <p>可靠性</p>

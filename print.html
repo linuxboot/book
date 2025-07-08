@@ -164,14 +164,14 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="linuxboot-introduction"><a class="header" href="#linuxboot-introduction">LinuxBoot Introduction</a></h1>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <p>This is the official “LinuxBoot Book” for the LinuxBoot project. The book:</p>
 <ul>
-<li>Describes the LinuxBoot project</li>
-<li>Explains why you would want to use LinuxBoot</li>
-<li>Describes the components that comprise LinuxBoot</li>
-<li>Highlights the differences between other boot processes and LinuxBoot</li>
-<li>Guides you through the steps needed to implement LinuxBoot</li>
+<li>Describes the LinuxBoot concept and various implementations</li>
+<li>Explains why you would want to use a LinuxBoot boot loader</li>
+<li>Describes the components that can comprise a LinuxBoot boot loader and how to
+combine them</li>
+<li>Highlights the differences between LinuxBoot and other designs</li>
 </ul>
 <h2 id="what-is-linuxboot"><a class="header" href="#what-is-linuxboot">What is LinuxBoot?</a></h2>
 <p>LinuxBoot is the idea of replacing proprietary or corporate-driven late-stage
@@ -207,8 +207,7 @@ MILO?</a>)</li>
 <p>These projects all attempt to reduce the role of firmware to a small,
 fixed-function core whose only purpose is to get a flash-based Linux kernel
 started. This “bare essentials” firmware prepares the hardware and starts a
-Linux kernel and a user-space environment will run on the machine. Go is the
-recommended user-space environment, but is not required.</p>
+Linux kernel and a user-space environment will run on the machine.</p>
 <h2 id="why-linuxboot-is-needed"><a class="header" href="#why-linuxboot-is-needed">Why LinuxBoot is needed</a></h2>
 <p>Sometimes firmware contains drivers and utilities. They can have bugs, or be
 unmaintained, which can be a source of problems and security issues. LinuxBoot
@@ -234,39 +233,6 @@ filesystem used for LinuxBoot is based on u-root standard utilities written in
 Go. The following diagram shows the current state of the UEFI boot process and
 what is planned for the transition to LinuxBoot.</p>
 <p><a href="./images/UEFI-versus-LinuxBoot.svg"><img src="./images/UEFI-versus-LinuxBoot.svg" alt="comparison of UEFI boot and LinuxBoot" /></a></p>
-<h2 id="benefits-of-using-the-go-user-space-environment-and-compiler"><a class="header" href="#benefits-of-using-the-go-user-space-environment-and-compiler">Benefits of using the Go user-space environment and compiler</a></h2>
-<p>Go is a systems programming language created by Google. Go has strong typing,
-language level support for concurrency, inter-process communication via
-channels, runtime type safety and other protective measures, dynamic allocation
-and garbage collection, and closures. Go has a package name notation similar to
-Java that makes it clear to determine what packages a given program needs.</p>
-<p>The modern language constructs make Go a much safer language than C. This
-safety is critical for network-attached embedded systems, which usually have
-network utilities written in C, including web servers, network servers
-including <code>sshd</code>, and programs that provide access to a command interpreter,
-itself written in C. All are proving to be vulnerable to the attack-rich
-environment that the Internet has become.</p>
-<p>Even the most skilled programmers can make mistakes that in C can be
-unrecoverable, especially on network connected systems. Currently, even the
-lowest-level firmware in our PCs, printers, and thermostats is
-network-connected. These programming mistakes are either impossible to make in
-Go or, if made, are detected at runtime and result in the program exiting.</p>
-<p>The case for using a high-level, safe language like Go in low level embedded
-firmware might be stronger than for user programs, because exploits at the
-firmware level are nearly impossible to detect and mitigate.</p>
-<p>The challenge to using Go in a storage-constrained environment such as firmware
-is that advanced language features lead to big binaries. Even a date program is
-about 2 MiB. One Go binary, implementing one function, is twice as large as a
-BusyBox binary implementing many functions. Currently, a typical BIOS FLASH
-part is 16 MiB. Fitting many Go binaries into a single BIOS flash part is not
-practical. The Go compiler is fast and its sheer speed suggests a solution
-of having programs compiled only when they are used. With this approach, you
-can build a root file system that has almost no binaries except the Go compiler
-itself. The compiled programs and packages can be saved to a RAM-based file
-system. Another solution is to compile everything together into one
-BusyBox-style program. Alternatively, programs can be fetched over the network,
-but compiling dynamically with Go or creating a BusyBox program are the
-recommended solutions.</p>
 <h2 id="benefits-of-linuxboot-with-uefi-servers"><a class="header" href="#benefits-of-linuxboot-with-uefi-servers">Benefits of LinuxBoot with UEFI servers</a></h2>
 <p>Most server firmware is based on Intel’s Universal Extensible Firmware
 Interface (UEFI). LinuxBoot provides the following benefits over UEFI:</p>
@@ -1278,6 +1244,39 @@ Linux
 [   14.442914] reboot: Power down
 </code></pre>
 <p>You have just run your first LinuxBoot kernel.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="benefits-of-using-the-go-user-space-environment-and-compiler"><a class="header" href="#benefits-of-using-the-go-user-space-environment-and-compiler">Benefits of using the Go user-space environment and compiler</a></h1>
+<p>Go is a systems programming language created by Google. Go has strong typing,
+language level support for concurrency, inter-process communication via
+channels, runtime type safety and other protective measures, dynamic allocation
+and garbage collection, and closures. Go has a package name notation similar to
+Java that makes it clear to determine what packages a given program needs.</p>
+<p>The modern language constructs make Go a much safer language than C. This
+safety is critical for network-attached embedded systems, which usually have
+network utilities written in C, including web servers, network servers
+including <code>sshd</code>, and programs that provide access to a command interpreter,
+itself written in C. All are proving to be vulnerable to the attack-rich
+environment that the Internet has become.</p>
+<p>Even the most skilled programmers can make mistakes that in C can be
+unrecoverable, especially on network connected systems. Currently, even the
+lowest-level firmware in our PCs, printers, and thermostats is
+network-connected. These programming mistakes are either impossible to make in
+Go or, if made, are detected at runtime and result in the program exiting.</p>
+<p>The case for using a high-level, safe language like Go in low level embedded
+firmware might be stronger than for user programs, because exploits at the
+firmware level are nearly impossible to detect and mitigate.</p>
+<p>The challenge to using Go in a storage-constrained environment such as firmware
+is that advanced language features lead to big binaries. Even a date program is
+about 2 MiB. One Go binary, implementing one function, is twice as large as a
+BusyBox binary implementing many functions. Currently, a typical BIOS FLASH
+part is 16 MiB. Fitting many Go binaries into a single BIOS flash part is not
+practical. The Go compiler is fast and its sheer speed suggests a solution
+of having programs compiled only when they are used. With this approach, you
+can build a root file system that has almost no binaries except the Go compiler
+itself. The compiled programs and packages can be saved to a RAM-based file
+system. Another solution is to compile everything together into one
+BusyBox-style program. Alternatively, programs can be fetched over the network,
+but compiling dynamically with Go or creating a BusyBox program are the
+recommended solutions.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="linuxboot-utilities"><a class="header" href="#linuxboot-utilities">LinuxBoot Utilities</a></h1>
 <p>In order to bootstrap, build and maintain LinuxBoot projects, we provide a
 handful of utilities for extracting, reducing, reworking, and stitching firmware
