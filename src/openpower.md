@@ -21,5 +21,8 @@ kernel configuration, `skiroot_defconfig`.[^1]
 
 - [coreboot and Heads as an alternative firmware for OpenPOWER Talos
   II](https://openpower.foundation/blog/coreboot-on-talos2/)
+- [What does the ideal open source runtime BIOS interface look
+  like?](https://youtu.be/AHSzvCZSoMs?si=i489dT8YjjTkJvRM) by Nicholas Piggin
+  (IBM) At Everything Open 2024 in Australia about runtime firmware
 
 [^1]: <https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig>
