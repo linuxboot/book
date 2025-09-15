@@ -4,6 +4,7 @@
 
 | Date | Presenter | Title | Conference |
 |------|-----------|-------|------------|
+| 2016-08-26 | Eric Richter | [(Ab)using Linux as a Trusted Bootloader](https://www.youtube.com/watch?v=-cj2JDu_Ac4) ([slides](http://events17.linuxfoundation.org/sites/events/files/slides/LSS-2016-richter.pdf)) | [LSS 2016](http://events17.linuxfoundation.org/events/archive/2016/linux-security-summit-north-america) |
 | 2016‑12‑27 | Trammell Hudson | [Bootstraping a slightly more secure laptop](https://trmm.net/Heads_33c3) | 33C3 |
 | 2017‑10‑27 | Ron Minnich | Replace your exploit-ridden firmware with a Linux kernel ([YouTube](https://www.youtube.com/watch?v=iffTJ1vPCSo), [slides](https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf)) | OSSEU17 |
 | 2017‑12‑29 | Trammell Hudson | [Bringing Linux back to the server BIOS with LinuxBoot](https://trmm.net/LinuxBoot_34c3) | 34C3 |
