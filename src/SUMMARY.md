@@ -14,6 +14,7 @@
   - [The magical cpu command](utilities/cpu.md)
   - [Device Under Test](utilities/dut.md)
 - [Implementing LinuxBoot](implementation.md)
+  - [Retrofit LinuxBoot into UEFI Platform Initialization](uefi-pi-retrofit.md)
   - [LinuxBoot using coreboot, u-root and systemboot](coreboot.u-root.systemboot/index.md)
 - [Glossary](glossary.md)
 - [History](history.md)
