@@ -9,6 +9,7 @@
 | 2017-12-29 | Trammell Hudson | [Bringing Linux back to the server BIOS with LinuxBoot](https://trmm.net/LinuxBoot_34c3) |
 | 2018-09-13 | Andrea Barberio, David Hendricks | [Open Source Firmware @ Facebook](https://www.osfc.io/2018/talks/open-source-firmware-facebook/) |
 | 2018-10-02 | Andrea Barberio, David Hendricks | [Turning Linux Engineers into Firmware Engineers](https://2018ocpregionalsummit.sched.com/event/F8ax/turning-linux-engineers-into-firmware-engineers) ([slides](https://insomniac.slackware.it/static/2018_ocp_regional_summit_linuxboot_at_facebook.pdf), [YouTube](https://www.youtube.com/watch?v=i84df1z6mdI)) |
+| 2021-06-09 | Lucas Käldström | [Exploring modern and secure operations of Kubernetes clusters on the Edge](https://speakerdeck.com/luxas/exploring-modern-and-secure-operations-of-kubernetes-clusters-on-the-edge) |
 | 2024-06-15 | Marta Lewandowska | [No more boot loader: Please use the kernel instead](https://pretalx.com/devconf-cz-2024/talk/W3AVCT/) |
 
 * [Make Your System Firmware Faster, More Flexible and Reliable with LinuxBoot](https://www.usenix.org/conference/lisa18/presentation/barberio)
