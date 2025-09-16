@@ -29,19 +29,19 @@ be used as a recovery environment.
 
 Many other implementations exist independently of the project:
 
-- [petitboot](https://github.com/open-power/petitboot) under the OpenPOWER
+* [petitboot](https://github.com/open-power/petitboot) under the OpenPOWER
   project originally targeting the PS3
-- [k-boot](https://github.com/BayLibre/k-boot) developed by BayLibre in 2023
+* [k-boot](https://github.com/BayLibre/k-boot) developed by BayLibre in 2023
   using BusyBox
-- [nmbl](https://github.com/rhboot/nmbl-poc) developed by RedHat in 2024
-- [ZFSBootMenu](https://docs.zfsbootmenu.org/en/latest)
+* [nmbl](https://github.com/rhboot/nmbl-poc) developed by RedHat in 2024
+* [ZFSBootMenu](https://docs.zfsbootmenu.org/en/latest)
 
 And there is a long history of similar implementations including projects that
 are no longer maintained:
 
-- MILO on Alpha started before 2000 (see [What is
+* MILO on Alpha started before 2000 (see [What is
   MILO?](https://tldp.org/HOWTO/MILO-HOWTO/what-section.html))
-- kboot developed by Werner Almesberger in 2005
+* kboot developed by Werner Almesberger in 2005
 
 These projects all attempt to reduce the role of firmware to a small,
 fixed-function core whose only purpose is to get a flash-based Linux kernel
@@ -91,8 +91,8 @@ Reliability
   hardened Linux drivers
 * Proven approach for almost 20 years in military, consumer electronics, and
   supercomputers – wherever reliability and performance are paramount
-* Fault Tolerance - Linux isolates processes** **(for example, when `pxeboot`
-  fails catastrophically, `diskboot` still works afterwards)
+* Fault Tolerance - Linux isolates processes. For example, when `pxeboot`
+  fails catastrophically, `diskboot` still works afterwards
 
 Security
 
