@@ -173,7 +173,7 @@
 combine them</li>
 <li>Highlights the differences between LinuxBoot and other designs</li>
 </ul>
-<h2 id="what-is-linuxboot"><a class="header" href="#what-is-linuxboot">What is LinuxBoot?</a></h2>
+<h2 id="concept-and-project-goals"><a class="header" href="#concept-and-project-goals">Concept and project goals</a></h2>
 <p>LinuxBoot is the idea of replacing proprietary or corporate-driven late-stage
 boot <a href="./glossary.html">firmware</a> with the Linux kernel and a community-based
 user-space. That idea grew into a project that over the years includes various
@@ -242,8 +242,8 @@ Interface (UEFI). LinuxBoot provides the following benefits over UEFI:</p>
 hardened Linux drivers</li>
 <li>Proven approach for almost 20 years in military, consumer electronics, and
 supercomputers – wherever reliability and performance are paramount</li>
-<li>Fault Tolerance - Linux isolates processes** **(for example, when <code>pxeboot</code>
-fails catastrophically, <code>diskboot</code> still works afterwards)</li>
+<li>Fault Tolerance - Linux isolates processes. For example, when <code>pxeboot</code>
+fails catastrophically, <code>diskboot</code> still works afterwards</li>
 </ul>
 <p>Security</p>
 <ul>
@@ -938,7 +938,7 @@ Go fragment to be built into the shell as a new command. Builtins are
 persistent; the builtin command instantiates a new shell with the new command
 built in. Scripts run via the script command are not persistent.</p>
 <p>A basic hello builtin can be defined on the command line:</p>
-<pre><code>builtin hello '{ fmt.Printf("Hello\n") }'
+<pre><code class="language-sh">builtin hello '{ fmt.Printf("Hello\n") }'
 </code></pre>
 <p>The fragment is defined by the {} pair. Given a fragment that starts with a {,
 the builtin command generates all the wrapper boiler plate needed. The builtin
@@ -970,7 +970,7 @@ Builtins are implemented in almost the same way. The builtin command takes the
 Go fragment and creates a standard shell builtin Go source file which conforms
 to the builtin pattern. This structure is easy to generate programmatically,
 building on the techniques used for the script command.</p>
-<pre><code>script{ fmt.Printf("%v\n", os.Environ()) }
+<pre><code class="language-sh">script{ fmt.Printf("%v\n", os.Environ()) }
 </code></pre>
 <p><strong>Figure 3</strong>: Go fragment for a printenv script. Code structure is inserted and
 packages are determined automatically.</p>
@@ -3458,14 +3458,6 @@ IRC channel, a mailing list and regular meetings.</p>
 <h3 id="professional-support"><a class="header" href="#professional-support">Professional support</a></h3>
 <p>Following companies provides professional support services:</p>
 <p>** TBD **</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="frequently-asked-questions"><a class="header" href="#frequently-asked-questions">Frequently asked questions</a></h1>
-<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
-<p><strong>Why does the u-root DHCP client take ages?</strong></p>
-<p>The problem is a lack of early entropy. If your platform has a hardware
-random number generator then enable it with <code>CONFIG_ARCH_RANDOM</code> and trust it
-with <code>CONFIG_RANDOM_TRUST_CPU</code>. Otherwise, add <code>uroot.nohwrng</code> to your kernel
-command line so u-root use a non-blocking random number generator
-implementation.</p>
 
                     </main>
 

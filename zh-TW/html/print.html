@@ -172,7 +172,7 @@
 <li>Describes the components that can comprise a LinuxBoot boot loader and how to combine them</li>
 <li>Highlights the differences between LinuxBoot and other designs</li>
 </ul>
-<h2 id="什麼是-linuxboot"><a class="header" href="#什麼是-linuxboot">什麼是 LinuxBoot？</a></h2>
+<h2 id="concept-and-project-goals"><a class="header" href="#concept-and-project-goals">Concept and project goals</a></h2>
 <p>LinuxBoot 的想法是用 Linux 核心和基於社群的用戶空間（user-space） 取代專有或企業主導的後期啟動<a href="./glossary.html">韌體</a>。這個想法逐漸發展成為一個項目，多年來包括各種舉措，其總體目標是從晦澀複雜的韌體轉變為更簡單和開源的韌體。</p>
 <p>The LinuxBoot project provides two reference implementations; <code>linuxboot</code> and Heads. The <a href="https://github.com/linuxboot/linuxboot"><code>linuxboot</code></a> build system outputs a boot payload consisting of a Linux kernel and an <a href="https://de.wikipedia.org/wiki/Initramfs">initramfs</a> that contains a minimal Go user-space built using <a href="https://github.com/u-root/u-root">u-root</a>.</p>
 <p>Heads 構建系統更側重於本地證明（local attestation）、TPM DUK 密封/解封（seal/unseal）操作、基於 GPG 的安全措施、可重現構建（reproducible builds），並使用 BusyBox 提供更大的 Linux 工具套件，使其也可以用作修復環境（recovery environment）。</p>
@@ -202,7 +202,7 @@
 <ul>
 <li>透過使用強化的 Linux 驅動程式取代未經充分測試的韌體驅動程式來提高啟動可靠性</li>
 <li>近 20 年來，在軍事、消費性電子和超級電腦領域，可靠性和性能至關重要的領域，該實踐方法已得到驗證</li>
-<li>容錯 - Linux 隔離程序** **（例如，當「pxeboot」發生災難性故障時，「diskboot」仍然可以運作）</li>
+<li>Fault Tolerance - Linux isolates processes. For example, when <code>pxeboot</code> fails catastrophically, <code>diskboot</code> still works afterwards</li>
 </ul>
 <p>安全性</p>
 <ul>
@@ -640,14 +640,14 @@ error {
 <h2 id="scripting-and-builtins"><a class="header" href="#scripting-and-builtins">Scripting and builtins</a></h2>
 <p>To support scripting and builtins, u-root provides two programs: script and builtin. The script program allows users to specify a Go fragment on the command line, and runs that fragment as a program. The builtin program allows a Go fragment to be built into the shell as a new command. Builtins are persistent; the builtin command instantiates a new shell with the new command built in. Scripts run via the script command are not persistent.</p>
 <p>A basic hello builtin can be defined on the command line:</p>
-<pre><code>builtin hello '{ fmt.Printf("Hello\n") }'
+<pre><code class="language-sh">builtin hello '{ fmt.Printf("Hello\n") }'
 </code></pre>
 <p>The fragment is defined by the {} pair. Given a fragment that starts with a {, the builtin command generates all the wrapper boiler plate needed. The builtin command is slightly different from the script command in that the Go fragment is bundled into one argument. The command accepts multiple pairs of command name and Go code fragments, allowing multiple new builtin commands to be installed in the shell.</p>
 <p>Builtin creates a new shell at <code>/bin/sh</code> with the source at <code>/src/cmds/sh/</code>. Invocations of <code>/bin/sh</code> by this shell and its children will use the new shell.</p>
 <p>Processes spawned by this new shell can access the new shell source and can run the builtin command again and create a shell that further extends the new shell. Processes outside the new shell’s process hierarchy can not use this new shell or the builtin source. When the new shell exits, the builtins are no longer visible in any part of the file system. We use Linux mount name spaces to create this effect[^22]. Once the builtin command has verified that the Go fragment is valid, it builds a new, private namespace with the shell source, including the new builtin source. From that point on, the new shell and its children will only use the new shell. The parent process and other processes outside the private namespace continue to use the old shell.</p>
 <p>Figure 3 below shows an example usage of the script command.</p>
 <p>This script implements printenv. Note that it is not a complete Go program in that it lacks a package statement, imports, a main function declaration, and a return at the end. All the boilerplate is added by the script command, which uses the Go imports package to scan the code and create the import statements required for compilation (in this case, both fmt and os packages are imported). Because the u-root shell is so simple, there is no need to escape many of these special characters. The complex parsing tasks have been offloaded to Go. Builtins are implemented in almost the same way. The builtin command takes the Go fragment and creates a standard shell builtin Go source file which conforms to the builtin pattern. This structure is easy to generate programmatically, building on the techniques used for the script command.</p>
-<pre><code>script{ fmt.Printf("%v\n", os.Environ()) }
+<pre><code class="language-sh">script{ fmt.Printf("%v\n", os.Environ()) }
 </code></pre>
 <p><strong>Figure 3</strong>: Go fragment for a printenv script. Code structure is inserted and packages are determined automatically.</p>
 <h2 id="environment-variables"><a class="header" href="#environment-variables">Environment variables</a></h2>
@@ -2153,10 +2153,6 @@ git am TiogaPass.patch
 <h3 id="professional-support"><a class="header" href="#professional-support">Professional support</a></h3>
 <p>Following companies provides professional support services:</p>
 <p>** TBD **</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="frequently-asked-questions"><a class="header" href="#frequently-asked-questions">Frequently asked questions</a></h1>
-<h2 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h2>
-<p><strong>Why does the u-root DHCP client take ages?</strong></p>
-<p>The problem is a lack of early entropy. If your platform has a hardware random number generator then enable it with <code>CONFIG_ARCH_RANDOM</code> and trust it with <code>CONFIG_RANDOM_TRUST_CPU</code>. Otherwise, add <code>uroot.nohwrng</code> to your kernel command line so u-root use a non-blocking random number generator implementation.</p>
 
                     </main>
 

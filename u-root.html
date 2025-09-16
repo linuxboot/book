@@ -517,7 +517,7 @@ Go fragment to be built into the shell as a new command. Builtins are
 persistent; the builtin command instantiates a new shell with the new command
 built in. Scripts run via the script command are not persistent.</p>
 <p>A basic hello builtin can be defined on the command line:</p>
-<pre><code>builtin hello '{ fmt.Printf("Hello\n") }'
+<pre><code class="language-sh">builtin hello '{ fmt.Printf("Hello\n") }'
 </code></pre>
 <p>The fragment is defined by the {} pair. Given a fragment that starts with a {,
 the builtin command generates all the wrapper boiler plate needed. The builtin
@@ -549,7 +549,7 @@ Builtins are implemented in almost the same way. The builtin command takes the
 Go fragment and creates a standard shell builtin Go source file which conforms
 to the builtin pattern. This structure is easy to generate programmatically,
 building on the techniques used for the script command.</p>
-<pre><code>script{ fmt.Printf("%v\n", os.Environ()) }
+<pre><code class="language-sh">script{ fmt.Printf("%v\n", os.Environ()) }
 </code></pre>
 <p><strong>Figure 3</strong>: Go fragment for a printenv script. Code structure is inserted and
 packages are determined automatically.</p>
