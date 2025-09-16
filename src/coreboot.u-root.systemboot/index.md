@@ -78,7 +78,7 @@ path with `-o`. Run `u-root -h` for additional command line parameters.
 Note: the above command will include only pure-Go commands from `u-root`. If
 you need to include other files or non-Go binaries, use the `-file` option in
 `u-root`.  For example, you may want to include static builds of `kexec` or
-`flashrom`, that we build on https://github.com/systemboot/binaries .
+`flashrom`, that we build on <https://github.com/systemboot/binaries> .
 
 Then, the initramfs has to be compressed. This step is necessary to embed the
 initramfs in the kernel as explained below, in order to maintain the image size
@@ -143,7 +143,7 @@ make tinyconfig
 ```
 
 Some more information about tiny configs can be found at
-https://tiny.wiki.kernel.org (last checked 2018-12-01).
+<https://tiny.wiki.kernel.org> (last checked 2018-12-01).
 
 ### A few fundamental features
 
@@ -184,7 +184,7 @@ In menuconfig:
   &rarr; `Enable eventpoll support`
 
 Additional information about Go's minimum requirements can be found at
-https://github.com/golang/go/wiki/MinimumRequirements (last checked
+<https://github.com/golang/go/wiki/MinimumRequirements> (last checked
 2018-12-01).
 
 ### Enable devtmpfs
@@ -302,7 +302,7 @@ The image will be located under `arch/${ARCH}/boot/bzImage` if your
 architecture supports bzImage (e.g. x86).
 
 For more details on how to build a kernel, see
-https://kernelnewbies.org/KernelBuild (last checked 2018-12-01).
+<https://kernelnewbies.org/KernelBuild> (last checked 2018-12-01).
 
 ## Building coreboot
 
