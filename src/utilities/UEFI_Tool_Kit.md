@@ -422,8 +422,8 @@ Visitor pattern means decoupling the structure from the operations.
 
 Good resources:
 
-1. https://sourcemaking.com/design_patterns/visitor
-2. https://en.wikipedia.org/wiki/Visitor_pattern
+1. <https://sourcemaking.com/design_patterns/visitor>
+2. <https://en.wikipedia.org/wiki/Visitor_pattern>
 
 A good visitor still works when new Firmware are introduced. A good Firmware
 still works when a new visitor is introduced.
