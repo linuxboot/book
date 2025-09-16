@@ -8,7 +8,7 @@ This is the official “LinuxBoot Book” for the LinuxBoot project. The book:
   combine them
 * Highlights the differences between LinuxBoot and other designs
 
-## What is LinuxBoot?
+## Concept and project goals
 
 LinuxBoot is the idea of replacing proprietary or corporate-driven late-stage
 boot [firmware](./glossary.md) with the Linux kernel and a community-based
