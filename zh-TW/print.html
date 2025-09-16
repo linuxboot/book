@@ -1360,6 +1360,7 @@ RPCSsh - start the sshd
 <p>Obviously, much more can be done. But this is a useful foundation on which to build DUT environments.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="實作-linuxboot"><a class="header" href="#實作-linuxboot">實作 LinuxBoot</a></h1>
 <p>The aim of LinuxBoot is to reduce complexity and obscure firmware by moving that functionality into kernel and user-space.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="retrofit-linuxboot-into-uefi-platform-initialization"><a class="header" href="#retrofit-linuxboot-into-uefi-platform-initialization">Retrofit LinuxBoot into UEFI Platform Initialization</a></h1>
 <p>This chapter describes the procedures from a <a href="https://docs.google.com/presentation/d/1s9ka4v7leKeJa3116AQoNb9cv3OqmnW6pgn0ov9WiHo/edit?ts=5e2b227b#slide=id.g7ceec54197_4_163">LinuxBoot workshop</a> where an Atomic Pi board with UEFI firmware was converted to run LinuxBoot. The build materials associated with this are found at <a href="https://github.com/linuxboot/mainboards/tree/master/digitalloggers/atomicpi">digitalloggers/atomicpi</a>.</p>
 <p>Read the below and consult the Makefile for the details of how it was implemented.</p>
 <h2 id="a-quick-refresher-on-uefi"><a class="header" href="#a-quick-refresher-on-uefi">A quick refresher on UEFI</a></h2>
@@ -1399,7 +1400,7 @@ RPCSsh - start the sshd
 <p><code>/usr/bin/python2 me_cleaner.py -s</code> <em>imagefile.bin</em></p>
 <p><code>me_cleaner</code> sets the high assurance platform (HAP) bit. HAP provides a way to disable a feature on Intel chips that does not allow us to modify the UEFI image and install LinuxBoot. Setting the bit with <code>me_cleaner</code> disables the "feature".  Note that this does not always work; check with the LinuxBoot community.</p>
 <p>When you run <code>me_cleaner</code>:</p>
-<pre><code>~/projects/linuxboot/me_cleaner/me_cleaner.py -s /tmp/rom.bin
+<pre><code class="language-sh">~/projects/linuxboot/me_cleaner/me_cleaner.py -s /tmp/rom.bin
 </code></pre>
 <p>you should see output similar to the following:</p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left"></th></tr></thead><tbody>

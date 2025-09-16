@@ -2239,6 +2239,7 @@ a reboot. It's been good for finding out if a particular DXE can be removed.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="implementing-linuxboot"><a class="header" href="#implementing-linuxboot">Implementing LinuxBoot</a></h1>
 <p>The aim of LinuxBoot is to reduce complexity and obscure firmware by moving
 that functionality into kernel and user-space.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="retrofit-linuxboot-into-uefi-platform-initialization"><a class="header" href="#retrofit-linuxboot-into-uefi-platform-initialization">Retrofit LinuxBoot into UEFI Platform Initialization</a></h1>
 <p>This chapter describes the procedures from a <a href="https://docs.google.com/presentation/d/1s9ka4v7leKeJa3116AQoNb9cv3OqmnW6pgn0ov9WiHo/edit?ts=5e2b227b#slide=id.g7ceec54197_4_163">LinuxBoot
 workshop</a>
 where an Atomic Pi board with UEFI firmware was converted to run LinuxBoot. The
@@ -2299,7 +2300,7 @@ image and install LinuxBoot. Setting the bit with <code>me_cleaner</code> disabl
 "feature".  Note that this does not always work; check with the LinuxBoot
 community.</p>
 <p>When you run <code>me_cleaner</code>:</p>
-<pre><code>~/projects/linuxboot/me_cleaner/me_cleaner.py -s /tmp/rom.bin
+<pre><code class="language-sh">~/projects/linuxboot/me_cleaner/me_cleaner.py -s /tmp/rom.bin
 </code></pre>
 <p>you should see output similar to the following:</p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left"></th></tr></thead><tbody>
