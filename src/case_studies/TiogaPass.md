@@ -14,15 +14,15 @@ Corporation](http://www.wiwynn.com/english).
 
 It contains following sections:
 
-* [Quick Start](#Quick-Start)
-* [Details](#Details)
-  * [How to build](#How-to-build)
-  * [How to operate](#How-to-operate)
-  * [Platform info](#Platform-info)
-* [Support](#Support)
-  * [Hardware support](#Hardware-support)
-  * [Community support](#Community-support)
-  * [Professional support](#Professional-support)
+* [Quick Start](#quick-start)
+* [Details](#details)
+  * [How to build](#how-to-build)
+  * [How to operate](#how-to-operate)
+  * [Platform info](#platform-info)
+* [Support](#support)
+  * [Hardware support](#hardware-support)
+  * [Community support](#community-support)
+  * [Professional support](#professional-support)
 
 ## Quick Start
 
@@ -33,11 +33,14 @@ It contains following sections:
 * Flash the firmware.
   * Copy the downloaded firmware to OpenBMC.
   * From OpenBMC
+
     ```
       fw-util mb --update bios --force ./<firmware image name>
     ```
+
 * Boot and enjoy.
   * From OpenBMC
+
     ```
       power-util mb reset
       sol-util mb
@@ -47,7 +50,7 @@ It contains following sections:
 
 ### How to build
 
-Follow [Build Details](#Build-Details) for details on how to get the source
+Follow [Build Details](#build-details) for details on how to get the source
 code, and how to build.
 
 Boot flow of the current firmware solution is: Power on → minimized UEFI →
@@ -59,15 +62,19 @@ target OS.
 #### Build Details
 
 * Download the code from [linuxboot github](https://github.com/linuxboot/linuxboot)
+
   ```
     git clone https://github.com/linuxboot/linuxboot.git
   ```
+
 * You need to apply Wiwiynn's linuxboot patch for now
+
   ```
   cd linuxboot
   wget -O TiogaPass.patch https://github.com/johnnylinwiwynn/linuxboot/commit/28ae8450b3b05c6e6b8c74e29d0974ccf711d5e6.patch
   git am TiogaPass.patch
   ```
+
 * Build the kernel bzImage (has embedded initramfs) for linuxboot, please
   reference [Building u-root](https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-u-root)
   and [Building a suitable Linux kernel](https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-a-suitable-linux-kernel)
@@ -77,12 +84,14 @@ target OS.
 * Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn
   after ordering, and also put your bzImage to the root folder of linuxboot,
   and then make
+
   ```
     cp path/to/tioga.rom linuxboot/boards/tioga
     cp path/to/bzImage linuxboot
     cd linuxboot
     BOARD=tioga make
   ```
+
 * You should see the built image at build/tioga/linuxboot.rom.
 
 ### How to operate
@@ -122,4 +131,4 @@ IRC channel, a mailing list and regular meetings.
 
 Following companies provides professional support services:
 
-** TBD **
+**TBD**
