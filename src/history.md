@@ -54,6 +54,24 @@ build system.
 laptops and servers created by  Trammell Hudson (a.k.a. osreasrch), aimed at
 strong platform security. It is currently maintained by Thierry Laurion.
 
+### Hardware
+
+[Horizon Computing Solutions](https://web.archive.org/web/20160912124237/http://www.horizon-computing.com/)
+([acquired by IT Renew](https://web.archive.org/web/20180626024709/https://www.businesswire.com/news/home/20180611005362/en/ITRenew-Acquires-Splitted-Desktop-Systems-SDS/)
+(in turn [acquired by Iron Mountain](https://www.ironmountain.com/about-us/newsroom/press-releases/2022/january/iron-mountain-closes-acquisition-of-itrenew)
+([archived](https://web.archive.org/web/20230604043313/https://www.ironmountain.com/about-us/newsroom/press-releases/2022/january/iron-mountain-closes-acquisition-of-itrenew))))
+planned to ship Open Compute Platform
+[Winterfell](https://web.archive.org/web/20180317191835/http://www.horizon-computing.com/?project=winterfell)
+nodes with LinuxBoot/NERF in Q2 2018.
+
+[Facebook](https://engineering.fb.com/data-center-engineering/f16-minipack/) and
+[Arista Networks](https://www.arista.com/en/company/news/press-release/6785-pr-20190314)
+have implemented LinuxBoot in 2018 with coreboot in a joint effort for the
+[Arista 7368X4 network switch](https://www.arista.com/en/products/arista-7368x4-series-datasheet-quick-look).
+
+The [Equus R1560](https://web.archive.org/web/20230528162507/https://www.equuscs.com/products/servers/whitebox-open/r1560/)
+server board [supports LinuxBoot, as introduced in 2018](https://www.equuscs.com/introducing-the-whitebox-open-r1560-servers/).
+
 ### See also
 
 * [osresearch.net](https://osresearch.net/)
