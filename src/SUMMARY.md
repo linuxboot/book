@@ -22,4 +22,3 @@
   - [Ampere study](case_studies/Ampere_study.md)
   - [Google study](case_studies/Google_study.md)
   - [OCP TiogaPass](case_studies/TiogaPass.md)
-- [Frequently Asked Questions](faq.md)
