@@ -1,4 +1,4 @@
-## LinuxBoot Components
+# LinuxBoot Components
 
 ![image](./images/LinuxBoot-components.svg)
 
@@ -8,14 +8,12 @@ LinuxBoot consists of the following components:
 2. Linux kernel
 3. u-root -> initramfs
 
-
-#### BIOS
+## BIOS
 
 This does not have to be a specific BIOS; currently LinuxBoot supports UEFI
 and [coreboot](https://coreboot.org/).
 
-
-#### Linux kernel
+## Linux kernel
 
 LinuxBoot is not intended to be a runtime production kernel; rather, it
 is meant to replace specific UEFI functionality using Linux kernel capabilities
@@ -26,15 +24,13 @@ capabilities without bloating the size of the BIOS with unnecessary drivers.
 These config files disable options that are not needed in the LinuxBoot
 kernel and add some patches that are needed.
 
-
-#### Initial RAM filesystem  (initramfs)
+## Initial RAM filesystem  (initramfs)
 
 When Linux boots it needs a root file system that provides boot and startup
 utilities. LinuxBoot uses [u-root](./glossary.md) to create an
 initramfs for this purpose.
 
-
-#### What is an initramfs?
+## What is an initramfs?
 
 The initramfs is a root file system that is embedded within the firmware
 image itself. It is intended to be placed in a flash device along with the
@@ -46,7 +42,6 @@ the bzImage and initramfs into memory and starts the kernel. The kernel
 checks for the presence of the initramfs and, if found, unpacks it, mounts
 it as `/` and runs `/init`.
 
-
 There are many types of initramfs, in this topic we focus on u-root.
 u-root is a Go user-space (a set of programs and libraries written in Go that
 are used to interact with the kernel). It contains a toolset of standard
@@ -54,11 +49,11 @@ Linux applications and commands.
 
 u-root can create an initramfs in two different modes:
 
-*   source mode, which contains:
-    *   Go toolchain binaries
-    *   A simple shell
-    *   Go source for tools to be compiled on the fly by the shell
-*   Busybox (bb) mode: This is one busybox-like binary comprising all the
+* source mode, which contains:
+  * Go toolchain binaries
+  * A simple shell
+  * Go source for tools to be compiled on the fly by the shell
+* Busybox (bb) mode: This is one busybox-like binary comprising all the
     requested utilities.
 
 The initramfs provided by u-root implements the toolchain needed to securely
@@ -68,4 +63,3 @@ with different internal boot-related components, and kexec the next kernel.
 u-root is an open source project hosted on GitHub. Within the u-root
 repository, we have executable commands in `cmds` and the packages containing
 libraries and implementations in `pkg`.
-
