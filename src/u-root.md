@@ -393,7 +393,7 @@ built in. Scripts run via the script command are not persistent.
 
 A basic hello builtin can be defined on the command line:
 
-```
+```sh
 builtin hello '{ fmt.Printf("Hello\n") }'
 ```
 
@@ -432,7 +432,7 @@ Go fragment and creates a standard shell builtin Go source file which conforms
 to the builtin pattern. This structure is easy to generate programmatically,
 building on the techniques used for the script command.
 
-```
+```sh
 script{ fmt.Printf("%v\n", os.Environ()) }
 ```
 
