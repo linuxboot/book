@@ -24,15 +24,10 @@ capabilities without bloating the size of the BIOS with unnecessary drivers.
 These config files disable options that are not needed in the LinuxBoot
 kernel and add some patches that are needed.
 
-## Initial RAM filesystem  (initramfs)
+## Initial RAM filesystem (initramfs)
 
-When Linux boots it needs a root file system that provides boot and startup
-utilities. LinuxBoot uses [u-root](./glossary.md) to create an
-initramfs for this purpose.
-
-## What is an initramfs?
-
-The initramfs is a root file system that is embedded within the firmware
+When Linux boots, it needs a root file system that provides boot and startup
+utilities. In LinuxBoot, it is embedded as an initramfs within the firmware
 image itself. It is intended to be placed in a flash device along with the
 Linux kernel as part of the firmware image for LinuxBoot. The initramfs is
 essentially a set of directories bundled into a single cpio archive.
