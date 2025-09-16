@@ -389,7 +389,7 @@ loaded.</p>
 <tr><td>03/10/2023</td><td>Phoronix</td><td><a href="https://www.phoronix.com/news/Lenovo-LinuxBoot-ByteDance">Lenovo Begins Supporting LinuxBoot Firmware With ByteDance</a></td></tr>
 <tr><td>07/08/2024</td><td>LWN</td><td><a href="https://lwn.net/Articles/979789">Giving bootloaders the boot with nmbl</a></td></tr>
 </tbody></table>
-</div><div style="break-before: page; page-break-before: always;"></div><h2 id="linuxboot-components"><a class="header" href="#linuxboot-components">LinuxBoot Components</a></h2>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="linuxboot-components"><a class="header" href="#linuxboot-components">LinuxBoot Components</a></h1>
 <p><img src="./images/LinuxBoot-components.svg" alt="image" /></p>
 <p>LinuxBoot consists of the following components:</p>
 <ol>
@@ -397,10 +397,10 @@ loaded.</p>
 <li>Linux kernel</li>
 <li>u-root -&gt; initramfs</li>
 </ol>
-<h4 id="bios"><a class="header" href="#bios">BIOS</a></h4>
+<h2 id="bios"><a class="header" href="#bios">BIOS</a></h2>
 <p>This does not have to be a specific BIOS; currently LinuxBoot supports UEFI
 and <a href="https://coreboot.org/">coreboot</a>.</p>
-<h4 id="linux-kernel"><a class="header" href="#linux-kernel">Linux kernel</a></h4>
+<h2 id="linux-kernel"><a class="header" href="#linux-kernel">Linux kernel</a></h2>
 <p>LinuxBoot is not intended to be a runtime production kernel; rather, it
 is meant to replace specific UEFI functionality using Linux kernel capabilities
 and then boot the actual production kernel on the machine. Kernel
@@ -408,12 +408,9 @@ configuration files specific to LinuxBoot provide the needed Linux kernel
 capabilities without bloating the size of the BIOS with unnecessary drivers.</p>
 <p>These config files disable options that are not needed in the LinuxBoot
 kernel and add some patches that are needed.</p>
-<h4 id="initial-ram-filesystem--initramfs"><a class="header" href="#initial-ram-filesystem--initramfs">Initial RAM filesystem  (initramfs)</a></h4>
-<p>When Linux boots it needs a root file system that provides boot and startup
-utilities. LinuxBoot uses <a href="./glossary.html">u-root</a> to create an
-initramfs for this purpose.</p>
-<h4 id="what-is-an-initramfs"><a class="header" href="#what-is-an-initramfs">What is an initramfs?</a></h4>
-<p>The initramfs is a root file system that is embedded within the firmware
+<h2 id="initial-ram-filesystem-initramfs"><a class="header" href="#initial-ram-filesystem-initramfs">Initial RAM filesystem (initramfs)</a></h2>
+<p>When Linux boots, it needs a root file system that provides boot and startup
+utilities. In LinuxBoot, it is embedded as an initramfs within the firmware
 image itself. It is intended to be placed in a flash device along with the
 Linux kernel as part of the firmware image for LinuxBoot. The initramfs is
 essentially a set of directories bundled into a single cpio archive.</p>
