@@ -3,7 +3,6 @@
 declare -A shame_list
 shame_list=(
     [./src/case_studies/TiogaPass.md]=1
-    [./src/components.md]=1
     [./src/coreboot.u-root.systemboot/index.md]=1
     [./src/intro.md]=1
     [./src/naming.md]=1
