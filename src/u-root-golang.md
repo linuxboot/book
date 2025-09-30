@@ -1,17 +1,11 @@
-# Benefits of using the Go user-space environment and compiler
+# Benefits of using Go for firmware
 
 Go is a systems programming language created by Google. Go has strong typing,
 language level support for concurrency, inter-process communication via
-channels, runtime type safety and other protective measures, dynamic allocation
-and garbage collection, and closures. Go has a package name notation similar to
-Java that makes it clear to determine what packages a given program needs.
-
-The modern language constructs make Go a much safer language than C. This
-safety is critical for network-attached embedded systems, which usually have
-network utilities written in C, including web servers, network servers
-including `sshd`, and programs that provide access to a command interpreter,
-itself written in C. All are proving to be vulnerable to the attack-rich
-environment that the Internet has become.
+channels a la Occam[^1], Limbo[^2] and Alef[^3], runtime type safety and other
+protective measures, dynamic allocation and garbage collection, and closures.
+Go has a package name notation similar to Java that makes it clear to determine
+what packages a given program needs.
 
 Even the most skilled programmers can make mistakes that in C can be
 unrecoverable, especially on network connected systems. Currently, even the
@@ -36,3 +30,9 @@ system. Another solution is to compile everything together into one
 BusyBox-style program. Alternatively, programs can be fetched over the network,
 but compiling dynamically with Go or creating a BusyBox program are the
 recommended solutions.
+
+[^1]: MAY,D.Occam.ACMSigplanNotices18,4(1983),69–79.
+[^2]: RITCHIE, D. M. The limbo programming language. Inferno Programmer’s
+    Manual 2 (1997).
+[^3]: WINTERBOTTOM, P. Alef language reference manual. Plan 9 Programmer’s Man
+    (1995).
