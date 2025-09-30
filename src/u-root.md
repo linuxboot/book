@@ -134,7 +134,7 @@ testing.
 
 Earlier iterations of u-root offered on-demand compilation, one of the oldest
 ideas in computer science.
-Slimline Open Firmware (SLOF)[^7] is a FORTHbased implementation of Open
+Slimline Open Firmware[^7] (SLOF) is a FORTHbased implementation of Open
 Firmware developed by IBM for some of its Power and Cell processors. SLOF is
 capable of storing all of Open Firmware as source in the flash memory and
 compiling components to indirect threading on demand[^2].
