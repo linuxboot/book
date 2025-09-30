@@ -574,7 +574,7 @@ Even though the binaries themselves are running on the remote ARM system.
 
 #### cpu and virtiofs
 
-While 9p is very general, because it is *transport-independent*, there are
+While 9p is very general, because it is _transport-independent_, there are
 cases where we can get much better performance by using a less general file
 system. One such case is with virtofs.
 
@@ -633,7 +633,7 @@ There are thus several choices for setting up the mounts
 
 * 9p support by the cpu client
 * 9p supported by the cpu client, with additional mounts via -fstab or -namespace
-* 9p *without* any bind mounts, i.e. -9p=false -namespace "", in which case, on
+* 9p _without_ any bind mounts, i.e. -9p=false -namespace "", in which case, on
   the remote machine, files from the client are visible in /tmp/cpu, but no
   bind mounts are done; with additional mounts provided by fstab
   mounts are provided
