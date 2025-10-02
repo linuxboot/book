@@ -1,10 +1,10 @@
 # All about u-root
 
-u-root is an embeddable root file system intended to be placed in a flash
-device as part of the firmware image, along with a Linux kernel. All the u-root
-utilities, roughly corresponding to standard Unix utilities, are written in [Go,
-a modern, type-safe language with garbage collection and language-level support
-for concurrency and inter-process communication](./u-root-golang.md).
+The [u-root project](https://u-root.org) consists of a build tool and sources to
+generate a root file system with boot loaders suitable to implement LinuxBoot.
+All the u-root utilities, roughly corresponding to standard Unix utilities, are
+written in [Go, a modern, type-safe language](./u-root-golang.md) with garbage
+collection and out-of-the-box support for concurrency.
 
 u-root blurs the line between script-based distros such as Perl Linux[^24] and
 binary-based distros such as BusyBox[^26]. It has the flexibility of Perl Linux
