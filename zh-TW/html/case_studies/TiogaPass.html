@@ -168,19 +168,19 @@
 <p>This case study describes information for firmware development community to use <a href="https://www.opencompute.org/">OCP</a> platform TiogaPass, made by <a href="http://www.wiwynn.com/english">Wiwynn Corporation</a>.</p>
 <p>It contains following sections:</p>
 <ul>
-<li><a href="#Quick-Start">Quick Start</a></li>
-<li><a href="#Details">Details</a>
+<li><a href="#quick-start">Quick Start</a></li>
+<li><a href="#details">Details</a>
 <ul>
-<li><a href="#How-to-build">How to build</a></li>
-<li><a href="#How-to-operate">How to operate</a></li>
-<li><a href="#Platform-info">Platform info</a></li>
+<li><a href="#how-to-build">How to build</a></li>
+<li><a href="#how-to-operate">How to operate</a></li>
+<li><a href="#platform-info">Platform info</a></li>
 </ul>
 </li>
-<li><a href="#Support">Support</a>
+<li><a href="#support">Support</a>
 <ul>
-<li><a href="#Hardware-support">Hardware support</a></li>
-<li><a href="#Community-support">Community support</a></li>
-<li><a href="#Professional-support">Professional support</a></li>
+<li><a href="#hardware-support">Hardware support</a></li>
+<li><a href="#community-support">Community support</a></li>
+<li><a href="#professional-support">Professional support</a></li>
 </ul>
 </li>
 </ul>
@@ -195,8 +195,11 @@
 <li>
 <p>Flash the firmware.</p>
 <ul>
-<li>Copy the downloaded firmware to OpenBMC.</li>
-<li>From OpenBMC
+<li>
+<p>Copy the downloaded firmware to OpenBMC.</p>
+</li>
+<li>
+<p>From OpenBMC</p>
 <pre><code>  fw-util mb --update bios --force ./&lt;firmware image name&gt;
 </code></pre>
 </li>
@@ -205,7 +208,8 @@
 <li>
 <p>Boot and enjoy.</p>
 <ul>
-<li>From OpenBMC
+<li>
+<p>From OpenBMC</p>
 <pre><code>  power-util mb reset
   sol-util mb
 </code></pre>
@@ -215,7 +219,7 @@
 </ul>
 <h2 id="details"><a class="header" href="#details">Details</a></h2>
 <h3 id="how-to-build"><a class="header" href="#how-to-build">How to build</a></h3>
-<p>Follow <a href="#Build-Details">Build Details</a> for details on how to get the source code, and how to build.</p>
+<p>Follow <a href="#build-details">Build Details</a> for details on how to get the source code, and how to build.</p>
 <p>Boot flow of the current firmware solution is: Power on → minimized UEFI → LinuxBoot → target OS.</p>
 <p>In near feature, the boot flow will be: power on → Coreboot → LinuxBoot → target OS.</p>
 <h4 id="build-details"><a class="header" href="#build-details">Build Details</a></h4>
@@ -264,7 +268,7 @@ git am TiogaPass.patch
 <p><a href="https://www.linuxboot.org/">LinuxBoot open source community</a> is the community you can ask any technical questions. LinuxBoot community has a slack channel, a IRC channel, a mailing list and regular meetings.</p>
 <h3 id="professional-support"><a class="header" href="#professional-support">Professional support</a></h3>
 <p>Following companies provides professional support services:</p>
-<p>** TBD **</p>
+<p><strong>TBD</strong></p>
 
                     </main>
 

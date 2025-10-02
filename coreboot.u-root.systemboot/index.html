@@ -219,7 +219,7 @@ path with <code>-o</code>. Run <code>u-root -h</code> for additional command lin
 <p>Note: the above command will include only pure-Go commands from <code>u-root</code>. If
 you need to include other files or non-Go binaries, use the <code>-file</code> option in
 <code>u-root</code>.  For example, you may want to include static builds of <code>kexec</code> or
-<code>flashrom</code>, that we build on https://github.com/systemboot/binaries .</p>
+<code>flashrom</code>, that we build on <a href="https://github.com/systemboot/binaries">https://github.com/systemboot/binaries</a> .</p>
 <p>Then, the initramfs has to be compressed. This step is necessary to embed the
 initramfs in the kernel as explained below, in order to maintain the image size
 smaller. Linux has a limited XZ compressor, so the compression requires specific
@@ -268,7 +268,7 @@ cd linux-stable
 make tinyconfig
 </code></pre>
 <p>Some more information about tiny configs can be found at
-https://tiny.wiki.kernel.org (last checked 2018-12-01).</p>
+<a href="https://tiny.wiki.kernel.org">https://tiny.wiki.kernel.org</a> (last checked 2018-12-01).</p>
 <h3 id="a-few-fundamental-features"><a class="header" href="#a-few-fundamental-features">A few fundamental features</a></h3>
 <p>Assuming we are running on <code>x86_64</code>, some basic features to enable are:</p>
 <ul>
@@ -302,7 +302,7 @@ may require <code>CONFIG_EPOLL</code>.</p>
 → <code>Enable eventpoll support</code></li>
 </ul>
 <p>Additional information about Go's minimum requirements can be found at
-https://github.com/golang/go/wiki/MinimumRequirements (last checked
+<a href="https://github.com/golang/go/wiki/MinimumRequirements">https://github.com/golang/go/wiki/MinimumRequirements</a> (last checked
 2018-12-01).</p>
 <h3 id="enable-devtmpfs"><a class="header" href="#enable-devtmpfs">Enable devtmpfs</a></h3>
 <p>Our system firmware uses u-root, which does not have (intentionally) an <code>udev</code>
@@ -387,7 +387,7 @@ example:</p>
 <p>The image will be located under <code>arch/${ARCH}/boot/bzImage</code> if your
 architecture supports bzImage (e.g. x86).</p>
 <p>For more details on how to build a kernel, see
-https://kernelnewbies.org/KernelBuild (last checked 2018-12-01).</p>
+<a href="https://kernelnewbies.org/KernelBuild">https://kernelnewbies.org/KernelBuild</a> (last checked 2018-12-01).</p>
 <h2 id="building-coreboot"><a class="header" href="#building-coreboot">Building coreboot</a></h2>
 <p>In this step we will build <code>coreboot</code> using the Linux kernel image that we
 built at the previous step as payload. This build is for a Qemu x86 target, the

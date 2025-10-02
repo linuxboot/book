@@ -1587,8 +1587,8 @@ argument to UTK to use a better compressor.</p>
 </ul>
 <p>Good resources:</p>
 <ol>
-<li>https://sourcemaking.com/design_patterns/visitor</li>
-<li>https://en.wikipedia.org/wiki/Visitor_pattern</li>
+<li><a href="https://sourcemaking.com/design_patterns/visitor">https://sourcemaking.com/design_patterns/visitor</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Visitor_pattern">https://en.wikipedia.org/wiki/Visitor_pattern</a></li>
 </ol>
 <p>A good visitor still works when new Firmware are introduced. A good Firmware
 still works when a new visitor is introduced.</p>
@@ -2176,7 +2176,7 @@ mounts via fstab</li>
 <ol class="footnote-definition"><li id="footnote-1">
 <p>For reference, the command we used: <code>cpu -dbg9p -d apu2 date</code> <a href="#fr-1-1">↩</a></p>
 </li>
-</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="dut-a-simple-device-under-test-utility"><a class="header" href="#dut-a-simple-device-under-test-utility">DUT, a simple Device Under Test utility.</a></h1>
+</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="dut-a-simple-device-under-test-utility"><a class="header" href="#dut-a-simple-device-under-test-utility">DUT, a simple Device Under Test utility</a></h1>
 <p>Points of contact: <a href="https://github.com/rminnich">Ron Minnich</a></p>
 <p>DUT is a simple Device Under Test program that gives you control of a node. It is intended to make
 very fast startup and control easy.</p>
@@ -2519,7 +2519,7 @@ path with <code>-o</code>. Run <code>u-root -h</code> for additional command lin
 <p>Note: the above command will include only pure-Go commands from <code>u-root</code>. If
 you need to include other files or non-Go binaries, use the <code>-file</code> option in
 <code>u-root</code>.  For example, you may want to include static builds of <code>kexec</code> or
-<code>flashrom</code>, that we build on https://github.com/systemboot/binaries .</p>
+<code>flashrom</code>, that we build on <a href="https://github.com/systemboot/binaries">https://github.com/systemboot/binaries</a> .</p>
 <p>Then, the initramfs has to be compressed. This step is necessary to embed the
 initramfs in the kernel as explained below, in order to maintain the image size
 smaller. Linux has a limited XZ compressor, so the compression requires specific
@@ -2568,7 +2568,7 @@ cd linux-stable
 make tinyconfig
 </code></pre>
 <p>Some more information about tiny configs can be found at
-https://tiny.wiki.kernel.org (last checked 2018-12-01).</p>
+<a href="https://tiny.wiki.kernel.org">https://tiny.wiki.kernel.org</a> (last checked 2018-12-01).</p>
 <h3 id="a-few-fundamental-features"><a class="header" href="#a-few-fundamental-features">A few fundamental features</a></h3>
 <p>Assuming we are running on <code>x86_64</code>, some basic features to enable are:</p>
 <ul>
@@ -2602,7 +2602,7 @@ may require <code>CONFIG_EPOLL</code>.</p>
 → <code>Enable eventpoll support</code></li>
 </ul>
 <p>Additional information about Go's minimum requirements can be found at
-https://github.com/golang/go/wiki/MinimumRequirements (last checked
+<a href="https://github.com/golang/go/wiki/MinimumRequirements">https://github.com/golang/go/wiki/MinimumRequirements</a> (last checked
 2018-12-01).</p>
 <h3 id="enable-devtmpfs"><a class="header" href="#enable-devtmpfs">Enable devtmpfs</a></h3>
 <p>Our system firmware uses u-root, which does not have (intentionally) an <code>udev</code>
@@ -2687,7 +2687,7 @@ example:</p>
 <p>The image will be located under <code>arch/${ARCH}/boot/bzImage</code> if your
 architecture supports bzImage (e.g. x86).</p>
 <p>For more details on how to build a kernel, see
-https://kernelnewbies.org/KernelBuild (last checked 2018-12-01).</p>
+<a href="https://kernelnewbies.org/KernelBuild">https://kernelnewbies.org/KernelBuild</a> (last checked 2018-12-01).</p>
 <h2 id="building-coreboot"><a class="header" href="#building-coreboot">Building coreboot</a></h2>
 <p>In this step we will build <code>coreboot</code> using the Linux kernel image that we
 built at the previous step as payload. This build is for a Qemu x86 target, the
@@ -3354,40 +3354,50 @@ and cross-platform portable Linux applications.</li>
 Corporation</a>.</p>
 <p>It contains following sections:</p>
 <ul>
-<li><a href="case_studies/TiogaPass.html#Quick-Start">Quick Start</a></li>
-<li><a href="case_studies/TiogaPass.html#Details">Details</a>
+<li><a href="case_studies/TiogaPass.html#quick-start">Quick Start</a></li>
+<li><a href="case_studies/TiogaPass.html#details">Details</a>
 <ul>
-<li><a href="case_studies/TiogaPass.html#How-to-build">How to build</a></li>
-<li><a href="case_studies/TiogaPass.html#How-to-operate">How to operate</a></li>
-<li><a href="case_studies/TiogaPass.html#Platform-info">Platform info</a></li>
+<li><a href="case_studies/TiogaPass.html#how-to-build">How to build</a></li>
+<li><a href="case_studies/TiogaPass.html#how-to-operate">How to operate</a></li>
+<li><a href="case_studies/TiogaPass.html#platform-info">Platform info</a></li>
 </ul>
 </li>
-<li><a href="case_studies/TiogaPass.html#Support">Support</a>
+<li><a href="case_studies/TiogaPass.html#support">Support</a>
 <ul>
-<li><a href="case_studies/TiogaPass.html#Hardware-support">Hardware support</a></li>
-<li><a href="case_studies/TiogaPass.html#Community-support">Community support</a></li>
-<li><a href="case_studies/TiogaPass.html#Professional-support">Professional support</a></li>
+<li><a href="case_studies/TiogaPass.html#hardware-support">Hardware support</a></li>
+<li><a href="case_studies/TiogaPass.html#community-support">Community support</a></li>
+<li><a href="case_studies/TiogaPass.html#professional-support">Professional support</a></li>
 </ul>
 </li>
 </ul>
 <h2 id="quick-start-1"><a class="header" href="#quick-start-1">Quick Start</a></h2>
 <ul>
-<li><a href="http://www.wiwynn.com/english">Order the hardware</a> if you have not done so.</li>
-<li>Download or build the firmware binary. The current solution is to boot
+<li>
+<p><a href="http://www.wiwynn.com/english">Order the hardware</a> if you have not done so.</p>
+</li>
+<li>
+<p>Download or build the firmware binary. The current solution is to boot
 embedded Linux kernel and initramfs as UEFI payload. Please contact Wiwynn to
-get a UEFI binary after ordering.</li>
-<li>Flash the firmware.
+get a UEFI binary after ordering.</p>
+</li>
+<li>
+<p>Flash the firmware.</p>
 <ul>
-<li>Copy the downloaded firmware to OpenBMC.</li>
-<li>From OpenBMC
+<li>
+<p>Copy the downloaded firmware to OpenBMC.</p>
+</li>
+<li>
+<p>From OpenBMC</p>
 <pre><code>  fw-util mb --update bios --force ./&lt;firmware image name&gt;
 </code></pre>
 </li>
 </ul>
 </li>
-<li>Boot and enjoy.
+<li>
+<p>Boot and enjoy.</p>
 <ul>
-<li>From OpenBMC
+<li>
+<p>From OpenBMC</p>
 <pre><code>  power-util mb reset
   sol-util mb
 </code></pre>
@@ -3397,7 +3407,7 @@ get a UEFI binary after ordering.</li>
 </ul>
 <h2 id="details"><a class="header" href="#details">Details</a></h2>
 <h3 id="how-to-build"><a class="header" href="#how-to-build">How to build</a></h3>
-<p>Follow <a href="case_studies/TiogaPass.html#Build-Details">Build Details</a> for details on how to get the source
+<p>Follow <a href="case_studies/TiogaPass.html#build-details">Build Details</a> for details on how to get the source
 code, and how to build.</p>
 <p>Boot flow of the current firmware solution is: Power on → minimized UEFI →
 LinuxBoot → target OS.</p>
@@ -3405,32 +3415,39 @@ LinuxBoot → target OS.</p>
 target OS.</p>
 <h4 id="build-details"><a class="header" href="#build-details">Build Details</a></h4>
 <ul>
-<li>Download the code from <a href="https://github.com/linuxboot/linuxboot">linuxboot github</a>
+<li>
+<p>Download the code from <a href="https://github.com/linuxboot/linuxboot">linuxboot github</a></p>
 <pre><code>  git clone https://github.com/linuxboot/linuxboot.git
 </code></pre>
 </li>
-<li>You need to apply Wiwiynn's linuxboot patch for now
+<li>
+<p>You need to apply Wiwiynn's linuxboot patch for now</p>
 <pre><code>cd linuxboot
 wget -O TiogaPass.patch https://github.com/johnnylinwiwynn/linuxboot/commit/28ae8450b3b05c6e6b8c74e29d0974ccf711d5e6.patch
 git am TiogaPass.patch
 </code></pre>
 </li>
-<li>Build the kernel bzImage (has embedded initramfs) for linuxboot, please
+<li>
+<p>Build the kernel bzImage (has embedded initramfs) for linuxboot, please
 reference <a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-u-root">Building u-root</a>
 and <a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-a-suitable-linux-kernel">Building a suitable Linux kernel</a>
 for how to build the bzImage. You can always customize your Linux kernel
 configuration to suit your needs, please reference Wiwynn's kernel
-configuration file as a sample <a href="case_studies/linux_config">linux_config</a>.</li>
-<li>Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn
+configuration file as a sample <a href="case_studies/linux_config">linux_config</a>.</p>
+</li>
+<li>
+<p>Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn
 after ordering, and also put your bzImage to the root folder of linuxboot,
-and then make
+and then make</p>
 <pre><code>  cp path/to/tioga.rom linuxboot/boards/tioga
   cp path/to/bzImage linuxboot
   cd linuxboot
   BOARD=tioga make
 </code></pre>
 </li>
-<li>You should see the built image at build/tioga/linuxboot.rom.</li>
+<li>
+<p>You should see the built image at build/tioga/linuxboot.rom.</p>
+</li>
 </ul>
 <h3 id="how-to-operate"><a class="header" href="#how-to-operate">How to operate</a></h3>
 <p>Follow <strong>TBD section</strong> for details on:</p>
@@ -3457,7 +3474,7 @@ you can ask any technical questions. LinuxBoot community has a slack channel, a
 IRC channel, a mailing list and regular meetings.</p>
 <h3 id="professional-support"><a class="header" href="#professional-support">Professional support</a></h3>
 <p>Following companies provides professional support services:</p>
-<p>** TBD **</p>
+<p><strong>TBD</strong></p>
 
                     </main>
 

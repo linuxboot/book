@@ -973,8 +973,8 @@ CONFIG_EFI_STUB=y
 </ul>
 <p>Good resources:</p>
 <ol>
-<li>https://sourcemaking.com/design_patterns/visitor</li>
-<li>https://en.wikipedia.org/wiki/Visitor_pattern</li>
+<li><a href="https://sourcemaking.com/design_patterns/visitor">https://sourcemaking.com/design_patterns/visitor</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Visitor_pattern">https://en.wikipedia.org/wiki/Visitor_pattern</a></li>
 </ol>
 <p>A good visitor still works when new Firmware are introduced. A good Firmware still works when a new visitor is introduced.</p>
 <h3 id="ast"><a class="header" href="#ast">AST</a></h3>
@@ -1311,7 +1311,7 @@ b92a3576229b   ubuntu    "/home/rminnich/go/b…"   9 seconds ago   Up 9 seconds
 <ol class="footnote-definition"><li id="footnote-1">
 <p>For reference, the command we used: <code>cpu -dbg9p -d apu2 date</code> <a href="#fr-1-1">↩</a></p>
 </li>
-</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="dut-a-simple-device-under-test-utility"><a class="header" href="#dut-a-simple-device-under-test-utility">DUT, a simple Device Under Test utility.</a></h1>
+</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="dut-a-simple-device-under-test-utility"><a class="header" href="#dut-a-simple-device-under-test-utility">DUT, a simple Device Under Test utility</a></h1>
 <p>Points of contact: <a href="https://github.com/rminnich">Ron Minnich</a></p>
 <p>DUT is a simple Device Under Test program that gives you control of a node. It is intended to make very fast startup and control easy.</p>
 <p>DUT is one program implementing three operations. The first, tester, is run on a test control system, such as your desktop; the second, called device, is run on the device; the third, called ssh and also run on the device, starts an ssh server assuming one is present.</p>
@@ -1549,7 +1549,7 @@ $ go run github.com/linuxboot/corebootnerf --fetch
 <pre><code>u-root -build=bb core github.com/u-root/u-root/cmds/boot/{uinit,localboot,fbnetboot}
 </code></pre>
 <p>This command will generate a ramfs named <code>/tmp/initramfs_${os}_${arch}.cpio</code>, e.g. <code>/tmp/initramfs.linux_amd64.cpio</code>. You can specify an alternative output path with <code>-o</code>. Run <code>u-root -h</code> for additional command line parameters.</p>
-<p>Note: the above command will include only pure-Go commands from <code>u-root</code>. If you need to include other files or non-Go binaries, use the <code>-file</code> option in <code>u-root</code>.  For example, you may want to include static builds of <code>kexec</code> or <code>flashrom</code>, that we build on https://github.com/systemboot/binaries .</p>
+<p>Note: the above command will include only pure-Go commands from <code>u-root</code>. If you need to include other files or non-Go binaries, use the <code>-file</code> option in <code>u-root</code>.  For example, you may want to include static builds of <code>kexec</code> or <code>flashrom</code>, that we build on <a href="https://github.com/systemboot/binaries">https://github.com/systemboot/binaries</a> .</p>
 <p>Then, the initramfs has to be compressed. This step is necessary to embed the initramfs in the kernel as explained below, in order to maintain the image size smaller. Linux has a limited XZ compressor, so the compression requires specific options:</p>
 <pre><code>xz --check=crc32 --lzma2=dict=512KiB /tmp/initramfs.linux_amd64.cpio
 </code></pre>
@@ -1586,7 +1586,7 @@ git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 cd linux-stable
 make tinyconfig
 </code></pre>
-<p>Some more information about tiny configs can be found at https://tiny.wiki.kernel.org (last checked 2018-12-01).</p>
+<p>Some more information about tiny configs can be found at <a href="https://tiny.wiki.kernel.org">https://tiny.wiki.kernel.org</a> (last checked 2018-12-01).</p>
 <h3 id="a-few-fundamental-features"><a class="header" href="#a-few-fundamental-features">A few fundamental features</a></h3>
 <p>Assuming we are running on <code>x86_64</code>, some basic features to enable are:</p>
 <ul>
@@ -1610,7 +1610,7 @@ make tinyconfig
 <li><code>General setup</code> → <code>Configure standard kernel features (expert users)</code> → <code>Enable futex support</code></li>
 <li><code>General setup</code> → <code>Configure standard kernel features (expert users)</code> → <code>Enable eventpoll support</code></li>
 </ul>
-<p>Additional information about Go's minimum requirements can be found at https://github.com/golang/go/wiki/MinimumRequirements (last checked 2018-12-01).</p>
+<p>Additional information about Go's minimum requirements can be found at <a href="https://github.com/golang/go/wiki/MinimumRequirements">https://github.com/golang/go/wiki/MinimumRequirements</a> (last checked 2018-12-01).</p>
 <h3 id="enable-devtmpfs"><a class="header" href="#enable-devtmpfs">Enable devtmpfs</a></h3>
 <p>Our system firmware uses u-root, which does not have (intentionally) an <code>udev</code> equivalent. Therefore, to have <code>/dev/</code> automatically populated at boot time you should enable devtmps.</p>
 <p>Simply enable <code>CONFIG_DEVTMPFS</code> and <code>CONFIG_DEVTMPFS_MOUNT</code> in your kernel config.</p>
@@ -1673,7 +1673,7 @@ make tinyconfig
 <pre><code>make -j$(nproc --ignore=1)
 </code></pre>
 <p>The image will be located under <code>arch/${ARCH}/boot/bzImage</code> if your architecture supports bzImage (e.g. x86).</p>
-<p>For more details on how to build a kernel, see https://kernelnewbies.org/KernelBuild (last checked 2018-12-01).</p>
+<p>For more details on how to build a kernel, see <a href="https://kernelnewbies.org/KernelBuild">https://kernelnewbies.org/KernelBuild</a> (last checked 2018-12-01).</p>
 <h2 id="building-coreboot"><a class="header" href="#building-coreboot">Building coreboot</a></h2>
 <p>In this step we will build <code>coreboot</code> using the Linux kernel image that we built at the previous step as payload. This build is for a Qemu x86 target, the process may be somehow different for other platforms.</p>
 <p>Steps overview:</p>
@@ -2056,19 +2056,19 @@ M-? toggle key help • C-d erase/stop • C-c clear/cancel • C-r search hist 
 <p>This case study describes information for firmware development community to use <a href="https://www.opencompute.org/">OCP</a> platform TiogaPass, made by <a href="http://www.wiwynn.com/english">Wiwynn Corporation</a>.</p>
 <p>It contains following sections:</p>
 <ul>
-<li><a href="case_studies/TiogaPass.html#Quick-Start">Quick Start</a></li>
-<li><a href="case_studies/TiogaPass.html#Details">Details</a>
+<li><a href="case_studies/TiogaPass.html#quick-start">Quick Start</a></li>
+<li><a href="case_studies/TiogaPass.html#details">Details</a>
 <ul>
-<li><a href="case_studies/TiogaPass.html#How-to-build">How to build</a></li>
-<li><a href="case_studies/TiogaPass.html#How-to-operate">How to operate</a></li>
-<li><a href="case_studies/TiogaPass.html#Platform-info">Platform info</a></li>
+<li><a href="case_studies/TiogaPass.html#how-to-build">How to build</a></li>
+<li><a href="case_studies/TiogaPass.html#how-to-operate">How to operate</a></li>
+<li><a href="case_studies/TiogaPass.html#platform-info">Platform info</a></li>
 </ul>
 </li>
-<li><a href="case_studies/TiogaPass.html#Support">Support</a>
+<li><a href="case_studies/TiogaPass.html#support">Support</a>
 <ul>
-<li><a href="case_studies/TiogaPass.html#Hardware-support">Hardware support</a></li>
-<li><a href="case_studies/TiogaPass.html#Community-support">Community support</a></li>
-<li><a href="case_studies/TiogaPass.html#Professional-support">Professional support</a></li>
+<li><a href="case_studies/TiogaPass.html#hardware-support">Hardware support</a></li>
+<li><a href="case_studies/TiogaPass.html#community-support">Community support</a></li>
+<li><a href="case_studies/TiogaPass.html#professional-support">Professional support</a></li>
 </ul>
 </li>
 </ul>
@@ -2083,8 +2083,11 @@ M-? toggle key help • C-d erase/stop • C-c clear/cancel • C-r search hist 
 <li>
 <p>Flash the firmware.</p>
 <ul>
-<li>Copy the downloaded firmware to OpenBMC.</li>
-<li>From OpenBMC
+<li>
+<p>Copy the downloaded firmware to OpenBMC.</p>
+</li>
+<li>
+<p>From OpenBMC</p>
 <pre><code>  fw-util mb --update bios --force ./&lt;firmware image name&gt;
 </code></pre>
 </li>
@@ -2093,7 +2096,8 @@ M-? toggle key help • C-d erase/stop • C-c clear/cancel • C-r search hist 
 <li>
 <p>Boot and enjoy.</p>
 <ul>
-<li>From OpenBMC
+<li>
+<p>From OpenBMC</p>
 <pre><code>  power-util mb reset
   sol-util mb
 </code></pre>
@@ -2103,7 +2107,7 @@ M-? toggle key help • C-d erase/stop • C-c clear/cancel • C-r search hist 
 </ul>
 <h2 id="details"><a class="header" href="#details">Details</a></h2>
 <h3 id="how-to-build"><a class="header" href="#how-to-build">How to build</a></h3>
-<p>Follow <a href="case_studies/TiogaPass.html#Build-Details">Build Details</a> for details on how to get the source code, and how to build.</p>
+<p>Follow <a href="case_studies/TiogaPass.html#build-details">Build Details</a> for details on how to get the source code, and how to build.</p>
 <p>Boot flow of the current firmware solution is: Power on → minimized UEFI → LinuxBoot → target OS.</p>
 <p>In near feature, the boot flow will be: power on → Coreboot → LinuxBoot → target OS.</p>
 <h4 id="build-details"><a class="header" href="#build-details">Build Details</a></h4>
@@ -2152,7 +2156,7 @@ git am TiogaPass.patch
 <p><a href="https://www.linuxboot.org/">LinuxBoot open source community</a> is the community you can ask any technical questions. LinuxBoot community has a slack channel, a IRC channel, a mailing list and regular meetings.</p>
 <h3 id="professional-support"><a class="header" href="#professional-support">Professional support</a></h3>
 <p>Following companies provides professional support services:</p>
-<p>** TBD **</p>
+<p><strong>TBD</strong></p>
 
                     </main>
 
