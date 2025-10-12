@@ -30,7 +30,7 @@ make run
 
 The book is linted with markdownlint and Vale. Follow the official
 documentation to [install
-markdownlint](https://github.com/markdownlint/markdownlint?tab=readme-ov-file#installation)
+markdownlint](https://github.com/DavidAnson/markdownlint-cli2)
 and [install Vale](https://vale.sh/docs/install). Then run `vale sync` to
 download the necessary styles.
 
