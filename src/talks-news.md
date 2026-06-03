@@ -17,6 +17,7 @@
 | 2021‑06‑09 | Lucas Käldström | [Exploring modern and secure operations of Kubernetes clusters on the Edge](https://speakerdeck.com/luxas/exploring-modern-and-secure-operations-of-kubernetes-clusters-on-the-edge) | ODSC 2021 |
 | 2021‑09‑21 | David Hu | [Kexec Evolutions for LinuxBoot](https://www.osfc.io/2022/talks/kexec-evolutions-for-linuxboot/) | OSFC 2021 |
 | 2024‑06‑15 | Marta Lewandowska | [No more boot loader: Please use the kernel instead](https://pretalx.com/devconf-cz-2024/talk/W3AVCT/) | DevConf.CZ 2024 |
+| 2024-09-04 | Jiming Sun | [What CSP Servers Need from Open Source Firmware Solutions](https://www.osfc.io/2024/talks/what-csp-servers-need-from-open-source-firmware-solutions/) | OSFC 2024 |
 
 ## News
 
