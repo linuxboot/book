@@ -1,6 +1,8 @@
 name: Markdown Lint Action
 on:
   push:
+    branches:
+      - main
   pull_request:
   workflow_dispatch:
 
