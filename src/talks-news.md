@@ -18,6 +18,8 @@
 | 2021‑09‑21 | David Hu | [Kexec Evolutions for LinuxBoot](https://www.osfc.io/2022/talks/kexec-evolutions-for-linuxboot/) | OSFC 2021 |
 | 2024‑06‑15 | Marta Lewandowska | [No more boot loader: Please use the kernel instead](https://pretalx.com/devconf-cz-2024/talk/W3AVCT/) | DevConf.CZ 2024 |
 | 2024-09-04 | Jiming Sun | [What CSP Servers Need from Open Source Firmware Solutions](https://www.osfc.io/2024/talks/what-csp-servers-need-from-open-source-firmware-solutions/) | OSFC 2024 |
+| 2025-10-25 | Philip Molloy | [How You Boot Matters](https://youtu.be/KKldUkLzEfQ?si=MXqvbJ5qYkM0ATZQ) | Munich Embedded |
+| 2026-04-23 | Philip Molloy | [How You Boot Matters](https://events.opensuse.org/conferences/ODS26/program/proposals/5086) | SUSE Open Developers Summit |
 
 ## News
 
