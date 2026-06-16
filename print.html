@@ -17,24 +17,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-0392ca55.css">
+        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="theme/css/language-picker.css">
+        <link rel="stylesheet" href="theme/css/language-picker-2cebcd1e.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -42,12 +41,24 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-a6b2b8e4.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
+        <script src="toc-8fd4c84c.js"></script>
     </head>
     <body>
-    <div id="body-container">
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -76,56 +87,59 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
+                sidebar_toggle.checked = false;
             }
-            sidebar_toggle.checked = sidebar === 'visible';
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
@@ -133,36 +147,41 @@
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/linuxboot/book" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <p>This is the official “LinuxBoot Book” for the LinuxBoot project. The book:</p>
@@ -175,7 +194,7 @@ combine them</li>
 </ul>
 <h2 id="concept-and-project-goals"><a class="header" href="#concept-and-project-goals">Concept and project goals</a></h2>
 <p>LinuxBoot is the idea of replacing proprietary or corporate-driven late-stage
-boot <a href="./glossary.html">firmware</a> with the Linux kernel and a community-based
+boot <a href="#glossary">firmware</a> with the Linux kernel and a community-based
 user-space. That idea grew into a project that over the years includes various
 initiatives with the overarching goal of moving from obscure and complex
 firmware to simpler and open source firmware.</p>
@@ -232,7 +251,7 @@ applications.</p>
 filesystem used for LinuxBoot is based on u-root standard utilities written in
 Go. The following diagram shows the current state of the UEFI boot process and
 what is planned for the transition to LinuxBoot.</p>
-<p><a href="./images/UEFI-versus-LinuxBoot.svg"><img src="./images/UEFI-versus-LinuxBoot.svg" alt="comparison of UEFI boot and LinuxBoot" /></a></p>
+<p><a href="images/UEFI-versus-LinuxBoot.svg"><img src="images/UEFI-versus-LinuxBoot.svg" alt="comparison of UEFI boot and LinuxBoot"></a></p>
 <h2 id="benefits-of-linuxboot-with-uefi-servers"><a class="header" href="#benefits-of-linuxboot-with-uefi-servers">Benefits of LinuxBoot with UEFI servers</a></h2>
 <p>Most server firmware is based on Intel’s Universal Extensible Firmware
 Interface (UEFI). LinuxBoot provides the following benefits over UEFI:</p>
@@ -316,7 +335,8 @@ such as running automated test on each submitted change</li>
 </ul>
 </li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="use-cases"><a class="header" href="#use-cases">Use cases</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="use-cases"><a class="header" href="#use-cases">Use cases</a></h1>
 <p>The general concept of using a Linux kernel to boot into an operating system
 sounds simple at first glance. The challenges in the details, in part not only
 limited to using Linux, are being discussed in this chapter, with ideas on
@@ -361,9 +381,15 @@ connectors that can hold NVMes of gigabytes and terabytes of storage. This gives
 us the opportunity to work out a boot flow that provides the end user with a
 very rich environment already early on before the main operating system is
 loaded.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="coverage"><a class="header" href="#coverage">Coverage</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="coverage"><a class="header" href="#coverage">Coverage</a></h1>
 <h2 id="talks"><a class="header" href="#talks">Talks</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>Date</th><th>Presenter</th><th>Title</th><th>Conference</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Date</th><th>Presenter</th><th>Title</th><th>Conference</th></tr>
+</thead>
+<tbody>
 <tr><td>2016‑08‑26</td><td>Eric Richter</td><td><a href="https://www.youtube.com/watch?v=-cj2JDu_Ac4">(Ab)using Linux as a Trusted Bootloader</a> (<a href="http://events17.linuxfoundation.org/sites/events/files/slides/LSS-2016-richter.pdf">slides</a>)</td><td><a href="http://events17.linuxfoundation.org/events/archive/2016/linux-security-summit-north-america">LSS 2016</a></td></tr>
 <tr><td>2016‑12‑27</td><td>Trammell Hudson</td><td><a href="https://trmm.net/Heads_33c3">Bootstraping a slightly more secure laptop</a></td><td>33C3</td></tr>
 <tr><td>2017‑10‑27</td><td>Ron Minnich</td><td>Replace your exploit-ridden firmware with a Linux kernel (<a href="https://www.youtube.com/watch?v=iffTJ1vPCSo">YouTube</a>, <a href="https://schd.ws/hosted_files/osseu17/84/Replace%20UEFI%20with%20Linux.pdf">slides</a>)</td><td>OSSEU17</td></tr>
@@ -380,21 +406,30 @@ loaded.</p>
 <tr><td>2024-09-04</td><td>Jiming Sun</td><td><a href="https://www.osfc.io/2024/talks/what-csp-servers-need-from-open-source-firmware-solutions/">What CSP Servers Need from Open Source Firmware Solutions</a></td><td>OSFC 2024</td></tr>
 <tr><td>2025-10-25</td><td>Philip Molloy</td><td><a href="https://youtu.be/KKldUkLzEfQ?si=MXqvbJ5qYkM0ATZQ">How You Boot Matters</a></td><td>Munich Embedded</td></tr>
 <tr><td>2026-04-23</td><td>Philip Molloy</td><td><a href="https://events.opensuse.org/conferences/ODS26/program/proposals/5086">How You Boot Matters</a></td><td>SUSE Open Developers Summit</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <h2 id="news"><a class="header" href="#news">News</a></h2>
-<div class="table-wrapper"><table><thead><tr><th>Date</th><th>Website</th><th>Title</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Date</th><th>Website</th><th>Title</th></tr>
+</thead>
+<tbody>
 <tr><td>2018‑01‑25</td><td>Linux Foundation</td><td><a href="https://www.linuxfoundation.org/blog/system-startup-gets-a-boost-with-new-linuxboot-project/">System Statup gets a Boost with new LinuxBoot project</a></td></tr>
 <tr><td>2018‑02‑15</td><td>Linux Journal</td><td><a href="https://www.linuxjournal.com/content/foss-project-spotlight-linuxboot/">Linux Journal: FOSS Project Spotlight: LinuxBoot</a></td></tr>
 <tr><td>2018‑03‑08</td><td>LWN</td><td><a href="https://lwn.net/Articles/748586/">LWN.net: LinuxBoot: Linux as firmware</a></td></tr>
 <tr><td>2018‑06‑21</td><td>Phoronix</td><td><a href="https://www.phoronix.com/news/Equus-WHITEBOX-OPEN">Equus WHITEBOX OPEN: A Line Of Coreboot/LinuxBoot-Ready Xeon Scalable Servers</a></td></tr>
 <tr><td>2019‑02‑06</td><td>Phoronix</td><td><a href="https://www.phoronix.com/news/LinuxBoot-2019">At Just Over One Year Old, LinuxBoot Continues Making Inroads At Facebook &amp; Elsewhere</a></td></tr>
-<tr><td>2019‑03‑14</td><td>Facebook</td><td><a href="https://code.fb.com/data-center-engineering/f16-minipack/">Facebook's LinuxBoot-powered F-16 high-performance fabric network</a></td></tr>
+<tr><td>2019‑03‑14</td><td>Facebook</td><td><a href="https://code.fb.com/data-center-engineering/f16-minipack/">Facebook’s LinuxBoot-powered F-16 high-performance fabric network</a></td></tr>
 <tr><td>2023‑03‑10</td><td>Phoronix</td><td><a href="https://www.phoronix.com/news/Lenovo-LinuxBoot-ByteDance">Lenovo Begins Supporting LinuxBoot Firmware With ByteDance</a></td></tr>
 <tr><td>2024‑07‑08</td><td>LWN</td><td><a href="https://lwn.net/Articles/979789">Giving bootloaders the boot with nmbl</a></td></tr>
-</tbody></table>
-</div><div style="break-before: page; page-break-before: always;"></div><h1 id="linuxboot-components"><a class="header" href="#linuxboot-components">LinuxBoot Components</a></h1>
-<p><img src="./images/LinuxBoot-components.svg" alt="image" /></p>
+</tbody>
+</table>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="linuxboot-components"><a class="header" href="#linuxboot-components">LinuxBoot Components</a></h1>
+<p><img src="images/LinuxBoot-components.svg" alt="image"></p>
 <p>LinuxBoot consists of the following components:</p>
 <ol>
 <li>BIOS</li>
@@ -444,7 +479,8 @@ with different internal boot-related components, and kexec the next kernel.</p>
 <p>u-root is an open source project hosted on GitHub. Within the u-root
 repository, we have executable commands in <code>cmds</code> and the packages containing
 libraries and implementations in <code>pkg</code>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="evaluation-of-tools"><a class="header" href="#evaluation-of-tools">Evaluation of tools</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="evaluation-of-tools"><a class="header" href="#evaluation-of-tools">Evaluation of tools</a></h1>
 <p>Three general questions guide all software projects:</p>
 <ul>
 <li>what exists already? (implementations, tools and build systems)</li>
@@ -469,13 +505,19 @@ are essentially a collection of tools resulting from merging other collections.
 Note that there are still many other utilities that are not part of coreutils.
 At the same time, there are multiple other implementations now, which differ in
 terms of arguments and flags and possibly additional utilities they include.</p>
-<div class="table-wrapper"><table><thead><tr><th>tool</th><th>language</th><th>license</th><th>usage</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>tool</th><th>language</th><th>license</th><th>usage</th></tr>
+</thead>
+<tbody>
 <tr><td><a href="https://busybox.net/">BusyBox</a></td><td>C</td><td>GPLv2</td><td>Heads</td></tr>
 <tr><td><a href="http://landley.net/toybox">toybox</a></td><td>C</td><td>0BSD</td><td>Android</td></tr>
 <tr><td><a href="https://www.gnu.org/software/coreutils/">GNU coreutils</a></td><td>C</td><td>GPLv3</td><td>not for LinuxBoot</td></tr>
 <tr><td><a href="https://u-root.org">u-root</a></td><td>Go</td><td>BSD 3-Clause</td><td>ByteDance, Google et al</td></tr>
 <tr><td><a href="http://uutils.github.io/">uutils/coreutils</a></td><td>Rust</td><td>MIT</td><td>not for LinuxBoot</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <h3 id="kexec-implementations"><a class="header" href="#kexec-implementations">kexec implementations</a></h3>
 <p>While <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/include/uapi/linux/kexec.h">kexec itself is a Linux syscall</a>,
@@ -486,19 +528,25 @@ belong to the procedure. In addition, there are architecture specifics to take
 into account. Thus, there are multiple implementations of kexec, which are Linux
 programs that offer their own interfaces again to pass extra arguments. Besides
 those standalone implementations, there are also specialized boot loaders based
-on kexec that have their own extra logic, such as FreeBSD's kload or petitboot.</p>
-<div class="table-wrapper"><table><thead><tr><th>tool</th><th>language</th><th>license</th><th>usage</th></tr></thead><tbody>
+on kexec that have their own extra logic, such as FreeBSD’s kload or petitboot.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>tool</th><th>language</th><th>license</th><th>usage</th></tr>
+</thead>
+<tbody>
 <tr><td><a href="https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git">kexec-tools</a> (<a href="https://github.com/horms/kexec-tools">GitHub mirror</a>)</td><td>C</td><td>GPLv2</td><td>Heads, Petitboot</td></tr>
 <tr><td><a href="https://systemd.io/">systemd</a> (wrapper)</td><td>C</td><td>LGPL-2.1+</td><td>systemd on UEFI</td></tr>
 <tr><td><a href="https://github.com/kexecboot/kexecboot">kexecboot</a></td><td>C</td><td>GPLv2</td><td>?</td></tr>
 <tr><td>u-root (CLI+mod)</td><td>Go</td><td>BSD 3-Clause</td><td>Google et al</td></tr>
 <tr><td><a href="https://github.com/im-0/kexlinux">kexlinux</a></td><td>Rust</td><td>LGPL-3.0+</td><td>?</td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <h2 id="boot-configuration-and-menus"><a class="header" href="#boot-configuration-and-menus">Boot configuration and menus</a></h2>
 <p>There are multiple approaches to configuration and defining menus. Some boot
 loaders are using combined configuration files that have both, the options for
-the boot loader's appearance and behavior as well as the entries shown in the
+the boot loader’s appearance and behavior as well as the entries shown in the
 boot menu. For each of them, the boot loader itself will need a parser. At the
 same time, they are commonly managed from outside the boot loader itself. Note
 that those are design decisions and you may choose a different approach.
@@ -514,27 +562,39 @@ with its own tools to manage the <a href="https://www.gnu.org/software/grub/manu
 is a fresh approach to boot configuration. Type 1 BLS entries are defined via
 separate files in a drop-in directory. There are multiple libraries to handle
 them.</p>
-<div class="table-wrapper"><table><thead><tr><th>library</th><th>language</th><th>license</th><th>usage</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>library</th><th>language</th><th>license</th><th>usage</th></tr>
+</thead>
+<tbody>
 <tr><td>u-root <a href="https://github.com/u-root/u-root/tree/main/pkg/boot/bls"><code>pkg/boot/bls</code></a></td><td>Go</td><td>BSD 3-Clause</td><td></td></tr>
 <tr><td><a href="https://www.freedesktop.org/software/systemd/man/latest/bootctl.html"><code>bootctl</code></a></td><td>C</td><td>LGPL-2.1+</td><td>systemd</td></tr>
 <tr><td><a href="https://docs.rs/boot-loader-spec/latest/boot_loader_spec/"><code>boot_loader_spec</code> crate</a></td><td>Rust</td><td>MPL-2.0</td><td>?</td></tr>
 <tr><td><a href="https://github.com/AerynOS/blsforme">blsforme</a></td><td>Rust</td><td>MPL-2.0</td><td>standalone</td></tr>
-</tbody></table>
-</div><div style="break-before: page; page-break-before: always;"></div><h1 id="petitboot"><a class="header" href="#petitboot">Petitboot</a></h1>
+</tbody>
+</table>
+</div>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="petitboot"><a class="header" href="#petitboot">Petitboot</a></h1>
 <p>petitboot is a Linux user-space application written in C that calls <code>kexec</code>.
 The <code>kexec</code> installed in the initramfs is not the mainline kexec-tools
 implementation, but a smaller implementation named
 <a href="https://github.com/antonblanchard/kexec-lite">kexec-lite</a>. It is claimed to be
 roughly 32 KB compared to kexec-tools, which is roughly 200 KB.<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
 <hr>
-<ol class="footnote-definition"><li id="footnote-1">
+<ol class="footnote-definition">
+<li id="footnote-1">
 <p><a href="https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778">https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778</a> <a href="#fr-1-1">↩</a></p>
 </li>
-</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="openpower-boot-chain"><a class="header" href="#openpower-boot-chain">OpenPOWER boot chain</a></h1>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="openpower-boot-chain"><a class="header" href="#openpower-boot-chain">OpenPOWER boot chain</a></h1>
 <pre class="mermaid">flowchart LR
-    skiroot([&quot;skiroot (petitboot)&quot;])
+    skiroot(["skiroot (petitboot)"])
     SBEs--&gt;hostboot--&gt;skiboot--&gt;skiroot--&gt;OS
 </pre>
+
 <ul>
 <li><a href="https://github.com/open-power/sbe">Self-boot engines</a> (SBE) are split
 between an on-chip ROM and an external EEPROM</li>
@@ -545,7 +605,7 @@ runtime firmware for OpenPOWER that loads skiroot.</li>
 </ul>
 <p>skiroot is a term used to describe the LinuxBoot implementation for OpenPOWER.
 A skiroot repository or package does not exist. The term is only used in the
-kernel configuration, <code>skiroot_defconfig</code>.<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
+kernel configuration, <code>skiroot_defconfig</code>.<sup class="footnote-reference" id="fr-1-1-1"><a href="#footnote-1-1">1</a></sup></p>
 <h2 id="see-also"><a class="header" href="#see-also">See also</a></h2>
 <ul>
 <li><a href="https://openpower.foundation/blog/coreboot-on-talos2/">coreboot and Heads as an alternative firmware for OpenPOWER Talos
@@ -555,27 +615,31 @@ like?</a> by Nicholas Piggin
 (IBM) At Everything Open 2024 in Australia about runtime firmware</li>
 </ul>
 <hr>
-<ol class="footnote-definition"><li id="footnote-1">
-<p><a href="https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig">https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig</a> <a href="#fr-1-1">↩</a></p>
+<ol class="footnote-definition">
+<li id="footnote-1-1">
+<p><a href="https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig">https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig</a> <a href="#fr-1-1-1">↩</a></p>
 </li>
-</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="odroid-boot-chain"><a class="header" href="#odroid-boot-chain">ODROID boot chain</a></h1>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="odroid-boot-chain"><a class="header" href="#odroid-boot-chain">ODROID boot chain</a></h1>
 <p>The <a href="https://wiki.odroid.com/odroid-n2/hardware">ODROID-N2</a> comes with a SPI
 flash as well as a connector for an eMMC flash and an SD card slot. The SoC is
 an <a href="https://wiki.odroid.com/odroid-n2/software/boot_sequence">Amlogic S922X which can boot from all those storages</a>,
 depending on GPIO configuration and a fallback flow in the mask ROM.
 For booting from SPI flash, the ODROID-N2 board has a switch, and comes with
-<a href="./petitboot.html">Petitboot</a> preinstalled<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>.</p>
+<a href="#petitboot">Petitboot</a> preinstalled<sup class="footnote-reference" id="fr-1-1-2"><a href="#footnote-1-2">1</a></sup>.</p>
 <p>The SPI flash boot flow is as follows:</p>
 <pre class="mermaid">flowchart LR
-    maskrom[&quot;mask ROM&quot;]
-    spl[&quot;U-Boot SPL&quot;]
-    uboot[&quot;U-Boot main&quot;]
-    petitboot([&quot;petitboot&quot;])
+    maskrom["mask ROM"]
+    spl["U-Boot SPL"]
+    uboot["U-Boot main"]
+    petitboot(["petitboot"])
     maskrom--&gt;spl--&gt;uboot--&gt;petitboot--&gt;OS
 </pre>
+
 <ul>
 <li><a href="https://docs.u-boot.org/en/latest/usage/spl_boot.html">U-Boot SPL</a>
-initializes DRAM and loads U-Boot main ("proper")</li>
+initializes DRAM and loads U-Boot main (“proper”)</li>
 <li>U-Boot main is set up to directly load Linux with Petitboot, which implements
 LinuxBoot</li>
 </ul>
@@ -584,10 +648,13 @@ LinuxBoot</li>
 <li><a href="https://forum.odroid.com/viewtopic.php?f=182&amp;t=33873">ODROID forum discussion on porting Petitboot to ODROID-N2</a></li>
 </ul>
 <hr>
-<ol class="footnote-definition"><li id="footnote-1">
-<p><a href="https://wiki.odroid.com/getting_started/petitboot/os_installation_using_otg">https://wiki.odroid.com/getting_started/petitboot/os_installation_using_otg</a> <a href="#fr-1-1">↩</a></p>
+<ol class="footnote-definition">
+<li id="footnote-1-2">
+<p><a href="https://wiki.odroid.com/getting_started/petitboot/os_installation_using_otg">https://wiki.odroid.com/getting_started/petitboot/os_installation_using_otg</a> <a href="#fr-1-1-2">↩</a></p>
 </li>
-</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="all-about-u-root"><a class="header" href="#all-about-u-root">All about u-root</a></h1>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="all-about-u-root"><a class="header" href="#all-about-u-root">All about u-root</a></h1>
 <p>U-root is an embeddable root file system intended to be placed in a flash
 device as part of the firmware image, along with a Linux kernel. The program
 source code is installed in the root file system contained in the firmware
@@ -741,7 +808,12 @@ DHCP programs, along with the docker netlink package and a DHCP package.</p>
 <p>Table 1 below shows the initial layout of a u-root file system.</p>
 <p>All Go compiler and runtime source is included under <code>/go/src</code>. All u-root
 source is under <code>/src</code> and the compiler toolchain binaries are under <code>/go/pkg</code>.</p>
-<div class="table-wrapper"><table><thead><tr><th>Directory</th><th style="text-align: center">Subdirectory</th><th style="text-align: left">Command</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Directory</th><th style="text-align: center">Subdirectory</th><th style="text-align: left">Command</th></tr>
+</thead>
+<tbody>
 <tr><td>/src</td><td style="text-align: center">cmds/</td><td style="text-align: left"></td></tr>
 <tr><td></td><td style="text-align: center"></td><td style="text-align: left">builtin/builtin.go</td></tr>
 <tr><td></td><td style="text-align: center"></td><td style="text-align: left">/cat.go</td></tr>
@@ -781,17 +853,23 @@ source is under <code>/src</code> and the compiler toolchain binaries are under 
 <tr><td></td><td style="text-align: center"></td><td style="text-align: left">golang.org (import package source)</td></tr>
 <tr><td>/go</td><td style="text-align: center">src/</td><td style="text-align: left">Packages and toolchain</td></tr>
 <tr><td></td><td style="text-align: center">pkg/</td><td style="text-align: left">tool/linux amd64/{6a,6c,6g,6l}</td></tr>
-<tr><td></td><td style="text-align: center">misc/</td><td style="text-align: left">...</td></tr>
-<tr><td></td><td style="text-align: center">tool/</td><td style="text-align: left">...</td></tr>
+<tr><td></td><td style="text-align: center">misc/</td><td style="text-align: left">…</td></tr>
+<tr><td></td><td style="text-align: center">tool/</td><td style="text-align: left">…</td></tr>
 <tr><td></td><td style="text-align: center">bin/</td><td style="text-align: left">go</td></tr>
-<tr><td></td><td style="text-align: center">include/</td><td style="text-align: left">...</td></tr>
+<tr><td></td><td style="text-align: center">include/</td><td style="text-align: left">…</td></tr>
 <tr><td>/lib/</td><td style="text-align: center">libc.so</td><td style="text-align: left">Needed for tinycore linux packages</td></tr>
 <tr><td></td><td style="text-align: center">libm.so</td><td style="text-align: left"></td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <p><strong>Table 1</strong>: Initial layout of a u-root filesystem</p>
 <p>Table 2 below shows the layout after <code>/init</code> has run.</p>
-<div class="table-wrapper"><table><thead><tr><th>Directory</th><th style="text-align: center">Subdirectory</th><th style="text-align: left">Command</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Directory</th><th style="text-align: center">Subdirectory</th><th style="text-align: left">Command</th></tr>
+</thead>
+<tbody>
 <tr><td>/src</td><td style="text-align: center">cmds/</td><td style="text-align: left"></td></tr>
 <tr><td></td><td style="text-align: center"></td><td style="text-align: left">builtin/builtin.go</td></tr>
 <tr><td></td><td style="text-align: center"></td><td style="text-align: left">/cat.go</td></tr>
@@ -831,13 +909,14 @@ source is under <code>/src</code> and the compiler toolchain binaries are under 
 <tr><td></td><td style="text-align: center"></td><td style="text-align: left">golang.org (import package source)</td></tr>
 <tr><td>/go</td><td style="text-align: center">src/</td><td style="text-align: left">Packages and toolchain</td></tr>
 <tr><td></td><td style="text-align: center">pkg/</td><td style="text-align: left">tool/linux amd64/{6a,6c,6g,6l}</td></tr>
-<tr><td></td><td style="text-align: center">misc/</td><td style="text-align: left">...</td></tr>
-<tr><td></td><td style="text-align: center">tool/</td><td style="text-align: left">...</td></tr>
+<tr><td></td><td style="text-align: center">misc/</td><td style="text-align: left">…</td></tr>
+<tr><td></td><td style="text-align: center">tool/</td><td style="text-align: left">…</td></tr>
 <tr><td></td><td style="text-align: center">bin/</td><td style="text-align: left">go</td></tr>
-<tr><td></td><td style="text-align: center">include/</td><td style="text-align: left">...</td></tr>
+<tr><td></td><td style="text-align: center">include/</td><td style="text-align: left">…</td></tr>
 <tr><td>/lib/</td><td style="text-align: center">libc.so</td><td style="text-align: left">Needed for tinycore linux packages</td></tr>
 <tr><td></td><td style="text-align: center">libm.so</td><td style="text-align: left"></td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <p><strong>Table 2</strong>: Layout after <code>/init</code> has run.</p>
 <p><code>/buildbin</code> contains symlinks to enable the on-demand compilation, and other
@@ -1029,7 +1108,7 @@ source to provide improved performance. Java takes the process one step further
 with the Just In Time compilation of byte code to machine code<sup class="footnote-reference" id="fr-20-1"><a href="#footnote-20">25</a></sup> to boost
 performance.</p>
 <h2 id="embedding-kernel-and-root-file-systems-in-flash"><a class="header" href="#embedding-kernel-and-root-file-systems-in-flash">Embedding kernel and root file systems in flash</a></h2>
-<p>The LinuxBIOS project<sup class="footnote-reference" id="fr-14-2"><a href="#footnote-14">4</a></sup> <sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">26</a></sup>, together with clustermatic<sup class="footnote-reference" id="fr-25-2"><a href="#footnote-25">3</a></sup>, used an embedded
+<p>The LinuxBIOS project<sup class="footnote-reference" id="fr-14-2"><a href="#footnote-14">4</a></sup> <sup class="footnote-reference" id="fr-1-1-3"><a href="#footnote-1-3">26</a></sup>, together with clustermatic<sup class="footnote-reference" id="fr-25-2"><a href="#footnote-25">3</a></sup>, used an embedded
 kernel and simple root file system to manage supercomputing clusters. Due to
 space constraints of 1 MiB or less of flash, clusters embedded only a
 single-processor Linux kernel with a daemon. The daemon was a network
@@ -1070,7 +1149,8 @@ to an old idea: packaging a kernel and small set of binaries in flash to create
 a fast, capable boot system.</p>
 <h2 id="references"><a class="header" href="#references">References</a></h2>
 <hr>
-<ol class="footnote-definition"><li id="footnote-24">
+<ol class="footnote-definition">
+<li id="footnote-24">
 <p>VARIOUS. No papers were published; see perllinux.sourceforge.net. <a href="#fr-24-1">↩</a> <a href="#fr-24-2">↩2</a></p>
 </li>
 <li id="footnote-26">
@@ -1176,17 +1256,19 @@ and Distributed Processing Symposium, 2007. IPDPS 2007. IEEE International
 ISHIZAKI, K., KOMATSU, H., AND NAKATANI, T. Overview of the ibm java
 just-in-time compiler. IBM systems Journal 39, 1 (2000), 175–193. <a href="#fr-20-1">↩</a></p>
 </li>
-<li id="footnote-1">
+<li id="footnote-1-3">
 <p>AGNEW, A., SULMICKI, A., MINNICH, R., AND ARBAUGH, W. A. Flexibility in
 rom: A stackable open source bios. In USENIX Annual Technical Conference,
-FREENIX Track (2003), pp. 115–124. <a href="#fr-1-1">↩</a></p>
+FREENIX Track (2003), pp. 115–124. <a href="#fr-1-1-3">↩</a></p>
 </li>
 <li id="footnote-3">
 <p>BENAVIDES, T., TREON, J., HULBERT, J., AND CHANG, W. The enabling of an
 execute-in-place architecture to reduce the embedded system memory
 footprint and boot time. Journal of computers 3, 1 (2008), 79–89. <a href="#fr-3-1">↩</a></p>
 </li>
-</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="u-root-demo-with-qemu"><a class="header" href="#u-root-demo-with-qemu">u-root demo with QEMU</a></h1>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="u-root-demo-with-qemu"><a class="header" href="#u-root-demo-with-qemu">u-root demo with QEMU</a></h1>
 <p>You can try out LinuxBoot without needing to build anything! You can try out
 LinuxBoot needing only 3 commands.</p>
 <p>We have made Initial Ram File System (initramfs) images available for four
@@ -1230,7 +1312,8 @@ Linux
 [   14.442914] reboot: Power down
 </code></pre>
 <p>You have just run your first LinuxBoot kernel.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="benefits-of-using-the-go-user-space-environment-and-compiler"><a class="header" href="#benefits-of-using-the-go-user-space-environment-and-compiler">Benefits of using the Go user-space environment and compiler</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="benefits-of-using-the-go-user-space-environment-and-compiler"><a class="header" href="#benefits-of-using-the-go-user-space-environment-and-compiler">Benefits of using the Go user-space environment and compiler</a></h1>
 <p>Go is a systems programming language created by Google. Go has strong typing,
 language level support for concurrency, inter-process communication via
 channels, runtime type safety and other protective measures, dynamic allocation
@@ -1263,24 +1346,26 @@ system. Another solution is to compile everything together into one
 BusyBox-style program. Alternatively, programs can be fetched over the network,
 but compiling dynamically with Go or creating a BusyBox program are the
 recommended solutions.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="linuxboot-utilities"><a class="header" href="#linuxboot-utilities">LinuxBoot Utilities</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="linuxboot-utilities"><a class="header" href="#linuxboot-utilities">LinuxBoot Utilities</a></h1>
 <p>In order to bootstrap, build and maintain LinuxBoot projects, we provide a
 handful of utilities for extracting, reducing, reworking, and stitching firmware
 images.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="uefi-tool-kit"><a class="header" href="#uefi-tool-kit">UEFI Tool Kit</a></h1>
-<p>Authors: Ryan O'Leary, Gan Shun Lim and Andrea Barberio</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="uefi-tool-kit"><a class="header" href="#uefi-tool-kit">UEFI Tool Kit</a></h1>
+<p>Authors: Ryan O’Leary, Gan Shun Lim and Andrea Barberio</p>
 <p>In previous chapters, you learned how to read a raw ROM image from a flash
-part. If you've been following along, you know the next step is to insert a
+part. If you’ve been following along, you know the next step is to insert a
 Linux kernel.</p>
 <p>Inspecting and modifying ROM images is tricky and can involve a fair amount of
 tinkering. These images typically contain a number of file systems, drivers,
 tables, data structures and opaque blobs. They also differ significantly from the
 UNIX model of a file systems, thus cannot be reasonably mounted in Linux.</p>
 <p>UEFI Tool Kit (UTK) is intended to be a one-stop-shop for reading, writing and
-modifying UEFI images -- the most common type of firmware image for x86
+modifying UEFI images – the most common type of firmware image for x86
 systems. UTK can parse a number of data structures including UEFI firmware
 volumes, Intel firmware descriptors and FIT.</p>
-<p>In this chapter, we'll go over how to:</p>
+<p>In this chapter, we’ll go over how to:</p>
 <ol>
 <li>Install UTK</li>
 <li>Inspect ROMs</li>
@@ -1296,7 +1381,7 @@ sudo flashrom -w /tmp/NEWROM.bin
 </code></pre>
 <h2 id="quick-start"><a class="header" href="#quick-start">Quick start</a></h2>
 <p>We assume you have a way to read and write the FLASH into a file.</p>
-<p>Let's assume you have read FLASH into an image called ROM.bin and you
+<p>Let’s assume you have read FLASH into an image called ROM.bin and you
 have a kernel, called bzImage, which you want to insert into
 ROM.bin. Be sure the kernel is buildable as an EFI driver (DXE); see
 the pitfalls section. The easiest option is to replace the UEFI shell. This
@@ -1313,12 +1398,12 @@ our first step on a new board.</p>
 not enough space, you will need to refer to the more detailed instructions
 below.</p>
 <h2 id="installation"><a class="header" href="#installation">Installation</a></h2>
-<p>At the time of writing, you must clone and build UTK from source -- binary
+<p>At the time of writing, you must clone and build UTK from source – binary
 distributions are not officially available. The source code resides in the
 <a href="https://github.com/linuxboot/fiano/">Fiano Github project</a>.</p>
 <p>Aside: what is the difference between Fiano and UTK? The Fiano project contains
 a few more tools besides UTK, but UTK is a big element.</p>
-<p>We'll assume you already have Go installed. Check your installation with:</p>
+<p>We’ll assume you already have Go installed. Check your installation with:</p>
 <pre><code>$ go version
 go version go1.11 linux/amd64
 </code></pre>
@@ -1358,16 +1443,16 @@ Operations:
   table                 : print out important information in a pretty table
   validate              : perform extra validation checks
 </code></pre>
-<p>Don't fret if your list of operations differs. UTK is an evolving project!</p>
+<p>Don’t fret if your list of operations differs. UTK is an evolving project!</p>
 <h2 id="inspecting-roms"><a class="header" href="#inspecting-roms">Inspecting ROMs</a></h2>
-<p>Throughout this section, we'll demonstrate commands for inspecting a UEFI
-image. When confronted with a new image, run these commands to get a "lay of
-the land".</p>
+<p>Throughout this section, we’ll demonstrate commands for inspecting a UEFI
+image. When confronted with a new image, run these commands to get a “lay of
+the land”.</p>
 <p>Start by downloading the UEFI image used in these examples:</p>
 <pre><code>wget https://github.com/linuxboot/fiano/raw/master/integration/roms/OVMF.rom
 </code></pre>
 <p>Aside: alternatively, all UTK operations should work with your own UEFI images.
-Simply substitute "OVMF.rom" with your own UEFI image in all the examples
+Simply substitute “OVMF.rom” with your own UEFI image in all the examples
 below. If you encounter any problems, please file an issue at
 <a href="https://github.com/linuxboot/fiano/issues">https://github.com/linuxboot/fiano/issues</a>.</p>
 <p>First, it is advisable to print a count of each firmware element:</p>
@@ -1402,15 +1487,15 @@ below. If you encounter any problems, please file an issue at
         }
 }
 </code></pre>
-<p>The definition of a "Firmware Element" is in order. Firmware images are
+<p>The definition of a “Firmware Element” is in order. Firmware images are
 hierarchical and can be represented as a tree. Each node in the tree is a
-"Firmware Element". Each element has a type such as "BIOSRegion",
-"FirmwareVolume", "File" and "Section" as seen above. Files (and sections)
+“Firmware Element”. Each element has a type such as “BIOSRegion”,
+“FirmwareVolume”, “File” and “Section” as seen above. Files (and sections)
 themselves have an additional type dictated by the UEFI spec. There are three
 major file types you should be aware of:</p>
 <ul>
 <li><code>EFI_FV_FILETYPE_DRIVER</code>: This is the most numerous file type and is often
-called a "DXE". They persist in memory even after their main function exits.</li>
+called a “DXE”. They persist in memory even after their main function exits.</li>
 <li><code>EFI_FV_FILETYPE_APPLICATION</code>: Applications do not persist in memory after
 exiting. For example, the EFI Shell is an EFI Application.</li>
 <li><code>EFI_FV_FILETYPE_FIRMWARE_VOLUME_IMAGE</code>: These file types allow nesting
@@ -1488,9 +1573,9 @@ $ utk OVMF.rom find 7C04A583-9E3E-4F1C-AD65-E05268D0B4D1
 }
 </code></pre>
 <p>Note that UEFI uses GUIDs to identify files. Some files also have a name which
-is stored within the file's UI section. Like <code>find</code>, most of UTKs commands let
+is stored within the file’s UI section. Like <code>find</code>, most of UTKs commands let
 you match a file by its name or GUID.</p>
-<p>The examples up until now have only dealt with file metadata and not the file's
+<p>The examples up until now have only dealt with file metadata and not the file’s
 contents. The <code>extract &lt;DIR&gt;</code> command extracts all the files from the image and
 saves them to <code>&lt;DIR&gt;</code>. <code>&lt;DIR&gt;/summary.json</code> lists all the paths to the extracted
 files along with their metadata.</p>
@@ -1500,7 +1585,7 @@ files along with their metadata.</p>
 <pre><code>utk OVMF/ save OVMF2.rom
 </code></pre>
 <h2 id="modifying-roms"><a class="header" href="#modifying-roms">Modifying ROMs</a></h2>
-<p>First, let's verify the image works by running it inside QEMU. This step is not
+<p>First, let’s verify the image works by running it inside QEMU. This step is not
 absolutely necessary, but gives us confidence the image works before and after
 each change we make.</p>
 <pre><code>qemu-system-x86_64 -bios OVMF.rom -nographic -net none
@@ -1539,7 +1624,7 @@ $ utk OVMF.rom \
   replace_pe32 Shell linux.efi \
   save OVMF2.rom
 </code></pre>
-<p>That's all there to it! Try experimenting with the other commands such as
+<p>That’s all there to it! Try experimenting with the other commands such as
 insert.</p>
 <h2 id="common-pitfalls"><a class="header" href="#common-pitfalls">Common Pitfalls</a></h2>
 <h3 id="kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode"><a class="header" href="#kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode">Kernel is not built as a DXE or has not enabled UEFI stub mode</a></h3>
@@ -1552,12 +1637,18 @@ CONFIG_EFI_STUB=y
 <p>When UTK does not recognize the compression format used by the particular
 image, the files within it are not listed.</p>
 <p>In the wild, three compression schemes are common:</p>
-<div class="table-wrapper"><table><thead><tr><th>Compression</th><th>GUID</th><th>UTK Support</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Compression</th><th>GUID</th><th>UTK Support</th></tr>
+</thead>
+<tbody>
 <tr><td>Uncompressed</td><td></td><td>Fully supported</td></tr>
 <tr><td>LZMA</td><td>EE4E5898-3914-4259-9D6E-DC7BD79403CF</td><td>Fully supported</td></tr>
 <tr><td>LZMA + x86</td><td>D42AE6BD-1352-4BFB-909A-CA72A6EAE889</td><td>Supported, but not tested</td></tr>
 <tr><td>Tianocore</td><td>A31280AD-481E-41B6-95E8-127F4C984779</td><td>Not supported, see <a href="https://github.com/linuxboot/fiano/issues/226">#226</a></td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <p>To determine which compression scheme you are using, search for the respective
 GUID in the json summary.</p>
@@ -1565,14 +1656,14 @@ GUID in the json summary.</p>
 <pre><code>File size too big! File with GUID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX has length 543210, but is only 123450 bytes big
 </code></pre>
 <p>When saving a UEFI image, files are added successively to each firmware volume.
-The first file which overflows the volume's size causes this error.</p>
+The first file which overflows the volume’s size causes this error.</p>
 <p>If you were inserting files, you will need to delete existing files to make room.</p>
 <p>There is a special cases where this error is generated without any operations:</p>
 <pre><code>utk OVMF.rom save OVMF2.rom
 </code></pre>
 <p>How can this be? No changes should be made to the image!</p>
-<p>Not quite (and the complete list of differences can be found in the "binary
-equality section") -- compressed volumes are recompressed.</p>
+<p>Not quite (and the complete list of differences can be found in the “binary
+equality section”) – compressed volumes are recompressed.</p>
 <p>By default, UTK uses the Go compressor, which is generally worse than the
 compression found in most UEFI images. Pass <code>--systemXZ=xz</code> as the first
 argument to UTK to use a better compressor.</p>
@@ -1596,9 +1687,9 @@ argument to UTK to use a better compressor.</p>
 <p>A good visitor still works when new Firmware are introduced. A good Firmware
 still works when a new visitor is introduced.</p>
 <h3 id="ast"><a class="header" href="#ast">AST</a></h3>
-<p>Abstract Syntax Tree -- this is a concept borrowed from compilers. When you're
+<p>Abstract Syntax Tree – this is a concept borrowed from compilers. When you’re
 extracting the DXE to create a tree of structs containing a simplified model,
-you're essentially creating an AST. Then think about how patterns used in
+you’re essentially creating an AST. Then think about how patterns used in
 compiler architecture might apply to UTK.</p>
 <h3 id="visitor-interface"><a class="header" href="#visitor-interface">Visitor Interface</a></h3>
 <p>Each visitor implements the following:</p>
@@ -1609,7 +1700,7 @@ compiler architecture might apply to UTK.</p>
     // ...
 }
 </code></pre>
-<p>Think of a visitor as an "action" or a "transformation" being applied on the
+<p>Think of a visitor as an “action” or a “transformation” being applied on the
 AST.</p>
 <h3 id="visitor"><a class="header" href="#visitor">Visitor</a></h3>
 <p>A struct implementing Visitor performs a transformation on the AST, for example:</p>
@@ -1642,19 +1733,19 @@ func (v *RenameDXE) VisitSection(s *FileSection) error {
 <li>Assemble the AST back into an image.</li>
 <li>Recursively write the AST to the filesystem (what you currently do with extract)</li>
 <li>Print an overview of the files to the terminal for debugging</li>
-<li>...</li>
+<li>…</li>
 </ul>
 <p>It is easy to add more visitors without modifying existing code. Each action can
 be in a separate file.</p>
 <h3 id="applying"><a class="header" href="#applying">Applying</a></h3>
-<p>Visitors are applied to the AST. Each node in the AST has an "Apply" method, for
+<p>Visitors are applied to the AST. Each node in the AST has an “Apply” method, for
 example:</p>
 <pre><code class="language-go">func (f *File) Apply(v *visitor) error {
     return v.VisitFile(f)
 }
 </code></pre>
 <p>This is so the visitors can be applied recursively over the AST.</p>
-<p>To apply the above RenameDXE visitor, you'd run:</p>
+<p>To apply the above RenameDXE visitor, you’d run:</p>
 <pre><code class="language-go">v := &amp;RenameDXE{"Shell", "NotShell"}
 fv.Apply(v)
 </code></pre>
@@ -1679,15 +1770,16 @@ methods to modify the AST.</p>
 <li>UEFITool</li>
 <li>uefi-firmware-parser</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="the-u-root-cpu-command"><a class="header" href="#the-u-root-cpu-command">The u-root <code>cpu</code> command</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="the-u-root-cpu-command"><a class="header" href="#the-u-root-cpu-command">The u-root <code>cpu</code> command</a></h1>
 <p>Do you want to have all the tools on your  system that you have on your
-desktop, but you can't get them to fit in your tiny flash part? Do you want all
-your desktop files visible on your  system, but just remembered there's
+desktop, but you can’t get them to fit in your tiny flash part? Do you want all
+your desktop files visible on your  system, but just remembered there’s
 no disk on your  system? Are you tired of using <code>scp</code> or <code>wget</code> to move
 files around? Do you want to run <code>emacs</code> or <code>vim</code> on the  machine, but
-know they can't ever fit? What about <code>zsh</code>? How about being able to run commands
+know they can’t ever fit? What about <code>zsh</code>? How about being able to run commands
 on your  machine and have the output appear on your home file system?
-You say you'd like to make this all work without having to fill out web forms in
+You say you’d like to make this all work without having to fill out web forms in
 triplicate to get your organization to Do Magic to your desktop?</p>
 <p><strong>Your search is over: <code>cpu</code> is here to answer all your usability needs.</strong></p>
 <h2 id="the-problem-running-your-program-on-some-other-system"><a class="header" href="#the-problem-running-your-program-on-some-other-system">The problem: running your program on some other system</a></h2>
@@ -1776,11 +1868,11 @@ Other users on the machine should not be able to see any of the things they
 bring with them. After all, everyone who goes camping wants to believe they are
 the only people at that campground!</p>
 <h3 id="how-cpu-provides-what-we-need"><a class="header" href="#how-cpu-provides-what-we-need">How <code>cpu</code> provides what we need</a></h3>
-<p><code>cpu</code> is a Go-based implementation of Plan 9's <code>cpu</code> command. It uses the go
+<p><code>cpu</code> is a Go-based implementation of Plan 9’s <code>cpu</code> command. It uses the go
 <code>ssh</code> package, so all your communications are as secure as <code>ssh</code>. It can be
 started from <code>/sbin/init</code> or even replace <code>/sbin/init</code>, so you have a tiny flash
 footprint. You can see the code at
-<a href="https://github.com/u-root/cpu">github.com:u-root/cpu</a>. It's also small: less
+<a href="https://github.com/u-root/cpu">github.com:u-root/cpu</a>. It’s also small: less
 than 20 files, including tests.</p>
 <p><code>cpu</code> runs as both a client (on your desktop) and an <code>ssh</code> server (on your
 machine). On your desktop, it needs no special privilege. On the
@@ -1789,25 +1881,25 @@ part of setting up a session, in addition to normal <code>ssh</code> operations,
 up private name space at important places like <code>/home/$USER</code>, <code>/bin, /usr,</code>and
 so on. Nobody gets to see what other people’s files are.</p>
 <p><code>Ssh</code> provides remote access. <code>cpu</code> goes one step further, providing what is
-called <em>resource sharing</em> -- resources, i.e., files from the client machine can
+called <em>resource sharing</em> – resources, i.e., files from the client machine can
 be used directly on the remote machine, without needing to manually copy them.
 <code>cpud</code> implements resource sharing by setting up a <code>file system</code>mount on the
 remote machine and relaying file I/O requests back to the desktop <code>cpu</code> process.
-The desktop command services those requests; you don't need to run a special
+The desktop command services those requests; you don’t need to run a special
 external server. One thing that is a bit confusing with <code>cpu</code>: the desktop
 client is a file server; the remote server’s Linux kernel is a file client.
 <code>cpu</code> has to do a bit more work to accomplish its task.</p>
 <p><code>cpu</code> will change your life. You can forget about moving files via <code>scp</code>: once
-you '<code>cpu</code> in', the <code>/home</code> directory on your  node is your home
+you ‘<code>cpu</code> in’, the <code>/home</code> directory on your  node is your home
 directory. You can <code>cd ~</code>and see all your files. You can pick any shell you
-want, since the shell binary comes from your desktop, not flash. You don't have
+want, since the shell binary comes from your desktop, not flash. You don’t have
 to worry about fitting <code>zsh</code> into flash ever again!</p>
 <p>At Google we can now run <code>chipsec</code>, which imports 20M of Python libraries,
 because we have <code>cpu</code> and we can redirect <code>chipsec</code> output to files in our home
 directory.</p>
 <p>Here is an example session:</p>
 <p>In this command, we <code>cpu</code> to a PC Engines APU2. We have built a kernel and
-u-root initramfs containing just one daemon -- the <code>cpu</code> daemon -- into the
+u-root initramfs containing just one daemon – the <code>cpu</code> daemon – into the
 flash image. The APU2 does not even need a disk; it starts running as a “<code>cpu</code>
 appliance.”</p>
 <p>The <code>bash</code> is not on the <code>cpu</code> node; it will come from our desktop via the 9p
@@ -1825,7 +1917,7 @@ The home directory is, similarly, made available to the remote machine from the
 local machine.</p>
 <p>A big benefit of <code>cpu</code> is that, as long as the network works, users can create
 very minimal flash images, containing just the <code>cpu</code> daemon, just enough to get
-the network going. Once the network is up, users can <code>'cpu</code> in', and everything
+the network going. Once the network is up, users can <code>'cpu</code> in’, and everything
 they need is there. It actually looks like they are still logged in to their
 desktop, except, of course, truly local file systems such as <code>/proc</code> and <code>/sys</code>
 will come from the machine they are on, not their desktop.</p>
@@ -1864,24 +1956,24 @@ and its libraries will be found in their usual place. This is an essential
 property of <code>cpu</code>, that the names used on the user’s machine work the same
 way on the remote machine. An overview of the process is shown below.</li>
 </ol>
-<img src="utilities/../images/cpu_overview.svg" width=600px>
+<img src="images/cpu_overview.svg" width="600px">
 <h2 id="cpu-startup"><a class="header" href="#cpu-startup"><code>cpu</code> startup</a></h2>
 <p>The startup proceeds in several steps. Every session begins with an initial
 contact from the <code>cpu</code> client to the <code>cpu</code> server.</p>
-<img src="utilities/../images/cpu_startup.svg" width=600px>
+<img src="images/cpu_startup.svg" width="600px">
 <p>The first step the <code>cpud</code> does is set up the mounts back to the client. It then
 sets up the bind mounts such as <code>/bin</code> to <code>/tmp/cpu/bin</code>. In the following
 figure, we compress the Linux kernel mount and bind mounts shown above into a
 smaller box called “name space.”</p>
-<img src="utilities/../images/cpu_first_step.svg" width=600px>
+<img src="images/cpu_first_step.svg" width="600px">
 <p>Next, <code>cpu</code> and the <code>cpud</code> set up the terminal management.</p>
-<img src="utilities/../images/cpu_second_step.svg" width=600px>
+<img src="images/cpu_second_step.svg" width="600px">
 <p>Finally, <code>cpud</code> sets up the program to run. Because the PATH variable has been
 transferred to <code>cpud</code>, and the name space includes <code>/bin</code> and <code>/lib</code>, the <code>cpud</code>
 can do a standard Linux <code>exec</code> system call without having to locate where
 everything is. Native kernel mechanisms create requests as files are referenced,
 and the <code>cpu</code> file server support does the rest.</p>
-<img src="utilities/../images/cpu_third_step.svg" width=600px>
+<img src="images/cpu_third_step.svg" width="600px">
 <p>Why do we only show one program instead of many? From the point of view of
 <code>cpud</code>, it only starts one program. From the point of view of users, there can
 be many. But if there is more than one program to start, <em>that is not the
@@ -1902,7 +1994,7 @@ protocol is called 9P2000. We are going to present a filtered version of the
 file I/O from running a remote <code>date</code>; in practice, you can watch all the opens,
 reads, writes, and closes the remote process performs.</p>
 <p>The trace for running <code>date</code> starts right when the remote program has called
-<code>exec</code>, and the kernel is starting to find the program to run<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup>. The file
+<code>exec</code>, and the kernel is starting to find the program to run<sup class="footnote-reference" id="fr-1-1-4"><a href="#footnote-1-4">1</a></sup>. The file
 opens look like this, on a user’s system:</p>
 <pre><code class="language-txt">Open /bin/date
 Open /lib/x86_64-linux-gnu/ld-2.27.so
@@ -1969,7 +2061,7 @@ place this key in <code>~/.ssh</code> or specify it via the <code>-key</code> op
 <p><code>usbstick.xz</code> is a compressed USB stick image that is bootable. It will
 uncompress to about 7GB. You can use the <code>TESTQEMU</code> script to try it out, or use
 <code>dd</code> to write it to a USB stick and boot that stick on an x86 system.</p>
-<p>Be careful how you use the keys; they're public. You should really only use them
+<p>Be careful how you use the keys; they’re public. You should really only use them
 as part of the demo.</p>
 <p>The <code>cpukernel</code> was built using the <code>github.com:/mainboards</code> repo. If
 you clone this repo, the following commands will rebuild the kernel:</p>
@@ -2167,19 +2259,22 @@ cpu server machine.</p>
 <ul>
 <li>9p support by the cpu client</li>
 <li>9p supported by the cpu client, with additional mounts via -fstab or -namespace</li>
-<li>9p <em>without</em> any bind mounts, i.e. -9p=false -namespace "", in which case, on
+<li>9p <em>without</em> any bind mounts, i.e. -9p=false -namespace “”, in which case, on
 the remote machine, files from the client are visible in /tmp/cpu, but no
 bind mounts are done; with additional mounts provided by fstab
 mounts are provided</li>
-<li>no 9p mounts at all, when -namespace="" -9p=false; with optional additional
+<li>no 9p mounts at all, when -namespace=“” -9p=false; with optional additional
 mounts via fstab</li>
 <li>if there are no 9p mounts, and no fstab mounts, cpu is equivalent to ssh.</li>
 </ul>
 <hr>
-<ol class="footnote-definition"><li id="footnote-1">
-<p>For reference, the command we used: <code>cpu -dbg9p -d apu2 date</code> <a href="#fr-1-1">↩</a></p>
+<ol class="footnote-definition">
+<li id="footnote-1-4">
+<p>For reference, the command we used: <code>cpu -dbg9p -d apu2 date</code> <a href="#fr-1-1-4">↩</a></p>
 </li>
-</ol><div style="break-before: page; page-break-before: always;"></div><h1 id="dut-a-simple-device-under-test-utility"><a class="header" href="#dut-a-simple-device-under-test-utility">DUT, a simple Device Under Test utility</a></h1>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="dut-a-simple-device-under-test-utility"><a class="header" href="#dut-a-simple-device-under-test-utility">DUT, a simple Device Under Test utility</a></h1>
 <p>Points of contact: <a href="https://github.com/rminnich">Ron Minnich</a></p>
 <p>DUT is a simple Device Under Test program that gives you control of a node. It is intended to make
 very fast startup and control easy.</p>
@@ -2199,15 +2294,15 @@ needed, being done over SSH.</p>
 <p>Building it into a u-root image is easy:</p>
 <pre><code>go run $(GOPATH)/src/github.com/u-root/u-root -build=bb minimal github.com/linuxboot/dut/uinit
 </code></pre>
-<p>I almost always add an sshd to u-root; it's just too handy. U-root sshd does not support
+<p>I almost always add an sshd to u-root; it’s just too handy. U-root sshd does not support
 passwords, so you have to supply the public key:</p>
 <pre><code>go run $(GOPATH)/src/github.com/u-root/u-root -build=bb -files key.pub minimal  github.com/linuxboot/dut/uinit   github.com/u-root/u-root/xcmds/sshd
 </code></pre>
 <h3 id="dut-on-the-device"><a class="header" href="#dut-on-the-device">DUT on the device</a></h3>
 <p>On boot, the standard init program will find dut, and run it. The standard mode on a device
 is device mode, and dut will bring up the ethernet, currently
-using 192.168.0.2, and assuming the tester is 192.168.0.1 (this should be fixed ...).
-It will then attempt to connect to a uinit running in 'tester' mode on 192.168.0.1. Once connected, it functions
+using 192.168.0.2, and assuming the tester is 192.168.0.1 (this should be fixed …).
+It will then attempt to connect to a uinit running in ‘tester’ mode on 192.168.0.1. Once connected, it functions
 as a server and waits for requests.</p>
 <h3 id="dut-on-the-controller"><a class="header" href="#dut-on-the-controller">DUT on the controller</a></h3>
 <p>Running on the controller is easy:</p>
@@ -2233,14 +2328,16 @@ RPCSsh - start the sshd
 </code></pre>
 <p>The current tester mode performs an RPC sequence I use for DXE cleaning, namely, a Welcome, followed by a Reboot, followed
 by a Welcome. This sequence verifies that I can get network going from power on, do a reboot, and reconnect after
-a reboot. It's been good for finding out if a particular DXE can be removed.</p>
+a reboot. It’s been good for finding out if a particular DXE can be removed.</p>
 <p>Once the second Welcome has happened, if an sshd is installed, it will have been started, and you can do additional commands.</p>
 <h1 id="future-work"><a class="header" href="#future-work">Future work</a></h1>
 <p>Obviously, much more can be done. But this is a useful foundation on which to build DUT environments.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="implementing-linuxboot"><a class="header" href="#implementing-linuxboot">Implementing LinuxBoot</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="implementing-linuxboot"><a class="header" href="#implementing-linuxboot">Implementing LinuxBoot</a></h1>
 <p>The aim of LinuxBoot is to reduce complexity and obscure firmware by moving
 that functionality into kernel and user-space.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="retrofit-linuxboot-into-uefi-platform-initialization"><a class="header" href="#retrofit-linuxboot-into-uefi-platform-initialization">Retrofit LinuxBoot into UEFI Platform Initialization</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="retrofit-linuxboot-into-uefi-platform-initialization"><a class="header" href="#retrofit-linuxboot-into-uefi-platform-initialization">Retrofit LinuxBoot into UEFI Platform Initialization</a></h1>
 <p>This chapter describes the procedures from a <a href="https://docs.google.com/presentation/d/1s9ka4v7leKeJa3116AQoNb9cv3OqmnW6pgn0ov9WiHo/edit?ts=5e2b227b#slide=id.g7ceec54197_4_163">LinuxBoot
 workshop</a>
 where an Atomic Pi board with UEFI firmware was converted to run LinuxBoot. The
@@ -2251,25 +2348,25 @@ implemented.</p>
 <h2 id="a-quick-refresher-on-uefi"><a class="header" href="#a-quick-refresher-on-uefi">A quick refresher on UEFI</a></h2>
 <p>UEFI has three sections:</p>
 <ul>
-<li>SEC ("Boot")</li>
-<li>PEI ("Very early chip setup and DRAM programming")</li>
-<li>DXE ("DRAM code")</li>
+<li>SEC (“Boot”)</li>
+<li>PEI (“Very early chip setup and DRAM programming”)</li>
+<li>DXE (“DRAM code”)</li>
 </ul>
 <p>DXE process is very complex; some systems have 750 DXEs.</p>
 <p>LinuxBoot replaces most of the UEFI software with Linux. LinuxBoot has an
-initramfs provided by <a href="./u-root.html">u-root</a>.</p>
+initramfs provided by <a href="#all-about-u-root">u-root</a>.</p>
 <p>The above are stored inside a flash filesystem (FFS) inside a region of flash
 on your motherboard (the BIOS region). Another important region of flash is the
 ME region.</p>
 <p>The Management Engine (ME) is an x86 CPU embedded in the Intel Platform
 Controller Hub (PCH). It runs the Minix operating system which boots first and
 enables hardware such as clocks and GPIOs. ME checks the contents of flash
-memory and is used to implement "BootGuard". If you reflash and the ME is in
-"BootGuard" mode, your machine will be unusable. You need to run a tool called
+memory and is used to implement “BootGuard”. If you reflash and the ME is in
+“BootGuard” mode, your machine will be unusable. You need to run a tool called
 <code>me_cleaner</code> on the image to disable BootGuard.</p>
 <h2 id="how-do-you-get-linuxboot-on-your-hardware"><a class="header" href="#how-do-you-get-linuxboot-on-your-hardware">How do you get LinuxBoot on your hardware</a></h2>
-<p>Start with a board running standard UEFI and proceed from "zero changes to
-FLASH" to "max changes" in 4 steps:</p>
+<p>Start with a board running standard UEFI and proceed from “zero changes to
+FLASH” to “max changes” in 4 steps:</p>
 <ul>
 <li>Boot from USB stick via UEFI shell command <em>or</em> netboot (zero changes)</li>
 <li>Find a way to read flash and write flash</li>
@@ -2298,13 +2395,18 @@ in flash to shoehorn your kernel and initrd into.</p>
 <p><code>me_cleaner</code> sets the high assurance platform (HAP) bit. HAP provides a way to
 disable a feature on Intel chips that does not allow us to modify the UEFI
 image and install LinuxBoot. Setting the bit with <code>me_cleaner</code> disables the
-"feature".  Note that this does not always work; check with the LinuxBoot
+“feature”.  Note that this does not always work; check with the LinuxBoot
 community.</p>
 <p>When you run <code>me_cleaner</code>:</p>
 <pre><code class="language-sh">~/projects/linuxboot/me_cleaner/me_cleaner.py -s /tmp/rom.bin
 </code></pre>
 <p>you should see output similar to the following:</p>
-<div class="table-wrapper"><table><thead><tr><th style="text-align: left"></th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th style="text-align: left"></th></tr>
+</thead>
+<tbody>
 <tr><td style="text-align: left"><code>Full image detected</code></td></tr>
 <tr><td style="text-align: left"><code>Found FPT header at 0x1010</code></td></tr>
 <tr><td style="text-align: left"><code>Found 20 partition(s)</code></td></tr>
@@ -2315,7 +2417,8 @@ community.</p>
 <tr><td style="text-align: left"><code>Setting the AltMeDisable bit in PCHSTRP10 to disable Intel ME…</code></td></tr>
 <tr><td style="text-align: left"><code>Checking the FTPR RSA signature... VALID</code></td></tr>
 <tr><td style="text-align: left"><code>Done! Good luck!</code></td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <p>By applying <code>me_cleaner</code>, it has been observed that almost 4M of flash ram can
 be reclaimed for use. That 4M is enough to store a reasonably full featured
@@ -2325,7 +2428,7 @@ compressed initrd image.</p>
 <li>Remove DXEs</li>
 <li>Insert new DXEs</li>
 <li>Replace the binary code of a DXE with a kernel</li>
-<li>Reallocate space from the ME region to the BIOS region ("tighten")</li>
+<li>Reallocate space from the ME region to the BIOS region (“tighten”)</li>
 </ul>
 <h2 id="linuxboot-implementation-steps"><a class="header" href="#linuxboot-implementation-steps">LinuxBoot Implementation steps</a></h2>
 <h3 id="step-1-boot-linux-via-netboot--uefi-shell"><a class="header" href="#step-1-boot-linux-via-netboot--uefi-shell">Step 1: boot Linux via netboot / UEFI shell</a></h3>
@@ -2338,13 +2441,13 @@ compressed initrd image.</p>
 </li>
 <li>UEFI Shell (mentioned only for completeness)
 <ul>
-<li>Install Linux on FAT-32 media with a name of your choice (e.g. "kernel")
+<li>Install Linux on FAT-32 media with a name of your choice (e.g. “kernel”)
 <ul>
 <li>FAT-32, also known as MS-DOS file system</li>
 </ul>
 </li>
 <li>Boot kernel at UEFI Shell prompt</li>
-<li>We've run into a few systems that don't have a UEFI shell</li>
+<li>We’ve run into a few systems that don’t have a UEFI shell</li>
 </ul>
 </li>
 </ul>
@@ -2360,7 +2463,7 @@ returns an IP, server, and a configuration file name that provides:</p>
 <li>Where to get it</li>
 </ul>
 <p>Data is provided by TFTP. HTTP downloading takes a fraction of a second even
-for 16M kernels. With TFTP it's very slow and TFTP won't work with initramfs
+for 16M kernels. With TFTP it’s very slow and TFTP won’t work with initramfs
 much large than 32MiB. Most LinuxBoot shops use or are transitioning to HTTP.</p>
 <p>Note: Boot images require a kernel(bzImage) + an initramfs + a command line.
 They can be loaded as three pieces or compiled and loaded as one piece, as
@@ -2369,18 +2472,18 @@ described in this section.</p>
 <p>There are two main ways to read and write the flash - hardware and software.</p>
 <p>Hardware: It is worth buying a Pomona 5250 SOIC Clip adapter to read directly
 by hardware to have something to roll back to if anything goes wrong. Avoid
-cheap SOIC clip adapters that don't allow you to use standard jumper leads. For
-a good example of using a Raspberry Pi 3/4 to read/write, see <a href="https://wiki.gentoo.org/wiki/Sakaki%27s_EFI_Install_Guide/Disabling_the_Intel_Management_Engine#imt_check">Sakaki's EFI
+cheap SOIC clip adapters that don’t allow you to use standard jumper leads. For
+a good example of using a Raspberry Pi 3/4 to read/write, see <a href="https://wiki.gentoo.org/wiki/Sakaki%27s_EFI_Install_Guide/Disabling_the_Intel_Management_Engine#imt_check">Sakaki’s EFI
 Install Guide/Disabling the Intel Management
 Engine</a></p>
 <p>Software: With a working boot image, use flashrom to read an image of your
-flash. To write you may need to disable flash protections (look for "ME
-Manufacturing mode" jumpers on your motherboard). Figure on generally using
+flash. To write you may need to disable flash protections (look for “ME
+Manufacturing mode” jumpers on your motherboard). Figure on generally using
 software methods for reading &amp; writing flash, but with hardware to drop back
 to.</p>
 <h3 id="step-3-familiarise-yourself-with-the-flash-layout-and-identify-free-space"><a class="header" href="#step-3-familiarise-yourself-with-the-flash-layout-and-identify-free-space">Step 3: Familiarise yourself with the flash layout and identify free space</a></h3>
 <p>Open your flash image with UEFITool, and locate the filesystem containing the
-DXE's (it will have the Shell or <code>Shell_Full</code> in it ). Check how much volume free
+DXE’s (it will have the Shell or <code>Shell_Full</code> in it ). Check how much volume free
 space is in that filesystem - this will be an initial limit when you come to
 place your kernel and initramfs in it in step 5.</p>
 <h3 id="step-4-prepare-linuxu-root-payload"><a class="header" href="#step-4-prepare-linuxu-root-payload">Step 4: Prepare linux/u-root payload</a></h3>
@@ -2391,8 +2494,8 @@ initramfs in-kernel (the u-root cpu payload is an excellent starting point).</li
 <li>One can have a full kernel/initramfs in around 2M of flash.</li>
 <li>A more full featured kernel might consume 2M and a u-root bb distribution 4M,
 which may well exceed the volume free space.</li>
-<li>When there isn't enough space in this filesystem, one can either start
-removing unused DXE's (step 6), or use space formerly used by the ME Region
+<li>When there isn’t enough space in this filesystem, one can either start
+removing unused DXE’s (step 6), or use space formerly used by the ME Region
 (step 7).</li>
 </ul>
 <h3 id="step-5-replace-shell-binary-section"><a class="header" href="#step-5-replace-shell-binary-section">Step 5: replace Shell binary section</a></h3>
@@ -2409,7 +2512,7 @@ it via vendor website, flashrom, or other mechanism.</li>
 kernel:
 <ul>
 <li><code>utk firmware.bin replace_pe32 Shell bzImage save</code> <em>new.bin</em></li>
-<li>Note: It's always a PE32, even for 64-bit kernels. <em>new.bin</em> is a filename
+<li>Note: It’s always a PE32, even for 64-bit kernels. <em>new.bin</em> is a filename
 of your choosing.</li>
 </ul>
 </li>
@@ -2422,7 +2525,7 @@ of your choosing.</li>
 <ul>
 <li><code>utk</code> removes a DXE, reflashes, checks if it boots, repeat
 This part should be easy: DXE can have a dependency section. In practice,
-it's hard: because dependency sections are full of errors and omissions. A lot
+it’s hard: because dependency sections are full of errors and omissions. A lot
 of UEFI code does not check for failed DXE loads.</li>
 </ul>
 </li>
@@ -2432,7 +2535,7 @@ of UEFI code does not check for failed DXE loads.</li>
 <li>Run <code>me_cleaner</code> and then utk tighten on the source image, then inspect the
 image using UEFITool. If successful, there will now be padding at the
 beginning of the BIOS region of a substantial size.</li>
-<li>This padding space can be used, without the filesystem's knowledge, to stash
+<li>This padding space can be used, without the filesystem’s knowledge, to stash
 an initramfs. The kernel is informed of the location this initramfs as an
 initrd kernel parameter.
 <ul>
@@ -2448,7 +2551,7 @@ pass as a kernel parameter.</li>
 <li>If you can build a DXE from source, you can use <code>utk</code> to remove the
 proprietary one and replace it with one built from source. You can get DXE
 source from the tianocore/EDK2 source repo at github.com. The GitHub repo has a
-<strong><em>limited</em></strong> number of DXEs in source form; i.e., you can't build a full
+<strong><em>limited</em></strong> number of DXEs in source form; i.e., you can’t build a full
 working image using it.</li>
 <li>There are scripts that let you compile individual DXEs, including the UEFI
 Shell and Boot Device Selection (BDS). These two DXEs have been compiled and
@@ -2458,7 +2561,7 @@ Shell was called.</li>
 </ul>
 <h3 id="final-step-reflash-the-image"><a class="header" href="#final-step-reflash-the-image">Final step: reflash the image</a></h3>
 <ul>
-<li>"Native" reflash: Boot the system whatever way is easiest: netboot, usb,
+<li>“Native” reflash: Boot the system whatever way is easiest: netboot, usb,
 local disk, and run <code>flashrom -p internal -w _filename.bin_</code> where
 <em>filename.bin</em> is a filename of your choosing.</li>
 <li>Run <code>flashrom</code> with an external device such as an sf100. There may be a
@@ -2466,7 +2569,8 @@ header on the board, or you might have to use a clip.
 <code>flashrom -p dediprog:voltage=1.8 -w _filename.bin_</code></li>
 </ul>
 <p>The voltage option is required for the Atomic Pi.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="linuxboot-using-coreboot-u-root-and-systemboot"><a class="header" href="#linuxboot-using-coreboot-u-root-and-systemboot">LinuxBoot using coreboot, u-root and systemboot</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="linuxboot-using-coreboot-u-root-and-systemboot"><a class="header" href="#linuxboot-using-coreboot-u-root-and-systemboot">LinuxBoot using coreboot, u-root and systemboot</a></h1>
 <p>Points of contact:
 <a href="https://github.com/insomniacslk">Andrea Barberio</a>,
 <a href="https://github.com/dhendrix">David Hendricks</a></p>
@@ -2537,8 +2641,8 @@ checked 2018-12-03) in the kernel docs.</p>
 <p>A sample config to use with QEMU can be downloaded here:
 <a href="coreboot.u-root.systemboot/linux-4.19.6-linuxboot.config">linux-4.19.6-linuxboot.config</a>.</p>
 <p>You need a relatively recent kernel. Ideally a kernel 4.16, to have support for
-VPD variables, but a 4.11 can do the job too, if you don't care about boot
-entries and want "brute-force" booting only.</p>
+VPD variables, but a 4.11 can do the job too, if you don’t care about boot
+entries and want “brute-force” booting only.</p>
 <p>We will build a kernel with the following properties:</p>
 <ul>
 <li>small enough to fit most flash chips, and with some fundamental kernel features</li>
@@ -2546,12 +2650,12 @@ entries and want "brute-force" booting only.</p>
 <li>with the relevant storage and network stack and drivers</li>
 <li>with kexec support, so it can boot a new kernel</li>
 <li>with kexec signature verification disabled (optional)</li>
-<li>with devtmpfs enabled, since we don't use udev</li>
+<li>with devtmpfs enabled, since we don’t use udev</li>
 <li>XZ support to decompress the embedded initramfs</li>
 <li>VPD (Vital Product Data) (optional)</li>
 <li>TPM support (optional)</li>
 <li>embed the u-root initramfs</li>
-<li>and last but not least, "linuxboot" as default host name :)</li>
+<li>and last but not least, “linuxboot” as default host name :)</li>
 </ul>
 <h3 id="download-kernel-sources"><a class="header" href="#download-kernel-sources">Download kernel sources</a></h3>
 <p>You can either download a tarball from kernel.org, or get it via git and use a
@@ -2604,7 +2708,7 @@ may require <code>CONFIG_EPOLL</code>.</p>
 <li><code>General setup</code> → <code>Configure standard kernel features (expert users)</code>
 → <code>Enable eventpoll support</code></li>
 </ul>
-<p>Additional information about Go's minimum requirements can be found at
+<p>Additional information about Go’s minimum requirements can be found at
 <a href="https://github.com/golang/go/wiki/MinimumRequirements">https://github.com/golang/go/wiki/MinimumRequirements</a> (last checked
 2018-12-01).</p>
 <h3 id="enable-devtmpfs"><a class="header" href="#enable-devtmpfs">Enable devtmpfs</a></h3>
@@ -2648,7 +2752,7 @@ Hence you need to enable XZ compression support. Make sure to have at least
 <p>VPD stands for <a href="https://chromium.googlesource.com/chromiumos/platform/vpd/+/1c1806d8df4bb5976eed71a2e2bf156c36ccdce2/README.md">Vital Product
 Data</a>.
 We use VPD to store boot configuration for <code>localboot</code> and <code>fbnetboot</code>,
-similarly to UEFI's boot variables. Linux supports VPD out of the box, but you
+similarly to UEFI’s boot variables. Linux supports VPD out of the box, but you
 need at least a kernel 4.16.</p>
 <p>Make sure to have <code>CONFIG_GOOGLE_VPD</code> enabled in your kernel config.</p>
 <p>In menuconfig:</p>
@@ -2674,7 +2778,7 @@ kernel configuration should point to the appropriate file using the
 <li><code>General setup</code> → <code>Initial RAM filesystem and RAM disk (initramfs/initrd) support</code> → <code>Initramfs source file(s)</code></li>
 </ul>
 <h3 id="default-hostname"><a class="header" href="#default-hostname">Default hostname</a></h3>
-<p>We use "linuxboot" as the default hostname. You may want to adjust it to a
+<p>We use “linuxboot” as the default hostname. You may want to adjust it to a
 different value. You need to set <code>CONFIG_DEFAULT_HOSTNAME</code> for the purpose. For
 example:</p>
 <pre><code>CONFIG_DEFAULT_HOSTNAME="linuxboot"
@@ -2713,7 +2817,7 @@ compiler toolchain that is known to work with coreboot.</p>
 <pre><code>make crossgcc-i386 CPUS=$(nproc) BUILD_LANGUAGES=c
 </code></pre>
 <p>The step above may ask you to install a few additional libraries or headers, do
-so as requested, with the exception of gcc-gnat, that we won't need.</p>
+so as requested, with the exception of gcc-gnat, that we won’t need.</p>
 <h3 id="configure-coreboot-for-qemu-and-our-payload"><a class="header" href="#configure-coreboot-for-qemu-and-our-payload">Configure coreboot for Qemu and our payload</a></h3>
 <p>Run <code>make menuconfig</code> to enter the coreboot configuration menus. Then:</p>
 <p>Specify the platform we will run on:</p>
@@ -2786,7 +2890,8 @@ run the following command:</p>
 Systemboot instructs you to do so, to enter the <code>u-root</code> shell.</p>
 <h2 id="running-on-real-ocp-hardware"><a class="header" href="#running-on-real-ocp-hardware">Running on real OCP hardware</a></h2>
 <p>TODO</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="glossary"><a class="header" href="#glossary">Glossary</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="glossary"><a class="header" href="#glossary">Glossary</a></h1>
 <ul>
 <li><em><strong>BIOS</strong></em>: Originally, BIOS was the software built into computers to send
 simple instructions to the hardware, allowing input and output before the
@@ -2794,7 +2899,7 @@ operating system was loaded. It was a binary blob with no standardized
 structure that was responsible for initializing CPU and memory, and jumping
 to a hard-coded position on the master block of the first disk drive. BIOS
 has been largely replaced by UEFI. Many UEFI implementations still offer a
-"BIOS compatibility mode" which makes it behave like an old BIOS, with its
+“BIOS compatibility mode” which makes it behave like an old BIOS, with its
 features.</li>
 <li><em><strong>busybox</strong></em>: Busybox is a single user-space binary which includes versions
 of a large number of system commands, including a shell. This package can be
@@ -2814,7 +2919,7 @@ that queries it on boot up.</li>
 <li><a href="https://github.com/tianocore/edk2"><em><strong>EDK II</strong></em></a>: An open source reference
 implementation of an UEFI-compliant firmware, originally developed by Intel</li>
 <li><em><strong>firmware</strong></em>: A specific class of computer software that provides low-level
-control for a device's specific hardware. It is installed at the time of
+control for a device’s specific hardware. It is installed at the time of
 manufacturing and is the first program that runs when a computer is turned
 on. It checks to see what hardware components the computing device has, wakes
 the components up, and hands them over to the operating system that is to be
@@ -2839,16 +2944,16 @@ boot loader from within the kernel.</li>
 Reinauer and others. It was an experiment in the idea of running Linux as
 firmware. At that time Linux was not mature enough for a hardware
 initialization project, and while LinuxBIOS was successful in several
-performance-and-reliability critical environments, it didn't see mass
+performance-and-reliability critical environments, it didn’t see mass
 adoption. It later became coreboot.</li>
-<li><em><strong>LinuxBoot</strong></em>: LinuxBoot is not a product, but rather a concept. It's the
+<li><em><strong>LinuxBoot</strong></em>: LinuxBoot is not a product, but rather a concept. It’s the
 idea of booting Linux (OS) with Linux (system firmware). In a way, the same
 concept pioneered by LinuxBIOS. It is like a Linux distribution, but for
 firmware. It is a collection of various open source components, combined to
 work as a consistent firmware OS.</li>
 <li><em><strong>NERF</strong></em>: The original name for the LinuxBoot project composed of stripped
 UEFI plus Linux plus u-root. The name stands for Non-Extensible Reduced
-Firmware, as opposed to UEFI's Unified Extensible Firmware Interface. NERF is
+Firmware, as opposed to UEFI’s Unified Extensible Firmware Interface. NERF is
 an UEFI replacement that is more compact and less extensible. While
 extensibility is nice and often desirable, too much extensibility can make a
 complex project very hard to maintain and keep secure.</li>
@@ -2889,22 +2994,23 @@ bootloader tools. See the section on u-root.</li>
 specification of a standard for system firmware. UEFI defines everything from
 the layout on the flash chip, to how to interface to peripherals, enables
 boot from disk or from a network, defines how UEFI applications work, etc).
-It is not an implementation, it's a standard. EDK II and OpenEDK II are UEFI
+It is not an implementation, it’s a standard. EDK II and OpenEDK II are UEFI
 implementations. UEFI is not closed source per-se, but in practice most
 implementations are.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="history"><a class="header" href="#history">History</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="history"><a class="header" href="#history">History</a></h1>
 <h2 id="bios-1"><a class="header" href="#bios-1">BIOS</a></h2>
 <p><a href="https://en.wikipedia.org/wiki/BIOS">BIOS</a> is the good old, inscrutable way of
-initializing a hardware platform in the pre-UEFI days. It's a binary blob with
+initializing a hardware platform in the pre-UEFI days. It’s a binary blob with
 no standardized structure, that is responsible for initializing CPU and memory,
 and jumping to a hard-coded position on the MBR of the first disk drive.</p>
 <p>Starting around 2000, BIOS has been largely replaced by the standardized
 <a href="https://en.wikipedia.org/wiki/UEFI">UEFI</a>.
 Many UEFI implementations still offer a BIOS compatibility mode called CSM
 (Compatibility Support Module), which makes it behave like an old BIOS.</p>
-<p>Note that the term "BIOS" is sometimes misused to refer to the general concept
-of <em>system firmware</em>, such as UEFI or even LinuxBoot. However, as "BIOS" refers
+<p>Note that the term “BIOS” is sometimes misused to refer to the general concept
+of <em>system firmware</em>, such as UEFI or even LinuxBoot. However, as “BIOS” refers
 to firmware with specific functionality, UEFI is definitely <em>not</em> a BIOS, nor is
 LinuxBoot a BIOS in the original sense.</p>
 <h2 id="linuxbios"><a class="header" href="#linuxbios">LinuxBIOS</a></h2>
@@ -2914,19 +3020,19 @@ not much younger than UEFI, but they were already experimenting the idea of
 running Linux as firmware. Like many great ideas, it was way ahead of its time.
 At that time Linux was not mature enough to be used in a hardware initialization
 project, and while LinuxBIOS was successful in several
-performance-and-reliability critical environments, it didn't see mass adoption.</p>
+performance-and-reliability critical environments, it didn’t see mass adoption.</p>
 <p>In 2008 LinuxBIOS became <a href="https://www.coreboot.org/">coreboot</a>.</p>
 <h2 id="linuxboot"><a class="header" href="#linuxboot">LinuxBoot</a></h2>
 <h3 id="nerf"><a class="header" href="#nerf">NERF</a></h3>
 <p>This is the original name for the stripped UEFI, plus Linux, plus u-root. The
-name stands for Non-Extensible Reduced Firmware, as opposed to UEFI's Unified
+name stands for Non-Extensible Reduced Firmware, as opposed to UEFI’s Unified
 Extensible Firmware Interface. Basically, saying that NERF is an UEFI
 replacement that prefers to be more compact, less extensible, and a bit more
 opinionated. While extensibility is nice and often desirable, too much
-extensibility and too many "yes" can make a complex project very hard to
+extensibility and too many “yes” can make a complex project very hard to
 maintain and keep secure.</p>
 <p>NERF was created by Ron Minnich while at Google in 2017. The project grew and
-was maintained by Google's "NERF team".</p>
+was maintained by Google’s “NERF team”.</p>
 <p>NERF eventually became the <a href="https://github.com/linuxboot/linuxboot/">linuxboot</a>
 build system.</p>
 <h3 id="heads"><a class="header" href="#heads">Heads</a></h3>
@@ -2973,20 +3079,22 @@ or OpenEDK2) can be OPF-compliant if it follows the aforementioned guidelines.</
 <li>LinuxBoot, led by Google, Facebook, 9elements, ITRenew, TwoSigma, and others</li>
 <li>OpenEDK II, led by Microsoft and Intel</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="case-studies"><a class="header" href="#case-studies">Case Studies</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="case-studies"><a class="header" href="#case-studies">Case Studies</a></h1>
 <p>This chapter contains case studies for various solutions.</p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ol>
-<li><a href="case_studies/Ampere_study.html">Ampere study</a></li>
-<li><a href="case_studies/Google_study.html">Google study</a></li>
-<li><a href="case_studies/TiogaPass.html">OCP TiogaPass</a></li>
+<li><a href="#linuxboot-on-ampere-mt-jade-platform">Ampere study</a></li>
+<li><a href="#the-linuxboot-project-at-google">Google study</a></li>
+<li><a href="#ocp-tiogapass-case-study">OCP TiogaPass</a></li>
 </ol>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="linuxboot-on-ampere-mt-jade-platform"><a class="header" href="#linuxboot-on-ampere-mt-jade-platform">LinuxBoot on Ampere Mt. Jade Platform</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="linuxboot-on-ampere-mt-jade-platform"><a class="header" href="#linuxboot-on-ampere-mt-jade-platform">LinuxBoot on Ampere Mt. Jade Platform</a></h1>
 <p>The Ampere Altra Family processor based Mt. Jade platform is a high-performance
 ARM server platform, offering up to 256 processor cores in a dual socket
 configuration. The Tianocore EDK2 firmware for the Mt. Jade platform has been
 fully upstreamed to the tianocore/edk2-platforms repository, enabling the
-community to build and experiment with the platform's firmware using entirely
+community to build and experiment with the platform’s firmware using entirely
 open-source code. It also supports LinuxBoot, an open-source firmware framework
 that reduces boot time, enhances security, and increases flexibility compared
 to standard UEFI firmware.</p>
@@ -2995,25 +3103,25 @@ server certified under the Arm SystemReady LS certification
 program</a>.
 SystemReady LS ensures compliance with standardized boot and runtime
 environments for Linux-based systems, enabling seamless deployment across
-diverse hardware.  This certification further emphasizes Mt. Jade's readiness
+diverse hardware.  This certification further emphasizes Mt. Jade’s readiness
 for enterprise and cloud-scale adoption by providing assurance of
 compatibility, performance, and reliability.</p>
 <p>This case study explores the LinuxBoot implementation on the Ampere Mt. Jade
-platform, inspired by the approach used in <a href="case_studies/Google_study.html">Google's LinuxBoot
+platform, inspired by the approach used in <a href="#the-linuxboot-project-at-google">Google’s LinuxBoot
 deployment</a>.</p>
 <h2 id="ampere-edk2-linuxboot-components"><a class="header" href="#ampere-edk2-linuxboot-components">Ampere EDK2-LinuxBoot Components</a></h2>
 <p>The Mt. Jade platform embraces a hybrid firmware architecture, combining
 UEFI/EDK2 for hardware initialization and LinuxBoot for advanced boot
 functionalities. The platform aligns closely with step 6 in the LinuxBoot
 adoption model.</p>
-<img src="case_studies/../images/Case-study-Ampere.svg">
+<img src="images/Case-study-Ampere.svg">
 <p>The entire boot firmware stack for the Mt. Jade is open source and available in
 the Github.</p>
 <ul>
 <li><strong>EDK2</strong>: The PEI and minimal (stripped-down) DXE drivers, including both
 common and platform code, are fully open source and resides in Tianocore
 edk2-platforms and edk2 repositories.</li>
-<li><strong>LinuxBoot</strong>: The LinuxBoot binary (<a href="case_studies/../glossary.html">flashkernel</a>) for Mt.
+<li><strong>LinuxBoot</strong>: The LinuxBoot binary (<a href="#glossary">flashkernel</a>) for Mt.
 Jade is supported in the
 <a href="https://github.com/linuxboot/linuxboot/tree/main/mainboards/ampere/jade">linuxboot/linuxboot</a>
 repository.</li>
@@ -3025,9 +3133,9 @@ framework, as seen in commit
 <a href="https://github.com/tianocore/edk2/commit/62540372230ecb5318a9c8a40580a14beeb9ded0">ArmPkg: Implement PlatformBootManagerLib for
 LinuxBoot</a>.
 This innovation simplifies the boot process for the Mt. Jade platform and
-aligns with LinuxBoot's goals of efficiency and flexibility.</p>
+aligns with LinuxBoot’s goals of efficiency and flexibility.</p>
 <p>Unlike the earlier practice that replaced the UEFI Shell with a LinuxBoot
-flashkernel, Ampere's solution introduces a custom BDS implementation that
+flashkernel, Ampere’s solution introduces a custom BDS implementation that
 directly boots into the LinuxBoot environment as the active boot option. This
 approach bypasses the need to load the UEFI Shell or UiApp (UEFI Setup Menu),
 which depend on numerous unnecessary DXE drivers.</p>
@@ -3178,7 +3286,7 @@ M-? toggle key help • C-d erase/stop • C-c clear/cancel • C-r search hist 
 <h2 id="future-work-1"><a class="header" href="#future-work-1">Future Work</a></h2>
 <p>While the LinuxBoot implementation on the Ampere Mt. Jade platform represents a
 significant milestone, several advanced features and improvements remain to be
-explored. These enhancements would extend the platform's capabilities, improve
+explored. These enhancements would extend the platform’s capabilities, improve
 its usability, and reinforce its position as a leading open source firmware
 solution. Key areas for future development include:</p>
 <h3 id="secure-boot-with-linuxboot"><a class="header" href="#secure-boot-with-linuxboot">Secure Boot with LinuxBoot</a></h3>
@@ -3214,12 +3322,13 @@ reliability and maintainability.</p>
 <li><a href="https://amperecomputing.com/blogs/linuxboot-on-ampere-platforms--a-new-old-approach-to-firmware">LinuxBoot on Ampere Platforms: A new (old) approach to
 firmware</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="the-linuxboot-project-at-google"><a class="header" href="#the-linuxboot-project-at-google">The LinuxBoot project at Google</a></h1>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="the-linuxboot-project-at-google"><a class="header" href="#the-linuxboot-project-at-google">The LinuxBoot project at Google</a></h1>
 <p>Google runs workloads across a number of clusters each with up to tens of
 thousands of machines. Firmware runs on these machines when they first start
 up. Google is pushing the state-of-the-art in many places including firmware.
-The discussion here about Google's implementation of LinuxBoot is limited to
-replacing specific UEFI <a href="case_studies/../glossary.html">firmware</a>
+The discussion here about Google’s implementation of LinuxBoot is limited to
+replacing specific UEFI <a href="#glossary">firmware</a>
 functionality with a Linux kernel and runtime. Over the years this project
 has grown to include various initiatives with the overarching goal of moving
 from obscure, complex firmware to simpler, open source firmware.</p>
@@ -3229,24 +3338,24 @@ including:</p>
 <ul>
 <li>Ron Minnich (technical lead)</li>
 <li>Gan-shun Lim</li>
-<li>Ryan O'Leary</li>
+<li>Ryan O’Leary</li>
 <li>Prachi Laud</li>
 <li>Chris Koch</li>
 <li>Xuan Chen</li>
 <li>Andrew Sun</li>
 </ul>
-<p>Ryan O'Leary is one of the Open Compute Platform Foundation
+<p>Ryan O’Leary is one of the Open Compute Platform Foundation
 <a href="https://www.opencompute.org/projects/open-system-firmware">Open System Firmware project</a>
 volunteer leads and Ron Minnich is the Open Compute Platform Foundation
 Incubation Committee Representative.</p>
 <h2 id="goal"><a class="header" href="#goal">Goal</a></h2>
-<p>The primary goal of Google's LinuxBoot is to modernize the firmware by
+<p>The primary goal of Google’s LinuxBoot is to modernize the firmware by
 simplifying it to technologies engineers understand and trust.
-In UEFI systems, LinuxBoot consists of a "full stack" solution
+In UEFI systems, LinuxBoot consists of a “full stack” solution
 of stripped-down UEFI firmware, a Linux kernel, and an initramfs with
 tools written in Go. Although these components all make up one bundle
 stored in ROM, there are three parts: the closed-source EFI firmware,
-a Linux kernel, and <a href="case_studies/../u-root.html">u-root</a>. The Linux kernel is
+a Linux kernel, and <a href="#all-about-u-root">u-root</a>. The Linux kernel is
 an unmodified kernel.  The user-space initramfs image with Go tools
 for system booting is available as u-root. Due to this modularity,
 LinuxBoot can be used with a variety of systems. In many cases,
@@ -3272,7 +3381,7 @@ of the UEFI, but takes over after that point, replacing the
 UEFI drivers. It therefore completely replaces a large portion
 of the boot process.</p>
 <h2 id="phases-of-the-project"><a class="header" href="#phases-of-the-project">Phases of the project</a></h2>
-<p>Google's LinuxBoot project is focused on moving UEFI boot functionality
+<p>Google’s LinuxBoot project is focused on moving UEFI boot functionality
 into the kernel and user-space. That is, converting UEFI firmware
 to run LinuxBoot. The project has taken the standard UEFI boot process
 and converted it to LinuxBoot for production environments.
@@ -3288,23 +3397,23 @@ The items in <span style="color:red">red</span> are components
 that are either reduced or eliminated with LinuxBoot.
 The <span style="color:blue">dark blue</span> items on the left
 cannot be changed.</p>
-<img src="case_studies/../images/Case-study-step1.svg" width=600px>
+<img src="images/Case-study-step1.svg" width="600px">
 <p>In the real FLASH part, the SEC and PEI are actually only 10% of total,
 so we reduce the size of those boxes in this and following diagrams.</p>
-<img src="case_studies/../images/Case-study-step1a.svg" width=600px>
+<img src="images/Case-study-step1a.svg" width="600px">
 <p>Another part of the conversion process was to modify the UEFI boot
 process to boot a LinuxBoot image as shown below.</p>
-<img src="case_studies/../images/Case-study-step1b.svg" width=600px>
+<img src="images/Case-study-step1b.svg" width="600px">
 <p>Step 2. Delete or replace as many proprietary DXEs as required to make
 step 3 work. In most cases, none need to be removed.</p>
-<img src="case_studies/../images/Case-study-step2.svg" width=600px>
+<img src="images/Case-study-step2.svg" width="600px">
 <p>Step 3. Replace the UEFI shell with a Linux kernel + u-root</p>
-<img src="case_studies/../images/Case-study-step3.svg" width=600px>
+<img src="images/Case-study-step3.svg" width="600px">
 <p>When Linux boots it needs a root file system with utilities.
 LinuxBoot provides a file system based on u-root standard
 utilities written in Go.</p>
 <p>Step 4. Through trial and error, continue to remove DXEs until you
-can't remove anymore.</p>
+can’t remove anymore.</p>
 <p>The DXEs are delivered as binary blobs. There are three ways
 to handle them:</p>
 <ol>
@@ -3318,18 +3427,18 @@ This is less desirable, as the DXE environment is not as
 hardened as the Linux kernel environment.</li>
 <li>The final, least desired option, is to continue to use the DXE.
 This is required if the DXE contains proprietary code that
-"tweaks" chipset settings, for example, memory timing or
+“tweaks” chipset settings, for example, memory timing or
 other controls, and there is no chance of ever bringing
 them to open source.</li>
 </ol>
-<img src="case_studies/../images/Case-study-step4.svg" width=600px>
+<img src="images/Case-study-step4.svg" width="600px">
 <p>Step 5. Replace closed source DXEs with open source</p>
 <p>If we can build a DXE from source, we can use <code>utk</code> to:</p>
 <ul>
 <li>Remove the proprietary one</li>
 <li>Replace it with one built from source</li>
 </ul>
-<img src="case_studies/../images/Case-study-step5.svg" width=600px>
+<img src="images/Case-study-step5.svg" width="600px">
 <p>Step 6. Next steps: complete LinuxBoot</p>
 <p>LinuxBoot is currently in production, but the LinuxBoot project
 development continues to provide an open-source solution that
@@ -3343,8 +3452,9 @@ debugging, diagnosis, and error detection applications as cross-architecture
 and cross-platform portable Linux applications.</li>
 </ol>
 <p>The complete LinuxBoot solution is shown in the following diagram.</p>
-<img src="case_studies/../images/Case-study-step6.svg" width=600px>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="ocp-tiogapass-case-study"><a class="header" href="#ocp-tiogapass-case-study">OCP TiogaPass Case Study</a></h1>
+<img src="images/Case-study-step6.svg" width="600px">
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="ocp-tiogapass-case-study"><a class="header" href="#ocp-tiogapass-case-study">OCP TiogaPass Case Study</a></h1>
 <p>Points of contact:
 <a href="https://github.com/jonzhang-fb">Jonathan Zhang</a>,
 <a href="https://github.com/insomniacslk">Andrea Barberio</a>,
@@ -3357,19 +3467,19 @@ and cross-platform portable Linux applications.</li>
 Corporation</a>.</p>
 <p>It contains following sections:</p>
 <ul>
-<li><a href="case_studies/TiogaPass.html#quick-start">Quick Start</a></li>
-<li><a href="case_studies/TiogaPass.html#details">Details</a>
+<li><a href="#quick-start-1">Quick Start</a></li>
+<li><a href="#details">Details</a>
 <ul>
-<li><a href="case_studies/TiogaPass.html#how-to-build">How to build</a></li>
-<li><a href="case_studies/TiogaPass.html#how-to-operate">How to operate</a></li>
-<li><a href="case_studies/TiogaPass.html#platform-info">Platform info</a></li>
+<li><a href="#how-to-build">How to build</a></li>
+<li><a href="#how-to-operate">How to operate</a></li>
+<li><a href="#platform-info">Platform info</a></li>
 </ul>
 </li>
-<li><a href="case_studies/TiogaPass.html#support">Support</a>
+<li><a href="#support">Support</a>
 <ul>
-<li><a href="case_studies/TiogaPass.html#hardware-support">Hardware support</a></li>
-<li><a href="case_studies/TiogaPass.html#community-support">Community support</a></li>
-<li><a href="case_studies/TiogaPass.html#professional-support">Professional support</a></li>
+<li><a href="#hardware-support">Hardware support</a></li>
+<li><a href="#community-support">Community support</a></li>
+<li><a href="#professional-support">Professional support</a></li>
 </ul>
 </li>
 </ul>
@@ -3410,7 +3520,7 @@ get a UEFI binary after ordering.</p>
 </ul>
 <h2 id="details"><a class="header" href="#details">Details</a></h2>
 <h3 id="how-to-build"><a class="header" href="#how-to-build">How to build</a></h3>
-<p>Follow <a href="case_studies/TiogaPass.html#build-details">Build Details</a> for details on how to get the source
+<p>Follow <a href="#build-details">Build Details</a> for details on how to get the source
 code, and how to build.</p>
 <p>Boot flow of the current firmware solution is: Power on → minimized UEFI →
 LinuxBoot → target OS.</p>
@@ -3424,7 +3534,7 @@ target OS.</p>
 </code></pre>
 </li>
 <li>
-<p>You need to apply Wiwiynn's linuxboot patch for now</p>
+<p>You need to apply Wiwiynn’s linuxboot patch for now</p>
 <pre><code>cd linuxboot
 wget -O TiogaPass.patch https://github.com/johnnylinwiwynn/linuxboot/commit/28ae8450b3b05c6e6b8c74e29d0974ccf711d5e6.patch
 git am TiogaPass.patch
@@ -3435,7 +3545,7 @@ git am TiogaPass.patch
 reference <a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-u-root">Building u-root</a>
 and <a href="https://github.com/linuxboot/book/tree/master/coreboot.u-root.systemboot#building-a-suitable-linux-kernel">Building a suitable Linux kernel</a>
 for how to build the bzImage. You can always customize your Linux kernel
-configuration to suit your needs, please reference Wiwynn's kernel
+configuration to suit your needs, please reference Wiwynn’s kernel
 configuration file as a sample <a href="case_studies/linux_config">linux_config</a>.</p>
 </li>
 <li>
@@ -3496,6 +3606,11 @@ IRC channel, a mailing list and regular meetings.</p>
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
 
 
 
@@ -3504,24 +3619,25 @@ IRC channel, a mailing list and regular meetings.</p>
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-c22b7243.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="mermaid.min.js"></script>
-        <script src="mermaid-init.js"></script>
-        <script src="theme/js/language-picker.js"></script>
+        <script src="mermaid-eefea253.min.js"></script>
+        <script src="mermaid-init-ccf746f1.js"></script>
+        <script src="theme/js/language-picker-dde399c1.js"></script>
 
         <script>
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
         </script>
+
 
     </div>
     </body>
