@@ -56,3 +56,19 @@ connectors that can hold NVMes of gigabytes and terabytes of storage. This gives
 us the opportunity to work out a boot flow that provides the end user with a
 very rich environment already early on before the main operating system is
 loaded.
+
+## General vs single purpose
+
+While all the different kinds of devices have their constraints, any of them may
+serve a specific purpose, or be more open to end user modification. For example,
+a laptop may be locked down to only allow a vendor's operating system to run,
+and no custom firmware. Or it may allow for installing any system an end user
+may want. There are, however, many use cases in between.
+
+Given the ability to customize the firmware, a server system for general use
+differs significantly from special environments like a hyperscaler data-center,
+where the hardware owner has their own infrastructure to boot from.
+In that case, one would implement LinuxBoot oneself to meet those requirements.
+For a general purpose system, on the other hand, a prebuilt LinuxBoot
+distribution needs to be able to boot many different operating systems, such as
+Ubuntu, Fedora, and openSUSE.
