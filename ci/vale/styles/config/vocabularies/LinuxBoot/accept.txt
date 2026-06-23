@@ -10,3 +10,7 @@ petitboot
 skiboot
 skiroot
 hostboot
+[Nn]etboot
+initrd
+autoboot
+chainloading
