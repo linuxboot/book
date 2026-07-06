@@ -7,3 +7,4 @@ This chapter contains case studies for various solutions.
 1. [Ampere study](Ampere_study.md)
 2. [Google study](Google_study.md)
 3. [OCP TiogaPass](TiogaPass.md)
+4. [Dasharo BenchRack ASRock TURIND8UD-2T/X550](DasharoBenchRack_study.md)
