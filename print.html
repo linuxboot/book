@@ -41,10 +41,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-a6b2b8e4.js";
+            window.path_to_searchindex_js = "searchindex-5e94fdb4.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-8fd4c84c.js"></script>
+        <script src="toc-a531a0a6.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -1312,6 +1312,164 @@ Linux
 [   14.442914] reboot: Power down
 </code></pre>
 <p>You have just run your first LinuxBoot kernel.</p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="netboot-nixos-from-u-root-in-qemu"><a class="header" href="#netboot-nixos-from-u-root-in-qemu">Netboot NixOS from u-root in QEMU</a></h1>
+<p>The goal is to netboot a Linux distribution from u-root. This tutorial uses
+NixOS, but the approach applies to any distribution that publishes a netboot
+image and iPXE script (which you can create manually).</p>
+<p>The obstacle is networking. The <a href="#u-root-demo-with-qemu">u-root demo with QEMU</a>
+boots a prebuilt initramfs and an Arch kernel, but <code>dhclient</code> finds no
+interface: the Arch kernel ships every NIC driver as a loadable module and the
+stock u-root image carries none. To get around this, this demo adds the <code>e1000</code>
+module to u-root without repacking it or building a kernel. In production, you
+should use a custom kernel with built-in network drivers.</p>
+<h2 id="get-the-u-root-image-and-kernel"><a class="header" href="#get-the-u-root-image-and-kernel">Get the u-root image and kernel</a></h2>
+<p>You start with the same two downloads as the u-root demo with QEMU. You can skip
+this step if you’ve already done it:</p>
+<pre><code class="language-bash">curl -L -o u-root.cpio.xz https://github.com/linuxboot/u-root-builder/releases/download/v0.0.1/u-root_amd64_all.cpio.xz
+curl -L -o linux.tar.zst https://archlinux.org/packages/core/x86_64/linux/download/
+tar -xf linux.tar.zst
+</code></pre>
+<h2 id="add-the-e1000-module-to-u-root"><a class="header" href="#add-the-e1000-module-to-u-root">Add the e1000 module to u-root</a></h2>
+<ul>
+<li>
+<p>Decompress the <code>e1000.ko.zst</code> module.</p>
+<pre><code class="language-bash">zstd -o e1000.ko -d usr/lib/modules/*/kernel/drivers/net/ethernet/intel/e1000/e1000.ko.zst
+</code></pre>
+</li>
+<li>
+<p>Pack it into its own <code>cpio</code> archive.</p>
+<pre><code class="language-sh">echo "e1000.ko" | cpio -o -H newc &gt;modules.cpio
+</code></pre>
+</li>
+<li>
+<p>Combine both archives. Concatenation is enough.</p>
+<pre><code class="language-sh">cat modules.cpio u-root.cpio.xz &gt;u-root-e1000.cpio
+</code></pre>
+<blockquote>
+<p>If you want to use <code>virtio-net</code> network device instead of <code>e1000</code> you have
+to add and later load different modules in that order: <code>failover.ko</code>,
+<code>net_failover.ko</code>, <code>virtio_net.ko</code> (first two are dependencies of
+<code>virtio_net</code>).</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="get-the-nixos-netboot-files"><a class="header" href="#get-the-nixos-netboot-files">Get the NixOS netboot files</a></h2>
+<ul>
+<li>
+<p>Download the NixOS kernel, initrd, and netboot iPXE script.</p>
+<pre><code class="language-bash">REL=https://github.com/nix-community/nixos-images/releases/download/nixos-26.05
+curl -L -O "$REL/netboot-x86_64-linux.ipxe"
+curl -L -O "$REL/bzImage-x86_64-linux"
+curl -L -O "$REL/initrd-x86_64-linux"
+</code></pre>
+</li>
+<li>
+<p>Replace remote <code>https</code> links with local paths. You can do it manually or use
+<code>sed</code> to strip the <code>$REL/</code> prefix.</p>
+<pre><code class="language-sh">sed -i "s@$REL/@@g" netboot-x86_64-linux.ipxe
+</code></pre>
+<blockquote>
+<p><code>pxeboot</code> fetches only <code>http</code>, <code>tftp</code>, and <code>file</code> URLs. It registers no
+<code>https</code> scheme, so an <code>https://</code> URL fails with an unknown-scheme error.
+That’s why in this demo those files will be served from the host.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="serve-the-files-over-http"><a class="header" href="#serve-the-files-over-http">Serve the files over HTTP</a></h2>
+<p>Run an HTTP server that serves the requested files.</p>
+<pre><code class="language-bash">python3 -m http.server 8000
+</code></pre>
+<h2 id="boot-u-root"><a class="header" href="#boot-u-root">Boot u-root</a></h2>
+<p>NixOS is quite slow to boot without KVM and needs at least 2 GB of guest RAM, so
+boot with KVM enabled, <code>-cpu host</code>, and <code>-m 2G</code>. Run this in another terminal as
+the previous one is busy running the HTTP server:</p>
+<pre><code class="language-bash">qemu-system-x86_64 -enable-kvm -cpu host -m 2G -machine q35 -nographic \
+  -append "console=ttyS0" \
+  -kernel usr/lib/modules/*/vmlinuz -initrd u-root-e1000.cpio \
+  -netdev user,id=net0 -device e1000,netdev=net0
+</code></pre>
+<blockquote>
+<p><code>-cpu host</code> is required: without it <code>dhclient</code> hangs forever and never gets a
+lease. On a host without KVM, use <code>-cpu max</code> instead (and expect a slow NixOS
+boot).</p>
+</blockquote>
+<h2 id="netboot-nixos"><a class="header" href="#netboot-nixos">Netboot NixOS</a></h2>
+<ul>
+<li>
+<p>Load the network driver when booted into the u-root shell.</p>
+<pre><code class="language-sh">insmod /e1000.ko
+</code></pre>
+</li>
+<li>
+<p>Configure network via DHCP:</p>
+<pre><code class="language-sh">dhclient -ipv6=false
+</code></pre>
+<blockquote>
+<p><code>pxeboot -file</code> skips DHCP, so the explicit <code>dhclient</code> first is required to
+configure the network interface. In a production environment, if you have
+configured your DHCP server to serve e.g. <code>Bootfile Name</code> or
+<code>Next server</code>/<code>TFTP Server</code> then you can just use <code>pxeboot</code> directly without
+adding <code>-file</code>, just as traditional PXE via DHCP.</p>
+</blockquote>
+</li>
+<li>
+<p>And finally boot NixOS</p>
+<pre><code class="language-sh">pxeboot -file http://10.0.2.2:8000/netboot-x86_64-linux.ipxe -cmd "console=ttyS0,115200"
+</code></pre>
+<blockquote>
+<p>Under QEMU user networking, the host is reachable from the guest at
+<code>10.0.2.2</code>.</p>
+<p>The <code>-cmd</code> argument appends to the kernel command line. This is needed so we
+get output on the serial console.</p>
+</blockquote>
+<p>You should see:</p>
+<pre><code class="language-text">Welcome to LinuxBoot's Menu
+
+Enter a number to boot a kernel:
+
+01. Linux(kernel=bzImage-x86_64-linux initrd=http://10.0.2.2:8000/initrd-x86_64-linux)
+02. Reboot
+03. Enter a LinuxBoot shell
+
+Enter an option ('01' is the default, 'e' to edit kernel cmdline):
+&gt;
+</code></pre>
+<p>You can press enter or wait a couple of seconds for it to autoboot. If you’ve
+done everything correctly you should see:</p>
+<pre><code class="language-text">&lt;&lt;&lt; Welcome to NixOS kexec-26.05beta-295941.gfedcba (x86_64) - ttyS0 &gt;&gt;&gt;
+The "nixos" and "root" accounts have empty passwords.
+
+To log in over ssh you must set a password for either "nixos" or "root"
+with `passwd` (prefix with `sudo` for "root"), or add your public key to
+/home/nixos/.ssh/authorized_keys or /root/.ssh/authorized_keys.
+
+To set up a wireless connection, run `nmtui`.
+
+
+nixos login: nixos (automatic login)
+
+
+[nixos@nixos:~]$
+</code></pre>
+</li>
+</ul>
+<h2 id="u-roots-ipxe-support"><a class="header" href="#u-roots-ipxe-support">u-root’s iPXE support</a></h2>
+<p>u-root’s <code>pxeboot</code> ships a deliberately minimal iPXE parser
+(<a href="https://github.com/u-root/u-root/blob/main/pkg/boot/netboot/ipxe/ipxe.go"><code>pkg/boot/netboot/ipxe</code></a>).
+It supports only three commands:</p>
+<ul>
+<li><code>kernel &lt;path&gt; [args...]</code> — the kernel image, with any trailing tokens joined
+onto the kernel command line.</li>
+<li><code>initrd &lt;path&gt;</code> — the initrd.</li>
+<li><code>boot</code> — boot the loaded kernel.</li>
+</ul>
+<p>The script must begin with <code>#!ipxe</code>. Every other iPXE command (<code>set</code>, <code>chain</code>,
+<code>menu</code>, <code>dhcp</code>, <code>imgargs</code>, and so on) is skipped with an
+<code>Ignoring unsupported ipxe cmd</code> log line, and there is no variable expansion.
+The NixOS script’s <code>kernel</code> line ends with a <code>${cmdline}</code> token for
+chainloading, which u-root passes through literally. The kernel ignores it, so
+it is harmless.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="benefits-of-using-the-go-user-space-environment-and-compiler"><a class="header" href="#benefits-of-using-the-go-user-space-environment-and-compiler">Benefits of using the Go user-space environment and compiler</a></h1>
 <p>Go is a systems programming language created by Google. Go has strong typing,
