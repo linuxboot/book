@@ -23,3 +23,4 @@
   - [Ampere study](case_studies/Ampere_study.md)
   - [Google study](case_studies/Google_study.md)
   - [OCP TiogaPass](case_studies/TiogaPass.md)
+  - [Dasharo BenchRack ASRock TURIND8UD-2T/X550](case_studies/DasharoBenchRack_study.md)
