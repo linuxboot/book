@@ -216,6 +216,68 @@ Attempting to boot LinuxImage(
 )
 ```
 
+## Benchmarks
+
+### Boot Time
+
+coreboot timestamps may be obtained using `cbmem -t`:
+
+```text
+ubuntu@3mdeb:~$ sudo cbmem -t
+36 entries total:
+
+   0:1st timestamp                                     29,106,318 (0)
+  11:start of bootblock                                29,106,553 (235)
+  12:end of bootblock                                  29,109,232 (2,678)
+  13:starting to load romstage                         29,109,232 (0)
+  17:starting LZ4 decompress (ignore for x86)          29,174,661 (65,428)
+  18:finished LZ4 decompress (ignore for x86)          29,174,726 (65)
+  14:finished loading romstage                         29,174,730 (3)
+   1:start of romstage                                 29,174,734 (3)
+   4:end of romstage                                   29,174,885 (151)
+   8:starting to load ramstage                         29,174,885 (0)
+  15:starting LZMA decompress (ignore for x86)         29,536,943 (362,058)
+  16:finished LZMA decompress (ignore for x86)         29,583,677 (46,733)
+   9:finished loading ramstage                         29,586,162 (2,485)
+  10:start of ramstage                                 29,587,320 (1,158)
+  30:device enumeration                                29,587,383 (62)
+ 112:started reading uCode                             29,587,766 (383)
+ 113:finished reading uCode                            29,617,222 (29,455)
+  31:<unknown>                                         31,365,077 (1,747,855)
+  40:device configuration                              31,371,820 (6,742)
+  50:device enable                                     31,379,595 (7,775)
+  60:device initialization                             31,381,611 (2,015)
+  70:device setup done                                 31,884,811 (503,199)
+ 920:starting APOB read                                31,884,813 (2)
+ 921:starting APOB erase                               31,954,244 (69,431)
+ 922:starting APOB write                               39,357,767 (7,403,523)
+ 923:finished APOB                                     40,321,934 (964,166)
+  75:cbmem post                                        40,343,709 (21,775)
+  80:write tables                                      40,343,713 (3)
+  85:finalize chips                                    40,352,487 (8,774)
+  90:starting to load payload                          40,352,494 (6)
+  15:starting LZMA decompress (ignore for x86)         54,335,177 (13,982,683)
+  16:finished LZMA decompress (ignore for x86)         54,335,213 (35)
+  15:starting LZMA decompress (ignore for x86)         56,242,188 (1,906,975)
+  16:finished LZMA decompress (ignore for x86)         56,242,324 (136)
+  15:starting LZMA decompress (ignore for x86)         56,242,327 (2)
+  16:finished LZMA decompress (ignore for x86)         56,242,350 (23)
+  99:selfboot jump                                     57,809,271 (1,566,921)
+```
+
+Stock ASRock UEFI can be easily measured with systemd-analyze, though that's
+excluding PSP time, which should be the same as in coreboot:
+
+```text
+ubuntu@3mdeb:~$ sudo systemd-analyze
+[sudo] password for ubuntu:
+Startup finished in 2min 58.748s (firmware) + 1.126s (loader) + 539ms (kernel) + 10.353s (initrd) + 10.407s (userspace) = 3min 21.174s
+graphical.target reached after 10.402s in userspace.
+```
+
+Including time spent in PSP firmware, coreboot + LinuxBoot reduces the boot time
+from 3:27 to 57 seconds.
+
 ## Support
 
 ### Hardware support
