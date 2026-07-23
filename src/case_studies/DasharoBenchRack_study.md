@@ -73,9 +73,7 @@ The boot firmware for the DUT is largely open source, with a few binary blobs
 required for silicon initialization:
 
 * **coreboot**: performs early hardware and silicon initialization. Source is
-  available at [Dasharo/coreboot](https://github.com/Dasharo/coreboot.git). It
-  incorporates a small number of vendor binary blobs (such as AMD PSP firmware
-  and CPU microcode) that are needed to bring up the silicon.
+  available at [Dasharo/coreboot](https://github.com/Dasharo/coreboot.git).
 * **LinuxBoot**: built as the coreboot payload (u-root initramfs +
   [flashkernel](../glossary.md)), responsible for boot device selection and
   `kexec` into the target OS.
