@@ -41,10 +41,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-25b937e1.js";
+            window.path_to_searchindex_js = "searchindex-d79863c5.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-18daa93b.js"></script>
+        <script src="toc-d08f6c06.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -2140,6 +2140,7 @@ Built emulation/qemu-q35 (QEMU x86 q35/ich9)
 <li><a href="#linuxboot-on-ampere-mt-jade-platform">Ampere study</a></li>
 <li><a href="#the-linuxboot-project-at-google">Google study</a></li>
 <li><a href="#ocp-tiogapass-case-study">OCP TiogaPass</a></li>
+<li><a href="#dasharo-benchrack-asrock-turind8ud-2tx550">Dasharo BenchRack ASRock TURIND8UD-2T/X550</a></li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="linuxboot-on-ampere-mt-jade-platform"><a class="header" href="#linuxboot-on-ampere-mt-jade-platform">LinuxBoot on Ampere Mt. Jade Platform</a></h1>
@@ -2473,6 +2474,208 @@ git am TiogaPass.patch
 <h3 id="professional-support"><a class="header" href="#professional-support">Professional support</a></h3>
 <p>Following companies provides professional support services:</p>
 <p><strong>TBD</strong></p>
+<div style="break-before: page; page-break-before: always;"></div>
+<h1 id="dasharo-benchrack-asrock-turind8ud-2tx550"><a class="header" href="#dasharo-benchrack-asrock-turind8ud-2tx550">Dasharo BenchRack ASRock TURIND8UD-2T/X550</a></h1>
+<p>BenchRack is <a href="https://3mdeb.com/">3mdeb</a>’s modular test-bench reference design for open-source firmware development and validation.</p>
+<p>This case study covers the <a href="https://docs.dasharo.com/variants/asrock_turind8ud/overview/">Dasharo BenchRack ASRock TURIND8UD-2T/X550</a> configuration, in which the DUT boots with <a href="https://www.coreboot.org/">coreboot</a> (as distributed by 3mdeb) performing silicon initialization and LinuxBoot serving as the payload, following the same LinuxBoot adoption approach described in the <a href="#linuxboot-on-ampere-mt-jade-platform">Ampere</a> and <a href="#the-linuxboot-project-at-google">Google</a> case studies.</p>
+<p>It contains the following sections:</p>
+<ul>
+<li><a href="#reference-design-and-goals">Reference design and goals</a></li>
+<li><a href="#platform-overview">Platform overview</a></li>
+<li><a href="#firmware-architecture">Firmware architecture</a></li>
+<li><a href="#build-process-1">Build process</a>
+<ul>
+<li><a href="#prerequisites">Prerequisites</a></li>
+<li><a href="#build-the-firmware-image">Build the firmware image</a></li>
+</ul>
+</li>
+<li><a href="#flashing-and-operation">Flashing and operation</a></li>
+<li><a href="#booting-with-linuxboot-1">Booting with LinuxBoot</a></li>
+<li><a href="#support-1">Support</a>
+<ul>
+<li><a href="#hardware-support-1">Hardware support</a></li>
+<li><a href="#community-support-1">Community support</a></li>
+<li><a href="#professional-support-1">Professional support</a></li>
+</ul>
+</li>
+<li><a href="#see-also-4">See also</a></li>
+</ul>
+<h2 id="reference-design-and-goals"><a class="header" href="#reference-design-and-goals">Reference design and goals</a></h2>
+<p>BenchRack is intended as a reference design, not a one-off test rig. By standardizing how a DUT is powered, flashed, and observed, it serves several business and engineering goals:</p>
+<ul>
+<li><strong>Compliance optimization showcasing</strong> — demonstrating how an open firmware stack can be tuned and evidenced to meet compliance and certification requirements.</li>
+<li><strong>Firmware due diligence and patching loop</strong> — providing a repeatable environment to audit firmware, reproduce issues, and validate patches in a tight build-flash-test loop.</li>
+<li><strong>Decomposition of complex rack systems</strong> — breaking a complex rack system into individually manageable components, enabling a divide-and-conquer strategy for reasoning about and validating large systems.</li>
+</ul>
+<p>Because BenchRack is defined by this control-and-validation harness rather than by a specific board, future BenchRack configurations may host entirely different motherboards. This case study documents the ASRock TURIND8UD-2T/X550 configuration.</p>
+<h2 id="platform-overview"><a class="header" href="#platform-overview">Platform overview</a></h2>
+<p>The device under test (DUT) in this configuration is the <a href="https://docs.dasharo.com/variants/asrock_turind8ud/overview/">ASRock Rack TURIND8UD-2T/X550</a>, a single-socket AMD EPYC server board:</p>
+<ul>
+<li><strong>CPU</strong>: single socket SP5 (LGA 6096), supporting AMD EPYC 9005 series processors.</li>
+<li><strong>Memory</strong>: 8 DDR5 RDIMM slots (1 DIMM per channel).</li>
+<li><strong>Expansion</strong>: 4 PCIe 5.0 slots and 2 M.2 (PCIe 5.0 NVMe) slots.</li>
+<li><strong>Networking</strong>: onboard 10 GbE.</li>
+</ul>
+<p>The DUT is mounted in a BenchRack, which supplies remote power control, firmware flashing, and serial capture so the board can be validated automatically. Both silicon initialization (coreboot) and the payload (LinuxBoot) are open source, though — as on most modern x86 platforms — a few binary blobs are still required for silicon initialization (for example AMD PSP firmware and microcode). This places the platform at the most advanced practical stage of the LinuxBoot adoption model described in the <a href="#linuxboot-on-ampere-mt-jade-platform">Ampere</a> case study.</p>
+<h2 id="firmware-architecture"><a class="header" href="#firmware-architecture">Firmware architecture</a></h2>
+<p>The boot firmware for the DUT is largely open source, with a few binary blobs required for silicon initialization:</p>
+<ul>
+<li><strong>coreboot</strong>: performs early hardware and silicon initialization. Source is available at <a href="https://github.com/Dasharo/coreboot.git">Dasharo/coreboot</a>.</li>
+<li><strong>LinuxBoot</strong>: built as the coreboot payload (u-root initramfs + <a href="#詞彙表">flashkernel</a>), responsible for boot device selection and <code>kexec</code> into the target OS.</li>
+</ul>
+<h2 id="build-process-1"><a class="header" href="#build-process-1">Build process</a></h2>
+<p>The firmware image is a single <code>coreboot.rom</code> containing coreboot plus the LinuxBoot payload.</p>
+<h3 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h3>
+<p>The recommended, reproducible build path uses the Dasharo/coreboot SDK container, which pins the toolchain and build dependencies.</p>
+<pre><code class="language-bash">git clone https://github.com/Dasharo/coreboot.git
+cd coreboot
+git checkout asrock_turind8ud_linuxboot_v0.9.0
+git submodule update --init --checkout
+</code></pre>
+<p>You must also obtain and extract blobs necessary for memory and silicon initialization. Please familiarize yourself with the <a href="https://www.dasharo.com/pages/terms/">Dasharo terms of service</a>, then download and extract them:</p>
+<pre><code class="language-bash">wget https://dl.3mdeb.com/open-source-firmware/Dasharo/gigabyte_mz33_ar1/uefi/v0.9.0/Turin.zip
+unzip Turin.zip -d 3rdparty/blobs/soc/amd/
+</code></pre>
+<p>Enter the Dasharo SDK container:</p>
+<pre><code class="language-bash"># Enter the pinned Dasharo SDK container
+docker run --rm -it \
+  -v "$PWD:/home/coreboot/coreboot" \
+  -w /home/coreboot/coreboot \
+  ghcr.io/dasharo/dasharo-sdk:v1.9.2 \
+  /bin/bash
+</code></pre>
+<h3 id="build-the-firmware-image"><a class="header" href="#build-the-firmware-image">Build the firmware image</a></h3>
+<p>From inside the SDK container:</p>
+<pre><code class="language-bash"># Select the BenchRack DUT board target and the LinuxBoot payload
+./build.sh asrock_turind8ud_linuxboot
+</code></pre>
+<p>The resulting flashable image is at <code>asrock_turind8ud_linuxboot_&lt;version&gt;.rom</code>.</p>
+<h2 id="flashing-and-operation"><a class="header" href="#flashing-and-operation">Flashing and operation</a></h2>
+<p>BenchRack provides remote flashing, power control, and serial capture for each DUT, enabling automated (CI) firmware deployment and testing. These are driven by <a href="https://github.com/zarhus/benchctl">benchctl</a>, a single command-line tool that controls the bench from a workstation or from the bench itself. For BenchRack it operates the <a href="https://docs.dasharo.com/transparent-validation/rte/v1.1.0/specification/">Remote Test Environment (RTE)</a>, driving the GPIO lines, the SPI mux, and host power through the RTE REST API and running <code>flashrom</code> over SSH — so the low-level SPI sequencing no longer has to be performed by hand.</p>
+<p>Select the BenchRack platform and DUT through flags (or the matching <code>BENCHCTL_*</code> environment variables). The <code>benchrack</code> platform defaults to the <code>asrock-turin</code> board profile, so <code>--board</code> can be omitted for this DUT. When run from a workstation, <code>--host</code> points at the RTE by IP or hostname; run directly on the RTE, the host is implied and the flag is dropped.</p>
+<p>To flash the host boot flash with the image built above:</p>
+<pre><code class="language-bash"># From a workstation, targeting the RTE:
+benchctl --host &lt;RTE-IP&gt; \
+  flash host ./asrock_turind8ud_linuxboot_&lt;version&gt;.rom
+</code></pre>
+<p><code>benchctl</code> checks the firmware size, copies it to the RTE with <code>scp</code>, takes control of the SPI bus, runs the blocking flash, confirms it succeeded, and cleans up the temporary file. Power and serial console are managed through the same tool:</p>
+<pre><code class="language-bash">benchctl --host &lt;RTE-IP&gt; power reset   # power-cycle the DUT
+benchctl --host &lt;RTE-IP&gt; console       # attach to serial
+</code></pre>
+<h2 id="booting-with-linuxboot-1"><a class="header" href="#booting-with-linuxboot-1">Booting with LinuxBoot</a></h2>
+<p>On power-on, the DUT runs coreboot, hands off to the LinuxBoot payload, boots into u-root, and <code>kexec</code>s into the target OS.</p>
+<pre><code class="language-text">Welcome to LinuxBoot's Menu
+
+Enter a number to boot a kernel:
+
+01. Ubuntu
+
+02. Ubuntu, with Linux 7.0.0-27-generic
+
+03. Ubuntu, with Linux 7.0.0-27-generic (recovery mode)
+
+04. Ubuntu, with Linux 7.0.0-22-generic
+
+05. Ubuntu, with Linux 7.0.0-22-generic (recovery mode)
+
+06. Memory test (mt86+x64)
+
+07. Memory test (mt86+x64)
+
+08. Memory test (mt86+x64, serial console)
+
+09. Memory test (mt86+x64, serial console)
+
+10. Memory test (mt86+ia32)
+
+11. Memory test (mt86+ia32)
+
+12. Memory test (mt86+ia32, serial console)
+
+13. Memory test (mt86+ia32, serial console)
+
+14. Reboot
+
+15. Enter a LinuxBoot shell
+
+
+Enter an option ('01' is the default, 'e' to edit kernel cmdline):
+ &gt;
+
+Attempting to boot LinuxImage(
+  Name: Ubuntu
+  Kernel: file:///tmp/u-root-mounts1460215710/nvme0n1p2/boot/vmlinuz-7.0.0-27-generic
+  Initrd: file:///tmp/u-root-mounts1460215710/nvme0n1p2/boot/initrd.img-7.0.0-27-generic
+  Cmdline: root=UUID=d6f381c6-1549-4560-87e9-f26d9e317ab1 ro quiet splash crashkernel=2G-4G:320M,4G-32G:512M,32G-64G:1024M,64G-128G:2048M,128G-:4096M console=ttyS0,115200
+  DTB: &lt;nil&gt;
+)
+</code></pre>
+<h2 id="benchmarks"><a class="header" href="#benchmarks">Benchmarks</a></h2>
+<h3 id="boot-time"><a class="header" href="#boot-time">Boot Time</a></h3>
+<p>coreboot timestamps may be obtained using <code>cbmem -t</code>:</p>
+<pre><code class="language-text">ubuntu@3mdeb:~$ sudo cbmem -t
+36 entries total:
+
+   0:1st timestamp                                     29,106,318 (0)
+  11:start of bootblock                                29,106,553 (235)
+  12:end of bootblock                                  29,109,232 (2,678)
+  13:starting to load romstage                         29,109,232 (0)
+  17:starting LZ4 decompress (ignore for x86)          29,174,661 (65,428)
+  18:finished LZ4 decompress (ignore for x86)          29,174,726 (65)
+  14:finished loading romstage                         29,174,730 (3)
+   1:start of romstage                                 29,174,734 (3)
+   4:end of romstage                                   29,174,885 (151)
+   8:starting to load ramstage                         29,174,885 (0)
+  15:starting LZMA decompress (ignore for x86)         29,536,943 (362,058)
+  16:finished LZMA decompress (ignore for x86)         29,583,677 (46,733)
+   9:finished loading ramstage                         29,586,162 (2,485)
+  10:start of ramstage                                 29,587,320 (1,158)
+  30:device enumeration                                29,587,383 (62)
+ 112:started reading uCode                             29,587,766 (383)
+ 113:finished reading uCode                            29,617,222 (29,455)
+  31:&lt;unknown&gt;                                         31,365,077 (1,747,855)
+  40:device configuration                              31,371,820 (6,742)
+  50:device enable                                     31,379,595 (7,775)
+  60:device initialization                             31,381,611 (2,015)
+  70:device setup done                                 31,884,811 (503,199)
+ 920:starting APOB read                                31,884,813 (2)
+ 921:starting APOB erase                               31,954,244 (69,431)
+ 922:starting APOB write                               39,357,767 (7,403,523)
+ 923:finished APOB                                     40,321,934 (964,166)
+  75:cbmem post                                        40,343,709 (21,775)
+  80:write tables                                      40,343,713 (3)
+  85:finalize chips                                    40,352,487 (8,774)
+  90:starting to load payload                          40,352,494 (6)
+  15:starting LZMA decompress (ignore for x86)         54,335,177 (13,982,683)
+  16:finished LZMA decompress (ignore for x86)         54,335,213 (35)
+  15:starting LZMA decompress (ignore for x86)         56,242,188 (1,906,975)
+  16:finished LZMA decompress (ignore for x86)         56,242,324 (136)
+  15:starting LZMA decompress (ignore for x86)         56,242,327 (2)
+  16:finished LZMA decompress (ignore for x86)         56,242,350 (23)
+  99:selfboot jump                                     57,809,271 (1,566,921)
+</code></pre>
+<p>Stock ASRock UEFI can be easily measured with systemd-analyze, though that’s excluding PSP time, which should be the same as in coreboot:</p>
+<pre><code class="language-text">ubuntu@3mdeb:~$ sudo systemd-analyze
+[sudo] password for ubuntu:
+Startup finished in 2min 58.748s (firmware) + 1.126s (loader) + 539ms (kernel) + 10.353s (initrd) + 10.407s (userspace) = 3min 21.174s
+graphical.target reached after 10.402s in userspace.
+</code></pre>
+<p>Including time spent in PSP firmware, coreboot + LinuxBoot reduces the boot time from 3:27 to 57 seconds.</p>
+<h2 id="support-1"><a class="header" href="#support-1">Support</a></h2>
+<h3 id="hardware-support-1"><a class="header" href="#hardware-support-1">Hardware support</a></h3>
+<p>Hardware support is provided by <a href="https://3mdeb.com/">3mdeb</a>, and BenchRack units are available from the <a href="https://shop.3mdeb.com/product/benchrack-asrock-turind8ud-2t-x550-with-dasharo-pro-package-for-servers/">3mdeb shop</a>.</p>
+<h3 id="community-support-1"><a class="header" href="#community-support-1">Community support</a></h3>
+<ul>
+<li><a href="https://docs.dasharo.com/#community">Dasharo community</a> — documentation and matrix chat channels.</li>
+<li><a href="https://www.linuxboot.org/">LinuxBoot open source community</a> — Slack, IRC, mailing list, and regular meetings for technical questions.</li>
+</ul>
+<h3 id="professional-support-1"><a class="header" href="#professional-support-1">Professional support</a></h3>
+<p>Professional support services are provided by <a href="https://3mdeb.com/">3mdeb</a>.</p>
+<h2 id="see-also-4"><a class="header" href="#see-also-4">See also</a></h2>
+<ul>
+<li><a href="https://docs.dasharo.com/">Dasharo documentation</a></li>
+<li><a href="https://docs.dasharo.com/transparent-validation/rte/v1.1.0/specification/">Dasharo RTE specification</a></li>
+</ul>
 
                     </main>
 
