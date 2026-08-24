@@ -5,7 +5,6 @@ shame_list=(
     [./src/case_studies/TiogaPass.md]=1
     [./src/coreboot.u-root.systemboot/index.md]=1
     [./src/SUMMARY.md]=1
-    [./src/u-root.md]=1
     [./src/utilities/dut.md]=1
     [./src/utilities/UEFI_Tool_Kit.md]=1
 )
