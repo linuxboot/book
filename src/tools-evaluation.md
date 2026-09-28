@@ -50,13 +50,19 @@ programs that offer their own interfaces again to pass extra arguments. Besides
 those standalone implementations, there are also specialized boot loaders based
 on kexec that have their own extra logic, such as FreeBSD's kload or petitboot.
 
-| tool                                                                                                                                     | language  | license      | usage            |
-| ---------------------------------------------------------------------------------------------------------------------------------------- | --------- | ------------ | ---------------- |
-| [kexec-tools](https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git) ([GitHub mirror](https://github.com/horms/kexec-tools)) | C         | GPLv2        | Heads, Petitboot |
-| [systemd](https://systemd.io/) (wrapper)                                                                                                 | C         | LGPL-2.1+    | systemd on UEFI  |
-| [kexecboot](https://github.com/kexecboot/kexecboot)                                                                                      | C         | GPLv2        | ?                |
-| u-root (CLI+mod)                                                                                                                         | Go        | BSD 3-Clause | Google et al     |
-| [kexlinux](https://github.com/im-0/kexlinux)                                                                                             | Rust      | LGPL-3.0+    | ?                |
+> [!NOTE]
+> The various tools differ in behavior. Some may not pass a new device tree to
+> the next kernel. Pick the most suitable implementation and possibly adjust it.
+
+| tool                                                                                                                                     | language  | license      | usage                     |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | --------- | ------------ | ------------------------- |
+| [kexec-tools](https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git) ([GitHub mirror](https://github.com/horms/kexec-tools)) | C         | GPLv2        | Heads                     |
+| [kexec-lite](https://github.com/antonblanchard/kexec-lite) (unmaintained, some open PRs and issues, forks may exist)                     | C         | GPLv2        | [Petitboot](petitboot.md) |
+| [systemd](https://systemd.io/) (wrapper)                                                                                                 | C         | LGPL-2.1+    | systemd on UEFI           |
+| [kexecboot](https://github.com/kexecboot/kexecboot)                                                                                      | C         | GPLv2        | ?                         |
+| [kboot](https://github.com/freebsd/freebsd-src/tree/bfa3613/stand/kboot) (FreeBSD)                                                       | C         | BSD-2-Clause | Netflix                   |
+| u-root (CLI+mod)                                                                                                                         | Go        | BSD 3-Clause | Google et al              |
+| [kexlinux](https://github.com/im-0/kexlinux)                                                                                             | Rust      | LGPL-3.0+    | ?                         |
 
 ## Boot configuration and menus
 
