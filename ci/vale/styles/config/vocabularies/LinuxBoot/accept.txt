@@ -1,4 +1,3 @@
-initramfs
 coreboot
 Monolake
 Winterfell
@@ -11,6 +10,5 @@ skiboot
 skiroot
 hostboot
 [Nn]etboot
-initrd
 autoboot
 chainloading
