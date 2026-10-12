@@ -14,3 +14,5 @@ hostboot
 initrd
 autoboot
 chainloading
+mainboard
+mainboards
