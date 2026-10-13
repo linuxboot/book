@@ -85,6 +85,8 @@ what is planned for the transition to LinuxBoot.
 Most server firmware is based on Intel’s Universal Extensible Firmware
 Interface (UEFI). LinuxBoot provides the following benefits over UEFI:
 
+initrd
+
 Reliability
 
 * Improves boot reliability by replacing lightly-tested firmware drivers with
