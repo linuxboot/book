@@ -1,7 +1,5 @@
 # LinuxBoot Components
 
-![image](./images/LinuxBoot-components.svg)
-
 LinuxBoot consists of the following components:
 
 1. Platform initialization
