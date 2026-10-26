@@ -40,7 +40,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-d79863c5.js";
+            window.path_to_searchindex_js = "searchindex-a586d23d.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-d08f6c06.js"></script>
@@ -183,22 +183,30 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="linuxboot-的組成"><a class="header" href="#linuxboot-的組成">LinuxBoot 的組成</a></h1>
-<p><img src="./images/LinuxBoot-components.svg" alt="image"></p>
 <p>LinuxBoot consists of the following components:</p>
 <ol>
-<li>BIOS</li>
+<li>Platform initialization</li>
 <li>Linux kernel</li>
-<li>u-root -&gt; initramfs</li>
+<li>initramfs</li>
 </ol>
-<h2 id="bios"><a class="header" href="#bios">BIOS</a></h2>
-<p>This does not have to be a specific BIOS; currently LinuxBoot supports UEFI and <a href="https://coreboot.org/">coreboot</a>.</p>
+<h2 id="platform-initialization"><a class="header" href="#platform-initialization">Platform initialization</a></h2>
+<p>Sometimes also referred to BIOS, platform initialization is the part of any firmware that brings up DRAM and enables the platform to run a Linux kernel. This does not have to be a specific implementation. LinuxBoot has been deployed based on UEFI PI and <a href="https://coreboot.org/">coreboot</a>, for example.</p>
 <h2 id="linux-kernel"><a class="header" href="#linux-kernel">Linux kernel</a></h2>
-<p>LinuxBoot is not intended to be a runtime production kernel; rather, it is meant to replace specific UEFI functionality using Linux kernel capabilities and then boot the actual production kernel on the machine. Kernel configuration files specific to LinuxBoot provide the needed Linux kernel capabilities without bloating the size of the BIOS with unnecessary drivers.</p>
-<p>These config files disable options that are not needed in the LinuxBoot kernel and add some patches that are needed.</p>
+<p>LinuxBoot is not intended to be a runtime production kernel; rather, it is meant to replace specific firmware functionality using Linux kernel capabilities and then boot the actual production kernel on the machine. Kernel configuration files for LinuxBoot should provide only the necessary capabilities without bloating the size of the firmware image with unnecessary drivers and modules.</p>
+<p>These config files disable options that are not needed in the LinuxBoot kernel and add some patches that are needed, as opposed to generic defaults. In other words, the kernel is supposed to be platform specific.</p>
 <h2 id="initial-ram-filesystem-initramfs"><a class="header" href="#initial-ram-filesystem-initramfs">Initial RAM filesystem (initramfs)</a></h2>
-<p>When Linux boots, it needs a root file system that provides boot and startup utilities. In LinuxBoot, it is embedded as an initramfs within the firmware image itself. It is intended to be placed in a flash device along with the Linux kernel as part of the firmware image for LinuxBoot. The initramfs is essentially a set of directories bundled into a single cpio archive.</p>
-<p>At boot time, the boot loader or firmware (for example, coreboot) loads the bzImage and initramfs into memory and starts the kernel. The kernel checks for the presence of the initramfs and, if found, unpacks it, mounts it as <code>/</code> and runs <code>/init</code>.</p>
-<p>There are many types of initramfs, in this topic we focus on u-root. u-root is a Go user-space (a set of programs and libraries written in Go that are used to interact with the kernel). It contains a toolset of standard Linux applications and commands.</p>
+<p>When Linux boots, it needs a root file system that provides boot and startup utilities. In LinuxBoot, it is embedded as an initramfs within the firmware image itself. It is intended to be placed in a flash device along with the Linux kernel as part of the firmware image for LinuxBoot. The initramfs is essentially a set of files and directories bundled into a single cpio archive.</p>
+<p>The minimum structure is this:</p>
+<pre><code>/dev/console
+/dev/null
+/init
+/proc/
+/sys/
+</code></pre>
+<p>At boot time, the boot loader or firmware (for example, coreboot) loads the kernel image and initramfs into memory and starts the kernel. The kernel checks for the presence of the initramfs and, if found, unpacks it, mounts it as <code>/</code> and runs <code>/init</code>. Should any of those steps fail, then the kernel will print a <a href="https://docs.kernel.org/admin-guide/init.html">“No working init found.” error</a>.</p>
+<p>From there on, you are free to design every further flow. Technically, <code>init</code> by itself suffices, since it could create the directory structure and the essential device nodes by itself, mount the procfs and sysfs, and set up everything else you need. In other words, it can remain a single binary, or you add other binaries and invoke them. It might also be a symlink, possibly to a BusyBox-style binary.</p>
+<h3 id="u-root"><a class="header" href="#u-root">u-root</a></h3>
+<p>There are many ways to generate an initramfs. In this section we focus on u-root, a Go user-space (a set of programs and libraries written in Go that are used to interact with the kernel). It contains a toolset of standard Linux applications and commands.</p>
 <p>u-root can create an initramfs in two different modes:</p>
 <ul>
 <li>source mode, which contains:
