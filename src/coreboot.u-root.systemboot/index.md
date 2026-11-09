@@ -13,7 +13,7 @@ builds will cover virtual and physical OCP hardware.
 Run these commands in a directory you create or in `/tmp`; do so because it
 creates some files and directories:
 
-```
+```console
 $ go get github.com/linuxboot/corebootnerf
 $ go run github.com/linuxboot/corebootnerf --fetch
 ... lots and lots of output!
@@ -22,7 +22,7 @@ $ go run github.com/linuxboot/corebootnerf --fetch
 This produces a coreboot image in coreboot-4.9/build/coreboot.rom
 You can now run this ROM image:
 
-```
+```sh
 qemu-system-x86_64 -serial stdio -bios coreboot-4.9/build/coreboot.rom
 ```
 
@@ -60,14 +60,14 @@ command that we will use in the next steps.
 
 Then, fetch `u-root` and its dependencies:
 
-```
+```sh
 go get -u github.com/u-root/u-root
 ```
 
 Then build the ramfs in busybox mode, and add fbnetboot, localboot, and a custom
 uinit to wrap everything together:
 
-```
+```sh
 u-root -build=bb core github.com/u-root/u-root/cmds/boot/{uinit,localboot,fbnetboot}
 ```
 
@@ -85,7 +85,7 @@ initramfs in the kernel as explained below, in order to maintain the image size
 smaller. Linux has a limited XZ compressor, so the compression requires specific
 options:
 
-```
+```sh
 xz --check=crc32 --lzma2=dict=512KiB /tmp/initramfs.linux_amd64.cpio
 ```
 
@@ -124,7 +124,7 @@ You can either download a tarball from kernel.org, or get it via git and use a
 version tag. We recommend at least a kernel 4.16, in order to have VPD
 variables support.
 
-```
+```sh
 # download the kernel tarball. Replace 4.19.6` with whatever kernel version you want
 wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.6.tar.xz
 tar xvJf linux-4.19.6.tar.xz
@@ -135,7 +135,7 @@ make tinyconfig
 You can also check out the `linux-stable` branch, that will point to the latest
 stable commit. You need to download it via `git` as follows:
 
-```
+```sh
 git clone --depth 1 -b linux-stable
 git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 cd linux-stable
@@ -267,7 +267,7 @@ As mentioned above, the kernel will embed the compressed initramfs image. Your
 kernel configuration should point to the appropriate file using the
 `CONFIG_INITRAMFS_SOURCE` directive. E.g.
 
-```
+```text
 CONFIG_INITRAMFS_SOURCE="/path/to/initramfs_linux.x86_64.cpio.xz"
 ```
 
@@ -282,7 +282,7 @@ We use "linuxboot" as the default hostname. You may want to adjust it to a
 different value. You need to set `CONFIG_DEFAULT_HOSTNAME` for the purpose. For
 example:
 
-```
+```text
 CONFIG_DEFAULT_HOSTNAME="linuxboot"
 ```
 
@@ -294,7 +294,7 @@ In menuconfig:
 
 Once your configuration is ready, build the kernel as usual:
 
-```
+```sh
 make -j$(nproc --ignore=1)
 ```
 
@@ -321,7 +321,7 @@ Steps overview:
 
 Our preferred method is to download coreboot from the git repository:
 
-```
+```sh
 git clone https://review.coreboot.org/coreboot.git
 cd coreboot
 ```
@@ -331,7 +331,7 @@ cd coreboot
 This step is required to have, among other things, reproducible builds, and a
 compiler toolchain that is known to work with coreboot.
 
-```
+```sh
 make crossgcc-i386 CPUS=$(nproc) BUILD_LANGUAGES=c
 ```
 
@@ -364,7 +364,7 @@ Then save your configuration and exit menuconfig.
 
 This is done with a simple
 
-```
+```sh
 make -j$(nproc)
 ```
 
@@ -374,7 +374,7 @@ code, and our bzImage payload. The output file is at `build/coreboot.rom`.
 
 If everything works correctly you will get an output similar to the following:
 
-```
+```text
 This image contains the following sections that can be manipulated with this tool:
 
 'COREBOOT' (CBFS, size 16776704, offset 512)
@@ -414,7 +414,7 @@ the machine type `q35`, as specified in the coreboot mainboard section.
 Assuming that your coreboot image is located at `build/coreboot.rom`, you can
 run the following command:
 
-```
+```sh
 sudo qemu-system-x86_64\        # sudo is required to enable KVM below
     -M q35 \                    # the machine type specified in the coreboot mainboard configuration
     -enable-kvm \               # use KVM to avail of hardware virtualization extensions
