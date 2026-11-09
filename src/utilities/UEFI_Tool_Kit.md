@@ -26,7 +26,7 @@ In this chapter, we'll go over how to:
 
 ## Synopsis
 
-```
+```sh
 make bzImage
 sudo flashrom -r /tmp/ROM.bin
 utk /tmp/ROM.bin replace_pe32 Shell arch/86/boot/bzImage save /tmp/NEWROM.bin
@@ -47,13 +47,13 @@ our first step on a new board.
 
 Get the tool:
 
-```
+```sh
 go get -u github.com/linuxboot/fiano/cmds/utk
 ```
 
  Replace the shell:
 
-```
+```sh
 utk ROM.bin replace_pe32 Shell bzImage save NEWROM.bin
 ```
 
@@ -72,7 +72,7 @@ a few more tools besides UTK, but UTK is a big element.
 
 We'll assume you already have Go installed. Check your installation with:
 
-```
+```console
 $ go version
 go version go1.11 linux/amd64
 ```
@@ -83,7 +83,7 @@ official binary distributions of Go or install from source. See
 
 With Go, download and install UTK:
 
-```
+```sh
 go get -u github.com/linuxboot/fiano/cmds/utk
 ```
 
@@ -93,7 +93,7 @@ directory to your `$PATH` is recommended.
 
 Make sure it works with:
 
-```
+```console
 $ utk -h
 Usage: utk [flags] <file name> [0 or more operations]
 
@@ -131,7 +131,7 @@ the land".
 
 Start by downloading the UEFI image used in these examples:
 
-```
+```sh
 wget https://github.com/linuxboot/fiano/raw/master/integration/roms/OVMF.rom
 ```
 
@@ -142,7 +142,7 @@ below. If you encounter any problems, please file an issue at
 
 First, it is advisable to print a count of each firmware element:
 
-```
+```console
 $ utk OVMF.rom count
 {
         "FirmwareTypeCount": {
@@ -195,7 +195,7 @@ TODO: Diagram showing a tree of these firmware elements.
 To view a human-readable tree of all the firmware elements, types and sizes,
 run:
 
-```
+```console
 $ utk OVMF.rom table | less
 Node        GUID/Name                             Type                                   Size
 BIOS                                                                                     0x400000
@@ -222,7 +222,7 @@ This format is compact and easy for humans reading, but not ideal for machine
 consumption. Use the `json` command to print everything (including much more
 metadata) as JSON:
 
-```
+```sh
 utk OVMF.rom json | less
 ```
 
@@ -230,7 +230,7 @@ Combine `utk` with the JSON query command, `jq` (`sudo apt-get install jq`),
 and other UNIX commands to quickly write powerful queries. For example, the
 following lists all the GUIDs, sorted and without duplicates:
 
-```
+```console
 $ utk OVMF.rom json | jq -r '..|.GUID?|select(type=="string")' | sort -u
 00000000-0000-0000-0000-000000000000
 0167CCC4-D0F7-4F21-A3EF-9E64B7CDCE8B
@@ -242,7 +242,7 @@ $ utk OVMF.rom json | jq -r '..|.GUID?|select(type=="string")' | sort -u
 
 To only print the JSON for specific files, use the find command:
 
-```
+```console
 # The find command uses a regex to match on the name or GUID.
 # These three examples find and print the JSON for the same file:
 $ utk OVMF.rom find 'Sh.*'
@@ -282,13 +282,13 @@ contents. The `extract <DIR>` command extracts all the files from the image and
 saves them to `<DIR>`. `<DIR>/summary.json` lists all the paths to the extracted
 files along with their metadata.
 
-```
+```sh
 utk OVMF.rom extract OVMF/
 ```
 
 After modifying the files, they can be reassembled with:
 
-```
+```sh
 utk OVMF/ save OVMF2.rom
 ```
 
@@ -298,7 +298,7 @@ First, let's verify the image works by running it inside QEMU. This step is not
 absolutely necessary, but gives us confidence the image works before and after
 each change we make.
 
-```
+```sh
 qemu-system-x86_64 -bios OVMF.rom -nographic -net none
 ```
 
@@ -311,7 +311,7 @@ always loads the image into memory and the last argument typically writes the
 output. The commands in between operate on the image in memory and are
 reminiscent of a UNIX pipeline. The general syntax is:
 
-```
+```sh
 utk <IMAGE or DIR>                 \
   <COMMAND0> <ARG0_0> <ARG0_1> ... \
   <COMMAND1> <ARG1_0> <ARG1_1> ... \
@@ -334,7 +334,7 @@ with Usb and the Legacy8259 driver which has the GUID
 you need to remove drivers to make room for Linux which makes the pipeline
 convenient. This is the essence of LinuxBoot:
 
-```
+```console
 $ stat linux.efi
 linux.efi: Linux kernel x86 boot executable bzImage, version 4.17.0
 $ utk OVMF.rom \
@@ -354,7 +354,7 @@ insert.
 In order to be properly bootable as a DXE, kernels must have the following
 enabled:
 
-```
+```text
 CONFIG_EFI=y
 CONFIG_EFI_STUB=y
 ```
@@ -378,7 +378,7 @@ GUID in the json summary.
 
 ### File size too big
 
-```
+```text
 File size too big! File with GUID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX has length 543210, but is only 123450 bytes big
 ```
 
@@ -389,7 +389,7 @@ If you were inserting files, you will need to delete existing files to make room
 
 There is a special cases where this error is generated without any operations:
 
-```
+```sh
 utk OVMF.rom save OVMF2.rom
 ```
 
@@ -516,7 +516,7 @@ fv.Apply(v)
 It would be exciting/useful to be able to chain these small actions together
 through the command line. For example:
 
-```
+```sh
 utk extract bios.rom \
     remove a2dad2a-adadad-a2d2-ad23a3 \
     remove 9d8cd98-d9c8d9-d9c8-9d8c8c \
