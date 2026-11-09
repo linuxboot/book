@@ -20,7 +20,7 @@ This chapter describes how we build and use DUT.
 
 DUT is intended to be built into a u-root image. First one must fetch it:
 
-```
+```sh
 go get github.com/linuxboot/dut
 # ignore the warning message.
 ```
@@ -29,14 +29,14 @@ DUT source tree is structured such that a program called uinit is produced. This
 
 Building it into a u-root image is easy:
 
-```
+```sh
 go run $(GOPATH)/src/github.com/u-root/u-root -build=bb minimal github.com/linuxboot/dut/uinit
 ```
 
 I almost always add an sshd to u-root; it's just too handy. U-root sshd does not support
 passwords, so you have to supply the public key:
 
-```
+```sh
 go run $(GOPATH)/src/github.com/u-root/u-root -build=bb -files key.pub minimal  github.com/linuxboot/dut/uinit   github.com/u-root/u-root/xcmds/sshd
 ```
 
@@ -52,14 +52,14 @@ as a server and waits for requests.
 
 Running on the controller is easy:
 
-```
+```sh
 uinit -m tester
 ```
 
 On the controller, the program waits for a connection and then starts issuing commands to the device.
 The controller has the option of calling the following RPC functions:
 
-```
+```text
 RPCWelcome - return a welcome message
 RPCExit - exit the testing mode
 RPCReboot - reboot the system
@@ -69,7 +69,7 @@ RPCSsh - start the sshd
 
 Each of these RPCs takes arguments and returns a result, with Welcome being the most fun:
 
-```
+```text
 ______________
 < welcome to DUT >
   --------------
@@ -86,6 +86,6 @@ a reboot. It's been good for finding out if a particular DXE can be removed.
 
 Once the second Welcome has happened, if an sshd is installed, it will have been started, and you can do additional commands.
 
-# Future work
+## Future work
 
 Obviously, much more can be done. But this is a useful foundation on which to build DUT environments.
