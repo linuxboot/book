@@ -48,7 +48,7 @@ belong to the procedure. In addition, there are architecture specifics to take
 into account. Thus, there are multiple implementations of kexec, which are Linux
 programs that offer their own interfaces again to pass extra arguments. Besides
 those standalone implementations, there are also specialized boot loaders based
-on kexec that have their own extra logic, such as FreeBSD's kload or petitboot.
+on kexec that have their own extra logic, such as FreeBSD's kboot or petitboot.
 
 > [!NOTE]
 > The various tools differ in behavior. Some may not pass a new device tree to
