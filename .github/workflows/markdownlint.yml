@@ -20,4 +20,4 @@ jobs:
         run: sudo gem install mdl
 
       - name: Lint markdown
-        run: .github/workflows/lazy-lint.bash
+        run: mdl .
