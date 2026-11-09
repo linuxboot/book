@@ -1,29 +1,19 @@
 # All about u-root
 
-U-root is an embeddable root file system intended to be placed in a flash
-device as part of the firmware image, along with a Linux kernel. The program
-source code is installed in the root file system contained in the firmware
-flash part and compiled on demand. All the u-root utilities, roughly
-corresponding to standard Unix utilities, are written in Go, a modern,
-type-safe language with garbage collection and language-level support for
-concurrency and inter-process communication.
+The [u-root project](https://u-root.org) consists of a build tool and sources to
+generate a root file system with boot loaders suitable to implement LinuxBoot.
+All the u-root utilities, roughly corresponding to standard Unix utilities, are
+written in [Go, a modern, type-safe language](./u-root-golang.md) with garbage
+collection and out-of-the-box support for concurrency.
 
-Unlike most embedded root file systems, which consist largely of binaries,
-u-root has only 5: an init program and 4 Go compiler binaries. When a program
-is first run, it, and any not-yet-built packages it uses are compiled to a
-RAM-based file system. The first invocation of a program takes a fraction of a
-second, as it is compiled. Packages are only compiled once, so the slowest
-build is always the first one, on boot, which takes about 3 seconds. Subsequent
-invocations are very fast, usually a millisecond or so.
-
-U-root blurs the line between script-based distros such as Perl Linux[^24] and
+u-root blurs the line between script-based distros such as Perl Linux[^24] and
 binary-based distros such as BusyBox[^26]. It has the flexibility of Perl Linux
 and the performance of BusyBox. Scripts and builtins are written in Go, not a
-shell scripting language. U-root is a new way to package and distribute file
+shell scripting language. u-root is a new way to package and distribute file
 systems for embedded systems, and the use of Go promises a dramatic improvement
 in their security.
 
-## U-root and embedded systems
+## Embedded systems
 
 Embedding kernels and root file systems in BIOS flash is a common technique for
 gaining boot time performance and platform customization[^25] [^14] [^23].
@@ -46,416 +36,71 @@ attacks against shell interpreters[^11] and C programs[^8], we have started to
 look at using a more secure, modern language in embedded root file systems,
 namely, Go[^21] [^16].
 
-Go is a new systems programming language created by Google. Go has strong
-typing; language level support for concurrency; inter-process communication via
-channels, a la Occam[^13], Limbo[^17], and Alef[^27]; runtime type safety and
-other protective measures; dynamic allocation and garbage collection; closures;
-and a package syntax, similar to Java, that makes it easy to determine what
-packages a given program needs. The modern language constructs make Go a much
-safer language than C. This safety is critical for network-attached embedded
-systems, which usually have network utilities written in C, including web
-servers, network servers including sshd, and programs that provide access to a
-command interpreter, itself written in C. All are proving to be vulnerable to
-the attack-rich environment that the Internet has become. Buffer overflow
-attacks affecting C-based firmware code (among other things) in 2015 include
-GHOST and the so-called FSVariable.c bug in Intel’s UEFI firmware. Buffer
-overflows in Intel’s UEFI and Active Management Technology (AMT) have also been
-discovered in several versions in recent years.
+## Safety and security
 
-Both UEFI[^12] and AMT[^4] are embedded operating systems, loaded from flash that
-run network-facing software. Attacks against UEFI have been extensively
-studied[^9]. Most printers are network-attached and are a very popular
+The modern language constructs make Go a much safer language than C. This safety
+is critical for network-attached embedded systems, which usually have network
+utilities written in C, including web servers, network servers including `sshd`,
+and programs that provide access to a command interpreter, itself written in C.
+All are proving to be vulnerable to the attack-rich environment[^19] that the
+Internet has become. Buffer overflow attacks affecting C-based firmware code
+(among other things) in 2015 include GHOST and the so-called FSVariable.c bug in
+Intel’s UEFI firmware. Buffer overflows in Intel’s UEFI and Active Management
+Technology (AMT) have also been discovered in several versions in recent years.
+
+Both UEFI[^12] and AMT[^4] are embedded operating systems, loaded from flash and
+possibly running network-facing software. Attacks against UEFI have extensively
+been studied[^9]. Most printers are network-attached and are a very popular
 exploitation target[^6]. Firmware is not visible to most users and is updated
-much less frequently (if at all) than programs. It is the first software to
+much less frequently (if at all) than OS software. It is the first software to
 run, at power on reset. Exploits in firmware are extremely difficult to detect,
 because firmware is designed to be as invisible as possible. Firmware is
 extremely complex; UEFI is roughly equivalent in size and capability to a Unix
 kernel. Firmware is usually closed and proprietary, with nowhere near the level
 of testing of kernels. These properties make firmware an ideal place for
-so-called advanced persistent threats[^10] [^18] [^5]. Once an exploit is
+so-called advanced persistent threats[^10] [^18] [^5] (APTs). Once an exploit is
 installed, it is almost impossible to remove, since the exploit can inhibit its
 removal by corrupting the firmware update process. The only sure way to mitigate
 a firmware exploit is to destroy the hardware.
 
-U-root is an excellent option for embedded systems. U-root contains only 5
-binaries, 4 of them from the Go toolchain, and the 5th is an init binary. The
-rest of the programs are contained in BIOS flash in source form, including
-packages. The search path is arranged so that when a command is invoked, if it
-is not in `/bin`, an installer is invoked instead which compiles the program
-into `/bin`. If the build succeeds, the command is executed. This first
-invocation takes a fraction of a second, depending on program complexity. After
-that, the RAM-based, statically linked binaries run in about a millisecond.
-Scripts are written in Go, not a shell scripting language, with two benefits:
-the shell can be simple, with fewer corner cases, and the scripting environment
-is substantially improved since Go is more powerful than most shell scripting
-languages, but also less fragile and less prone to parsing bugs.
+## u-root design
 
-## U-root design
+Designed to be a suitable option for embedded systems, the u-root build system
+allows to choose the commands and files to include via templates and build
+command arguments, so it can be tailored for a specific use case.
 
-The u-root boot image is a build toolchain and a set of programs in source
-form. When first used, a program and any needed but not-yet-built packages are
-built and installed, typically in a fraction of a second. With later uses, the
-binary is executed. The root file system is almost entirely unformed on boot;
-`/init` sets up the key directories and mounts, including common ones such as
-`/etc` and `/proc`.
-
-Since the init program itself is only 132 lines of code and is easy to change,
+Since the init program itself is only few lines of code and is easy to change,
 the structure is very flexible and allows for many use cases, for example:
 
 * Additional binaries: if the 3 seconds it takes to get to a shell is too
   long (some applications such as automotive computing require 800 ms startup
-  time), and there is room in flash, some programs can be precompiled into /bin.
-* Build it all on boot: if on-demand compilation is not desired, a background
-  thread in the init process can build all the programs on boot.
+  time), and there is room in flash, more programs can be added into `/bin`.
 * Selectively remove binaries after use: if RAM space is at a premium, once
-  booted, a script can remove everything in `/bin`. Utilities or commands
-  that are used will be rebuilt on demand.
-* Always build on demand: run in a mode in which programs are never written
-  to `/bin` and always rebuilt on demand. This is a very practical option
-  given that program compilation is so fast.
+  booted, a script can remove files from `/bin`.
 * Lockdown: if desired, the system can be locked down once booted in one of
-  several ways: the entire `/src` tree can be removed, for example, or just the
-  compiler toolchain can be deleted.
+  several ways. For example, the flash part can be made read-only by a script.
 
-## U-root functionality
+Scripts can be written in Go, not a shell scripting language, with two benefits:
 
-U-root is packaged as an LZMA-compressed initial RAM file system (initramfs) in
-cpio format. It is contained in a Linux compressed kernel image, also know as
-bzImage. The bootloader (for example, syslinux) or firmware (for example,
-coreboot) loads the bzImage into memory and starts it. The Linux kernel sets up
-a RAM-based root file system and unpacks the u-root file system into it. This
-initial root file system contains the Go toolchain (4 binaries), an init
-binary, the u-root program source, and the entire Go source tree, which
-provides packages needed for u-root programs.
+* the shell can be simple, with fewer corner cases
+* the scripting environment is substantially improved since Go is more powerful
+  than most shell scripting languages, less fragile and less prone to bugs
+
+## u-root functionality
+
+A u-root initial RAM file system (initramfs) is commonly stored in the cpio
+format. It is usually compressed and contained in a Linux kernel image, known as
+`bzImage` on x86. A bootloader (for example, syslinux) or firmware (for example,
+coreboot) loads the kernel into memory and starts it. The Linux kernel sets up
+a RAM-based root file system and unpacks the u-root file system into it.
 
 All Unix systems start an init process on boot and u-root is no exception. The
-init for u-root sets up some basic directories, symlinks, and files. It builds
-a command installer and invokes the shell. This process is described in more
-detail below. The boot file system layout is shown in Table 1.
-
-The src directory is where programs and u-root packages reside. The go/bin
-directory is for any Go tools built after boot; the go/pkg/tool directory
-contains binaries for various architecture/kernel combinations. The directory
-in which a compiler toolchain is placed provides information about the target
-OS and architecture, for example, the Go build places binaries for Linux on x86
-64 in `/go/pkg/tool/linux` `amd64/`. Note that there is no `/bin` or many of
-the other directories expected in a root file system. The init binary builds
-them. It creates an empty `/bin` which is filled with binaries on demand as
-shown in Table 2.The u-root root file system has very little state.
+init for u-root sets up some basic directories, symlinks, and files.
 
 For most programs to work, the file system must be more complete. Image space
 is saved by having init create additional file system structure at boot time:
 it fills in the missing parts of the root filesystem. It creates `/dev` and
-`/proc` and mounts them. It creates an empty `/bin` which is filled with
-binaries on demand.
-
-In addition to `/bin`, there is a directory called `/buildbin`. `Buildbin` and
-the correct setup of $PATH are the keys to making on-demand compilation work.
-The init process sets $PATH to `/go/bin:/bin:/buildbin:/usr/local/bin`. Init
-also builds `installcommand` using the Go bootstrap builder and creates a
-complete set of symlinks. As a final step, init execs `sh`.
-
-There is no `/bin/sh` at this point; the first `sh` found in $PATH is
-`/buildbin/sh`. This is a symlink to `installcommand`. `Installcommand`, once
-started, examines `argv[0]`, which is `sh`, and takes this as instruction to
-build `/src/cmds/sh/.go` into `/bin` and then exec `/bin/sh`. There is no
-difference between starting the first shell and any other program. Hence, part
-of the boot process involves the construction of an installation tool to build
-a binary for a shell which is then run.
-
-If a user wants to examine the source to the shell, they can `cat`
-`/src/cmds/sh/.go`. The `cat` command will be built and then show those files.
-U-root is intended for network-based devices and hence good network
-initialization code is essential. U-root includes a Go version of the IP and
-DHCP programs, along with the docker netlink package and a DHCP package.
-
-Table 1 below shows the initial layout of a u-root file system.
-
-All Go compiler and runtime source is included under `/go/src`. All u-root
-source is under `/src` and the compiler toolchain binaries are under `/go/pkg`.
-
-|Directory|Subdirectory|Command|
-|---|:---:|:---|
-|/src|  cmds/ ||
-|      ||builtin/builtin.go|
-|      ||/cat.go|
-|      ||/cmp.go|
-|      ||comm/comm.go|
-|      ||cp/cp.go|
-||      |date/date.go|
-||      |dmesg/dmesg.go|
-||      |echo/echo.go|
-||      |freq/freq.go|
-||      |grep/grep.go|
-||      |init/init.go|
-||      |installcommand/installcommand.go|
-||      |ip/ip.go|
-||      |ldd/ldd.go|
-||      |losetup/losetup.go|
-||      |ls/ls.go|
-||      |mkdir/mkdir.go|
-||      |mount/mount.go|
-||      |netcat/netcat.go|
-||      |ping/ping.go|
-||      |printenv/printenv.go|
-||      |rm/rm.go|
-||      |script/script.go|
-||      |seq/seq.go|
-||      |sh/{cd.go,parse.go,sh.go,time.go}|
-||      |srvfiles/srvfiles.go|
-||      |tcz/tcz.go|
-||      |tee/tee.go|
-||      |uniq/uniq.go|
-||      |wc/wc.go|
-||      |wget/wget.go|
-||      |which/which.go|
-||      |pkg/|
-||     | dhcp/ (dhcp package source)|
-||     | netlib/ (netlib package source)|
-||     | golang.org (import package source)|
-|/go |src/ |Packages and toolchain|
-||pkg/| tool/linux amd64/{6a,6c,6g,6l}|
-||misc/| ...|
-||tool/ |...|
-||bin/ |go|
-||include/| ...|
-|/lib/| libc.so |Needed for tinycore linux packages|
-||libm.so||
-
-**Table 1**: Initial layout of a u-root filesystem
-
-Table 2 below shows the layout after `/init` has run.
-
-|Directory    |Subdirectory|Command|
-|---|:---:|:---|
-|/src|  cmds/ ||
-|      ||builtin/builtin.go|
-|      ||/cat.go|
-|      ||/cmp.go|
-|      ||comm/comm.go|
-|      ||cp/cp.go|
-||      |date/date.go|
-||      |dmesg/dmesg.go|
-||      |echo/echo.go|
-||      |freq/freq.go|
-||      |grep/grep.go|
-||      |init/init.go|
-||      |installcommand/installcommand.go|
-||      |ip/ip.go|
-||      |ldd/ldd.go|
-||      |losetup/losetup.go|
-||      |ls/ls.go|
-||      |mkdir/mkdir.go|
-||      |mount/mount.go|
-||      |netcat/netcat.go|
-||      |ping/ping.go|
-||      |printenv/printenv.go|
-||      |rm/rm.go|
-||      |script/script.go|
-||      |seq/seq.go|
-||      |sh/{cd.go,parse.go,sh.go,time.go}|
-||      |srvfiles/srvfiles.go|
-||      |tcz/tcz.go|
-||      |tee/tee.go|
-||      |uniq/uniq.go|
-||      |wc/wc.go|
-||      |wget/wget.go|
-||      |which/which.go|
-||      |pkg/|
-||     | dhcp/ (dhcp package source)|
-||     | netlib/ (netlib package source)|
-||     | golang.org (import package source)|
-|/go |src/ |Packages and toolchain|
-||pkg/| tool/linux amd64/{6a,6c,6g,6l}|
-||misc/| ...|
-||tool/ |...|
-||bin/ |go|
-||include/| ...|
-|/lib/| libc.so |Needed for tinycore linux packages|
-||libm.so||
-
-**Table 2**: Layout after `/init` has run.
-
-`/buildbin` contains symlinks to enable the on-demand compilation, and other
-standard directories and mount points are ready.
-
-## The u-root shell
-
-U-root provides a shell that is stripped down to the fundamentals: it can read
-commands in using the Go scanner package; it can expand (that is, glob) the
-command elements, using the Go filepath package, and it can run the resulting
-commands, either programs or shell builtins. It supports pipelines and IO
-redirection. At the same time, the shell defines no language of its own for
-scripting and builtins. Instead, the u-root shell uses the Go compiler. In that
-sense, the u-root shell reflects a break in important ways with the last few
-decades of shell development, which has seen shells and their language grow
-ever more complex and, partially as a result, ever more insecure[^19] and
-fragile[^11].
-
-The shell has several builtin commands, and you can extend it with builtin
-commands of your own. First, you need to understand the basic source structure
-of u-root shell builtins. Then, you will learn about user-defined builtins.
-
-All shell builtins, including the ones that come with the shell by default, are
-written with a standard Go init pattern which installs one or more builtins.
-
-Builtins in the shell are defined by a name and a function. One or more
-builtins can be described in a source file. The name is kept in a map and the
-map is searched for a command name before looking in the file system. The
-function must accept a string as a name and a (possibly zero-length) array of
-string arguments, and return an error. In order to connect the builtin to the
-map, a programmer must provide an `init` function which adds the name and
-function to the map. The `init` function is special in that it is run by Go
-when the program starts up. In this case, the `init` function just installs a
-builtin for the time command.
-
-Figure 1 and Figure 2 below show the shell builtin for time.
-
-```go
-// Package main is the 'root' of the package hierarchy for a program.
-// This code is part of the main program, not another package,
-// and is declared as package main.
-
-package main
-
-// A Go source file list all the packages on which it has a direct
-// dependency.
-
-import (
-  "fmt"
-  "os"
-  "time"
-  )
-
-// init() is an optional function. If init () is present in a file,
-// the Go compiler and runtime arrange for it to be called at
-// program startup. It is therefore like a constructor.
-
-func init () {
-    // addBuiltIn is provided by the u−root shell for the addition of
-    // builtin commands. Builtins must have a standard type:
-    // - The first parameter is a string
-    // - The second is a string array which may be 0 length
-    // - The return is the Go error type
-    // In this case, we are creating a builtincalled time that calls
-    // the timecmd function.
-
-  addBuiltIn ( "time " , timecmd )
-  }
-```
-
-**Figure 1**: The code for the time builtin, Part I: setup
-
-```go
-// The timecmd function is passed the name of a command to run,
-// optional arguments, and returns an error. It:
-// - gets the starttime using Now from the time package
-// - runs the command using the u−root shell runit function
-// - computes a duration using Since from the time package
-// - if there is an error, prints the error to os.Stderr
-// - uses fmt. Printf to print the duration to os.Stderr
-// Note that since runtime always handles the error, by printing
-// it, it always returns nil. Most builtins return the error.
-// Here you can see the usage of the imported packages
-// from the imports statement above.
-
-func timecmd (name string, args [] string )
-error {
-      start: = time. Now ()
-      err := run it (name, args)
-        if err != nil {
-
-      fmt. Fprintf (os. Stderr, ”%v\n”, err)
-
-  }
-  cost := time . Since (start)
-  fmt.Printf(os.Stderr, ”%v ”,cost)
-
-    // This function is special in that it handles the error, and hence
-    // does not return an error.
-    // Most other builtins return the error.
-
-  return nil
-  }
-
-```
-
-**Figure 2**: The code for the shell time builtin, Part II
-
-## Scripting and builtins
-
-To support scripting and builtins, u-root provides two programs: script and
-builtin. The script program allows users to specify a Go fragment on the
-command line, and runs that fragment as a program. The builtin program allows a
-Go fragment to be built into the shell as a new command. Builtins are
-persistent; the builtin command instantiates a new shell with the new command
-built in. Scripts run via the script command are not persistent.
-
-A basic hello builtin can be defined on the command line:
-
-```sh
-builtin hello '{ fmt.Printf("Hello\n") }'
-```
-
-The fragment is defined by the {} pair. Given a fragment that starts with a {,
-the builtin command generates all the wrapper boiler plate needed. The builtin
-command is slightly different from the script command in that the Go fragment
-is bundled into one argument. The command accepts multiple pairs of command
-name and Go code fragments, allowing multiple new builtin commands to be
-installed in the shell.
-
-Builtin creates a new shell at `/bin/sh` with the source at `/src/cmds/sh/`.
-Invocations of `/bin/sh` by this shell and its children will use the new shell.
-
-Processes spawned by this new shell can access the new shell source and can run
-the builtin command again and create a shell that further extends the new
-shell. Processes outside the new shell’s process hierarchy can not use this new
-shell or the builtin source. When the new shell exits, the builtins are no
-longer visible in any part of the file system. We use Linux mount name spaces
-to create this effect[^22]. Once the builtin command has verified that the Go
-fragment is valid, it builds a new, private namespace with the shell source,
-including the new builtin source. From that point on, the new shell and its
-children will only use the new shell. The parent process and other processes
-outside the private namespace continue to use the old shell.
-
-Figure 3 below shows an example usage of the script command.
-
-This script implements printenv. Note that it is not a complete Go program in
-that it lacks a package statement, imports, a main function declaration, and a
-return at the end. All the boilerplate is added by the script command, which
-uses the Go imports package to scan the code and create the import statements
-required for compilation (in this case, both fmt and os packages are imported).
-Because the u-root shell is so simple, there is no need to escape many of these
-special characters. The complex parsing tasks have been offloaded to Go.
-Builtins are implemented in almost the same way. The builtin command takes the
-Go fragment and creates a standard shell builtin Go source file which conforms
-to the builtin pattern. This structure is easy to generate programmatically,
-building on the techniques used for the script command.
-
-```sh
-script{ fmt.Printf("%v\n", os.Environ()) }
-```
-
-**Figure 3**: Go fragment for a printenv script. Code structure is inserted and
-packages are determined automatically.
-
-## Environment variables
-
-The u-root shell supports environment variables, but manages them differently
-than most Unix environments. The variables are maintained in a directory called
-`/env`; the file name corresponds to the environment variable name, and the
-files contents are the value. When it is starting a new process, the shell
-populates child process environment variables from the `/env` directory. The
-syntax is the same; $ followed by a name directs the shell to substitute the
-value of the variable in the argument by prepending `/env` to the path and
-reading the file.
-
-The shell variables described above are relative paths; `/env` is prepended to
-them. In the u-root shell, the name can also be an absolute path. For example,
-the command script $`/home/$USER/scripts/hello` will substitute the value of
-the `hello` script into the command line and then run the script command. The
-ability to place arbitrary text from a file into an argument is proving to be
-extremely convenient, especially for script and builtin commands.
+`/proc` and mounts them.
 
 ## Using external packages and programs
 
@@ -479,13 +124,16 @@ fetched, and hence must cache them locally. It will not refetch already cached
 packages. This cache can be volatile or maintained on more permanent storage.
 Performance varies depending on the network being used and the number of
 packages being loaded, but averages about 1 second per package on a
-WIFI-attached laptop. U-root also provides a small web server, called
+WiFi-attached laptop. u-root also provides a small web server, called
 *srvfiles*, that can be used to serve locally cached tinycore packages for
-testing. The entire server is 18 lines of Go.
+testing.
 
-## On-Demand Compilation
+## History and related work
 
-On-Demand compilation is one of the oldest ideas in computer science.
+### On-demand compilation
+
+Earlier iterations of u-root offered on-demand compilation, one of the oldest
+ideas in computer science.
 Slimline Open Firmware (SLOF)[^7] is a FORTHbased implementation of Open
 Firmware developed by IBM for some of its Power and Cell processors. SLOF is
 capable of storing all of Open Firmware as source in the flash memory and
@@ -500,7 +148,7 @@ source to provide improved performance. Java takes the process one step further
 with the Just In Time compilation of byte code to machine code[^20] to boost
 performance.
 
-## Embedding kernel and root file systems in flash
+### Embedding kernel and root file systems in flash
 
 The LinuxBIOS project[^14] [^1], together with clustermatic[^25], used an embedded
 kernel and simple root file system to manage supercomputing clusters. Due to
@@ -579,15 +227,12 @@ a fast, capable boot system.
 [^11]: KOZIOL, J., LITCHFIELD, D., AITEL, D., ANLEY, C., EREN, S., MEHTA, N.,
     AND HASSELL, R. The Shellcoder’s Handbook. Wiley Indianapolis, 2004.
 [^12]: LEWIS, T. Uefi overview, 2007.
-[^13]: MAY,D.Occam.ACMSigplanNotices18,4(1983),69–79.
 [^14]: MINNICH, R. G. Linuxbios at four. Linux J. 2004, 118 (Feb. 2004), 8–.
 [^15]: MOON, S.-P., KIM, J.-W., BAE, K.-H., LEE, J.-C., AND SEO, D.-W. Embedded
     linux implementation on a commercial digital tv system. Consumer
 Electronics, IEEE Transactions on 49, 4 (Nov 2003), 1402–1407.
 [^16]: PIKE, R. Another go at language design. Stanford University Computer
     Systems Laboratory Colloquium.
-[^17]: RITCHIE, D. M. The limbo programming language. Inferno Programmer’s
-    Manual 2 (1997).
 [^18]: SACCO, A. L., AND ORTEGA, A. A. Persistent bios infection. In CanSecWest
     Applied Security Conference (2009).
 [^19]: SAMPATHKUMAR, R. Vulnerability Management for Cloud Computing-2014: A
@@ -598,9 +243,6 @@ Electronics, IEEE Transactions on 49, 4 (Nov 2003), 1402–1407.
 [^21]: TEAM, G. The go programming language specification. Tech. rep.,
     Technical Report [http://golang](http://golang/). org/doc/doc/go spec.
     html, Google Inc, 2009.
-[^22]: VAN HENSBERGEN, E., AND MINNICH, R. Grave robbers from outer space:
-    Using 9p2000 under linux. In USENIX Annual Technical Conference, FREENIX
-    Track (2005), pp. 83–94.
 [^23]: VARIOUS. No papers have been published on onie; see onie.org.
 [^24]: VARIOUS. No papers were published; see perllinux.sourceforge.net.
 [^25]: WATSON, G. R., SOTTILE, M. J., MINNICH, R. G., CHOI, S.-E., AND
@@ -609,5 +251,3 @@ Electronics, IEEE Transactions on 49, 4 (Nov 2003), 1402–1407.
     Seventh International Conference on (2004), IEEE, pp. 454–461.
 [^26]: WELLS, N. Busybox: A swiss army knife for linux. Linux J. 2000, 78es
     (Oct. 2000).
-[^27]: WINTERBOTTOM, P. Alef language reference manual. Plan 9 Programmer’s Man
-    (1995).
