@@ -41,7 +41,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-1ea0b2a5.js";
+            window.path_to_searchindex_js = "searchindex-0e177bd8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-7f756a74.js"></script>
@@ -2510,7 +2510,12 @@ a reboot. It’s been good for finding out if a particular DXE can be removed.</
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="implementing-linuxboot"><a class="header" href="#implementing-linuxboot">Implementing LinuxBoot</a></h1>
 <p>The aim of LinuxBoot is to reduce complexity and obscure firmware by moving
-that functionality into kernel and user-space.</p>
+that functionality into kernel and user-space. So you will need the necessary
+<a href="#linuxboot-components">components</a> and fit them into the boot flow.</p>
+<p>Since there are multiple approaches to initialize the platform, such as <a href="#retrofit-linuxboot-into-uefi-platform-initialization">UEFI
+PI</a>, U-Boot XPL, barebox PBL, coreboot and oreboot, and
+hardware vendors differ in openness, different strategies are required,
+explained in this chapter.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="retrofit-linuxboot-into-uefi-platform-initialization"><a class="header" href="#retrofit-linuxboot-into-uefi-platform-initialization">Retrofit LinuxBoot into UEFI Platform Initialization</a></h1>
 <p>This chapter describes the procedures from a <a href="https://docs.google.com/presentation/d/1s9ka4v7leKeJa3116AQoNb9cv3OqmnW6pgn0ov9WiHo/edit?ts=5e2b227b#slide=id.g7ceec54197_4_163">LinuxBoot

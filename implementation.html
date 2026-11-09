@@ -40,7 +40,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-1ea0b2a5.js";
+            window.path_to_searchindex_js = "searchindex-0e177bd8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-7f756a74.js"></script>
@@ -184,7 +184,12 @@
                     <main>
                         <h1 id="implementing-linuxboot"><a class="header" href="#implementing-linuxboot">Implementing LinuxBoot</a></h1>
 <p>The aim of LinuxBoot is to reduce complexity and obscure firmware by moving
-that functionality into kernel and user-space.</p>
+that functionality into kernel and user-space. So you will need the necessary
+<a href="components.html">components</a> and fit them into the boot flow.</p>
+<p>Since there are multiple approaches to initialize the platform, such as <a href="uefi-pi-retrofit.html">UEFI
+PI</a>, U-Boot XPL, barebox PBL, coreboot and oreboot, and
+hardware vendors differ in openness, different strategies are required,
+explained in this chapter.</p>
 
                     </main>
 
