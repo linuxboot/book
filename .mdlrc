@@ -1,1 +1,2 @@
 style '.mdl_style.rb'
+git_recurse true
