@@ -1,3 +1,5 @@
+# Summary
+
 - [LinuxBoot Introduction](intro.md)
   - [Use cases](use-cases.md)
   - [Talks and news coverage](talks-news.md)
