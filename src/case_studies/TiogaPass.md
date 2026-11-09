@@ -63,13 +63,13 @@ target OS.
 
 * Download the code from [linuxboot github](https://github.com/linuxboot/linuxboot)
 
-  ```
+  ```sh
     git clone https://github.com/linuxboot/linuxboot.git
   ```
 
 * You need to apply Wiwiynn's linuxboot patch for now
 
-  ```
+  ```sh
   cd linuxboot
   wget -O TiogaPass.patch https://github.com/johnnylinwiwynn/linuxboot/commit/28ae8450b3b05c6e6b8c74e29d0974ccf711d5e6.patch
   git am TiogaPass.patch
@@ -85,7 +85,7 @@ target OS.
   after ordering, and also put your bzImage to the root folder of linuxboot,
   and then make
 
-  ```
+  ```sh
     cp path/to/tioga.rom linuxboot/boards/tioga
     cp path/to/bzImage linuxboot
     cd linuxboot
@@ -131,4 +131,4 @@ IRC channel, a mailing list and regular meetings.
 
 Following companies provides professional support services:
 
-**TBD**
+TBD
