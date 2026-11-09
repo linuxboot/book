@@ -35,7 +35,7 @@ essentially a set of files and directories bundled into a single cpio archive.
 
 The minimum structure is this:
 
-```
+```text
 /dev/console
 /dev/null
 /init
