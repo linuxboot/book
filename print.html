@@ -456,7 +456,7 @@ image itself. It is intended to be placed in a flash device along with the
 Linux kernel as part of the firmware image for LinuxBoot. The initramfs is
 essentially a set of files and directories bundled into a single cpio archive.</p>
 <p>The minimum structure is this:</p>
-<pre><code>/dev/console
+<pre><code class="language-text">/dev/console
 /dev/null
 /init
 /proc/
@@ -1549,7 +1549,7 @@ volumes, Intel firmware descriptors and FIT.</p>
 <li>Extend UTK with additional commands</li>
 </ol>
 <h2 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h2>
-<pre><code>make bzImage
+<pre><code class="language-sh">make bzImage
 sudo flashrom -r /tmp/ROM.bin
 utk /tmp/ROM.bin replace_pe32 Shell arch/86/boot/bzImage save /tmp/NEWROM.bin
 sudo flashrom -w /tmp/NEWROM.bin
@@ -1564,10 +1564,10 @@ is a quick and easy way to get started. In the long term, you want to
 remove as much of UEFI as possible, but replacing the shell is always
 our first step on a new board.</p>
 <p>Get the tool:</p>
-<pre><code>go get -u github.com/linuxboot/fiano/cmds/utk
+<pre><code class="language-sh">go get -u github.com/linuxboot/fiano/cmds/utk
 </code></pre>
 <p>Replace the shell:</p>
-<pre><code>utk ROM.bin replace_pe32 Shell bzImage save NEWROM.bin
+<pre><code class="language-sh">utk ROM.bin replace_pe32 Shell bzImage save NEWROM.bin
 </code></pre>
 <p>After that, you can flash NEWROM.bin and test. If anything goes wrong, such as
 not enough space, you will need to refer to the more detailed instructions
@@ -1579,20 +1579,20 @@ distributions are not officially available. The source code resides in the
 <p>Aside: what is the difference between Fiano and UTK? The Fiano project contains
 a few more tools besides UTK, but UTK is a big element.</p>
 <p>We’ll assume you already have Go installed. Check your installation with:</p>
-<pre><code>$ go version
+<pre><code class="language-console">$ go version
 go version go1.11 linux/amd64
 </code></pre>
 <p>Linux and the latest stable version of Go are recommended. Either download the
 official binary distributions of Go or install from source. See
 <a href="https://golang.org/">https://golang.org/</a> for details.</p>
 <p>With Go, download and install UTK:</p>
-<pre><code>go get -u github.com/linuxboot/fiano/cmds/utk
+<pre><code class="language-sh">go get -u github.com/linuxboot/fiano/cmds/utk
 </code></pre>
 <p>Running the above line installs <code>utk</code> to your <code>$GOPATH/bin</code> directory (or
 <code>$HOME/go/bin</code> if the <code>GOPATH</code> environment variable is not set). Adding this
 directory to your <code>$PATH</code> is recommended.</p>
 <p>Make sure it works with:</p>
-<pre><code>$ utk -h
+<pre><code class="language-console">$ utk -h
 Usage: utk [flags] &lt;file name&gt; [0 or more operations]
 
 Operations:
@@ -1624,14 +1624,14 @@ Operations:
 image. When confronted with a new image, run these commands to get a “lay of
 the land”.</p>
 <p>Start by downloading the UEFI image used in these examples:</p>
-<pre><code>wget https://github.com/linuxboot/fiano/raw/master/integration/roms/OVMF.rom
+<pre><code class="language-sh">wget https://github.com/linuxboot/fiano/raw/master/integration/roms/OVMF.rom
 </code></pre>
 <p>Aside: alternatively, all UTK operations should work with your own UEFI images.
 Simply substitute “OVMF.rom” with your own UEFI image in all the examples
 below. If you encounter any problems, please file an issue at
 <a href="https://github.com/linuxboot/fiano/issues">https://github.com/linuxboot/fiano/issues</a>.</p>
 <p>First, it is advisable to print a count of each firmware element:</p>
-<pre><code>$ utk OVMF.rom count
+<pre><code class="language-console">$ utk OVMF.rom count
 {
         "FirmwareTypeCount": {
                 "BIOSRegion": 1,
@@ -1680,7 +1680,7 @@ compressed.</li>
 <p>TODO: Diagram showing a tree of these firmware elements.</p>
 <p>To view a human-readable tree of all the firmware elements, types and sizes,
 run:</p>
-<pre><code>$ utk OVMF.rom table | less
+<pre><code class="language-console">$ utk OVMF.rom table | less
 Node        GUID/Name                             Type                                   Size
 BIOS                                                                                     0x400000
  FV         FFF12B8D-7696-4C8B-A985-2747075B4F50                                          0x84000
@@ -1704,12 +1704,12 @@ BIOS                                                                            
 <p>This format is compact and easy for humans reading, but not ideal for machine
 consumption. Use the <code>json</code> command to print everything (including much more
 metadata) as JSON:</p>
-<pre><code>utk OVMF.rom json | less
+<pre><code class="language-sh">utk OVMF.rom json | less
 </code></pre>
 <p>Combine <code>utk</code> with the JSON query command, <code>jq</code> (<code>sudo apt-get install jq</code>),
 and other UNIX commands to quickly write powerful queries. For example, the
 following lists all the GUIDs, sorted and without duplicates:</p>
-<pre><code>$ utk OVMF.rom json | jq -r '..|.GUID?|select(type=="string")' | sort -u
+<pre><code class="language-console">$ utk OVMF.rom json | jq -r '..|.GUID?|select(type=="string")' | sort -u
 00000000-0000-0000-0000-000000000000
 0167CCC4-D0F7-4F21-A3EF-9E64B7CDCE8B
 0170F60C-1D40-4651-956D-F0BD9879D527
@@ -1718,7 +1718,7 @@ following lists all the GUIDs, sorted and without duplicates:</p>
 ...
 </code></pre>
 <p>To only print the JSON for specific files, use the find command:</p>
-<pre><code># The find command uses a regex to match on the name or GUID.
+<pre><code class="language-console"># The find command uses a regex to match on the name or GUID.
 # These three examples find and print the JSON for the same file:
 $ utk OVMF.rom find 'Sh.*'
 $ utk OVMF.rom find 'Shell'
@@ -1754,16 +1754,16 @@ you match a file by its name or GUID.</p>
 contents. The <code>extract &lt;DIR&gt;</code> command extracts all the files from the image and
 saves them to <code>&lt;DIR&gt;</code>. <code>&lt;DIR&gt;/summary.json</code> lists all the paths to the extracted
 files along with their metadata.</p>
-<pre><code>utk OVMF.rom extract OVMF/
+<pre><code class="language-sh">utk OVMF.rom extract OVMF/
 </code></pre>
 <p>After modifying the files, they can be reassembled with:</p>
-<pre><code>utk OVMF/ save OVMF2.rom
+<pre><code class="language-sh">utk OVMF/ save OVMF2.rom
 </code></pre>
 <h2 id="modifying-roms"><a class="header" href="#modifying-roms">Modifying ROMs</a></h2>
 <p>First, let’s verify the image works by running it inside QEMU. This step is not
 absolutely necessary, but gives us confidence the image works before and after
 each change we make.</p>
-<pre><code>qemu-system-x86_64 -bios OVMF.rom -nographic -net none
+<pre><code class="language-sh">qemu-system-x86_64 -bios OVMF.rom -nographic -net none
 </code></pre>
 <p>For the provided OVMF.rom image, this should boot to the EDK2 shell.</p>
 <p>TODO: include screenshot of the EDK2 shell</p>
@@ -1771,7 +1771,7 @@ each change we make.</p>
 always loads the image into memory and the last argument typically writes the
 output. The commands in between operate on the image in memory and are
 reminiscent of a UNIX pipeline. The general syntax is:</p>
-<pre><code>utk &lt;IMAGE or DIR&gt;                 \
+<pre><code class="language-sh">utk &lt;IMAGE or DIR&gt;                 \
   &lt;COMMAND0&gt; &lt;ARG0_0&gt; &lt;ARG0_1&gt; ... \
   &lt;COMMAND1&gt; &lt;ARG1_0&gt; &lt;ARG1_1&gt; ... \
   ...
@@ -1791,7 +1791,7 @@ with Usb and the Legacy8259 driver which has the GUID
 79ca4208-bba1-4a9a-8456-e1e66a81484e) and replaces the Shell with Linux. Often
 you need to remove drivers to make room for Linux which makes the pipeline
 convenient. This is the essence of LinuxBoot:</p>
-<pre><code>$ stat linux.efi
+<pre><code class="language-console">$ stat linux.efi
 linux.efi: Linux kernel x86 boot executable bzImage, version 4.17.0
 $ utk OVMF.rom \
   remove 'Usb.*' \
@@ -1805,7 +1805,7 @@ insert.</p>
 <h3 id="kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode"><a class="header" href="#kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode">Kernel is not built as a DXE or has not enabled UEFI stub mode</a></h3>
 <p>In order to be properly bootable as a DXE, kernels must have the following
 enabled:</p>
-<pre><code>CONFIG_EFI=y
+<pre><code class="language-text">CONFIG_EFI=y
 CONFIG_EFI_STUB=y
 </code></pre>
 <h3 id="files-are-missing-from-the-firmware-volume"><a class="header" href="#files-are-missing-from-the-firmware-volume">Files are missing from the Firmware Volume</a></h3>
@@ -1828,13 +1828,13 @@ image, the files within it are not listed.</p>
 <p>To determine which compression scheme you are using, search for the respective
 GUID in the json summary.</p>
 <h3 id="file-size-too-big"><a class="header" href="#file-size-too-big">File size too big</a></h3>
-<pre><code>File size too big! File with GUID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX has length 543210, but is only 123450 bytes big
+<pre><code class="language-text">File size too big! File with GUID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX has length 543210, but is only 123450 bytes big
 </code></pre>
 <p>When saving a UEFI image, files are added successively to each firmware volume.
 The first file which overflows the volume’s size causes this error.</p>
 <p>If you were inserting files, you will need to delete existing files to make room.</p>
 <p>There is a special cases where this error is generated without any operations:</p>
-<pre><code>utk OVMF.rom save OVMF2.rom
+<pre><code class="language-sh">utk OVMF.rom save OVMF2.rom
 </code></pre>
 <p>How can this be? No changes should be made to the image!</p>
 <p>Not quite (and the complete list of differences can be found in the “binary
@@ -1927,7 +1927,7 @@ fv.Apply(v)
 <h3 id="chaining-visitors-together"><a class="header" href="#chaining-visitors-together">Chaining Visitors Together</a></h3>
 <p>It would be exciting/useful to be able to chain these small actions together
 through the command line. For example:</p>
-<pre><code>utk extract bios.rom \
+<pre><code class="language-sh">utk extract bios.rom \
     remove a2dad2a-adadad-a2d2-ad23a3 \
     remove 9d8cd98-d9c8d9-d9c8-9d8c8c \
     replaceDXEWithFile bab8a98-a9ba89a-9aba-a98a9 linux.efi \
@@ -2462,16 +2462,16 @@ needed, being done over SSH.</p>
 <p>This chapter describes how we build and use DUT.</p>
 <h2 id="components"><a class="header" href="#components">Components</a></h2>
 <p>DUT is intended to be built into a u-root image. First one must fetch it:</p>
-<pre><code>go get github.com/linuxboot/dut
+<pre><code class="language-sh">go get github.com/linuxboot/dut
 # ignore the warning message.
 </code></pre>
 <p>DUT source tree is structured such that a program called uinit is produced. This is convenient for u-root usage.</p>
 <p>Building it into a u-root image is easy:</p>
-<pre><code>go run $(GOPATH)/src/github.com/u-root/u-root -build=bb minimal github.com/linuxboot/dut/uinit
+<pre><code class="language-sh">go run $(GOPATH)/src/github.com/u-root/u-root -build=bb minimal github.com/linuxboot/dut/uinit
 </code></pre>
 <p>I almost always add an sshd to u-root; it’s just too handy. U-root sshd does not support
 passwords, so you have to supply the public key:</p>
-<pre><code>go run $(GOPATH)/src/github.com/u-root/u-root -build=bb -files key.pub minimal  github.com/linuxboot/dut/uinit   github.com/u-root/u-root/xcmds/sshd
+<pre><code class="language-sh">go run $(GOPATH)/src/github.com/u-root/u-root -build=bb -files key.pub minimal  github.com/linuxboot/dut/uinit   github.com/u-root/u-root/xcmds/sshd
 </code></pre>
 <h3 id="dut-on-the-device"><a class="header" href="#dut-on-the-device">DUT on the device</a></h3>
 <p>On boot, the standard init program will find dut, and run it. The standard mode on a device
@@ -2481,18 +2481,18 @@ It will then attempt to connect to a uinit running in ‘tester’ mode on 192.1
 as a server and waits for requests.</p>
 <h3 id="dut-on-the-controller"><a class="header" href="#dut-on-the-controller">DUT on the controller</a></h3>
 <p>Running on the controller is easy:</p>
-<pre><code>uinit -m tester
+<pre><code class="language-sh">uinit -m tester
 </code></pre>
 <p>On the controller, the program waits for a connection and then starts issuing commands to the device.
 The controller has the option of calling the following RPC functions:</p>
-<pre><code>RPCWelcome - return a welcome message
+<pre><code class="language-text">RPCWelcome - return a welcome message
 RPCExit - exit the testing mode
 RPCReboot - reboot the system
 RPCKexec - kexec a kernel
 RPCSsh - start the sshd
 </code></pre>
 <p>Each of these RPCs takes arguments and returns a result, with Welcome being the most fun:</p>
-<pre><code>______________
+<pre><code class="language-text">______________
 &lt; welcome to DUT &gt;
   --------------
          \   ^__^
@@ -2505,7 +2505,7 @@ RPCSsh - start the sshd
 by a Welcome. This sequence verifies that I can get network going from power on, do a reboot, and reconnect after
 a reboot. It’s been good for finding out if a particular DXE can be removed.</p>
 <p>Once the second Welcome has happened, if an sshd is installed, it will have been started, and you can do additional commands.</p>
-<h1 id="future-work"><a class="header" href="#future-work">Future work</a></h1>
+<h2 id="future-work"><a class="header" href="#future-work">Future work</a></h2>
 <p>Obviously, much more can be done. But this is a useful foundation on which to build DUT environments.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="implementing-linuxboot"><a class="header" href="#implementing-linuxboot">Implementing LinuxBoot</a></h1>
@@ -2760,13 +2760,13 @@ builds will cover virtual and physical OCP hardware.</p>
 <h2 id="quick-start-with-coreboot"><a class="header" href="#quick-start-with-coreboot">Quick Start with coreboot</a></h2>
 <p>Run these commands in a directory you create or in <code>/tmp</code>; do so because it
 creates some files and directories:</p>
-<pre><code>$ go get github.com/linuxboot/corebootnerf
+<pre><code class="language-console">$ go get github.com/linuxboot/corebootnerf
 $ go run github.com/linuxboot/corebootnerf --fetch
 ... lots and lots of output!
 </code></pre>
 <p>This produces a coreboot image in coreboot-4.9/build/coreboot.rom
 You can now run this ROM image:</p>
-<pre><code>qemu-system-x86_64 -serial stdio -bios coreboot-4.9/build/coreboot.rom
+<pre><code class="language-sh">qemu-system-x86_64 -serial stdio -bios coreboot-4.9/build/coreboot.rom
 </code></pre>
 <p>And see how it looks when you put this in a coreboot ROM image.</p>
 <h2 id="components-1"><a class="header" href="#components-1">Components</a></h2>
@@ -2794,11 +2794,11 @@ at least version 1.10. Previous versions may not be fully supported.</p>
 <p>Adjust your <code>PATH</code> to include <code>${GOPATH}/bin</code>, in order to find the <code>u-root</code>
 command that we will use in the next steps.</p>
 <p>Then, fetch <code>u-root</code> and its dependencies:</p>
-<pre><code>go get -u github.com/u-root/u-root
+<pre><code class="language-sh">go get -u github.com/u-root/u-root
 </code></pre>
 <p>Then build the ramfs in busybox mode, and add fbnetboot, localboot, and a custom
 uinit to wrap everything together:</p>
-<pre><code>u-root -build=bb core github.com/u-root/u-root/cmds/boot/{uinit,localboot,fbnetboot}
+<pre><code class="language-sh">u-root -build=bb core github.com/u-root/u-root/cmds/boot/{uinit,localboot,fbnetboot}
 </code></pre>
 <p>This command will generate a ramfs named <code>/tmp/initramfs_${os}_${arch}.cpio</code>,
 e.g. <code>/tmp/initramfs.linux_amd64.cpio</code>. You can specify an alternative output
@@ -2811,7 +2811,7 @@ you need to include other files or non-Go binaries, use the <code>-file</code> o
 initramfs in the kernel as explained below, in order to maintain the image size
 smaller. Linux has a limited XZ compressor, so the compression requires specific
 options:</p>
-<pre><code>xz --check=crc32 --lzma2=dict=512KiB /tmp/initramfs.linux_amd64.cpio
+<pre><code class="language-sh">xz --check=crc32 --lzma2=dict=512KiB /tmp/initramfs.linux_amd64.cpio
 </code></pre>
 <p>which will produce the file <code>/tmp/initramfs.linux_amd64.cpio.xz</code>.</p>
 <p>The kernel compression requirements are documented under
@@ -2841,7 +2841,7 @@ entries and want “brute-force” booting only.</p>
 <p>You can either download a tarball from kernel.org, or get it via git and use a
 version tag. We recommend at least a kernel 4.16, in order to have VPD
 variables support.</p>
-<pre><code># download the kernel tarball. Replace 4.19.6` with whatever kernel version you want
+<pre><code class="language-sh"># download the kernel tarball. Replace 4.19.6` with whatever kernel version you want
 wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.6.tar.xz
 tar xvJf linux-4.19.6.tar.xz
 cd linux-4.19.6
@@ -2849,7 +2849,7 @@ make tinyconfig
 </code></pre>
 <p>You can also check out the <code>linux-stable</code> branch, that will point to the latest
 stable commit. You need to download it via <code>git</code> as follows:</p>
-<pre><code>git clone --depth 1 -b linux-stable
+<pre><code class="language-sh">git clone --depth 1 -b linux-stable
 git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 cd linux-stable
 make tinyconfig
@@ -2951,7 +2951,7 @@ by your platform, make sure to enable <code>CONFIG_TCG_TPM</code>.</p>
 <p>As mentioned above, the kernel will embed the compressed initramfs image. Your
 kernel configuration should point to the appropriate file using the
 <code>CONFIG_INITRAMFS_SOURCE</code> directive. E.g.</p>
-<pre><code>CONFIG_INITRAMFS_SOURCE="/path/to/initramfs_linux.x86_64.cpio.xz"
+<pre><code class="language-text">CONFIG_INITRAMFS_SOURCE="/path/to/initramfs_linux.x86_64.cpio.xz"
 </code></pre>
 <p>In menuconfig:</p>
 <ul>
@@ -2961,7 +2961,7 @@ kernel configuration should point to the appropriate file using the
 <p>We use “linuxboot” as the default hostname. You may want to adjust it to a
 different value. You need to set <code>CONFIG_DEFAULT_HOSTNAME</code> for the purpose. For
 example:</p>
-<pre><code>CONFIG_DEFAULT_HOSTNAME="linuxboot"
+<pre><code class="language-text">CONFIG_DEFAULT_HOSTNAME="linuxboot"
 </code></pre>
 <p>In menuconfig:</p>
 <ul>
@@ -2969,7 +2969,7 @@ example:</p>
 </ul>
 <h3 id="build-the-kernel"><a class="header" href="#build-the-kernel">Build the kernel</a></h3>
 <p>Once your configuration is ready, build the kernel as usual:</p>
-<pre><code>make -j$(nproc --ignore=1)
+<pre><code class="language-sh">make -j$(nproc --ignore=1)
 </code></pre>
 <p>The image will be located under <code>arch/${ARCH}/boot/bzImage</code> if your
 architecture supports bzImage (e.g. x86).</p>
@@ -2988,13 +2988,13 @@ process may be somehow different for other platforms.</p>
 </ul>
 <h3 id="download-coreboot"><a class="header" href="#download-coreboot">Download coreboot</a></h3>
 <p>Our preferred method is to download coreboot from the git repository:</p>
-<pre><code>git clone https://review.coreboot.org/coreboot.git
+<pre><code class="language-sh">git clone https://review.coreboot.org/coreboot.git
 cd coreboot
 </code></pre>
 <h3 id="build-the-compiler-toolchain"><a class="header" href="#build-the-compiler-toolchain">Build the compiler toolchain</a></h3>
 <p>This step is required to have, among other things, reproducible builds, and a
 compiler toolchain that is known to work with coreboot.</p>
-<pre><code>make crossgcc-i386 CPUS=$(nproc) BUILD_LANGUAGES=c
+<pre><code class="language-sh">make crossgcc-i386 CPUS=$(nproc) BUILD_LANGUAGES=c
 </code></pre>
 <p>The step above may ask you to install a few additional libraries or headers, do
 so as requested, with the exception of gcc-gnat, that we won’t need.</p>
@@ -3018,13 +3018,13 @@ so as requested, with the exception of gcc-gnat, that we won’t need.</p>
 <p>Then save your configuration and exit menuconfig.</p>
 <h3 id="build-coreboot"><a class="header" href="#build-coreboot">Build coreboot</a></h3>
 <p>This is done with a simple</p>
-<pre><code>make -j$(nproc)
+<pre><code class="language-sh">make -j$(nproc)
 </code></pre>
 <p>The coreboot build system will clone the relevant submodules, if it was not done
 already, and will build a coreboot ROM file that will contain the initialization
 code, and our bzImage payload. The output file is at <code>build/coreboot.rom</code>.</p>
 <p>If everything works correctly you will get an output similar to the following:</p>
-<pre><code>This image contains the following sections that can be manipulated with this tool:
+<pre><code class="language-text">This image contains the following sections that can be manipulated with this tool:
 
 'COREBOOT' (CBFS, size 16776704, offset 512)
 
@@ -3056,7 +3056,7 @@ Built emulation/qemu-q35 (QEMU x86 q35/ich9)
 the machine type <code>q35</code>, as specified in the coreboot mainboard section.
 Assuming that your coreboot image is located at <code>build/coreboot.rom</code>, you can
 run the following command:</p>
-<pre><code>sudo qemu-system-x86_64\        # sudo is required to enable KVM below
+<pre><code class="language-sh">sudo qemu-system-x86_64\        # sudo is required to enable KVM below
     -M q35 \                    # the machine type specified in the coreboot mainboard configuration
     -enable-kvm \               # use KVM to avail of hardware virtualization extensions
     -bios build/coreboot.rom \  # the coreboot ROM to run as system firmware
@@ -3711,12 +3711,12 @@ target OS.</p>
 <ul>
 <li>
 <p>Download the code from <a href="https://github.com/linuxboot/linuxboot">linuxboot github</a></p>
-<pre><code>  git clone https://github.com/linuxboot/linuxboot.git
+<pre><code class="language-sh">  git clone https://github.com/linuxboot/linuxboot.git
 </code></pre>
 </li>
 <li>
 <p>You need to apply Wiwiynn’s linuxboot patch for now</p>
-<pre><code>cd linuxboot
+<pre><code class="language-sh">cd linuxboot
 wget -O TiogaPass.patch https://github.com/johnnylinwiwynn/linuxboot/commit/28ae8450b3b05c6e6b8c74e29d0974ccf711d5e6.patch
 git am TiogaPass.patch
 </code></pre>
@@ -3733,7 +3733,7 @@ configuration file as a sample <a href="case_studies/linux_config">linux_config<
 <p>Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn
 after ordering, and also put your bzImage to the root folder of linuxboot,
 and then make</p>
-<pre><code>  cp path/to/tioga.rom linuxboot/boards/tioga
+<pre><code class="language-sh">  cp path/to/tioga.rom linuxboot/boards/tioga
   cp path/to/bzImage linuxboot
   cd linuxboot
   BOARD=tioga make
@@ -3768,7 +3768,7 @@ you can ask any technical questions. LinuxBoot community has a slack channel, a
 IRC channel, a mailing list and regular meetings.</p>
 <h3 id="professional-support"><a class="header" href="#professional-support">Professional support</a></h3>
 <p>Following companies provides professional support services:</p>
-<p><strong>TBD</strong></p>
+<p>TBD</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="dasharo-benchrack-asrock-turind8ud-2tx550"><a class="header" href="#dasharo-benchrack-asrock-turind8ud-2tx550">Dasharo BenchRack ASRock TURIND8UD-2T/X550</a></h1>
 <p>BenchRack is <a href="https://3mdeb.com/">3mdeb</a>’s modular test-bench reference design

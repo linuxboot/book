@@ -204,7 +204,7 @@ volumes, Intel firmware descriptors and FIT.</p>
 <li>Extend UTK with additional commands</li>
 </ol>
 <h2 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h2>
-<pre><code>make bzImage
+<pre><code class="language-sh">make bzImage
 sudo flashrom -r /tmp/ROM.bin
 utk /tmp/ROM.bin replace_pe32 Shell arch/86/boot/bzImage save /tmp/NEWROM.bin
 sudo flashrom -w /tmp/NEWROM.bin
@@ -219,10 +219,10 @@ is a quick and easy way to get started. In the long term, you want to
 remove as much of UEFI as possible, but replacing the shell is always
 our first step on a new board.</p>
 <p>Get the tool:</p>
-<pre><code>go get -u github.com/linuxboot/fiano/cmds/utk
+<pre><code class="language-sh">go get -u github.com/linuxboot/fiano/cmds/utk
 </code></pre>
 <p>Replace the shell:</p>
-<pre><code>utk ROM.bin replace_pe32 Shell bzImage save NEWROM.bin
+<pre><code class="language-sh">utk ROM.bin replace_pe32 Shell bzImage save NEWROM.bin
 </code></pre>
 <p>After that, you can flash NEWROM.bin and test. If anything goes wrong, such as
 not enough space, you will need to refer to the more detailed instructions
@@ -234,20 +234,20 @@ distributions are not officially available. The source code resides in the
 <p>Aside: what is the difference between Fiano and UTK? The Fiano project contains
 a few more tools besides UTK, but UTK is a big element.</p>
 <p>We’ll assume you already have Go installed. Check your installation with:</p>
-<pre><code>$ go version
+<pre><code class="language-console">$ go version
 go version go1.11 linux/amd64
 </code></pre>
 <p>Linux and the latest stable version of Go are recommended. Either download the
 official binary distributions of Go or install from source. See
 <a href="https://golang.org/">https://golang.org/</a> for details.</p>
 <p>With Go, download and install UTK:</p>
-<pre><code>go get -u github.com/linuxboot/fiano/cmds/utk
+<pre><code class="language-sh">go get -u github.com/linuxboot/fiano/cmds/utk
 </code></pre>
 <p>Running the above line installs <code>utk</code> to your <code>$GOPATH/bin</code> directory (or
 <code>$HOME/go/bin</code> if the <code>GOPATH</code> environment variable is not set). Adding this
 directory to your <code>$PATH</code> is recommended.</p>
 <p>Make sure it works with:</p>
-<pre><code>$ utk -h
+<pre><code class="language-console">$ utk -h
 Usage: utk [flags] &lt;file name&gt; [0 or more operations]
 
 Operations:
@@ -279,14 +279,14 @@ Operations:
 image. When confronted with a new image, run these commands to get a “lay of
 the land”.</p>
 <p>Start by downloading the UEFI image used in these examples:</p>
-<pre><code>wget https://github.com/linuxboot/fiano/raw/master/integration/roms/OVMF.rom
+<pre><code class="language-sh">wget https://github.com/linuxboot/fiano/raw/master/integration/roms/OVMF.rom
 </code></pre>
 <p>Aside: alternatively, all UTK operations should work with your own UEFI images.
 Simply substitute “OVMF.rom” with your own UEFI image in all the examples
 below. If you encounter any problems, please file an issue at
 <a href="https://github.com/linuxboot/fiano/issues">https://github.com/linuxboot/fiano/issues</a>.</p>
 <p>First, it is advisable to print a count of each firmware element:</p>
-<pre><code>$ utk OVMF.rom count
+<pre><code class="language-console">$ utk OVMF.rom count
 {
         "FirmwareTypeCount": {
                 "BIOSRegion": 1,
@@ -335,7 +335,7 @@ compressed.</li>
 <p>TODO: Diagram showing a tree of these firmware elements.</p>
 <p>To view a human-readable tree of all the firmware elements, types and sizes,
 run:</p>
-<pre><code>$ utk OVMF.rom table | less
+<pre><code class="language-console">$ utk OVMF.rom table | less
 Node        GUID/Name                             Type                                   Size
 BIOS                                                                                     0x400000
  FV         FFF12B8D-7696-4C8B-A985-2747075B4F50                                          0x84000
@@ -359,12 +359,12 @@ BIOS                                                                            
 <p>This format is compact and easy for humans reading, but not ideal for machine
 consumption. Use the <code>json</code> command to print everything (including much more
 metadata) as JSON:</p>
-<pre><code>utk OVMF.rom json | less
+<pre><code class="language-sh">utk OVMF.rom json | less
 </code></pre>
 <p>Combine <code>utk</code> with the JSON query command, <code>jq</code> (<code>sudo apt-get install jq</code>),
 and other UNIX commands to quickly write powerful queries. For example, the
 following lists all the GUIDs, sorted and without duplicates:</p>
-<pre><code>$ utk OVMF.rom json | jq -r '..|.GUID?|select(type=="string")' | sort -u
+<pre><code class="language-console">$ utk OVMF.rom json | jq -r '..|.GUID?|select(type=="string")' | sort -u
 00000000-0000-0000-0000-000000000000
 0167CCC4-D0F7-4F21-A3EF-9E64B7CDCE8B
 0170F60C-1D40-4651-956D-F0BD9879D527
@@ -373,7 +373,7 @@ following lists all the GUIDs, sorted and without duplicates:</p>
 ...
 </code></pre>
 <p>To only print the JSON for specific files, use the find command:</p>
-<pre><code># The find command uses a regex to match on the name or GUID.
+<pre><code class="language-console"># The find command uses a regex to match on the name or GUID.
 # These three examples find and print the JSON for the same file:
 $ utk OVMF.rom find 'Sh.*'
 $ utk OVMF.rom find 'Shell'
@@ -409,16 +409,16 @@ you match a file by its name or GUID.</p>
 contents. The <code>extract &lt;DIR&gt;</code> command extracts all the files from the image and
 saves them to <code>&lt;DIR&gt;</code>. <code>&lt;DIR&gt;/summary.json</code> lists all the paths to the extracted
 files along with their metadata.</p>
-<pre><code>utk OVMF.rom extract OVMF/
+<pre><code class="language-sh">utk OVMF.rom extract OVMF/
 </code></pre>
 <p>After modifying the files, they can be reassembled with:</p>
-<pre><code>utk OVMF/ save OVMF2.rom
+<pre><code class="language-sh">utk OVMF/ save OVMF2.rom
 </code></pre>
 <h2 id="modifying-roms"><a class="header" href="#modifying-roms">Modifying ROMs</a></h2>
 <p>First, let’s verify the image works by running it inside QEMU. This step is not
 absolutely necessary, but gives us confidence the image works before and after
 each change we make.</p>
-<pre><code>qemu-system-x86_64 -bios OVMF.rom -nographic -net none
+<pre><code class="language-sh">qemu-system-x86_64 -bios OVMF.rom -nographic -net none
 </code></pre>
 <p>For the provided OVMF.rom image, this should boot to the EDK2 shell.</p>
 <p>TODO: include screenshot of the EDK2 shell</p>
@@ -426,7 +426,7 @@ each change we make.</p>
 always loads the image into memory and the last argument typically writes the
 output. The commands in between operate on the image in memory and are
 reminiscent of a UNIX pipeline. The general syntax is:</p>
-<pre><code>utk &lt;IMAGE or DIR&gt;                 \
+<pre><code class="language-sh">utk &lt;IMAGE or DIR&gt;                 \
   &lt;COMMAND0&gt; &lt;ARG0_0&gt; &lt;ARG0_1&gt; ... \
   &lt;COMMAND1&gt; &lt;ARG1_0&gt; &lt;ARG1_1&gt; ... \
   ...
@@ -446,7 +446,7 @@ with Usb and the Legacy8259 driver which has the GUID
 79ca4208-bba1-4a9a-8456-e1e66a81484e) and replaces the Shell with Linux. Often
 you need to remove drivers to make room for Linux which makes the pipeline
 convenient. This is the essence of LinuxBoot:</p>
-<pre><code>$ stat linux.efi
+<pre><code class="language-console">$ stat linux.efi
 linux.efi: Linux kernel x86 boot executable bzImage, version 4.17.0
 $ utk OVMF.rom \
   remove 'Usb.*' \
@@ -460,7 +460,7 @@ insert.</p>
 <h3 id="kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode"><a class="header" href="#kernel-is-not-built-as-a-dxe-or-has-not-enabled-uefi-stub-mode">Kernel is not built as a DXE or has not enabled UEFI stub mode</a></h3>
 <p>In order to be properly bootable as a DXE, kernels must have the following
 enabled:</p>
-<pre><code>CONFIG_EFI=y
+<pre><code class="language-text">CONFIG_EFI=y
 CONFIG_EFI_STUB=y
 </code></pre>
 <h3 id="files-are-missing-from-the-firmware-volume"><a class="header" href="#files-are-missing-from-the-firmware-volume">Files are missing from the Firmware Volume</a></h3>
@@ -483,13 +483,13 @@ image, the files within it are not listed.</p>
 <p>To determine which compression scheme you are using, search for the respective
 GUID in the json summary.</p>
 <h3 id="file-size-too-big"><a class="header" href="#file-size-too-big">File size too big</a></h3>
-<pre><code>File size too big! File with GUID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX has length 543210, but is only 123450 bytes big
+<pre><code class="language-text">File size too big! File with GUID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX has length 543210, but is only 123450 bytes big
 </code></pre>
 <p>When saving a UEFI image, files are added successively to each firmware volume.
 The first file which overflows the volume’s size causes this error.</p>
 <p>If you were inserting files, you will need to delete existing files to make room.</p>
 <p>There is a special cases where this error is generated without any operations:</p>
-<pre><code>utk OVMF.rom save OVMF2.rom
+<pre><code class="language-sh">utk OVMF.rom save OVMF2.rom
 </code></pre>
 <p>How can this be? No changes should be made to the image!</p>
 <p>Not quite (and the complete list of differences can be found in the “binary
@@ -582,7 +582,7 @@ fv.Apply(v)
 <h3 id="chaining-visitors-together"><a class="header" href="#chaining-visitors-together">Chaining Visitors Together</a></h3>
 <p>It would be exciting/useful to be able to chain these small actions together
 through the command line. For example:</p>
-<pre><code>utk extract bios.rom \
+<pre><code class="language-sh">utk extract bios.rom \
     remove a2dad2a-adadad-a2d2-ad23a3 \
     remove 9d8cd98-d9c8d9-d9c8-9d8c8c \
     replaceDXEWithFile bab8a98-a9ba89a-9aba-a98a9 linux.efi \

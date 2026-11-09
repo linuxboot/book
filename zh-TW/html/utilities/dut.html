@@ -191,31 +191,31 @@
 <p>This chapter describes how we build and use DUT.</p>
 <h2 id="components"><a class="header" href="#components">Components</a></h2>
 <p>DUT is intended to be built into a u-root image. First one must fetch it:</p>
-<pre><code>go get github.com/linuxboot/dut
+<pre><code class="language-sh">go get github.com/linuxboot/dut
 # ignore the warning message.
 </code></pre>
 <p>DUT source tree is structured such that a program called uinit is produced. This is convenient for u-root usage.</p>
 <p>Building it into a u-root image is easy:</p>
-<pre><code>go run $(GOPATH)/src/github.com/u-root/u-root -build=bb minimal github.com/linuxboot/dut/uinit
+<pre><code class="language-sh">go run $(GOPATH)/src/github.com/u-root/u-root -build=bb minimal github.com/linuxboot/dut/uinit
 </code></pre>
 <p>I almost always add an sshd to u-root; it’s just too handy. U-root sshd does not support passwords, so you have to supply the public key:</p>
-<pre><code>go run $(GOPATH)/src/github.com/u-root/u-root -build=bb -files key.pub minimal  github.com/linuxboot/dut/uinit   github.com/u-root/u-root/xcmds/sshd
+<pre><code class="language-sh">go run $(GOPATH)/src/github.com/u-root/u-root -build=bb -files key.pub minimal  github.com/linuxboot/dut/uinit   github.com/u-root/u-root/xcmds/sshd
 </code></pre>
 <h3 id="dut-on-the-device"><a class="header" href="#dut-on-the-device">DUT on the device</a></h3>
 <p>On boot, the standard init program will find dut, and run it. The standard mode on a device is device mode, and dut will bring up the ethernet, currently using 192.168.0.2, and assuming the tester is 192.168.0.1 (this should be fixed …). It will then attempt to connect to a uinit running in ‘tester’ mode on 192.168.0.1. Once connected, it functions as a server and waits for requests.</p>
 <h3 id="dut-on-the-controller"><a class="header" href="#dut-on-the-controller">DUT on the controller</a></h3>
 <p>Running on the controller is easy:</p>
-<pre><code>uinit -m tester
+<pre><code class="language-sh">uinit -m tester
 </code></pre>
 <p>On the controller, the program waits for a connection and then starts issuing commands to the device. The controller has the option of calling the following RPC functions:</p>
-<pre><code>RPCWelcome - return a welcome message
+<pre><code class="language-text">RPCWelcome - return a welcome message
 RPCExit - exit the testing mode
 RPCReboot - reboot the system
 RPCKexec - kexec a kernel
 RPCSsh - start the sshd
 </code></pre>
 <p>Each of these RPCs takes arguments and returns a result, with Welcome being the most fun:</p>
-<pre><code>______________
+<pre><code class="language-text">______________
 &lt; welcome to DUT &gt;
   --------------
          \   ^__^
@@ -226,7 +226,7 @@ RPCSsh - start the sshd
 </code></pre>
 <p>The current tester mode performs an RPC sequence I use for DXE cleaning, namely, a Welcome, followed by a Reboot, followed by a Welcome. This sequence verifies that I can get network going from power on, do a reboot, and reconnect after a reboot. It’s been good for finding out if a particular DXE can be removed.</p>
 <p>Once the second Welcome has happened, if an sshd is installed, it will have been started, and you can do additional commands.</p>
-<h1 id="future-work"><a class="header" href="#future-work">Future work</a></h1>
+<h2 id="future-work"><a class="header" href="#future-work">Future work</a></h2>
 <p>Obviously, much more can be done. But this is a useful foundation on which to build DUT environments.</p>
 
                     </main>

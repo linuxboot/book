@@ -258,12 +258,12 @@ target OS.</p>
 <ul>
 <li>
 <p>Download the code from <a href="https://github.com/linuxboot/linuxboot">linuxboot github</a></p>
-<pre><code>  git clone https://github.com/linuxboot/linuxboot.git
+<pre><code class="language-sh">  git clone https://github.com/linuxboot/linuxboot.git
 </code></pre>
 </li>
 <li>
 <p>You need to apply Wiwiynn’s linuxboot patch for now</p>
-<pre><code>cd linuxboot
+<pre><code class="language-sh">cd linuxboot
 wget -O TiogaPass.patch https://github.com/johnnylinwiwynn/linuxboot/commit/28ae8450b3b05c6e6b8c74e29d0974ccf711d5e6.patch
 git am TiogaPass.patch
 </code></pre>
@@ -280,7 +280,7 @@ configuration file as a sample <a href="linux_config">linux_config</a>.</p>
 <p>Place the tioga.rom into linuxboot/boards/tioga which is provided from Wiwynn
 after ordering, and also put your bzImage to the root folder of linuxboot,
 and then make</p>
-<pre><code>  cp path/to/tioga.rom linuxboot/boards/tioga
+<pre><code class="language-sh">  cp path/to/tioga.rom linuxboot/boards/tioga
   cp path/to/bzImage linuxboot
   cd linuxboot
   BOARD=tioga make
@@ -315,7 +315,7 @@ you can ask any technical questions. LinuxBoot community has a slack channel, a
 IRC channel, a mailing list and regular meetings.</p>
 <h3 id="professional-support"><a class="header" href="#professional-support">Professional support</a></h3>
 <p>Following companies provides professional support services:</p>
-<p><strong>TBD</strong></p>
+<p>TBD</p>
 
                     </main>
 

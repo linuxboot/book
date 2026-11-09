@@ -192,13 +192,13 @@ builds will cover virtual and physical OCP hardware.</p>
 <h2 id="quick-start-with-coreboot"><a class="header" href="#quick-start-with-coreboot">Quick Start with coreboot</a></h2>
 <p>Run these commands in a directory you create or in <code>/tmp</code>; do so because it
 creates some files and directories:</p>
-<pre><code>$ go get github.com/linuxboot/corebootnerf
+<pre><code class="language-console">$ go get github.com/linuxboot/corebootnerf
 $ go run github.com/linuxboot/corebootnerf --fetch
 ... lots and lots of output!
 </code></pre>
 <p>This produces a coreboot image in coreboot-4.9/build/coreboot.rom
 You can now run this ROM image:</p>
-<pre><code>qemu-system-x86_64 -serial stdio -bios coreboot-4.9/build/coreboot.rom
+<pre><code class="language-sh">qemu-system-x86_64 -serial stdio -bios coreboot-4.9/build/coreboot.rom
 </code></pre>
 <p>And see how it looks when you put this in a coreboot ROM image.</p>
 <h2 id="components"><a class="header" href="#components">Components</a></h2>
@@ -226,11 +226,11 @@ at least version 1.10. Previous versions may not be fully supported.</p>
 <p>Adjust your <code>PATH</code> to include <code>${GOPATH}/bin</code>, in order to find the <code>u-root</code>
 command that we will use in the next steps.</p>
 <p>Then, fetch <code>u-root</code> and its dependencies:</p>
-<pre><code>go get -u github.com/u-root/u-root
+<pre><code class="language-sh">go get -u github.com/u-root/u-root
 </code></pre>
 <p>Then build the ramfs in busybox mode, and add fbnetboot, localboot, and a custom
 uinit to wrap everything together:</p>
-<pre><code>u-root -build=bb core github.com/u-root/u-root/cmds/boot/{uinit,localboot,fbnetboot}
+<pre><code class="language-sh">u-root -build=bb core github.com/u-root/u-root/cmds/boot/{uinit,localboot,fbnetboot}
 </code></pre>
 <p>This command will generate a ramfs named <code>/tmp/initramfs_${os}_${arch}.cpio</code>,
 e.g. <code>/tmp/initramfs.linux_amd64.cpio</code>. You can specify an alternative output
@@ -243,7 +243,7 @@ you need to include other files or non-Go binaries, use the <code>-file</code> o
 initramfs in the kernel as explained below, in order to maintain the image size
 smaller. Linux has a limited XZ compressor, so the compression requires specific
 options:</p>
-<pre><code>xz --check=crc32 --lzma2=dict=512KiB /tmp/initramfs.linux_amd64.cpio
+<pre><code class="language-sh">xz --check=crc32 --lzma2=dict=512KiB /tmp/initramfs.linux_amd64.cpio
 </code></pre>
 <p>which will produce the file <code>/tmp/initramfs.linux_amd64.cpio.xz</code>.</p>
 <p>The kernel compression requirements are documented under
@@ -273,7 +273,7 @@ entries and want “brute-force” booting only.</p>
 <p>You can either download a tarball from kernel.org, or get it via git and use a
 version tag. We recommend at least a kernel 4.16, in order to have VPD
 variables support.</p>
-<pre><code># download the kernel tarball. Replace 4.19.6` with whatever kernel version you want
+<pre><code class="language-sh"># download the kernel tarball. Replace 4.19.6` with whatever kernel version you want
 wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.19.6.tar.xz
 tar xvJf linux-4.19.6.tar.xz
 cd linux-4.19.6
@@ -281,7 +281,7 @@ make tinyconfig
 </code></pre>
 <p>You can also check out the <code>linux-stable</code> branch, that will point to the latest
 stable commit. You need to download it via <code>git</code> as follows:</p>
-<pre><code>git clone --depth 1 -b linux-stable
+<pre><code class="language-sh">git clone --depth 1 -b linux-stable
 git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git
 cd linux-stable
 make tinyconfig
@@ -383,7 +383,7 @@ by your platform, make sure to enable <code>CONFIG_TCG_TPM</code>.</p>
 <p>As mentioned above, the kernel will embed the compressed initramfs image. Your
 kernel configuration should point to the appropriate file using the
 <code>CONFIG_INITRAMFS_SOURCE</code> directive. E.g.</p>
-<pre><code>CONFIG_INITRAMFS_SOURCE="/path/to/initramfs_linux.x86_64.cpio.xz"
+<pre><code class="language-text">CONFIG_INITRAMFS_SOURCE="/path/to/initramfs_linux.x86_64.cpio.xz"
 </code></pre>
 <p>In menuconfig:</p>
 <ul>
@@ -393,7 +393,7 @@ kernel configuration should point to the appropriate file using the
 <p>We use “linuxboot” as the default hostname. You may want to adjust it to a
 different value. You need to set <code>CONFIG_DEFAULT_HOSTNAME</code> for the purpose. For
 example:</p>
-<pre><code>CONFIG_DEFAULT_HOSTNAME="linuxboot"
+<pre><code class="language-text">CONFIG_DEFAULT_HOSTNAME="linuxboot"
 </code></pre>
 <p>In menuconfig:</p>
 <ul>
@@ -401,7 +401,7 @@ example:</p>
 </ul>
 <h3 id="build-the-kernel"><a class="header" href="#build-the-kernel">Build the kernel</a></h3>
 <p>Once your configuration is ready, build the kernel as usual:</p>
-<pre><code>make -j$(nproc --ignore=1)
+<pre><code class="language-sh">make -j$(nproc --ignore=1)
 </code></pre>
 <p>The image will be located under <code>arch/${ARCH}/boot/bzImage</code> if your
 architecture supports bzImage (e.g. x86).</p>
@@ -420,13 +420,13 @@ process may be somehow different for other platforms.</p>
 </ul>
 <h3 id="download-coreboot"><a class="header" href="#download-coreboot">Download coreboot</a></h3>
 <p>Our preferred method is to download coreboot from the git repository:</p>
-<pre><code>git clone https://review.coreboot.org/coreboot.git
+<pre><code class="language-sh">git clone https://review.coreboot.org/coreboot.git
 cd coreboot
 </code></pre>
 <h3 id="build-the-compiler-toolchain"><a class="header" href="#build-the-compiler-toolchain">Build the compiler toolchain</a></h3>
 <p>This step is required to have, among other things, reproducible builds, and a
 compiler toolchain that is known to work with coreboot.</p>
-<pre><code>make crossgcc-i386 CPUS=$(nproc) BUILD_LANGUAGES=c
+<pre><code class="language-sh">make crossgcc-i386 CPUS=$(nproc) BUILD_LANGUAGES=c
 </code></pre>
 <p>The step above may ask you to install a few additional libraries or headers, do
 so as requested, with the exception of gcc-gnat, that we won’t need.</p>
@@ -450,13 +450,13 @@ so as requested, with the exception of gcc-gnat, that we won’t need.</p>
 <p>Then save your configuration and exit menuconfig.</p>
 <h3 id="build-coreboot"><a class="header" href="#build-coreboot">Build coreboot</a></h3>
 <p>This is done with a simple</p>
-<pre><code>make -j$(nproc)
+<pre><code class="language-sh">make -j$(nproc)
 </code></pre>
 <p>The coreboot build system will clone the relevant submodules, if it was not done
 already, and will build a coreboot ROM file that will contain the initialization
 code, and our bzImage payload. The output file is at <code>build/coreboot.rom</code>.</p>
 <p>If everything works correctly you will get an output similar to the following:</p>
-<pre><code>This image contains the following sections that can be manipulated with this tool:
+<pre><code class="language-text">This image contains the following sections that can be manipulated with this tool:
 
 'COREBOOT' (CBFS, size 16776704, offset 512)
 
@@ -488,7 +488,7 @@ Built emulation/qemu-q35 (QEMU x86 q35/ich9)
 the machine type <code>q35</code>, as specified in the coreboot mainboard section.
 Assuming that your coreboot image is located at <code>build/coreboot.rom</code>, you can
 run the following command:</p>
-<pre><code>sudo qemu-system-x86_64\        # sudo is required to enable KVM below
+<pre><code class="language-sh">sudo qemu-system-x86_64\        # sudo is required to enable KVM below
     -M q35 \                    # the machine type specified in the coreboot mainboard configuration
     -enable-kvm \               # use KVM to avail of hardware virtualization extensions
     -bios build/coreboot.rom \  # the coreboot ROM to run as system firmware
