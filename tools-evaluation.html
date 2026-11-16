@@ -40,7 +40,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-0e177bd8.js";
+            window.path_to_searchindex_js = "searchindex-06c3b110.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-7f756a74.js"></script>
@@ -230,16 +230,23 @@ belong to the procedure. In addition, there are architecture specifics to take
 into account. Thus, there are multiple implementations of kexec, which are Linux
 programs that offer their own interfaces again to pass extra arguments. Besides
 those standalone implementations, there are also specialized boot loaders based
-on kexec that have their own extra logic, such as FreeBSD’s kload or petitboot.</p>
+on kexec that have their own extra logic, such as FreeBSD’s kboot or petitboot.</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>The various tools differ in behavior. Some may not pass a new device tree to
+the next kernel. Pick the most suitable implementation and possibly adjust it.</p>
+</blockquote>
 <div class="table-wrapper">
 <table>
 <thead>
 <tr><th>tool</th><th>language</th><th>license</th><th>usage</th></tr>
 </thead>
 <tbody>
-<tr><td><a href="https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git">kexec-tools</a> (<a href="https://github.com/horms/kexec-tools">GitHub mirror</a>)</td><td>C</td><td>GPLv2</td><td>Heads, Petitboot</td></tr>
+<tr><td><a href="https://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git">kexec-tools</a> (<a href="https://github.com/horms/kexec-tools">GitHub mirror</a>)</td><td>C</td><td>GPLv2</td><td>Heads</td></tr>
+<tr><td><a href="https://github.com/antonblanchard/kexec-lite">kexec-lite</a> (unmaintained, some open PRs and issues, forks may exist)</td><td>C</td><td>GPLv2</td><td><a href="petitboot.html">Petitboot</a></td></tr>
 <tr><td><a href="https://systemd.io/">systemd</a> (wrapper)</td><td>C</td><td>LGPL-2.1+</td><td>systemd on UEFI</td></tr>
 <tr><td><a href="https://github.com/kexecboot/kexecboot">kexecboot</a></td><td>C</td><td>GPLv2</td><td>?</td></tr>
+<tr><td><a href="https://github.com/freebsd/freebsd-src/tree/bfa3613/stand/kboot">kboot</a> (FreeBSD)</td><td>C</td><td>BSD-2-Clause</td><td>Netflix</td></tr>
 <tr><td>u-root (CLI+mod)</td><td>Go</td><td>BSD 3-Clause</td><td>Google et al</td></tr>
 <tr><td><a href="https://github.com/im-0/kexlinux">kexlinux</a></td><td>Rust</td><td>LGPL-3.0+</td><td>?</td></tr>
 </tbody>
