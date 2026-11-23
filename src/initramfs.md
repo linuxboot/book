@@ -38,21 +38,28 @@ BusyBox-style binary.
 >
 > You may concatenate multiple cpio archives[^3] into one initramfs.
 
+## Build methods
+
+There are many tools to generate an initramfs. Below is a growing list of
+readily available ones.
+
+Besides passing a custom `.cpio` file, the Linux kernel source tree offers its
+own tool[^5] to build an initramfs from a given set of files and directories.
+
 ## u-root
 
-There are many ways to generate an initramfs. In this section we focus on
-u-root, a Go user-space (a set of programs and libraries written in Go that
-are used to interact with the kernel). It contains a toolset of standard
-Linux applications and commands.
+The u-root repository contains an initramfs build tool as well as a user-space
+(programs and libraries used to interact with the kernel) written in Go.
+It contains a toolset of standard Linux applications and commands.
 
-u-root can create an initramfs in two different modes:
+u-root can create an initramfs with one BusyBox-like binary comprising all the
+requested utilities (bb).
 
-* source mode, which contains:
-  * Go toolchain binaries
-  * A simple shell
-  * Go source for tools to be compiled on the fly by the shell
-* Busybox (bb) mode: This is one busybox-like binary comprising all the
-    requested utilities.
+Historically, there was also a source mode, which contained:
+
+* Go toolchain binaries
+* A simple shell
+* Go source for tools to be compiled on the fly by the shell
 
 The initramfs provided by u-root implements the toolchain needed to securely
 boot the machine from the network, perform identity verification, communicate
@@ -66,3 +73,5 @@ libraries and implementations in `pkg`.
 [^2]: <https://docs.kernel.org/admin-guide/initrd.html>
 [^3]: <https://docs.kernel.org/driver-api/early-userspace/buffer-format.html>
 [^4]: <https://github.com/u-root/u-root/>
+[^5]:
+    <https://docs.kernel.org/driver-api/early-userspace/early_userspace_support.html>
