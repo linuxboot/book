@@ -5,6 +5,7 @@
   - [Talks and news coverage](talks-news.md)
 - [LinuxBoot Components](components.md)
   - [Evaluation of tools](tools-evaluation.md)
+  - [Initial RAM File System](initramfs.md)
 - [Petitboot](petitboot.md)
   - [OpenPOWER](openpower.md)
   - [ODROID](odroid.md)
