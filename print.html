@@ -41,10 +41,10 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-06c3b110.js";
+            window.path_to_searchindex_js = "searchindex-0d3a824e.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-7f756a74.js"></script>
+        <script src="toc-be9562ae.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -433,7 +433,7 @@ loaded.</p>
 <ol>
 <li>Platform initialization</li>
 <li>Linux kernel</li>
-<li>initramfs</li>
+<li><a href="#initial-ram-file-system-initramfs">initramfs</a></li>
 </ol>
 <h2 id="platform-initialization"><a class="header" href="#platform-initialization">Platform initialization</a></h2>
 <p>Sometimes also referred to BIOS, platform initialization is the part of any
@@ -449,53 +449,6 @@ bloating the size of the firmware image with unnecessary drivers and modules.</p
 <p>These config files disable options that are not needed in the LinuxBoot kernel
 and add some patches that are needed, as opposed to generic defaults. In other
 words, the kernel is supposed to be platform specific.</p>
-<h2 id="initial-ram-filesystem-initramfs"><a class="header" href="#initial-ram-filesystem-initramfs">Initial RAM filesystem (initramfs)</a></h2>
-<p>When Linux boots, it needs a root file system that provides boot and startup
-utilities. In LinuxBoot, it is embedded as an initramfs within the firmware
-image itself. It is intended to be placed in a flash device along with the
-Linux kernel as part of the firmware image for LinuxBoot. The initramfs is
-essentially a set of files and directories bundled into a single cpio archive.</p>
-<p>The minimum structure is this:</p>
-<pre><code class="language-text">/dev/console
-/dev/null
-/init
-/proc/
-/sys/
-</code></pre>
-<p>At boot time, the boot loader or firmware (for example, coreboot) loads the
-kernel image and initramfs into memory and starts the kernel. The kernel checks
-for the presence of the initramfs and, if found, unpacks it, mounts it as <code>/</code>
-and runs <code>/init</code>. Should any of those steps fail, then the kernel will print a
-<a href="https://docs.kernel.org/admin-guide/init.html">“No working init found.” error</a>.</p>
-<p>From there on, you are free to design every further flow. Technically, <code>init</code>
-by itself suffices, since it could create the directory structure and the
-essential device nodes by itself, mount the procfs and sysfs, and set up
-everything else you need. In other words, it can remain a single binary, or you
-add other binaries and invoke them. It might also be a symlink, possibly to a
-BusyBox-style binary.</p>
-<h3 id="u-root"><a class="header" href="#u-root">u-root</a></h3>
-<p>There are many ways to generate an initramfs. In this section we focus on
-u-root, a Go user-space (a set of programs and libraries written in Go that
-are used to interact with the kernel). It contains a toolset of standard
-Linux applications and commands.</p>
-<p>u-root can create an initramfs in two different modes:</p>
-<ul>
-<li>source mode, which contains:
-<ul>
-<li>Go toolchain binaries</li>
-<li>A simple shell</li>
-<li>Go source for tools to be compiled on the fly by the shell</li>
-</ul>
-</li>
-<li>Busybox (bb) mode: This is one busybox-like binary comprising all the
-requested utilities.</li>
-</ul>
-<p>The initramfs provided by u-root implements the toolchain needed to securely
-boot the machine from the network, perform identity verification, communicate
-with different internal boot-related components, and kexec the next kernel.</p>
-<p>u-root is an open source project hosted on GitHub. Within the u-root
-repository, we have executable commands in <code>cmds</code> and the packages containing
-libraries and implementations in <code>pkg</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="evaluation-of-tools"><a class="header" href="#evaluation-of-tools">Evaluation of tools</a></h1>
 <p>Three general questions guide all software projects:</p>
@@ -600,16 +553,91 @@ them.</p>
 </table>
 </div>
 <div style="break-before: page; page-break-before: always;"></div>
+<h1 id="initial-ram-file-system-initramfs"><a class="header" href="#initial-ram-file-system-initramfs">Initial RAM File System (initramfs)</a></h1>
+<p>When Linux boots, it needs a root file system<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup> that provides boot and startup
+utilities. In LinuxBoot, it is embedded as an initramfs within the firmware
+image itself. It is intended to be placed in a flash device along with the
+Linux kernel as part of the firmware image for LinuxBoot. The initramfs is
+essentially a set of files and directories bundled into a single cpio archive.</p>
+<blockquote class="blockquote-tag blockquote-tag-warning">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707a.25.25 0 0 0-.44 0L1.698 13.132a.25.25 0 0 0 .22.368h12.164a.25.25 0 0 0 .22-.368Zm.53 3.996v2.5a.75.75 0 0 1-1.5 0v-2.5a.75.75 0 0 1 1.5 0ZM9 11a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"></path></svg>Warning</p>
+<p>The legacy <em>initrd</em><sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">2</a></sup> is no longer recommended. It is/was a block device
+based initial root file system.</p>
+</blockquote>
+<p>The minimum structure is this:</p>
+<pre><code class="language-text">/dev/console
+/dev/null
+/init
+/proc/
+/sys/
+</code></pre>
+<p>At boot time, the boot loader or firmware (for example, coreboot) loads the
+kernel image and initramfs into memory and starts the kernel. The kernel checks
+for the presence of the initramfs and, if found, unpacks it, mounts it as <code>/</code>
+and runs <code>/init</code>. Should any of those steps fail, then the kernel will print a
+<a href="https://docs.kernel.org/admin-guide/init.html">“No working init found.” error</a>.</p>
+<p>From there on, you are free to design every further flow. Technically, <code>init</code>
+by itself suffices, since it could create the directory structure and the
+essential device nodes by itself, mount the procfs and sysfs, and set up
+everything else you need. In other words, it can remain a single binary, or you
+add other binaries and invoke them. It might also be a symlink, possibly to a
+BusyBox-style binary.</p>
+<blockquote class="blockquote-tag blockquote-tag-tip">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
+<p>You may concatenate multiple cpio archives<sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">3</a></sup> into one initramfs.</p>
+</blockquote>
+<h2 id="build-methods"><a class="header" href="#build-methods">Build methods</a></h2>
+<p>There are many tools to generate an initramfs. Below is a growing list of
+readily available ones.</p>
+<p>Besides passing a custom <code>.cpio</code> file, the Linux kernel source tree offers its
+own tool<sup class="footnote-reference" id="fr-5-1"><a href="#footnote-5">4</a></sup> to build an initramfs from a given set of files and directories.</p>
+<h2 id="u-root"><a class="header" href="#u-root">u-root</a></h2>
+<p>The u-root repository contains an initramfs build tool as well as a user-space
+(programs and libraries used to interact with the kernel) written in Go.
+It contains a toolset of standard Linux applications and commands.</p>
+<p>u-root can create an initramfs with one BusyBox-like binary comprising all the
+requested utilities (bb).</p>
+<p>Historically, there was also a source mode, which contained:</p>
+<ul>
+<li>Go toolchain binaries</li>
+<li>A simple shell</li>
+<li>Go source for tools to be compiled on the fly by the shell</li>
+</ul>
+<p>The initramfs provided by u-root implements the toolchain needed to securely
+boot the machine from the network, perform identity verification, communicate
+with different internal boot-related components, and kexec the next kernel.</p>
+<p>u-root is an open source project hosted on GitHub<sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">5</a></sup>. Within the u-root
+repository, we have executable commands in <code>cmds</code> and the packages containing
+libraries and implementations in <code>pkg</code>.</p>
+<hr>
+<ol class="footnote-definition">
+<li id="footnote-1">
+<p><a href="https://docs.kernel.org/filesystems/ramfs-rootfs-initramfs.html">https://docs.kernel.org/filesystems/ramfs-rootfs-initramfs.html</a> <a href="#fr-1-1">↩</a></p>
+</li>
+<li id="footnote-2">
+<p><a href="https://docs.kernel.org/admin-guide/initrd.html">https://docs.kernel.org/admin-guide/initrd.html</a> <a href="#fr-2-1">↩</a></p>
+</li>
+<li id="footnote-3">
+<p><a href="https://docs.kernel.org/driver-api/early-userspace/buffer-format.html">https://docs.kernel.org/driver-api/early-userspace/buffer-format.html</a> <a href="#fr-3-1">↩</a></p>
+</li>
+<li id="footnote-5">
+<p><a href="https://docs.kernel.org/driver-api/early-userspace/early_userspace_support.html">https://docs.kernel.org/driver-api/early-userspace/early_userspace_support.html</a> <a href="#fr-5-1">↩</a></p>
+</li>
+<li id="footnote-4">
+<p><a href="https://github.com/u-root/u-root/">https://github.com/u-root/u-root/</a> <a href="#fr-4-1">↩</a></p>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="petitboot"><a class="header" href="#petitboot">Petitboot</a></h1>
 <p>petitboot is a Linux user-space application written in C that calls <code>kexec</code>.
 The <code>kexec</code> installed in the initramfs is not the mainline kexec-tools
 implementation, but a smaller implementation named
 <a href="https://github.com/antonblanchard/kexec-lite">kexec-lite</a>. It is claimed to be
-roughly 32 KB compared to kexec-tools, which is roughly 200 KB.<sup class="footnote-reference" id="fr-1-1"><a href="#footnote-1">1</a></sup></p>
+roughly 32 KB compared to kexec-tools, which is roughly 200 KB.<sup class="footnote-reference" id="fr-1-1-1"><a href="#footnote-1-1">1</a></sup></p>
 <hr>
 <ol class="footnote-definition">
-<li id="footnote-1">
-<p><a href="https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778">https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778</a> <a href="#fr-1-1">↩</a></p>
+<li id="footnote-1-1">
+<p><a href="https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778">https://github.com/antonblanchard/kexec-lite/issues/4#issuecomment-314936778</a> <a href="#fr-1-1-1">↩</a></p>
 </li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -629,7 +657,7 @@ runtime firmware for OpenPOWER that loads skiroot.</li>
 </ul>
 <p>skiroot is a term used to describe the LinuxBoot implementation for OpenPOWER.
 A skiroot repository or package does not exist. The term is only used in the
-kernel configuration, <code>skiroot_defconfig</code>.<sup class="footnote-reference" id="fr-1-1-1"><a href="#footnote-1-1">1</a></sup></p>
+kernel configuration, <code>skiroot_defconfig</code>.<sup class="footnote-reference" id="fr-1-1-2"><a href="#footnote-1-2">1</a></sup></p>
 <h2 id="see-also"><a class="header" href="#see-also">See also</a></h2>
 <ul>
 <li><a href="https://openpower.foundation/blog/coreboot-on-talos2/">coreboot and Heads as an alternative firmware for OpenPOWER Talos
@@ -640,8 +668,8 @@ like?</a> by Nicholas Piggin
 </ul>
 <hr>
 <ol class="footnote-definition">
-<li id="footnote-1-1">
-<p><a href="https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig">https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig</a> <a href="#fr-1-1-1">↩</a></p>
+<li id="footnote-1-2">
+<p><a href="https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig">https://github.com/open-power/op-build/blob/master/openpower/configs/linux/skiroot_defconfig</a> <a href="#fr-1-1-2">↩</a></p>
 </li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -651,7 +679,7 @@ flash as well as a connector for an eMMC flash and an SD card slot. The SoC is
 an <a href="https://wiki.odroid.com/odroid-n2/software/boot_sequence">Amlogic S922X which can boot from all those storages</a>,
 depending on GPIO configuration and a fallback flow in the mask ROM.
 For booting from SPI flash, the ODROID-N2 board has a switch, and comes with
-<a href="#petitboot">Petitboot</a> preinstalled<sup class="footnote-reference" id="fr-1-1-2"><a href="#footnote-1-2">1</a></sup>.</p>
+<a href="#petitboot">Petitboot</a> preinstalled<sup class="footnote-reference" id="fr-1-1-3"><a href="#footnote-1-3">1</a></sup>.</p>
 <p>The SPI flash boot flow is as follows:</p>
 <pre class="mermaid">flowchart LR
     maskrom["mask ROM"]
@@ -673,8 +701,8 @@ LinuxBoot</li>
 </ul>
 <hr>
 <ol class="footnote-definition">
-<li id="footnote-1-2">
-<p><a href="https://wiki.odroid.com/getting_started/petitboot/os_installation_using_otg">https://wiki.odroid.com/getting_started/petitboot/os_installation_using_otg</a> <a href="#fr-1-1-2">↩</a></p>
+<li id="footnote-1-3">
+<p><a href="https://wiki.odroid.com/getting_started/petitboot/os_installation_using_otg">https://wiki.odroid.com/getting_started/petitboot/os_installation_using_otg</a> <a href="#fr-1-1-3">↩</a></p>
 </li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -734,7 +762,7 @@ attacks affecting C-based firmware code (among other things) in 2015 include
 GHOST and the so-called FSVariable.c bug in Intel’s UEFI firmware. Buffer
 overflows in Intel’s UEFI and Active Management Technology (AMT) have also been
 discovered in several versions in recent years.</p>
-<p>Both UEFI<sup class="footnote-reference" id="fr-12-1"><a href="#footnote-12">14</a></sup> and AMT<sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">15</a></sup> are embedded operating systems, loaded from flash that
+<p>Both UEFI<sup class="footnote-reference" id="fr-12-1"><a href="#footnote-12">14</a></sup> and AMT<sup class="footnote-reference" id="fr-4-1-1"><a href="#footnote-4-1">15</a></sup> are embedded operating systems, loaded from flash that
 run network-facing software. Attacks against UEFI have been extensively
 studied<sup class="footnote-reference" id="fr-9-1"><a href="#footnote-9">16</a></sup>. Most printers are network-attached and are a very popular
 exploitation target<sup class="footnote-reference" id="fr-6-1"><a href="#footnote-6">17</a></sup>. Firmware is not visible to most users and is updated
@@ -744,7 +772,7 @@ because firmware is designed to be as invisible as possible. Firmware is
 extremely complex; UEFI is roughly equivalent in size and capability to a Unix
 kernel. Firmware is usually closed and proprietary, with nowhere near the level
 of testing of kernels. These properties make firmware an ideal place for
-so-called advanced persistent threats<sup class="footnote-reference" id="fr-10-1"><a href="#footnote-10">18</a></sup> <sup class="footnote-reference" id="fr-18-1"><a href="#footnote-18">19</a></sup> <sup class="footnote-reference" id="fr-5-1"><a href="#footnote-5">20</a></sup>. Once an exploit is
+so-called advanced persistent threats<sup class="footnote-reference" id="fr-10-1"><a href="#footnote-10">18</a></sup> <sup class="footnote-reference" id="fr-18-1"><a href="#footnote-18">19</a></sup> <sup class="footnote-reference" id="fr-5-1-1"><a href="#footnote-5-1">20</a></sup>. Once an exploit is
 installed, it is almost impossible to remove, since the exploit can inhibit its
 removal by corrupting the firmware update process. The only sure way to mitigate
 a firmware exploit is to destroy the hardware.</p>
@@ -1122,7 +1150,7 @@ testing. The entire server is 18 lines of Go.</p>
 Slimline Open Firmware (SLOF)<sup class="footnote-reference" id="fr-7-1"><a href="#footnote-7">23</a></sup> is a FORTHbased implementation of Open
 Firmware developed by IBM for some of its Power and Cell processors. SLOF is
 capable of storing all of Open Firmware as source in the flash memory and
-compiling components to indirect threading on demand<sup class="footnote-reference" id="fr-2-1"><a href="#footnote-2">24</a></sup>.</p>
+compiling components to indirect threading on demand<sup class="footnote-reference" id="fr-2-1-1"><a href="#footnote-2-1">24</a></sup>.</p>
 <p>In the last few decades, as our compiler infrastructure has gotten slower and
 more complex, true on-demand compilation has split into two different forms.
 First is the on-demand compilation of source into executable byte codes, as in
@@ -1132,7 +1160,7 @@ source to provide improved performance. Java takes the process one step further
 with the Just In Time compilation of byte code to machine code<sup class="footnote-reference" id="fr-20-1"><a href="#footnote-20">25</a></sup> to boost
 performance.</p>
 <h2 id="embedding-kernel-and-root-file-systems-in-flash"><a class="header" href="#embedding-kernel-and-root-file-systems-in-flash">Embedding kernel and root file systems in flash</a></h2>
-<p>The LinuxBIOS project<sup class="footnote-reference" id="fr-14-2"><a href="#footnote-14">4</a></sup> <sup class="footnote-reference" id="fr-1-1-3"><a href="#footnote-1-3">26</a></sup>, together with clustermatic<sup class="footnote-reference" id="fr-25-2"><a href="#footnote-25">3</a></sup>, used an embedded
+<p>The LinuxBIOS project<sup class="footnote-reference" id="fr-14-2"><a href="#footnote-14">4</a></sup> <sup class="footnote-reference" id="fr-1-1-4"><a href="#footnote-1-4">26</a></sup>, together with clustermatic<sup class="footnote-reference" id="fr-25-2"><a href="#footnote-25">3</a></sup>, used an embedded
 kernel and simple root file system to manage supercomputing clusters. Due to
 space constraints of 1 MiB or less of flash, clusters embedded only a
 single-processor Linux kernel with a daemon. The daemon was a network
@@ -1152,7 +1180,7 @@ with a Linux-As-Bootloader for the iPaq.</p>
 <p>Car computers and other embedded ARM systems frequently contain a kernel and an
 ext2 formatted file system in NOR flash, that is, flash that can be treated as
 memory instead of a block device. Many of these kernels use the so-called
-eXecute In Place<sup class="footnote-reference" id="fr-3-1"><a href="#footnote-3">27</a></sup> (XIP) patch, which allows the kernel to page binaries
+eXecute In Place<sup class="footnote-reference" id="fr-3-1-1"><a href="#footnote-3-1">27</a></sup> (XIP) patch, which allows the kernel to page binaries
 directly from the memory-addressable flash rather than copying it to RAM,
 providing a significant savings in system startup time. A downside of this
 approach is that the executables can not be compressed, which puts further
@@ -1231,10 +1259,10 @@ Manual 2 (1997). <a href="#fr-17-1">↩</a></p>
 <li id="footnote-12">
 <p>LEWIS, T. Uefi overview, 2007. <a href="#fr-12-1">↩</a> <a href="#fr-12-2">↩2</a></p>
 </li>
-<li id="footnote-4">
+<li id="footnote-4-1">
 <p>BOGOWITZ, B., AND SWINFORD, T. Intel⃝R active management technology
 reduces it costs with improved pc manageability. Technology@ Intel Magazine
-(2004). <a href="#fr-4-1">↩</a></p>
+(2004). <a href="#fr-4-1-1">↩</a></p>
 </li>
 <li id="footnote-9">
 <p>KALLENBERG, C., AND BULYGIN, Y. All your boot are belong to us intel,
@@ -1252,10 +1280,10 @@ privilege escalation on windows 8/uefi systems. <a href="#fr-10-1">↩</a></p>
 <p>SACCO, A. L., AND ORTEGA, A. A. Persistent bios infection. In CanSecWest
 Applied Security Conference (2009). <a href="#fr-18-1">↩</a></p>
 </li>
-<li id="footnote-5">
+<li id="footnote-5-1">
 <p>CELEDA, P., KREJCI, R., VYKOPAL, J., AND DRASAR, M. Embedded malware-an
 analysis of the chuck norris botnet. In Computer Network Defense (EC2ND),
-2010 European Conference on (2010), IEEE, pp. 3–10. <a href="#fr-5-1">↩</a></p>
+2010 European Conference on (2010), IEEE, pp. 3–10. <a href="#fr-5-1-1">↩</a></p>
 </li>
 <li id="footnote-19">
 <p>SAMPATHKUMAR, R. Vulnerability Management for Cloud Computing-2014: A
@@ -1272,23 +1300,23 @@ system provisioning and bringup for a commercial supercomputer. In Parallel
 and Distributed Processing Symposium, 2007. IPDPS 2007. IEEE International
 (2007), IEEE, pp. 1–7. <a href="#fr-7-1">↩</a></p>
 </li>
-<li id="footnote-2">
-<p>(AUTHOR OF SLOF), S. B. Personal conversation. <a href="#fr-2-1">↩</a></p>
+<li id="footnote-2-1">
+<p>(AUTHOR OF SLOF), S. B. Personal conversation. <a href="#fr-2-1-1">↩</a></p>
 </li>
 <li id="footnote-20">
 <p>SUGANUMA, T., OGASAWARA, T., TAKEUCHI, M., YASUE, T., KAWAHITO, M.,
 ISHIZAKI, K., KOMATSU, H., AND NAKATANI, T. Overview of the ibm java
 just-in-time compiler. IBM systems Journal 39, 1 (2000), 175–193. <a href="#fr-20-1">↩</a></p>
 </li>
-<li id="footnote-1-3">
+<li id="footnote-1-4">
 <p>AGNEW, A., SULMICKI, A., MINNICH, R., AND ARBAUGH, W. A. Flexibility in
 rom: A stackable open source bios. In USENIX Annual Technical Conference,
-FREENIX Track (2003), pp. 115–124. <a href="#fr-1-1-3">↩</a></p>
+FREENIX Track (2003), pp. 115–124. <a href="#fr-1-1-4">↩</a></p>
 </li>
-<li id="footnote-3">
+<li id="footnote-3-1">
 <p>BENAVIDES, T., TREON, J., HULBERT, J., AND CHANG, W. The enabling of an
 execute-in-place architecture to reduce the embedded system memory
-footprint and boot time. Journal of computers 3, 1 (2008), 79–89. <a href="#fr-3-1">↩</a></p>
+footprint and boot time. Journal of computers 3, 1 (2008), 79–89. <a href="#fr-3-1-1">↩</a></p>
 </li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -2176,7 +2204,7 @@ protocol is called 9P2000. We are going to present a filtered version of the
 file I/O from running a remote <code>date</code>; in practice, you can watch all the opens,
 reads, writes, and closes the remote process performs.</p>
 <p>The trace for running <code>date</code> starts right when the remote program has called
-<code>exec</code>, and the kernel is starting to find the program to run<sup class="footnote-reference" id="fr-1-1-4"><a href="#footnote-1-4">1</a></sup>. The file
+<code>exec</code>, and the kernel is starting to find the program to run<sup class="footnote-reference" id="fr-1-1-5"><a href="#footnote-1-5">1</a></sup>. The file
 opens look like this, on a user’s system:</p>
 <pre><code class="language-txt">Open /bin/date
 Open /lib/x86_64-linux-gnu/ld-2.27.so
@@ -2451,8 +2479,8 @@ mounts via fstab</li>
 </ul>
 <hr>
 <ol class="footnote-definition">
-<li id="footnote-1-4">
-<p>For reference, the command we used: <code>cpu -dbg9p -d apu2 date</code> <a href="#fr-1-1-4">↩</a></p>
+<li id="footnote-1-5">
+<p>For reference, the command we used: <code>cpu -dbg9p -d apu2 date</code> <a href="#fr-1-1-5">↩</a></p>
 </li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
