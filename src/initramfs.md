@@ -83,6 +83,11 @@ Booster describes itself as
 > a fast, compact, Go-based initramfs generator with strong encrypted-boot
 > ergonomics and automatic host discovery
 
+## 3cpio
+
+3cpio[^7] is an initramfs management utility. It allows for creating, examining
+and extracting initramfs cpio archives.
+
 [^1]: <https://docs.kernel.org/filesystems/ramfs-rootfs-initramfs.html>
 [^2]: <https://docs.kernel.org/admin-guide/initrd.html>
 [^3]: <https://docs.kernel.org/driver-api/early-userspace/buffer-format.html>
@@ -90,3 +95,4 @@ Booster describes itself as
 [^5]:
     <https://docs.kernel.org/driver-api/early-userspace/early_userspace_support.html>
 [^6]: <https://github.com/anatol/booster>
+[^7]: <https://github.com/bdrung/3cpio>
