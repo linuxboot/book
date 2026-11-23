@@ -69,9 +69,24 @@ u-root is an open source project hosted on GitHub[^4]. Within the u-root
 repository, we have executable commands in `cmds` and the packages containing
 libraries and implementations in `pkg`.
 
+## Booster
+
+Booster[^6] builds an optimized initramfs for the system it is run on by
+detecting parameters from the running system, or alternatively a more generic
+initramfs when passing `--universal`. It includes TPM2 and FIDO2 token support.
+
+For LinuxBoot, since you may want to kexec into another kernel, Booster is not
+directly suitable. Since it is written in Go, its utilities can be combined with
+u-root.
+
+Booster describes itself as
+> a fast, compact, Go-based initramfs generator with strong encrypted-boot
+> ergonomics and automatic host discovery
+
 [^1]: <https://docs.kernel.org/filesystems/ramfs-rootfs-initramfs.html>
 [^2]: <https://docs.kernel.org/admin-guide/initrd.html>
 [^3]: <https://docs.kernel.org/driver-api/early-userspace/buffer-format.html>
 [^4]: <https://github.com/u-root/u-root/>
 [^5]:
     <https://docs.kernel.org/driver-api/early-userspace/early_userspace_support.html>
+[^6]: <https://github.com/anatol/booster>
