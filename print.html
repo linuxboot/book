@@ -41,7 +41,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-0d3a824e.js";
+            window.path_to_searchindex_js = "searchindex-529b773a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-be9562ae.js"></script>
@@ -609,6 +609,21 @@ with different internal boot-related components, and kexec the next kernel.</p>
 <p>u-root is an open source project hosted on GitHub<sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">5</a></sup>. Within the u-root
 repository, we have executable commands in <code>cmds</code> and the packages containing
 libraries and implementations in <code>pkg</code>.</p>
+<h2 id="booster"><a class="header" href="#booster">Booster</a></h2>
+<p>Booster<sup class="footnote-reference" id="fr-6-1"><a href="#footnote-6">6</a></sup> builds an optimized initramfs for the system it is run on by
+detecting parameters from the running system, or alternatively a more generic
+initramfs when passing <code>--universal</code>. It includes TPM2 and FIDO2 token support.</p>
+<p>For LinuxBoot, since you may want to kexec into another kernel, Booster is not
+directly suitable. Since it is written in Go, its utilities can be combined with
+u-root.</p>
+<p>Booster describes itself as</p>
+<blockquote>
+<p>a fast, compact, Go-based initramfs generator with strong encrypted-boot
+ergonomics and automatic host discovery</p>
+</blockquote>
+<h2 id="3cpio"><a class="header" href="#3cpio">3cpio</a></h2>
+<p>3cpio<sup class="footnote-reference" id="fr-7-1"><a href="#footnote-7">7</a></sup> is an initramfs management utility. It allows for creating, examining
+and extracting initramfs cpio archives.</p>
 <hr>
 <ol class="footnote-definition">
 <li id="footnote-1">
@@ -625,6 +640,12 @@ libraries and implementations in <code>pkg</code>.</p>
 </li>
 <li id="footnote-4">
 <p><a href="https://github.com/u-root/u-root/">https://github.com/u-root/u-root/</a> <a href="#fr-4-1">↩</a></p>
+</li>
+<li id="footnote-6">
+<p><a href="https://github.com/anatol/booster">https://github.com/anatol/booster</a> <a href="#fr-6-1">↩</a></p>
+</li>
+<li id="footnote-7">
+<p><a href="https://github.com/bdrung/3cpio">https://github.com/bdrung/3cpio</a> <a href="#fr-7-1">↩</a></p>
 </li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -765,7 +786,7 @@ discovered in several versions in recent years.</p>
 <p>Both UEFI<sup class="footnote-reference" id="fr-12-1"><a href="#footnote-12">14</a></sup> and AMT<sup class="footnote-reference" id="fr-4-1-1"><a href="#footnote-4-1">15</a></sup> are embedded operating systems, loaded from flash that
 run network-facing software. Attacks against UEFI have been extensively
 studied<sup class="footnote-reference" id="fr-9-1"><a href="#footnote-9">16</a></sup>. Most printers are network-attached and are a very popular
-exploitation target<sup class="footnote-reference" id="fr-6-1"><a href="#footnote-6">17</a></sup>. Firmware is not visible to most users and is updated
+exploitation target<sup class="footnote-reference" id="fr-6-1-1"><a href="#footnote-6-1">17</a></sup>. Firmware is not visible to most users and is updated
 much less frequently (if at all) than programs. It is the first software to
 run, at power on reset. Exploits in firmware are extremely difficult to detect,
 because firmware is designed to be as invisible as possible. Firmware is
@@ -1147,7 +1168,7 @@ WIFI-attached laptop. U-root also provides a small web server, called
 testing. The entire server is 18 lines of Go.</p>
 <h2 id="on-demand-compilation"><a class="header" href="#on-demand-compilation">On-Demand Compilation</a></h2>
 <p>On-Demand compilation is one of the oldest ideas in computer science.
-Slimline Open Firmware (SLOF)<sup class="footnote-reference" id="fr-7-1"><a href="#footnote-7">23</a></sup> is a FORTHbased implementation of Open
+Slimline Open Firmware (SLOF)<sup class="footnote-reference" id="fr-7-1-1"><a href="#footnote-7-1">23</a></sup> is a FORTHbased implementation of Open
 Firmware developed by IBM for some of its Power and Cell processors. SLOF is
 capable of storing all of Open Firmware as source in the flash memory and
 compiling components to indirect threading on demand<sup class="footnote-reference" id="fr-2-1-1"><a href="#footnote-2-1">24</a></sup>.</p>
@@ -1268,9 +1289,9 @@ reduces it costs with improved pc manageability. Technology@ Intel Magazine
 <p>KALLENBERG, C., AND BULYGIN, Y. All your boot are belong to us intel,
 mitre. cansecwest 2014. <a href="#fr-9-1">↩</a></p>
 </li>
-<li id="footnote-6">
+<li id="footnote-6-1">
 <p>CUI, A., COSTELLO, M., AND STOLFO, S. J. When firmware modifications
-attack: A case study of embedded exploitation. In NDSS (2013). <a href="#fr-6-1">↩</a></p>
+attack: A case study of embedded exploitation. In NDSS (2013). <a href="#fr-6-1-1">↩</a></p>
 </li>
 <li id="footnote-10">
 <p>KALLENBERG, C., KOVAH, X., BUTTERWORTH, J., AND CORNWELL, S. Extreme
@@ -1294,11 +1315,11 @@ Cloud Computing Security Essential. Rajakumar Sampathkumar, 2014. <a href="#fr-1
 Using 9p2000 under linux. In USENIX Annual Technical Conference, FREENIX
 Track (2005), pp. 83–94. <a href="#fr-22-1">↩</a></p>
 </li>
-<li id="footnote-7">
+<li id="footnote-7-1">
 <p>DALY, D., CHOI, J. H., MOREIRA, J. E., AND WATERLAND, A. Base operating
 system provisioning and bringup for a commercial supercomputer. In Parallel
 and Distributed Processing Symposium, 2007. IPDPS 2007. IEEE International
-(2007), IEEE, pp. 1–7. <a href="#fr-7-1">↩</a></p>
+(2007), IEEE, pp. 1–7. <a href="#fr-7-1-1">↩</a></p>
 </li>
 <li id="footnote-2-1">
 <p>(AUTHOR OF SLOF), S. B. Personal conversation. <a href="#fr-2-1-1">↩</a></p>

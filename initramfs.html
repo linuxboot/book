@@ -40,7 +40,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-0d3a824e.js";
+            window.path_to_searchindex_js = "searchindex-529b773a.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-be9562ae.js"></script>
@@ -238,6 +238,21 @@ with different internal boot-related components, and kexec the next kernel.</p>
 <p>u-root is an open source project hosted on GitHub<sup class="footnote-reference" id="fr-4-1"><a href="#footnote-4">5</a></sup>. Within the u-root
 repository, we have executable commands in <code>cmds</code> and the packages containing
 libraries and implementations in <code>pkg</code>.</p>
+<h2 id="booster"><a class="header" href="#booster">Booster</a></h2>
+<p>Booster<sup class="footnote-reference" id="fr-6-1"><a href="#footnote-6">6</a></sup> builds an optimized initramfs for the system it is run on by
+detecting parameters from the running system, or alternatively a more generic
+initramfs when passing <code>--universal</code>. It includes TPM2 and FIDO2 token support.</p>
+<p>For LinuxBoot, since you may want to kexec into another kernel, Booster is not
+directly suitable. Since it is written in Go, its utilities can be combined with
+u-root.</p>
+<p>Booster describes itself as</p>
+<blockquote>
+<p>a fast, compact, Go-based initramfs generator with strong encrypted-boot
+ergonomics and automatic host discovery</p>
+</blockquote>
+<h2 id="3cpio"><a class="header" href="#3cpio">3cpio</a></h2>
+<p>3cpio<sup class="footnote-reference" id="fr-7-1"><a href="#footnote-7">7</a></sup> is an initramfs management utility. It allows for creating, examining
+and extracting initramfs cpio archives.</p>
 <hr>
 <ol class="footnote-definition">
 <li id="footnote-1">
@@ -254,6 +269,12 @@ libraries and implementations in <code>pkg</code>.</p>
 </li>
 <li id="footnote-4">
 <p><a href="https://github.com/u-root/u-root/">https://github.com/u-root/u-root/</a> <a href="#fr-4-1">↩</a></p>
+</li>
+<li id="footnote-6">
+<p><a href="https://github.com/anatol/booster">https://github.com/anatol/booster</a> <a href="#fr-6-1">↩</a></p>
+</li>
+<li id="footnote-7">
+<p><a href="https://github.com/bdrung/3cpio">https://github.com/bdrung/3cpio</a> <a href="#fr-7-1">↩</a></p>
 </li>
 </ol>
 
