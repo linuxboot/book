@@ -26,6 +26,22 @@ high-speed buses, because those are commonly not supported by mask ROMs. They
 are, on the other hand, what a bootloader offers to boot from, as well as
 network sources.
 
+## General vs single purpose
+
+While different kinds of devices have their constraints, any of them may serve a
+specific purpose, or be more open to end user modification. For example, a
+laptop may be locked down to only allow a vendor's operating system to run, and
+no custom firmware. Or it may allow for installing any system an end user wants.
+
+Given the ability to customize the firmware, a server system for general use
+differs significantly from special environments like a hyperscaler data-center,
+where the hardware owner has their own infrastructure to boot from.
+In that case, one would implement LinuxBoot oneself to meet those requirements.
+
+For a general purpose system, on the other hand, a prebuilt LinuxBoot
+distribution needs to be able to boot many different hypervisors and operating
+systems, such as Xen, VMware ESXi, FreeBSD, Ubuntu, Fedora, RHEL, and openSUSE.
+
 ## Embedded devices
 
 Many devices, nowadays known as IoT (Internet of Things), appliances, or
